@@ -1,0 +1,1114 @@
+
+
+#hero {
+  width: 100%;
+  position: relative;
+  background: 
+    url("https://www.safepal.com/assets/img/about/hero-star-bg.svg") no-repeat top center/ auto,
+    url("https://www.safepal.com/assets/img/about/hero-subtract1.svg") no-repeat bottom -64px center/cover,
+    url("https://www.safepal.com/assets/img/about/hero-subtract2.svg") no-repeat bottom -220px center/cover,
+    url("https://www.safepal.com/assets/img/about/hero-subtract3.svg") no-repeat bottom -310px center/cover,
+    url("https://www.safepal.com/assets/img/about/hero-subtract4.svg") no-repeat bottom -460px center/cover,
+    linear-gradient(0deg, rgba(117, 84, 252, 0) 31.57%, rgba(117, 84, 252, 0.17) 48.88%),
+    linear-gradient(180.41deg,rgba(74, 33, 239, 0) 46.38%,#bfffe4 98%);
+  overflow: hidden;
+}
+#hero .hero-container {
+  padding-top: 200px;
+  padding-bottom: 100px;
+}
+#hero .hero-container .title-box {
+  text-align: center;
+}
+#hero .hero-container .title-box .text {
+  max-width: 970px;
+  margin: 0 auto;
+}
+#hero .hero-container .title-box .img {
+  max-width: 1085px;
+  margin: 0 auto;
+  font-size: 0px;
+}
+#hero .hero-container .title-box .img .hero-left {
+  max-width: 188px;
+}
+#hero .hero-container .title-box .img .hero-middle {
+  max-width: 224px;
+}
+#hero .hero-container .title-box .img .hero-right {
+  max-width: 180px;
+}
+#hero .hero-clound {
+  animation: moveY 6s infinite cubic-bezier(0.4, 0, 1, 1);
+  top: 30%;
+  left: -8%;
+}
+#hero .hero-btc {
+  animation: moveY 7s infinite cubic-bezier(0.4, 0, 1, 1);
+  right: -2%;
+  top: 37%;
+}
+#hero .hero-container .title-box .img .hero-eth {
+  width: 82.3px;
+  height: auto;
+  left: -20%;
+  top: -20%;
+  animation: moveY 8s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#hero .hero-container .title-box .img .hero-locked {
+  width: 128.6px;
+  height: auto;
+  bottom: 12%;
+  right: -31%;
+  animation: moveY 9s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#hero .hero-container .title-box .img .hero-bnb {
+  width: 105.5px;
+  height: auto;
+  left: -33%;
+  top: -27%;
+  animation: moveY 5s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#hero .hero-container .title-box h3.title {
+  color: #4a21ef;
+  font-size: 18px;
+  line-height: 21px;
+}
+#hero .hero-container .title-box .sub-title {
+  color: #0d0b33;
+  font-size: 80px;
+  line-height: 1;
+  font-weight: 900;
+  margin-top: 24px;
+}
+#hero .hero-container .title-box .img {
+  margin-top: 144px;
+}
+#hero .purpose .title {
+  max-width: 635px;
+  margin: 0 auto 80px;
+  color: #0d0b33;
+  text-align: center;
+}
+#hero .purpose .title h3 {
+  margin-bottom: 36px;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  color: #0d0b33;
+}
+#hero .purpose .title .describe p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+}
+@media (max-width: 991px) {
+  #hero {
+    width: 100%;
+    position: relative;
+    background: 
+      url("https://www.safepal.com/assets/img/about/hero-star-bg.svg") no-repeat top center/ auto,
+      url("https://www.safepal.com/assets/img/about/hero-subtract1.svg") no-repeat bottom -50px center/cover,
+      url("https://www.safepal.com/assets/img/about/hero-subtract2.svg") no-repeat bottom -80px center/cover,
+      url("https://www.safepal.com/assets/img/about/hero-subtract3.svg") no-repeat bottom -60px center/cover,
+      url("https://www.safepal.com/assets/img/about/hero-subtract4.svg") no-repeat bottom -40px center/cover,
+      linear-gradient(0deg, rgba(117, 84, 252, 0) 31.57%, rgba(117, 84, 252, 0.17) 48.88%),
+      linear-gradient(180.41deg,rgba(74, 33, 239, 0) 46.38%,#bfffe4 98%);
+      background-size: auto, cover, cover,cover, cover;
+    overflow: hidden;
+    z-index: -2;
+  }
+  #hero .hero-container {
+    padding-top: 132px;
+  }
+  #hero .hero-container .title-box .text {
+    padding: 0 16px;
+    /* max-width: 460px; */
+    max-width: 100%;
+  }
+  #hero .hero-container .title-box .img {
+    max-width: none;
+    margin: 0 auto;
+    font-size: 0px;
+  }
+  #hero .hero-clound {
+    max-width: 130px;
+    top: 5%;
+    left: -86px;
+    z-index: -1;
+  }
+  #hero .hero-btc{
+    max-width: 86px;
+    right: -38px;
+    top: 13.5%;
+    z-index: -1;
+  }
+  #hero .hero-container .title-box .img .left {
+    margin-right: 26.6px;
+  }
+  #hero .hero-container .title-box .img .middle {
+    margin-right: 100px;
+  }
+  #hero .hero-container .title-box .img .hero-middle {
+    max-width: 166px;
+  }
+  #hero .hero-container .title-box .img .hero-left {
+    animation: moveY 6s infinite cubic-bezier(0.4, 0, 1, 1);
+    max-width: 158px;
+  }
+  #hero .hero-container .title-box .img .hero-right {
+    max-width: 171px;
+  }
+  #hero .hero-container .title-box .img .hero-eth {
+    animation: moveY 7s infinite cubic-bezier(0.4, 0, 1, 1);
+    width: 61.1px;
+    left: -16%;
+    top: -16%;
+  }
+  #hero .hero-container .title-box .img .hero-locked {
+    animation: moveY 8s infinite cubic-bezier(0.4, 0, 1, 1);
+    max-width: 95.5px;
+    bottom: 18%;
+    right: -36%;
+  }
+  #hero .hero-container .title-box .img .hero-bnb {
+    animation: moveY 9s infinite cubic-bezier(0.4, 0, 1, 1);
+    width: 78.3px;
+    left: -21%;
+    top: -18%;
+  }
+  #hero .hero-container .title-box h3.title {
+    line-height: 28px;
+    font-weight: 700;
+  }
+  #hero .hero-container .title-box .sub-title {
+    font-size: 48px;
+    font-weight: 1000;
+    margin-top: 13px;
+  }
+  #hero .hero-container .title-box .img {
+    margin-top: 86px;
+    transform: translateX(-111px);
+  }
+  #hero .purpose .title {
+    max-width: 100%;
+    margin-bottom: 275px;
+  }
+  #hero .purpose .title h3 {
+    margin-bottom: 24px;
+  }
+}
+/* ---------------------------------------------------- */
+#future div.title,
+#core-values div.title {
+  max-width: 856px;
+  text-align: center;
+  margin: 0 auto;
+  padding: 60px 0 84px;
+}
+#purpose .title h3,
+#future .title h3,
+#core-values .title h3 {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  color: #0d0b33;
+}
+/* -------------------------purpose-story------------------------ */
+.purpose-story {
+  background: url(https://www.safepal.com/assets/img/about/background-start.svg) no-repeat,
+    url(https://www.safepal.com/assets/img/about/backgound-bottom.svg) no-repeat, #f7f6ff;
+  background-position: left 0 bottom 0, left 0 bottom 0;
+  background-size: 100%, 100%, 100%;
+}
+/* -------------- purpose ---------------------- */
+#purpose {
+  padding-top: 80px;
+}
+#purpose .title {
+  max-width: 635px;
+  margin: 0 auto 80px;
+  color: #0d0b33;
+  text-align: center;
+}
+#purpose .title h3 {
+  margin-bottom: 36px;
+}
+#purpose  .content-box {
+  max-width: 3200px;
+  margin: 0 auto;
+}
+#purpose .title .describe p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+}
+/* #purpose .purpose-carousel-box .swiper-slide.swiper-wrapper-item {
+  width: 36% !important;
+}
+#purpose .purpose-carousel-box .swiper-slide.swiper-wrapper-item:nth-child(2n) {
+  width: 40% !important;
+}
+#purpose .purpose-carousel-box .swiper-slide.swiper-wrapper-item:nth-child(3n) {
+  width: 36% !important;
+} */
+#purpose .purpose-carousel-box .swiper-wrapper-item img {
+  /* width: 100%;
+  height: 100%; */
+  object-fit: fill;
+}
+#purpose .purpose-carousel-box .swiper-wrapper-item {
+  justify-content: center;
+  text-align: center;
+}
+#purpose .purpose-carousel-box .swiper-wrapper-item .purpose-swiper1{
+  max-width: 505px;
+  height: auto;
+}
+#purpose .purpose-carousel-box .swiper-wrapper-item .purpose-swiper2{
+  max-width: 525px;
+  height: auto;
+}
+#purpose .purpose-carousel-box .swiper-wrapper-item .purpose-swiper3{
+  max-width: 480px;
+  height: auto;
+}
+#purpose  .swiper-free-mode>.swiper-wrapper {
+  transition-timing-function: linear !important;
+  height: auto;
+}
+@media (max-width: 991px) {
+  .purpose-story {
+    background: url(https://www.safepal.com/assets/img/about/background-start.svg) no-repeat,
+      url(https://www.safepal.com/assets/img/about/backgound-bottom.svg) no-repeat, #f7f6ff;
+    background-position: left 0 bottom 0, left 0 bottom 0;
+    background-size: 240%, 100%, 100%;
+    padding: 0px 16px;
+  }
+  #purpose .title {
+    max-width: 100%;
+    margin-bottom: 275px;
+  }
+  #purpose .title h3 {
+    margin-bottom: 24px;
+  }
+  #purpose .content-box {
+    max-width: 100%;
+    width: 100%;
+  }
+  #purpose-swiper-wrapper {
+    height: auto;
+  }
+  #purpose .purpose-carousel-box .swiper-slide.swiper-wrapper-item {
+    width: 100% !important;
+  }
+  #purpose
+    .purpose-carousel-box
+    .swiper-slide.swiper-wrapper-item:nth-child(2n) {
+    width: 100% !important;
+  }
+  #purpose
+    .purpose-carousel-box
+    .swiper-slide.swiper-wrapper-item:nth-child(3n) {
+    width: 100% !important;
+  }
+  #purpose .purpose-carousel-box .swiper-wrapper-item .purpose-swiper1{
+    max-width: 100%;
+    height: auto;
+  }
+  #purpose .purpose-carousel-box .swiper-wrapper-item .purpose-swiper2{
+    max-width: 100%;
+    height: auto;
+  }
+  #purpose .purpose-carousel-box .swiper-wrapper-item .purpose-swiper3{
+    max-width: 100%;
+    height: auto;
+  }
+  .swiper-pagination-purpose {
+    text-align: center;
+  }
+}
+/* --------------story------------------ */
+#story .story {
+  max-width: 635px;
+  margin: 0 auto;
+  color: #0d0b33;
+}
+#story .story .title {
+  padding-top: 75px;
+}
+#story .story .title h3 {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 36px;
+  text-align: left;
+}
+#story .story .content {
+  padding-bottom: 180px;
+}
+#story .story .content p {
+  text-align: left;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 36px;
+}
+#story .story .content p:nth-last-child(1) {
+  margin-bottom: 0;
+}
+@media (max-width: 991px) {
+  #story .story .title h3 {
+    text-align: center;
+  }
+  #story .story {
+    max-width: 100%;
+  }
+  #story .story .content {
+    padding-bottom: 90px;
+  }
+}
+/* ----------------------- history ----------------------------- */
+.history-core-values {
+  background: linear-gradient(158.47deg, #0d0b33 38.16%, #4b3ed3 125.54%);
+}
+#history {
+  /* background: url("/assets/img/hero-moon.svg") no-repeat top 46px left -10px;
+  background-size: 72px 72px; */
+
+}
+#history .history-moon{
+  max-width: 77px;
+  height: auto;
+  top: 20px;
+  left: -8%;
+}
+#history .history-stripe1{
+  max-width: 100%;
+  height: auto;
+  top: 36%;
+  left: 25%;
+  pointer-events: none;
+}
+#history .carousel {
+  padding-top: 120px;
+  padding-bottom: 80px;
+  /* overflow: hidden; */
+}
+#history .carousel-pagination {
+  margin-bottom: 100px;
+}
+#history .carousel-pagination .title h3 {
+  color: #f7f6ff;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+}
+#history .pagination-box {
+  width: 750px;
+  overflow: hidden;
+}
+#history .pagination-box-list {
+  margin-left: -25px;
+  margin-right: -25px;
+}
+#history .pagination-box-list .pagination-box-list-item {
+  padding: 0px 25px;
+  color: #f7f6ff;
+  font-weight: 1000;
+  font-size: 24px;
+  /* line-height: 1; */
+  opacity: 0.3;
+  cursor: pointer;
+}
+#history .pagination-box-list .pagination-box-list-item.active {
+  color: #79efbd;
+  opacity: 1;
+}
+#history .carousel-navigation {
+  margin-bottom: 24px;
+}
+#history .carousel-navigation .event-title .event-years {
+  margin-right: 20px;
+  color: #f7f6ff;
+  font-size: 32px;
+  font-weight: 1000;
+  line-height: 1;
+}
+#history .carousel-navigation .event-title .event-content {
+  color: #f7f6ff;
+  opacity: 0.6;
+  font-size: 16px;
+  line-height: 1.6;
+}
+#history .carousel-navigation .navigation-box .button-prev {
+  margin-right: 8px;
+}
+#history .carousel-navigation .navigation-box .button-next {
+  margin-left: 8px;
+}
+#history .carousel-navigation .navigation-box .button-prev,
+#history .carousel-navigation .navigation-box .button-next {
+  border: 1px solid #f7f6ff;
+  border-radius: 100px;
+  padding: 14.5px 20px;
+  font-size: 24px;
+  line-height: 1;
+  color: #f7f6ff;
+  background: transparent;
+}
+#history .history-carousel-box .my-carousel-item-type-1 {
+  max-width: 327px;
+  min-height: 253px;
+  margin: 0 auto;
+}
+#history .history-carousel-box .my-carousel-item-text {
+  margin-top: 24px;
+}
+#history
+  .history-carousel-box
+  .my-carousel-item-type-1
+  .my-carousel-item-text
+  p {
+  color: #f7f6ff;
+  font-size: 16px;
+  line-height: 1.6;
+}
+#history .history-carousel-box .my-carousel-item-type-2 {
+  max-width: 327px;
+  min-height: 253px;
+  margin: 0 auto;
+  padding: 30px;
+  background: #79efbd;
+  border-radius: 12px;
+  height: auto;
+}
+#history
+  .history-carousel-box
+  .my-carousel-item-type-2
+  .my-carousel-item-box
+  .title {
+  color: #0d0b33;
+  font-size: 24px;
+  margin-bottom: 16px;
+  line-height: 1;
+  font-weight: 1000;
+}
+#history
+  .history-carousel-box
+  .my-carousel-item-type-2
+  .my-carousel-item-box
+  .value {
+  color: #0d0b33;
+  font-size: 16px;
+  line-height: 1.6;
+}
+#history .history-carousel-box .my-carousel-item-type-3 {
+  max-width: 327px;
+  min-height: 253px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #79efbd;
+  border-radius: 12px;
+}
+#history
+  .history-carousel-box
+  .my-carousel-item-type-3
+  .my-carousel-item-box
+  .title.image {
+  margin-bottom: 16px;
+}
+#history
+  .history-carousel-box
+  .my-carousel-item-type-3
+  .my-carousel-item-box
+  .value {
+  color: #f7f6ff;
+  font-size: 16px;
+  line-height: 1.6;
+}
+@media (max-width: 991px) {
+  #history .carousel {
+    padding: 120px 16px 80px;
+  }
+  #history .history-moon{
+    width: 72px;
+    height: 72px;
+    top: 46px;
+    left: -8%;
+  }
+  #history .history-stripe1{
+    max-width: 100%;
+    height: auto;
+    top: 36%;
+    left: 25%;
+    pointer-events: none;
+  }
+  #history .pagination-box {
+    width: 100%;
+    overflow: auto;
+    margin-top: 67px;
+  }
+  #history .carousel-navigation .navigation-box {
+    margin-bottom: 36px;
+    width: 100%;
+    display: flex;
+  }
+  #history .carousel-navigation .navigation-box .button-prev {
+    width: calc((100% - 20px) / 2);
+  }
+  #history .carousel-navigation .navigation-box .button-next {
+    width: calc((100% - 20px) / 2);
+  }
+  #history .pagination-box-list {
+    margin-left: 0px;
+    min-width: 536px;
+  }
+}
+/* -------------------- our core values-------------------------------- */
+#core-values {
+  background: 
+    url("https://www.safepal.com/assets/img/about/core-values-bg1.svg") no-repeat bottom -10px center / 100% auto;
+    /* url("../img/about/core-values1.svg") no-repeat bottom -30px center/ 100%,
+    url("../img/about/core-values2.svg") no-repeat bottom -380px center / 100%,
+    url("../img/about/core-values3.svg") no-repeat bottom -540px center / 100%,
+    url("../img/about/core-values4.svg") no-repeat bottom -640px center/100%; */
+}
+#core-values .core-values {
+  padding-top: 277px;
+  padding-bottom: 810px;
+}
+#core-values div.title {
+  padding: 0px;
+  padding-bottom: 138px;
+}
+#core-values .title h3 {
+  color: #f7f6ff;
+  margin-bottom: 36px;
+}
+#core-values .title .describe p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+  text-align: center;
+}
+#core-values .core-carousel {
+  /* margin: 0px 90px; */
+}
+#core-values .core-carousel .core-carousel-box {
+  padding-bottom: 60px;
+}
+#core-values .core-carousel .core-carousel-box .swiper-wrapper {
+  height: auto;
+}
+#core-values .core-carousel .carousel-swiper-pagination {
+  margin-top: 50px;
+  text-align: center;
+}
+#core-values .core-carousel .swiper-pagination-bullet-active {
+  background: #18d26e !important;
+}
+#core-values .core-carousel .swiper-slide-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  max-width: 357px;
+}
+#core-values .core-carousel .swiper-slide-item:nth-last-child(1) {
+  margin-right: 0px !important;
+}
+#core-values .core-carousel .swiper-slide-item .top {
+  text-align: center;
+  font-size: 0px;
+  margin-bottom: 30px;
+}
+#core-values .core-carousel .swiper-slide-item .top:hover {
+  animation: moveY 2s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#core-values .core-carousel .swiper-slide-item .bottom {
+  text-align: center;
+  color: #f7f6ff;
+}
+#core-values .core-carousel .swiper-slide-item .bottom h3 {
+  font-weight: 1000;
+  font-size: 24px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+#core-values .core-carousel .swiper-slide-item .bottom p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+#core-values .core-carousel .navigation-box {
+  margin: 0 4px;
+}
+#core-values .core-carousel .navigation-box .core-button-prev {
+  margin-right: 8px;
+}
+#core-values .core-carousel .navigation-box .core-button-next {
+  margin-left: 8px;
+}
+#core-values .core-carousel .navigation-box .core-button-prev,
+#core-values .core-carousel .navigation-box .core-button-next {
+  border: 1px solid #f7f6ff;
+  border-radius: 100px;
+  padding: 16px 24px;
+  width: calc((100% - 24px) / 2);
+  font-size: 24px;
+  color: #f7f6ff;
+  background: transparent;
+}
+@media (max-width: 991px) {
+  #core-values {
+    background: 
+      url("https://www.safepal.com/assets/img/about/core-values-m1.svg") no-repeat bottom -1px center,
+      url("https://www.safepal.com/assets/img/about/core-values-m2.svg") no-repeat bottom -80px center,
+      url("https://www.safepal.com/assets/img/about/core-values-m3.svg") no-repeat bottom -160px center,
+      url("https://www.safepal.com/assets/img/about/core-values-m4.svg") no-repeat bottom -240px center;
+      background-size: contain;
+  }
+  #core-values .core-values {
+    padding: 106px 16px 200px;
+  }
+  #core-values .core-values .m-star-1,
+  #core-values .core-values .m-star-2 {
+    margin-top: 30px;
+  }
+  #core-values .core-values .m-star-1 .star-1 .star1-point {
+    bottom: 23px;
+  }
+  #core-values .core-values .m-star-1 .star-1 .star {
+    bottom: 60px;
+  }
+  #core-values .core-carousel {
+    margin: 0px;
+  }
+  #core-values .core-carousel .swiper-slide-item .top {
+    margin-bottom: 45px;
+  }
+  #core-values .core-carousel .swiper-slide-item .bottom {
+    /* margin: 0px 30px; */
+  }
+  #core-values .core-carousel .navigation-box {
+    padding-bottom: 60px;
+  }
+  #core-values .core-carousel .navigation-box .core-button-prev,
+  #core-values .core-carousel .navigation-box .core-button-next {
+    padding: 8.5px 24px;
+  }
+}
+/* --------------------- future --------------------------- */
+#future {
+  background: #f7f6ff;
+}
+#future .future {
+  padding-bottom: 135px;
+}
+#future .future-list {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+#future .future-list .list-item {
+  text-align: center;
+  padding: 0 15px;
+  margin-bottom: 30px;
+}
+#future .future-list .list-item p.title {
+  color: #4a21ef;
+  font-size: 18px;
+  line-height: 21px;
+  margin-bottom: 24px;
+  /* max-width: 191px; */
+}
+#future .future-list .list-item .purecounter-item {
+  display: inline-block;
+  color: #0d0b33;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  margin-bottom: 24px;
+}
+#future .future-list .list-item .units {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #0d0b33;
+}
+@media (max-width: 991px) {
+  #future .future {
+    padding: 0px 16px;
+  }
+  #future div.title,
+  #core-values div.title {
+    max-width: 100%;
+  }
+  #future div.title {
+    padding: 120px 0px 130px;
+  }
+  #future .future-list {
+    padding: 0px 16px;
+  }
+  #future .future-list .list-item {
+    margin-bottom: 80px;
+    width: 100%;
+    padding: 0px;
+  }
+  #future .future-list .list-item:nth-last-child(1) {
+    margin-bottom: 0px;
+  }
+  #future .future-list .list-item p.title {
+    margin-bottom: 12px;
+    max-width: 100%;
+  }
+  #future .future-list .list-item .purecounter-item {
+    margin-bottom: 12px;
+  }
+}
+/* ----------------------- our-team ------------------------- */
+#our-team {
+  background: url("https://www.safepal.com/assets/img/about/background-start.svg"),
+    url("https://www.safepal.com/assets/img/about/backgound-bottom.svg") no-repeat, #f7f6ff;
+  background-position: left 0 bottom 0, left 0 bottom 0;
+  background-size: 100%, 100%, 100%;
+  /* overflow: hidden; */
+}
+#our-team .top {
+  margin: 0px 0px 84px;
+}
+#our-team .top img {
+  font-size: 0px;
+}
+/* left ---- start */
+#our-team .left .top-image .start-1 .start1-point img,
+#our-team .left .top-image .start-2 .start2-point img {
+  width: 6px;
+  height: 6px;
+}
+#our-team .left .top-image .start-1 .start img {
+  width: 26px;
+  height: 26px;
+}
+#our-team .left .top-image .start-2 .start img {
+  width: 46px;
+  height: 46px;
+}
+#our-team .left .top-image .start-1 {
+  bottom: -17%;
+  left: 6%;
+  animation: startMove 6s infinite linear;
+}
+#our-team .left .top-image .start-1 .start1-point {
+  bottom: -53px;
+  left: -9px;
+}
+#our-team .left .top-image .start-2 {
+  top: 6%;
+  right: -4.4%;
+  animation: startMove 8s infinite cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+#our-team .left .top-image .start-2 .start {
+  top: -58px;
+}
+#our-team .left .top-image .start-2 .start2-point {
+  right: 8px;
+  top: -19px;
+}
+/* right ---- start */
+#our-team .right .top-image .start-1 .start1-point img {
+  width: 6px;
+  height: 6px;
+}
+#our-team .right .top-image .start-2 .start2-point img {
+  width: 9px;
+  height: 9px;
+  font-size: 0px;
+}
+#our-team .right .top-image .start-1 {
+  bottom: 21%;
+  left: 4.6%;
+  z-index: -1;
+  animation: startMove 6s infinite linear;
+}
+#our-team .right .top-image .start-2 .start {
+  animation: startFadeIn 1.2s infinite cubic-bezier(0, 0, 0.2, 1);
+  top: -18px;
+  left: -37px;
+}
+#our-team .right .top-image .start-2 .start2-point {
+  right: 45px;
+  top: -43px;
+}
+#our-team .right .top-image .start-1 .start {
+  top: 0px;
+  left: 0px;
+}
+#our-team .right .top-image .start-1 .start1-point {
+  right: 12px;
+  top: 48px;
+}
+#our-team .right .top-image .start-2 .start img {
+  width: 34px;
+  height: 34px;
+}
+#our-team .right .top-image .start-2 {
+  bottom: 1%;
+  right: -42.4%;
+  animation: startMove 8s infinite cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+#our-team .top .middle {
+  margin: 0px 52px;
+}
+#our-team .bottom {
+  max-width: 635px;
+  margin: 0 auto;
+  text-align: left;
+  padding-bottom: 180px;
+}
+#our-team .top-image {
+  margin-bottom: 70px;
+}
+#our-team .bottom h3 {
+  color: #0d0b33;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 36px;
+}
+#our-team .bottom .text p {
+  font-size: 18px;
+  line-height: 28px;
+  color: #0d0b33;
+  margin-bottom: 36px;
+}
+#our-team .bottom .text p:nth-last-child(1) {
+  margin: 0px;
+}
+@media (max-width: 991px) {
+  #our-team {
+    background-size: 200%, 100%, 100%;
+  }
+  #our-team .our-team {
+    padding: 80px 16px 30px;
+  }
+  #our-team .top {
+    margin: 0px 0px 84px;
+  }
+  #our-team .left .top-image .start-1 {
+    bottom: 28%;
+    left: 143%;
+  }
+  #our-team .left .top-image .start-2 {
+    top: -9%;
+    right: 31.6%;
+  }
+  #our-team .right .top-image .start-1 {
+    bottom: 95%;
+    left: 74.6%;
+  }
+  #our-team .top .left .top-image,
+  #our-team .top .right .right-top-img {
+    margin-right: 15px;
+  }
+  #our-team .top .left .top-image .left-top-img,
+  #our-team .top .right .right-bottom-img {
+    max-width: 170px;
+    width: 100%;
+  }
+  #our-team .top .left .bottom-image {
+    margin-left: 15px;
+    margin-bottom: 102px;
+  }
+  #our-team .top .right .right-top-img {
+    margin-top: 60px;
+  }
+  #our-team .top .right .right-bottom-img {
+    margin-left: 15px;
+  }
+  #our-team .top .left .bottom-image .left-bottom-img,
+  #our-team .top .right .right-top-img {
+    max-width: 146px;
+  }
+  #our-team .top .middle {
+    margin: 0px;
+  }
+  #our-team .top .middle img {
+    width: 100%;
+    height: auto;
+  }
+  #our-team .top .right {
+    margin-top: 20px;
+  }
+  #our-team .bottom {
+    max-width: 100%;
+    padding-bottom: 145px;
+  }
+  #our-team .top-image {
+    margin: 0px;
+  }
+}
+/* ------------------------------------------------------ */
+.join-us-footer {
+  background: 
+    linear-gradient(
+      109.75deg,
+      rgba(117, 84, 252, 0) 35.1%,
+      rgba(117, 84, 252, 0.2) 99.39%
+    ),
+    linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+    #4a21ef;
+}
+.join-us-footer-main {
+  background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+  url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+  url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+  animation: starFooter 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes starFooter {
+    0% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    50% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    100% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+  } 
+}
+/* -----------------------join-us-------------------------- */
+#join-us {
+  /* background: url("../img/level-up/start-bg.svg"); */
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+}
+#join-us .join-us {
+  text-align: center;
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 180px 0 90px;
+}
+#join-us .join-us .sfp-logo .logo-box {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+#join-us .join-us .title {
+  margin-bottom: 48px;
+}
+#join-us .join-us .text {
+  margin: 0px 50px 50px;
+}
+#join-us .join-us .text p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#join-us .join-us .title h3 {
+  color: #ffffff;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+#join-us .join-us .download .set-off-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(
+    183.08deg,
+    rgba(191, 255, 228, 0.2) 43.82%,
+    rgba(191, 255, 228, 0) 111.17%
+  );
+  border-radius: 100px;
+  padding: 10px;
+}
+#join-us .join-us .download .downloads-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  color: #0d0b33;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+  border: none;
+}
+#join-us .join-us .download .btn-press .press-btn {
+  line-height: 1.6;
+  border: none;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  color: #f7f6ff;
+  border: 1px solid #ffffff;
+  background: transparent;
+  margin-left: 30px;
+}
+@media (max-width: 991px) {
+  .join-us-footer {
+    background: 
+      linear-gradient(
+        109.75deg,
+        rgba(117, 84, 252, 0) 35.1%,
+        rgba(117, 84, 252, 0.2) 99.39%
+      ),
+      linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+      #4a21ef;
+  }
+  .join-us-footer-main {
+    background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+    url(https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg) no-repeat bottom,
+    url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+  }
+  #join-us .join-us {
+    max-width: 100%;
+    padding: 80px 16px 0px;
+  }
+  #join-us .join-us .title h3 {
+    font-size: 48px;
+  }
+  #join-us .join-us .download {
+    width: 100%;
+  }
+  #join-us .join-us .download .set-off-btn,
+  #join-us .join-us .download .downloads-btn,
+  #join-us .join-us .download .btn-press {
+    width: 100%;
+  }
+  #join-us .join-us .download .btn-press .press-btn {
+    margin-left: 0px;
+    margin-top: 30px;
+    width: 100%;
+  }
+}
+#main.about #core-values .core-carousel .swiper-slide-item .top img {
+  max-height: 156px;
+}
+
+#history .history-carousel-box {
+  /* overflow-x: clip;
+  overflow-y: visible; */
+  overflow: visible
+}
+.years-first-slide {
+  position: relative;
+}
+/*  */
+.years-first-slide:not(.swiper-slide-active)::after {
+  position: absolute;
+  content: attr(data-content);
+  top: -67px;
+  color: #f7f6ff;
+  font-size: 32px;
+  font-weight: 1000;
+  line-height: 1;
+  opacity: 1;
+  visibility: visible;
+  transition: visibility 0.5, opacity 0.5s linear;
+}

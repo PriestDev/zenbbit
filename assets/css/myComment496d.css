@@ -1,0 +1,477 @@
+
+.my-comment .top-box {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.my-comment .top-box .top-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.my-comment .top-box .top-left .reviews {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    color: #000;
+    margin-left: 10px;
+}
+.my-comment .top-box .top-right .btn-write {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+    background-color: #79EFBD;
+    border-radius: 6px;
+    padding: 10px 20px;
+    border: none;
+}
+.my-comment .top-box .top-right .btn-write .text {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%;
+    color: #333;
+}
+.my-comment .write-input {
+    margin-top: 40px;
+    display: none;
+}
+.my-comment .write-input .title {
+    margin-top: 42px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.my-comment .write-input .title h3.text {
+    color: #202E59;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1;
+    margin-right: 24px;
+}
+.my-comment .write-input .title p.tips {
+    color: #241E6D;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+}
+#write-reviews {
+    margin: 0px;
+}
+#write-reviews .score {
+    margin-bottom: 30px;
+}
+#write-reviews .score .score-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+#write-reviews .score .require-tips {
+    margin-top: 5px;
+    color: #FF453A;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    display: none;
+}
+#write-reviews .score p.label {
+    color: #241E6D;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    margin-right: 20px;
+}
+#write-reviews .fill-input {
+    margin-bottom: 30px;
+}
+#write-reviews .fill-input p.label {
+    color: #241E6D;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    margin-bottom: 10px;
+}
+#write-reviews .fill-input .input-item input.form-input {
+    border-radius: 4px;
+    border: 1px solid #EAECEF;
+    background: #FFF;
+    color: #241E6D;
+    height: 46px;
+    line-height: 1;
+    width: 100%;
+    padding: 8px 16px;
+}
+#write-reviews .fill-input .input-item textarea.form-input {
+    border-radius: 4px;
+    border: 1px solid #EAECEF;
+    background: #FFF;
+    color: #241E6D;
+    width: 100%;
+    padding: 8px 16px;
+}
+#write-reviews .fill-input .input-item textarea.form-input:focus { 
+    outline: none !important; 
+} 
+
+#write-reviews .fill-input .input-item .form-input.required_error {
+    border-color: #ed8380;
+}
+
+#write-reviews .fill-input p.error-tips,
+#write-reviews .fill-input p.require-tips {
+    margin-top: 5px;
+    color: #FF453A;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    display: none;
+}
+#write-reviews .item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0px -12px;
+}
+#write-reviews .item-row .fill-name,
+#write-reviews .item-row .fill-email {
+    width: 50%;
+    padding: 0px 12px;
+}
+#write-reviews .post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 60px;
+}
+#write-reviews .post .btn-post {
+    color: #0D0B33;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    padding: 16px 24px;
+    border-radius: 100px;
+    background-color: #79EFBD;
+    min-width: 200px;
+    border: none;
+}
+.my-comment .comment-show .comment-item {
+    margin: 30px 0px;
+}
+.my-comment .comment-show .comment-item .avater-name-like {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.my-comment .comment-show .comment-item.comment-comment .avater-name-like {
+    justify-content: flex-start !important;
+    display: inline-block !important;
+    text-align:left;
+}
+.my-comment .comment-show .comment-item .avater-name-like .avater-name,
+.my-comment .comment-show .comment-item .avater-name-like .like {
+    display: flex;
+    justify-content: flex-start !important;
+    align-items: center;
+}
+.my-comment .comment-show .comment-item .avater-name-like .like {
+    cursor: pointer;
+}
+.my-comment .comment-show .comment-item .avater-name-like .avater-name .avater {
+    margin-right: 10px;
+    max-width: 50px;
+    max-height: 50px;
+}
+.my-comment .comment-show .comment-item .avater-name-like .avater-name .avater img,
+.my-comment .comment-show .comment-item .avater-name-like .avater-name .avater svg {
+    width: 100%;
+    max-width: 100%;
+}
+.my-comment .comment-show .comment-item .avater-name-like .avater-name .name h3 {
+    color: #202E59;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 10px;
+} 
+.my-comment .comment-show .comment-item .avater-name-like .avater-name .name.report h3 {
+    color: #4A21EF;
+    margin: 0px;
+}
+.my-comment .comment-show .comment-item .avater-name-like .like .value {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    color: #000;
+    display:inline-block;
+    margin-left: 4px;
+}
+.my-comment .comment-show .comment-item .title-reviews {
+    margin-top: 16px;
+    margin-left: 58px;
+}
+.my-comment .comment-show .comment-item .title-reviews.report-reviews {
+    margin-top: 0px;
+}
+.my-comment .comment-show .comment-item .title-reviews .title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    color: #000;
+    margin-bottom: 16px;
+}
+.my-comment .comment-show .comment-item .title-reviews .reviews {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    margin-bottom: 16px;
+}
+.my-comment .comment-show .comment-item .title-reviews .update-time {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    color: #888793;
+}
+.comment-pagination {
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+}
+.comment-pagination .paginationjs.my-paginationjs-theme{
+    font-family: "AlibabaPuHuiTi-2","Alibaba Sans", sans-serif !important;
+}
+.comment-pagination .my-paginationjs-theme li {
+    border: none !important;
+    border-radius: none;
+  }
+  .comment-pagination .my-paginationjs-theme li a {
+    color: #202E59;
+    font-size: 20px;
+    background: transparent !important;
+  }
+  .comment-pagination .paginationjs.my-paginationjs-theme .paginationjs-pages li.disabled>a:hover {
+    color: #202E59 !important;
+  }
+  .comment-pagination .my-paginationjs-theme li.active a {
+    color: #79efbd;
+  }
+  #comment-pagination {
+      margin-top: 60px;
+      margin-bottom: 60px;
+  }
+.dividing-line {
+    width: 100%;
+    border: 1px solid #E5E5E5;
+    margin: 20px 0px;
+}
+.opacity0 {
+    opacity: 0;
+}
+
+@media (max-width: 991px) {
+    .my-comment {
+        padding: 0 16px;
+    }
+    .my-comment .top-box {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .my-comment .top-box .top-left {
+        margin-bottom: 16px;
+    }
+    .my-comment .write-input {
+        margin-top: 26px;
+        display: none;
+    }
+    .my-comment .write-input .title {
+        margin-top: 28px;
+        margin-bottom: 20px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .my-comment .write-input .title h3.text {
+        margin-right: 0px;
+        margin-bottom: 12px;
+    }
+    #write-reviews {
+        margin: 0px;
+    }
+    #write-reviews .score {
+        margin-bottom: 24px;
+    }
+    #write-reviews .score .score-box {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    #write-reviews .score .require-tips {
+        margin-top: 5px;
+        color: #FF453A;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 16px;
+        display: none;
+    }
+    #write-reviews .fill-input {
+        margin-bottom: 20px;
+    }
+    #write-reviews .item-row {
+        flex-direction: column;
+        margin: 0px;
+    }
+    #write-reviews .item-row .fill-name,
+    #write-reviews .item-row .fill-email {
+        width: 100%;
+        padding: 0px;
+    }
+    #write-reviews .post {
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+    .my-comment .comment-show .comment-item {
+        margin: 20px 0px;
+    }
+    .my-comment .comment-show .comment-item .avater-name-like .like .value {
+        font-size: 14px;
+        line-height: 14px;
+    }
+    .my-comment .comment-show .comment-item .title-reviews.report-reviews {
+        margin-top: 0px;
+    }
+    .my-comment .comment-show .comment-item .avater-name-like .avater-name .name h3 {
+        color: #202E59;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px;
+        margin-bottom: 10px;
+    }
+    .my-comment .comment-show .comment-item .title-reviews .title {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 14px;
+        color: #000;
+        margin-bottom: 10px;
+    }
+    .my-comment .comment-show .comment-item .title-reviews .reviews {
+        color: #000;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%;
+        margin-bottom: 10px;
+    }
+    .my-comment .comment-show .comment-item .title-reviews .update-time {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 14px;
+        color: #888793;
+    }
+    .dividing-line {
+        width: 100%;
+        border: 1px solid #E5E5E5;
+        margin: 20px 0px;
+    }
+    .comment-pagination {
+        display: flex;
+        justify-content: center !important;
+        align-items: center;
+    }
+    .comment-pagination .paginationjs.my-paginationjs-theme{
+        font-family: "AlibabaPuHuiTi-2","Alibaba Sans", sans-serif !important;
+    }
+    .comment-pagination .my-paginationjs-theme li {
+        border: none;
+        border-radius: none;
+    }
+    .comment-pagination
+        .my-paginationjs-theme
+        li
+        a {
+        min-width: 24px;
+        height: 37px;
+        color: #f7f6ff;
+        font-size: 16px;
+        line-height: 37px;
+        background: transparent;
+    }
+    .comment-pagination
+        .my-paginationjs-theme
+        li.active
+        a {
+        color: #79efbd;
+    }
+    .comment-pagination
+        .my-paginationjs-theme
+        .paginationjs-go-input #paginationjsInput {
+        font-size: 16px;
+        margin-left: 10px;
+        height: 37px;
+        line-height: 37px;
+    }
+    .comment-pagination
+        .my-paginationjs-theme
+        .paginationjs-go-input
+        #paginationjsInput
+        > input[type="text"] {
+        border: 1.25px solid #f7f6ff;
+        border-radius: 12px;
+        width: 36px;
+        height: 24px;
+    }
+    .comment-pagination
+        .my-paginationjs-theme
+        .paginationjs-go-button {
+        height: 37px;
+        line-height: 37px;
+        font-size: 16px;
+    }
+    .comment-pagination
+        .my-paginationjs-theme
+        .paginationjs-go-button
+        > input[type="button"] {
+        background: transparent;
+        border: none;
+        border-radius: none;
+        font-size: 16px;
+        color: #f7f6ff;
+        line-height: 24px;
+        padding: none;
+    }
+    .comment-pagination .my-paginationjs-theme li a {
+        color: #202E59;
+        font-size: 20px;
+        background: transparent !important;
+    }
+    .comment-pagination .paginationjs.my-paginationjs-theme .paginationjs-pages li.disabled>a:hover {
+        color: #202E59 !important;
+    }
+    .comment-pagination .my-paginationjs-theme li.active a {
+        color: #79efbd;
+    }
+    #comment-pagination {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    .comment-pagination .paginationjs.my-paginationjs-theme .paginationjs-pages ul {
+        display: flex;
+        align-items: center;
+    }
+}

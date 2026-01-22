@@ -1,0 +1,530 @@
+#main {
+  overflow: hidden;
+  background: #f7f6ff;
+}
+#main .banner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#hero {
+  background: linear-gradient(
+      162.52deg,
+      rgba(117, 84, 252, 0.58) -13.29%,
+      rgba(177, 159, 250, 0) 31.6%
+    ),
+    #f7f6ff;
+  padding: 208px 0px 200px;
+}
+#hero .hero .top {
+  margin-bottom: 200px;
+}
+#hero .hero .top h3 {
+  font-weight: 900;
+  font-size: 120px;
+  line-height: 100%;
+  text-align: center;
+  color: #0d0b33;
+  margin-bottom: 26px;
+}
+#hero .hero .top p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 160%;
+  color: #333333;
+}
+#hero .hero .bottom .title {
+  margin-bottom: 20px;
+}
+#hero .hero .bottom .title h3 {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 100%;
+  color: #131313;
+  margin-bottom: 20px;
+}
+#hero .hero .bottom .title p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 160%;
+  color: #333333;
+}
+#hero .hero .bottom .download {
+  padding: 68px 116px;
+  border: 1px solid #000000;
+  border-radius: 18px;
+}
+#hero .hero .bottom .download button.my-btn {
+  padding: 16px 24px;
+  background: #79efbd;
+  border-radius: 100px;
+  color: #0d0b33;
+  font-size: 18px;
+  line-height: 1.6;
+  border: none;
+  font-weight: 700;
+}
+#hero .hero .bottom .download .download-btn {
+  padding-left: 64px;
+  border-left: 1px solid #000000;
+}
+#hero .hero .bottom .download .download-btn .title {
+  font-weight: 1000;
+  font-size: 24px;
+  line-height: 100%;
+  color: #000000;
+  margin-bottom: 12px;
+}
+#hero .hero .bottom .download .download-btn .text p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 160%;
+  color: #333333;
+  text-align: left;
+}
+#hero .hero .bottom .download .download-btn .text {
+  max-width: 365px;
+  margin-bottom: 10px;
+}
+#hero .hero .bottom .download .download-btn .text .form-check {
+  margin-right: 10px;
+}
+#hero .hero .bottom .download .logo {
+  margin-right: 166px;
+}
+@media(max-width: 991px) {
+  #main .banner {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0px 16px;
+  }
+  #hero {
+    background: linear-gradient(
+        162.52deg,
+        rgba(117, 84, 252, 0.58) -13.29%,
+        rgba(177, 159, 250, 0) 31.6%
+      ),
+      #f7f6ff;
+    padding: 137px 0px 104px;
+  }
+  #hero .hero .top {
+    margin-bottom: 67px;
+  }
+  #hero .hero .top h3 {
+    font-weight: 1000;
+    font-size: 64px;
+    line-height: 100%;
+    text-align: center;
+    color: #0D0B33;
+    margin-bottom: 18px;
+  }
+  #hero .hero .top p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 160%;
+    color: #333333;
+  }
+  #hero .hero .bottom .title {
+    margin-bottom: 20px;
+  }
+  #hero .hero .bottom .title h3 {
+    font-weight: 1000;
+    font-size: 48px;
+    line-height: 100%;
+    color: #131313;
+    margin-bottom: 20px;
+  }
+  #hero .hero .bottom .title p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 160%;
+    color: #333333;
+  }
+  
+  #hero .hero .bottom .download {
+    padding: 30px;
+    border: 1px solid #333333;
+    border-radius: 18px;
+    text-align: center;
+  }
+  #hero .hero .bottom .download button.my-btn {
+    padding: 16px 24px;
+    background: #79efbd;
+    border-radius: 100px;
+    color: #0d0b33;
+    font-size: 18px;
+    line-height: 1.6;
+    border: none;
+    font-weight: 700;
+  }
+  #hero .hero .bottom .download .download-btn {
+    padding-left: 0px;
+    border-left: none;
+  }
+  #hero .hero .bottom .download .download-btn .title {
+    font-weight: 1000;
+    font-size: 24px;
+    line-height: 100%;
+    color: #000000;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+  #hero .hero .bottom .download .download-btn .text p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 160%;
+    color: #333333;
+  }
+  #hero .hero .bottom .download .download-btn .text {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  #hero .hero .bottom .download .download-btn .text .form-check {
+    margin-right: 10px;
+  }
+  #hero .hero .bottom .download .logo {
+    margin-bottom: 30px;
+    margin-right: 0;
+    width: 100%;
+  }
+  #hero .hero .bottom .download .logo img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+/* --------------------------- */
+#dowmload-pack.form-check-input {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  cursor: pointer;
+}
+#downloadLogo.disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+#brand .brand {
+  margin-bottom: 192px;
+}
+#brand .brand .title {
+  margin-bottom: 36px;
+}
+#brand .brand .title h3 {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 100%;
+  color: #131313;
+}
+#brand .brand .box {
+  margin-bottom: 200px;
+}
+#brand .brand .box .item-box {
+  margin-bottom: 100px;
+}
+#brand .brand .box .item-box:nth-last-child(1) {
+  margin-bottom: 0;
+}
+#brand .brand .box .item-box .title h3 {
+  font-weight: 1000;
+  font-size: 24px;
+  line-height: 160%;
+  color: #333333;
+}
+#brand .brand .box .item-box .content p.sub-title {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 160%;
+  color: #333333;
+}
+#brand .brand .box .item-box .content p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 160%;
+  color: #333333;
+}
+#brand .brand .box .item-box .content .pic-show {
+  margin-top: 20px;
+}
+#brand .brand .box .item-box .content .pic-show img,
+#brand .brand .examples .content-item img {
+  max-width: 100%;
+  height: auto;
+}
+#brand .brand .examples {
+  margin-bottom: 200px;
+}
+#brand .brand .examples .title h3,
+#brand .brand .legal .title h3 {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 100%;
+  color: #131313;
+  margin-bottom: 20px;
+}
+#brand .brand .examples .content-item .grid-box {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(4, auto);
+  grid-row-gap: 50px;
+  grid-column-gap: 28px;
+}
+#brand .brand .examples .content-item .grid-box .grid-item {
+  width: 100%;
+
+}
+#brand .brand .examples .content-item .grid-box .grid-item img {
+  max-width: 100%;
+  max-height: 240px;
+  width: auto;
+  height: auto;
+}
+#brand .brand .examples .content-item .grid-box .grid-item p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: rows;
+  color: #0D0B33;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+#brand .brand .examples .content-item .grid-box .grid-item p img {
+  max-width: 18px;
+  width: 100%;
+  height: auto;
+  margin-right: 5px;
+}
+@media(max-width: 750px) {
+  #brand .brand .examples .content-item .grid-box {
+    display: grid;
+    grid-template-columns: repeat(1, auto);
+    grid-template-rows: repeat(8, auto);
+    grid-row-gap: 20px;
+    grid-column-gap: 0px;
+  }
+  #brand .brand .examples .content-item .grid-box .grid-item {
+    text-align: center;
+  }
+  #brand .brand .examples .content-item .grid-box .grid-item img {
+    max-width: 100%;
+    max-height: 140px;
+    width: auto;
+    height: auto;
+  }
+  #brand .brand .examples .content-item .grid-box .grid-item p {
+    color: #0D0B33;
+    font-size: 10px;
+    line-height: 1.6;
+    margin-top: 6px;
+  }
+}
+#brand .brand .legal .title {
+  margin-bottom: 30px;
+}
+#brand .brand .legal .content p {
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 160%;
+  color: #333333;
+}
+#brand .brand .legal .content p:nth-last-child(1) {
+  margin-bottom: 0px;
+}
+
+@media(max-width: 991px) {
+  #dowmload-pack.form-check-input {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    cursor: pointer;
+  }
+  #downloadLogo.disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+  #brand .brand {
+    margin-bottom: 67px;
+  }
+  #brand .brand .title {
+    margin-bottom: 20px;
+  }
+  #brand .brand .box {
+    margin-bottom: 64px;
+  }
+  #brand .brand .box .item-box {
+    margin-bottom: 80px;
+  }
+  #brand .brand .box .item-box:nth-last-child(1) {
+    margin-bottom: 0;
+  }
+  #brand .brand .box .item-box .title h3 {
+    margin-bottom: 20px;
+  }
+  #brand .brand .box .item-box .content p.sub-title {
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  #brand .brand .box .item-box .content p {
+    margin-bottom: 10px;
+  }
+  #brand .brand .box .item-box .content .pic-show {
+    margin-top: 20px;
+  }
+  #brand .brand .box .item-box .content .pic-show img,
+  #brand .brand .examples .content-item img {
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+  }
+  #brand .brand .examples {
+    margin-bottom: 108px;
+  }
+  #brand .brand .legal .title {
+    margin-bottom: 20px;
+  }
+  #brand .brand .legal .content p {
+    margin-bottom: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 160%;
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  #brand .brand .legal .content p:nth-last-child(1) {
+    margin-bottom: 0px;
+  }
+}
+
+/* ---------------------------------- */
+/* ---------------------  start-soar-footer -------------------- */
+.start-soar-footer {
+  background: 
+    linear-gradient(
+      109.75deg,
+      rgba(117, 84, 252, 0) 35.1%,
+      rgba(117, 84, 252, 0.2) 99.39%
+    ),
+    linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+    #4a21ef;
+}
+.start-soar-footer-main {
+  background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+  url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+  url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+  animation: starFooter 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes starFooter {
+    0% {
+      background: 
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    50% {
+      background: 
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    100% {
+      background: 
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+  } 
+}
+/* -----------------------start-soar-------------------------- */
+#start-soar {
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#start-soar .start-soar {
+  text-align: center;
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 180px 0 90px;
+}
+#start-soar .start-soar .sfp-logo .logo-box {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  margin-bottom: 24px;
+}
+#start-soar .start-soar .title {
+  margin-bottom: 48px;
+}
+#start-soar .start-soar .text {
+  margin: 0px 50px 50px;
+}
+#start-soar .start-soar .text p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#start-soar .start-soar .title h3 {
+  color: #ffffff;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+#start-soar .start-soar .download .set-off-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(
+    183.08deg,
+    rgba(191, 255, 228, 0.2) 43.82%,
+    rgba(191, 255, 228, 0) 111.17%
+  );
+  border-radius: 100px;
+  padding: 10px;
+}
+#start-soar .start-soar .download .downloads-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  color: #0d0b33;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+  border: none;
+}
+#start-soar .start-soar .download .btn-press .press-btn {
+  line-height: 1.6;
+  border: none;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  color: #f7f6ff;
+  border: 1px solid #ffffff;
+  background: transparent;
+  margin-left: 30px;
+}
+@media (max-width: 991px) {
+  .start-soar-footer {
+    background: 
+      linear-gradient(
+        109.75deg,
+        rgba(117, 84, 252, 0) 35.1%,
+        rgba(117, 84, 252, 0.2) 99.39%
+      ),
+      linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+      #4a21ef;
+  }
+  .start-soar-footer-main {
+    background: 
+      url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top left,
+      url(https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg) no-repeat bottom,
+      url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom right 320%;
+  }
+  #start-soar .start-soar {
+    max-width: 100%;
+    padding: 80px 16px 90px;
+  }
+  #start-soar .start-soar .title h3 {
+    font-weight: 1000;
+    font-size: 48px;
+  }
+}

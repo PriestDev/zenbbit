@@ -1,0 +1,229 @@
+/* userstyle.css */
+
+/* Light Mode */
+body.light-mode {
+  background-color: #f4f4f4;
+  color: #111;
+}
+body.light-mode .setting-item {
+  background: #fff;
+  color: #111;
+}
+body.light-mode .header {
+  background: #fff;
+  color: #111;
+}
+body.light-mode .bottom-nav {
+  background: #fff;
+  border-top: 1px solid #ccc;
+}
+body.light-mode .section-title {
+  color: #333;
+}
+
+/* Dark Mode */
+body.dark-mode {
+  background-color: #0e0e0e;
+  color: #e6e6e6;
+}
+body.dark-mode .setting-item {
+  background: #121212;
+  color: #e6e6e6;
+}
+body.dark-mode .header {
+  background: #000;
+  color: #622faa; /* your purple accent */
+}
+body.dark-mode .bottom-nav {
+  background: #0e0e0e;
+  border-top: 1px solid #222;
+}
+body.dark-mode .section-title {
+  color: #aaa;
+}
+
+/* Keep icons always purple */
+i, .bi, .fas, .fa {
+  color: #622faa;
+}
+body.light-mode input {
+  background: #fff;
+  color: #111;
+  border: 1px solid #ccc;
+}
+body.light-mode .footer{
+    border-top: 1px solid #ccc;
+    background: white;
+    color: #000;
+}
+body.light-mode .card h2{
+    color:white;
+}
+ body.light-mode .in-out div{
+    color: white;
+ }
+/* ================================================ */
+/* =================================================== */
+/* Light Mode */
+body.light-mode {
+  background-color: #f4f4f4;
+  color: #111;
+}
+
+/* Header */
+body.light-mode .header {
+  background: #fff;
+  color: #111;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Content */
+body.light-mode .content {
+  background: #fff;
+  color: #111;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+body.light-mode .section-title {
+  color: #333;
+}
+
+/* Bottom Nav */
+body.light-mode .bottom-nav {
+  background: #fff;
+  border-top: 1px solid #ccc;
+}
+body.light-mode .bottom-nav a {
+  color: #111;
+}
+body.light-mode .bottom-nav a.active {
+  color: #4caf50;
+}
+
+/* Responsive video container */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.video-container iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+
+
+/* ================= DARK MODE ========for connect========= */
+body.dark-mode {
+  background-color: #0e0e0e;
+  color: #e6e6e6;
+}
+
+/* Header */
+body.dark-mode .header {
+  background: #1a1a1a;
+  color: #e6e6e6;
+  border-bottom: 1px solid #333;
+}
+
+/* Content */
+body.dark-mode .content {
+  background: #1a1a1a;
+  color: #e6e6e6;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+body.dark-mode .section-title {
+  color: #ddd;
+}
+
+/* Bottom Nav */
+body.dark-mode .bottom-nav {
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+}
+body.dark-mode .bottom-nav a {
+  color: #ccc;
+}
+body.dark-mode .bottom-nav a.active {
+  color: #4caf50;
+}
+
+ /* ================= LIGHT MODE ================= */
+body.light-mode {
+  background: #f4f4f4;
+  color: #111;
+}
+
+/* Wallets Section */
+body.light-mode .wallets-section {
+  background: #f4f4f4;
+  color: #111;
+}
+body.light-mode .wallets-section h2 {
+  color: #111;
+}
+body.light-mode .wallets-section p {
+  color: #555;
+}
+
+/* Wallet Icons */
+body.light-mode .wallet-icons img {
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+body.light-mode .wallet-icons img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(74, 27, 141, 0.3);
+}
+
+/* Modal */
+body.light-mode .modal {
+  background: #fff;
+  color: #111;
+  border: 1px solid #ccc;
+}
+body.light-mode .modal .logo {
+  background: #eee;
+}
+body.light-mode textarea,
+body.light-mode input[type="number"],
+body.light-mode input[type="text"] {
+  background: #fff;
+  color: #111;
+  border: 1px solid #ccc;
+}
+body.light-mode .word-count {
+  color: #666;
+}
+
+/* Buttons */
+body.light-mode .btn.neon {
+  background: #4a1b8d;
+  color: #fff;
+}
+body.light-mode .btn.ghost {
+  background: transparent;
+  color: #4a1b8d;
+  border: 1px solid #4a1b8d;
+}
+
+/* Error + Success */
+body.light-mode .modal .error {
+  background: #ffdddd;
+  color: #991616;
+}
+body.light-mode .success-icon {
+  color: #4a1b8d;
+}
+
+/* Spinner */
+body.light-mode .spinner {
+  border: 5px solid #ddd;
+  border-top-color: #4a1b8d;
+}

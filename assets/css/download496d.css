@@ -1,0 +1,817 @@
+#main {
+  background: linear-gradient(
+      169.02deg,
+      rgba(117, 84, 252, 0.58) -2.75%,
+      rgba(177, 159, 250, 0) 43.53%
+    ),
+    #f7f6ff;
+}
+/* --------------------------- hero ------------------------------- */
+#hero .hero {
+  padding-top: 168px;
+  padding-bottom: 97px;
+}
+#hero .hero .hero-top {
+}
+#hero .open-app{
+  margin-bottom: 20px;
+}
+#hero .open-app .open-app-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 30px;
+  border-radius: 24px;
+  background-color: #3E1CC9;
+}
+#hero .open-app .open-app-box p.text {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+#hero .open-app .open-app-box a.link {
+  background: #79efbd;
+  border-radius: 80px;
+  padding: 18px 20px;
+  color: #0d0b33;
+  border: none;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  transition: all 0.2s ease !important;
+}
+#hero .open-app .open-app-box a.link:active,
+#hero .open-app .open-app-box a.link:focus,
+#hero .open-app .open-app-box a.link:hover
+ {
+  background: #2ABB7E !important;
+  color: #0d0b33 !important;
+}
+#myTab {
+  justify-content: space-between;
+  max-width: 570px;
+  margin: 0 auto;
+  border: 1px solid #bbb8db;
+  border-radius: 100px;
+  box-sizing: content-box;
+  color: #0d0b33;
+}
+#myTab .nav-item .nav-link {
+  width: 190px;
+  padding: 16px 50px;
+  color: #0d0b33;
+  font-size: 18px;
+  line-height: 1.6;
+  border-radius: 100px;
+  background: transparent;
+  border: none;
+  margin: 0px;
+  font-weight: 700;
+}
+#myTab .nav-item .nav-link.active {
+  background: #79efbd;
+}
+#myTabContent .hero-title {
+  margin-top: 50px;
+  text-align: center;
+}
+#myTabContent .hero-title h3 {
+  font-weight: 1000;
+  font-size: 40px;
+  line-height: 1;
+  margin-bottom: 20px;
+  color: #0d0b33;
+}
+#myTabContent .hero-title p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #0d0b33;
+}
+#myTabContent .hero-item {
+  margin-top: 30px;
+}
+#myTabContent .hero-item .platform-item {
+  margin-right: 20px;
+}
+#myTabContent .hero-item .learn-more {
+  margin-top: 40px;
+  text-align: center;
+}
+#myTabContent .hero-item .learn-more .btn_goback  {
+  margin-right: 18px;
+}
+#myTabContent .hero-item .learn-more a {
+  display: inline-block;
+  margin-left: 18px;
+  color: #4a21ef;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#myTabContent .hero-item .platform-item:nth-last-child(1) {
+  margin: 0;
+}
+#myTabContent .hero-item .platform-item .platform-item-img {
+  max-width: 100%;
+  height: auto;
+}
+#myTabContent .hero-pic {
+  margin-top: 50px;
+  text-align: center;
+}
+#myTabContent .hero-pic img {
+  margin: 0 auto;
+}
+#myTabContent .hero-pic .firmware-item-box {
+  display: flex;
+  border: 1px solid #4A21EF;
+  border-radius: 24px;
+  padding: 30px 0px 50px;
+  justify-items: center;
+  align-items: stretch; 
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% / 3);
+  padding: 0px 50px;
+  position: relative;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item::before {
+  position: absolute;
+  content: ' ';
+  width: 1px;
+  height: 90%;
+  background: #D7D7D7;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item:nth-last-child(1)::before {
+  width: 0px;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item h1.title {
+  color: #000;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 100%;
+  margin-bottom: 14px;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item .version {
+  margin: 0px;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item .what-new {
+  margin: 8px 0px 16px;
+  text-align: left;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item .what-new p.info {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  color: #0D0B33;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item .img-logo {
+  margin-bottom: 16px;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item .img-logo img {
+  max-height: 200px;
+  width: auto;
+}
+#myTabContent .hero-pic .firmware-item-box .firmware-item .learn-more a {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
+}
+#firmware .hero-item {
+  margin: 0px;
+}
+#firmware .version {
+  margin-bottom: 40px;
+  text-align: center;
+}
+#firmware .version p.info {
+  color: #0d0b33;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#firmware .search-box .my-input {
+  width: 650px;
+  margin: auto;
+}
+#firmware .search-box .search-input {
+  width: 100%;
+  background: #f7f6ff;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-right: 128px;
+  padding-left: 80px;
+  border: 1px solid #88869e;
+  border-radius: 140px;
+  height: 60px;
+  line-height: 60px;
+  box-sizing: content-box;
+}
+#firmware .search-box .search-input:focus {
+  outline-color: #79efbd;
+}
+#firmware .search-box .search-input::placeholder {
+  color: #0d0b33;
+  font-size: 16px;
+  line-height: 1.6;
+}
+#firmware .search-box .search-btn {
+  padding: 16px 24px;
+  background: #79efbd;
+  border-radius: 100px;
+  color: #0d0b33;
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s;
+  right: 28px;
+}
+#firmware .search-box .search-icon {
+  width: 24px;
+  height: 24px;
+  left: 34px;
+  z-index: 1;
+}
+#firmware .search-box .search-icon img {
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  object-fit: contain;
+  vertical-align: baseline;
+}
+#firmware #query_result_box {
+  text-align: center;
+}
+#firmware #query_result_box .btn_wrap {
+  padding: 30px 0px;
+}
+#firmware .btn_normal {
+  color: #0d0b33;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+  /* border: 1px solid #79efbd; */
+  border: none;
+  min-width: 160px;
+}
+#firmware .btn_white {
+  background-color: transparent;
+  border: 1px solid #666666;
+}
+#firmware .learn-more .btn_goback {
+  display: none;
+}
+#firmware #query_result_box .btn_wrap .btn_download {
+  border: none;
+  padding: 0;
+  min-width: 160px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+}
+
+#firmware #query_result_box .btn_wrap .btn_download a {
+  color: #0d0b33 !important;
+  display: inline-block;
+  font-size: 18px;
+  padding: 16px 24px;
+}
+#fw_download_a:hover {
+  color: #0d0b33 !important;
+}
+/* 改 */
+#query_result_box .firmware-tips {
+  max-width: 764px;
+  margin: 0 auto 50px;
+}
+#query_result_box .firmware-tips p{
+  color: #0d0b33;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#query_result_box .query-item {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 30px 35px 35px;
+  text-align: left;
+  max-width: 364px;
+  margin: 0px 18px;
+  box-shadow: 0px 0px 12px rgb(0 0 0 / 12%);
+}
+#query_result_box .query-item h3.title {
+  color: #0D0B33;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  margin-bottom: 20px;
+}
+#query_result_box .query-item .supported-language {
+  margin-bottom: 20px;
+}
+#query_result_box .query-item .supported-language .language-item {
+  display: inline-block;
+  color: #0D0B33;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  padding: 4px 0px;
+  padding-right: 8px;
+  width: 50%;
+}
+#query_result_box .query-item .supported-language p.title {
+  color: #0D0B33;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: 7px;
+}
+#query_result_box .query-item .sha256 {
+  margin-bottom: 28px;
+  color: #0D0B33;
+  font-size: 16px;
+  line-height: 22px;
+}
+#query_result_box .download .btn_download {
+  border-radius: 100px;
+  background-color: #79efbd;
+  border: none;
+}
+#query_result_box .download .btn_download a {
+  display: inline-block;
+  color: #000000;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+  padding: 8px 16px;
+}
+#query_result_box .download .btn_download a:hover {
+  color: #000000 !important;
+}
+#myTabContent .hero-item .platform-item a {
+  display: block;
+}
+#mobile .app-qrcode {
+  margin-top: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.hero-item .platform-item .btn-app-download {
+  padding: 15px 20px;
+  background: #79EFBD;
+  border-radius: 80px;
+  border: none;
+  width: 264px;
+}
+.hero-item .platform-item .btn-app-download img,
+.hero-item .platform-item .btn-browser-download img {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  margin-right: 5px;
+}
+.hero-item .platform-item .btn-app-download span,
+.hero-item .platform-item .btn-browser-download span {
+  color: #333333;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+.hero-item .platform-item .btn-app-download span.target {
+  font-weight: 700;
+  display: inline-block;
+  margin-left: 5px;
+}
+.hero-item .platform-item .btn-browser-download {
+  padding: 20px 30px;
+  background: #79EFBD;
+  border-radius: 80px;
+  border: none;
+  width: 246px;
+}
+.hero-item .platform-item .btn-browser-download span {
+  font-weight: 700;
+  flex: 1;
+}
+@media (max-width: 991px) {
+  #hero .hero {
+    padding-top: 100px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 97px;
+  }
+  #myTabContent .hero-pic img {
+    max-width: 100%;
+  }
+  #myTab {
+    max-width: 100%;
+  }
+  #myTab .nav-item {
+    width: calc(100% / 3);
+  }
+  #myTab .nav-item .nav-link {
+    padding: 13px 6px;
+    width: 100%;
+    /* max-width:115px; */
+  }
+  #myTabContent .hero-title {
+    margin-top: 35px;
+  }
+  #myTabContent .hero-item {
+    margin-top: 17px;
+  }
+  #myTabContent .hero-item .platform-item {
+    margin-right: 6px;
+
+  }
+  #myTabContent .hero-item .platform-item:nth-last-child(1) {
+    margin: 0;
+  }
+  #myTabContent .hero-item .platform-item.app,
+  #myTabContent .hero-item .platform-item.browser {
+    margin-right: 0px;
+    margin-bottom: 10px;
+
+  }
+  #myTabContent .hero-item .platform-item.app:nth-last-child(1),
+  #myTabContent .hero-item .platform-item.browser:nth-last-child(1) {
+    margin: 0;
+  }
+  #myTabContent .hero-item .hero-pic {
+    margin-top: 29px;
+  }
+  #firmware .search-box {
+    padding-bottom: 20px;
+    background: none;
+  }
+  #firmware .search-box .my-input {
+    width: 100%;
+    margin: 0px;
+    box-sizing: border-box;
+  }
+  #firmware .search-box .search-input {
+    width: calc(100% - 80px);
+    background: #f7f6ff;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-right: 28px;
+    padding-left: 52px;
+    border: 1px solid #88869e;
+    border-radius: 40px;
+    height: 27px;
+    line-height: 27px;
+  }
+  #firmware .search-box .search-input::placeholder {
+    color: #0d0b33;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  #firmware .search-box input.search-input {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  #firmware .search-box .search-icon {
+    width: 18px;
+    height: 18px;
+    left: 34px;
+  }
+  #firmware .version {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  #myTabContent .hero-pic .firmware-item-box {
+    border-radius: 12px;
+    padding: 0px;
+    justify-items: center;
+    align-items: flex-start; 
+    flex-direction: column;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item::before {
+    position: absolute;
+    content: ' ';
+    width: calc(100% - 32px);
+    height: 1px;
+    background: #D7D7D7;
+    bottom: 0;
+    margin: 0;
+    right: auto;
+    top: auto;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item:nth-last-child(1)::before {
+    width: 0px;
+    height: 0px;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item h1.title {
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 100%;
+    margin-bottom: 14px;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item .version {
+    margin: 0px;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item .what-new {
+    margin: 8px 0px 16px;
+    text-align: left;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item .what-new p.info {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%;
+    color: #0D0B33;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item .img-logo {
+    margin-bottom: 16px;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item .img-logo img {
+    max-height: 200px;
+    width: auto;
+  }
+  #myTabContent .hero-pic .firmware-item-box .firmware-item .learn-more a {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%;
+  }
+  #firmware #query_result_box .btn_wrap {
+      display: flex;
+  }
+  #firmware #query_result_box .btn_wrap .btn_normal {
+    color: #0d0b33;
+    font-size: 18px;
+    padding: 16px 24px;
+    border-radius: 100px;
+    background-color: #79efbd;
+    line-height: 1.6;
+    border: 1px solid #79efbd;
+    min-width: auto;
+    width: calc((100% - 20px)/2);
+    /* box-sizing: content-box; */
+  }
+  #firmware #query_result_box .btn_wrap .a_download {
+    display: inline-block;
+    width: calc((100% - 20px)/2);
+  }
+  #firmware #query_result_box .btn_wrap .btn_normal.download {
+    width: 100%;
+  }
+  #firmware #query_result_box .btn_wrap .btn_download {
+    border: none;
+    padding: 0;
+    width: calc((100% - 20px)/2);
+    min-width: auto;
+    border-radius: 100px;
+    background-color: #79efbd;
+    line-height: 1.6;
+  }
+  #fw_download_a:hover {
+    color: #0d0b33 !important;
+  }
+  #fw_download_a {
+    color: #0d0b33;
+    font-size: 18px;
+    padding: 16px 24px;
+    
+    min-width: auto;
+    box-sizing: content-box;
+    flex: 1;
+  }
+  #firmware #query_result_box .btn_wrap .btn_white {
+    background-color: transparent;
+    border: 1px solid #666666;
+  }
+  .hero-item .platform-item .btn-app-download {
+    padding: 15px 20px;
+    background: #79EFBD;
+    border-radius: 80px;
+    border: none;
+    width: 264px;
+  }
+  .hero-item .platform-item .btn-app-download img {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .hero-item .platform-item .btn-app-download span {
+    color: #333333;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .hero-item .platform-item .btn-app-download span.target {
+    font-weight: 700;
+    display: inline-block;
+    margin-left: 5px;
+  }
+  .hero-item .platform-item .btn-browser-download {
+    padding: 17px 25px;
+    background: #79EFBD;
+    width: 220px;
+  }
+  /* 改 */
+  #query_result_box .firmware-tips {
+    max-width: 100%;
+    margin: 0 auto 20px;
+  }
+
+  #query_result_box .query-item {
+    padding: 30px 26px 35px;
+    text-align: left;
+    max-width: 100%;
+    margin: 0px;
+    margin-bottom: 20px;
+  }
+  #query_result_box .query-item:nth-last-child(1) {
+    margin: 0px;
+  }
+  #query_result_box .download .btn_download {
+    border-radius: 100px;
+    background-color: #79efbd;
+    border: none;
+  }
+  #myTabContent .hero-item .learn-more {
+    margin-top: 30px;
+  }
+  #myTabContent .hero-item .learn-more .btn_goback {
+    margin: 0px;
+    margin-bottom: 40px;
+  }
+  #myTabContent .hero-item .learn-more a {
+    margin: 0px;
+  }
+}
+/* ---------------------  start-soar-footer -------------------- */
+.start-soar-footer {
+    background: 
+    linear-gradient(
+      109.75deg,
+      rgba(117, 84, 252, 0) 35.1%,
+      rgba(117, 84, 252, 0.2) 99.39%
+    ),
+    linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+    #4a21ef;
+}
+.start-soar-footer-main {
+  background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+  url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/auto 100%,
+  url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+  animation: starFooter 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes starFooter {
+    0% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    50% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg) no-repeat bottom/auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    100% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+  } 
+}
+/* -----------------------start-soar-------------------------- */
+#start-soar {
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#start-soar .start-soar {
+  text-align: center;
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 180px 0 90px;
+}
+#start-soar .start-soar .sfp-logo .logo-box {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  margin-bottom: 24px;
+}
+#start-soar .start-soar .title {
+  margin-bottom: 48px;
+}
+#start-soar .start-soar .text {
+  margin: 0px 50px 50px;
+}
+#start-soar .start-soar .text p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#start-soar .start-soar .title h3 {
+  color: #ffffff;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+#start-soar .start-soar .download .set-off-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(
+    183.08deg,
+    rgba(191, 255, 228, 0.2) 43.82%,
+    rgba(191, 255, 228, 0) 111.17%
+  );
+  border-radius: 100px;
+  padding: 10px;
+}
+#start-soar .start-soar .download .downloads-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  color: #0d0b33;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+  border: none;
+  font-weight: 700;
+}
+#start-soar .start-soar .download .btn-press .press-btn {
+  line-height: 1.6;
+  border: none;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  color: #f7f6ff;
+  border: 1px solid #ffffff;
+  background: transparent;
+  margin-left: 30px;
+}
+#mobile .storeIcon {
+  height: 60px;
+}
+@media (max-width: 991px) {
+  #mobile .storeIcon {
+    height: 50px;
+  }
+  .start-soar-footer {
+    background: 
+    linear-gradient(
+      109.75deg,
+      rgba(117, 84, 252, 0) 35.1%,
+      rgba(117, 84, 252, 0.2) 99.39%
+    ),
+    linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+    #4a21ef;
+    /* background-position: top left, bottom, bottom right 320%, center; */
+  }
+  .start-soar-footer-main {
+    background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+    url(https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg) no-repeat bottom/200% 100%,
+    url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom right 320%;
+  }
+  #start-soar .start-soar {
+    max-width: 100%;
+    padding: 80px 16px 90px;
+  }
+  #start-soar .start-soar .title h3 {
+    font-weight: 1000;
+    font-size: 48px;
+  }
+  .m.d-none{
+    display: block !important;
+    color: #0d0b33;
+    margin-top: 20px;
+  }
+}

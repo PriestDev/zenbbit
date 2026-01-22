@@ -1,0 +1,590 @@
+#header.header-transparent {
+    background: #4a21ef !important;
+  }
+#main.blog-list {
+  background: #F4F6F9;
+}
+
+#mobile-box-button.mobile-box-button {
+  display: none;
+}
+
+  /*--------------------------------------------------------------
+  # Hero Section
+  --------------------------------------------------------------*/
+  #hero {
+    overflow: hidden;
+    width: 100%;
+  }
+  #hero .hero{
+    margin-bottom: 20px;
+  }
+  #hero .hero-container {
+    padding-top: 122px;
+    justify-content: space-between;
+    background: #fff;
+  }
+  #hero .hero-container .tab-box-button .btn-common{
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    color: #000;
+    border: none;
+    background-color: #fff;
+    font-weight: 400;
+    margin: 7px 9px;
+  }
+  #hero .hero-container .tab-box-button .btn-common a{
+    color: #000;
+  }
+
+  #hero .hero-container .tab-box-button .btn-common:hover {
+    background-color: #4a21ef;
+    transition: background-color 0.5s ease
+  }
+
+  #hero .hero-container .tab-box-button .btn-common:hover a {
+    color: #79EFBD!important;
+    transition: color 0.5s ease
+  }
+  #hero .hero-container .tab-box-button .btn-common:active {
+    background-color: #4a21ef!important;
+    color: #fff;
+    transition: color 0.5s ease,background-color 0.5s ease
+  }
+  #hero .hero-container .tab-box-button .btn-common a:active {
+    color: #79EFBD!important;
+    transition: color 0.5s ease
+  }
+  #hero .hero-container .tab-box-button .btn-common a:visited {
+    color: #000;
+    transition: color 0.5s ease
+  }
+  #hero .hero-container .tab-box-button .btn-active {
+    background-color: #4a21ef;
+    color: #fff!important;
+    transition: color 0.5s ease,background-color 0.5s ease
+  }
+  #hero .hero-container .tab-box-button .btn-active a,
+  #hero .hero-container .tab-box-button .btn-active a:visited {
+    color: #fff;
+    transition: color 0.5s ease
+  }
+  #hero .hero-container .article-search {
+    width: 30%;
+    padding: 10px;
+    flex: 0 0 auto;
+  }
+  #hero .hero-container .article-search .article-search-box {
+    position: relative;
+  }
+  #hero .hero-container .article-search .article-search-input {
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #FFF;
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+  }
+
+  #hero .hero-container .article-search .article-search-input::placeholder {
+    color: rgba(0,0,0,.2)
+  }
+
+  #hero .hero-container .article-search .article-search-input:focus {
+    border-color: #3f37ff;
+  }
+
+  #hero .hero-container .article-search .input-prefix {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    transition: all .3s;
+    height: 100%;
+    color: #C0C4CC;
+    text-align: center;
+    display: flex;
+    align-items: center;
+  }
+
+  #hero .hero-container .article-search .input-suffix {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    transition: all .3s;
+    height: 100%;
+    color: #C0C4CC;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  #hero .hero-container .article-search .input-prefix .icon{
+    fill: rgba(0,0,0,.2)
+  }
+
+  #hero .hero-container .article-search .input-suffix .icon{
+    fill: rgba(0,0,0,.2)
+  }
+  #hero .hero-container .article-search .input-suffix .icon:hover{
+    fill: rgba(0,0,0,.4)
+  }
+
+  #blog-list-banner.container {
+    padding-bottom: 20px  ;
+  }
+  #blog-list-banner .banner {
+    background: #fff;
+    cursor: pointer;
+  }
+
+  #blog-list-banner .banner:hover .banner-title {
+      color:#79EFBD;
+  }
+ 
+  #blog-list-banner .banner .banner-left {
+    width: 55%;
+    display: flex;
+  }
+  #blog-list-banner .banner .banner-right {
+    width: 45%;
+    padding: 25px 50px;
+
+  }
+  #blog-list-banner .banner .banner-img {
+    object-fit: contain;
+    width:100%
+  } 
+  #blog-list-banner .banner .banner-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 48px;
+    color:#333;
+  }
+  
+  #blog-list-banner .banner .banner-date {
+    font-size: 14px;
+    color: #666;
+    margin-top: 34px;
+  }
+  
+  #blog-title.container {
+    padding-bottom: 20px;
+  }
+  #blog-title .blog-title {
+    height: 60px;
+    line-height: 60px;
+    background: #fff;
+    padding: 2px 10px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 24px;
+  }
+  .articles-list {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    padding-bottom: 60px;
+  }
+  .articles-list .article-card {
+    background-color: #fff;
+    border: 1px solid #F4F6F9;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .articles-list .article-card:hover {
+    border: 1px solid #3f37ff;
+    box-shadow: 0 0 20px 0 #C8C8C8;
+    transition: border .3s, box-shadow .3s;
+    color: #79EFBD;
+  }
+
+  .articles-list .article-card:hover .article-title {
+    color: #79EFBD;
+    transition: color .3s
+
+  }
+
+  .articles-list .article-card .article-title {
+    font-size: 20px;
+    line-height: 28px;
+    padding: 0 12px;
+    margin-top: 12px;
+    color: #000;
+    height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .articles-list .article-card .article-title h1 {
+    font-size: 20px;
+  }
+  
+  .articles-list .article-card .article-date {
+    padding: 0 12px;
+    font-size: 14px;
+    color: #999;
+    text-align: left;
+    margin: 12px 0;
+  }
+
+   .blogs-load-more {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+  }
+  .blogs-load-more .load-btn{
+    cursor: pointer;
+    color: #000;
+  }
+
+  .blogs-no-data {
+    padding: 20px;
+  }
+  .blogs-no-data .h1{
+    font-size: 2em;
+    margin: 0.67em 0;
+  }
+
+  @media (max-width: 991px) {
+    #hero .hero{
+      margin-bottom: 0;
+    }
+
+    #hero .hero-container {
+      /* padding-top: 30px; */
+      padding-top: 70px;
+
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    
+    #hero .hero-container .article-search {
+      width: 100%;
+    }
+    #hero .hero-container .tab-box-button {
+      display: none;
+    }
+
+    .articles-list {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(2, 1fr);
+      padding-bottom: 30px;
+    }
+
+
+    #mobile-box-button.mobile-box-button {
+      display:block;
+      background-color: #fff;
+      margin-bottom: 20px;
+    }
+    #mobile-box-button .tab-box-button {
+      display: grid;
+      grid-template-columns: 50% 50%;
+    }
+    #mobile-box-button .tab-box-button .btn-common{
+      font-size: 14px;
+      padding: 8px 15px;
+      border-radius: 4px;
+      color: #000;
+      border: none;
+      background-color: #fff;
+      font-weight: 400;
+      margin: 7px 9px;
+    }
+
+    #mobile-box-button .tab-box-button .btn-common:active {
+      background-color: #fff!important;
+    }
+
+    #mobile-box-button .tab-box-button .btn-common a{
+      color: #000;
+    }
+
+    #mobile-box-button .tab-box-button .btn-active {
+      background-color: #4a21ef!important;
+      color: #fff;
+      transition: color 0.5s ease,background-color 0.5s ease
+    }
+    #mobile-box-button .tab-box-button .btn-active a {
+      color: #fff;
+      transition: color 0.5s ease
+    }
+
+    #mobile-box-button .tab-box-button .btn-acive a {
+      color: #fff;
+      transition: color 0.5s ease
+    }
+
+    #blog-list-banner .banner .banner-left,
+    #blog-list-banner .banner .banner-right {
+      width: 100%;
+    }
+
+    #blog-list-banner .banner .banner-title {
+      font-size: 24px;
+      line-height: 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .articles-list {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 100%;
+      margin: 0 20px;
+    }
+  }
+  
+  /* ----------------- */
+  
+  /* crypto-bank ------------- end */
+  /* accordion ---------- start */
+  
+  
+  /* ----------------------------------------------------------------- */
+  .one-wallet-footer {
+    /* background: url("/assets/img/crypto-stripe1.svg") no-repeat,
+        url("../img/one-wallet-footer-bg.svg") no-repeat,
+        url("../img/crypto-stripe1.svg") no-repeat,
+        linear-gradient(
+          109.75deg,
+          rgba(117, 84, 252, 0) 35.1%,
+          rgba(117, 84, 252, 0.2) 99.39%
+        ),
+        linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+        #4a21ef;
+      background-position: top left, bottom, bottom right -26%, center;
+      background-size: auto;
+      animation: starFooter 2.5s ease-in infinite; */
+    background: linear-gradient(
+        109.75deg,
+        rgba(117, 84, 252, 0) 35.1%,
+        rgba(117, 84, 252, 0.2) 99.39%
+      ),
+      linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+      #4a21ef;
+    background-position: center;
+  }
+  .one-wallet-footer-main {
+    background: url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+    background-position: top left, bottom, bottom right -26%;
+    background-size: auto;
+    animation: starFooter 5s ease-in infinite;
+  }
+  @media (min-width: 991px) {
+    @keyframes starFooter {
+      0% {
+        background: url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+        background-position: bottom, top left, bottom right -26%, center;
+        background-size: auto;
+      }
+      50% {
+        background: url("https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+        background-position: bottom, top left, bottom right -26%, center;
+        background-size: auto;
+      }
+      100% {
+        background: url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+        background-position: bottom, top left, bottom right -26%, center;
+        background-size: auto;
+      }
+    }
+  }
+  /* ----one-wallet---- */
+  #one-wallet .one-wallet {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  #one-wallet .one-wallet .sfp-logo {
+    margin-top: 30px;
+  }
+  #one-wallet .one-wallet .sfp-logo .logo-box {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+  }
+  #one-wallet .one-wallet .title {
+    margin-bottom: 48px;
+  }
+  #one-wallet .one-wallet .title h3 {
+    color: #ffffff;
+    font-weight: 1000;
+    font-size: 80px;
+    line-height: 1;
+    text-align: center;
+  }
+  #one-wallet .one-wallet .download .set-off-btn,
+  #hero .hero-container .download .set-off-btn,
+  #crypto-bank .crypto-bank-container .left .download .set-off-btn {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    background: linear-gradient(
+      183.08deg,
+      rgba(191, 255, 228, 0.2) 43.82%,
+      rgba(191, 255, 228, 0) 111.17%
+    );
+    border-radius: 100px;
+    padding: 10px;
+  }
+  #one-wallet .one-wallet .download .downloads-btn,
+  #hero .hero-container .download .downloads-btn,
+  #crypto-bank .crypto-bank-container .left .download .downloads-btn {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    color: #0d0b33;
+    font-size: 18px;
+    padding: 16px 24px;
+    border-radius: 100px;
+    background-color: #79efbd;
+    line-height: 1.6;
+    border: none;
+    width: 100%;
+  }
+  @media (max-width: 991px) {
+    .one-wallet-footer {
+      background: linear-gradient(
+          109.75deg,
+          rgba(117, 84, 252, 0) 35.1%,
+          rgba(117, 84, 252, 0.2) 99.39%
+        ),
+        linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+        #4a21ef;
+    }
+    .one-wallet-footer-main {
+      background: url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+        url("https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg") no-repeat,
+        url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+      background-position: top left, bottom, bottom right 320%, center;
+      background-size: auto;
+    }
+    #one-wallet .one-wallet {
+      max-width: 100%;
+      padding: 0px 16px;
+    }
+    #one-wallet .one-wallet .title h3 {
+      font-size: 48px;
+    }
+    #one-wallet .one-wallet .download .downloads-btn,
+    #hero .hero-container .download .downloads-btn,
+    #crypto-bank .crypto-bank-container .left .download .downloads-btn {
+      font-weight: 500;
+      width: 100%;
+    }
+  }
+  
+  #limited-offer .limited-offer-bg {
+    background: linear-gradient(87.19deg, #7AEFBD 15.33%, #4A21EF 50.95%);
+  }
+  #limited-offer .limited-offer-contnet .item-box {
+    padding: 15px 0px;
+    justify-content: space-between;
+  }
+  #limited-offer .limited-offer-contnet .item-box .title-text {
+    font-size: 36px;
+    line-height: 36px;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  #limited-offer .limited-offer-contnet .item-box .item-img {
+    margin-right: 16px;
+    display:flex;
+    align-items: center;
+  }
+  #limited-offer .limited-offer-contnet .item-box .item-img img {
+    max-width: 161.6px;
+    max-height: 149.4px;
+    width: 100%;
+    height: auto;
+  }
+  #limited-offer .limited-offer-contnet .item-box .item-text {
+    max-width: 964px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #limited-offer .limited-offer-contnet .item-box .describe-item-text {
+    font-size: 24px;
+    line-height: 36px;
+    color: #fff;
+  }
+  #limited-offer .limited-offer-contnet .item-box .describe-item-text a.href {
+    text-decoration-line: underline;
+    color: #fff;
+    cursor:pointer;
+  }
+  @media (max-width: 991px) {
+    #limited-offer .max-width-1920 {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0px 16px;
+    }
+  
+    #limited-offer .limited-offer-contnet .item-box {
+      padding:10px 0px 24px;
+      justify-content: space-between;
+    }
+    #limited-offer .limited-offer-contnet .item-box .title-text {
+      font-size: 32px;
+      line-height: 1.4;
+      margin-bottom: 0px;
+      display: flex;
+      align-items: center;
+    }
+    #limited-offer .limited-offer-contnet .item-box .title-icon {
+      margin-right: 16px;
+    }
+    #limited-offer .limited-offer-contnet .item-box .title-icon img {
+      max-width: 100px;
+      max-height: 93px;
+  
+    }
+    #limited-offer .limited-offer-contnet .item-box .item-text {
+      max-width: 100%;
+    }
+    #limited-offer .limited-offer-contnet .item-box .describe-item-text {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+  .article-translated {
+    padding: 10px 10px 0px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .article-translated .tips {
+    margin-left: 4px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    color:#9E9CB1;
+  }

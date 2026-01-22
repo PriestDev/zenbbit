@@ -1,0 +1,1227 @@
+#main {
+  overflow: hidden;
+}
+/* ------------------------- hero --------------------------------- */
+#hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(173deg, #BFFFE4 25.99%, #3918BD 69.42%), #C4C4C4;
+  background-size: auto;
+}
+#hero .hero-bg {
+  position: relative;
+  overflow: hidden;
+  background:
+    url("https://www.safepal.com/assets/img/start-bg-white.svg") repeat-x top 68px center,
+    url("https://www.safepal.com/assets/img/download/hero-bg.svg") no-repeat top  150%  center;
+  background-size: auto;
+  animation: star2 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes star2 {
+    0% {
+      background:
+        url("https://www.safepal.com/assets/img/start-bg-white.svg") repeat-x top 68px center,
+        url("https://www.safepal.com/assets/img/download/hero-bg.svg") no-repeat top  150%  center;
+      background-size: auto;
+    }
+    33.33% {
+      background:
+        url("https://www.safepal.com/assets/img/start-bg-white2.svg") repeat-x top 68px center,
+        url("https://www.safepal.com/assets/img/download/hero-bg.svg") no-repeat top  150%  center;
+      background-size: auto;
+    }
+    66.66% {
+      background:
+        url("https://www.safepal.com/assets/img/start-bg-white3.svg") repeat-x top 68px center,
+        url("https://www.safepal.com/assets/img/download/hero-bg.svg") no-repeat top  150%  center;
+      background-size: auto;
+    }
+    100% {
+      background:
+        url("https://www.safepal.com/assets/img/start-bg-white.svg") repeat-x top 68px center,
+        url("https://www.safepal.com/assets/img/download/hero-bg.svg") no-repeat top  150%  center;
+      background-size: auto;
+    }
+  } 
+}
+#hero .hero-moon {
+  max-width: 110px;
+  height: auto;
+  top: 186px;
+  left: 0%;
+  z-index: 0;
+}
+#hero .hero-stripe1 {
+  max-width: 100%;
+  height: auto;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+#hero .hero-stripe2 {
+  top: -20px;
+  left: 33%;
+  z-index: 0;
+  pointer-events: none;
+}
+#hero .hero-stripe3 {
+  top: -10px;
+  left: 39%;
+  z-index: 0;
+  pointer-events: none;
+}
+#hero .hero-container {
+  padding: 207px 0px 520px;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: row;
+  padding: 207px 0px 280px;
+  gap: 36px;
+}
+#hero .safepay-wallet {
+  max-width: 662px;
+  text-align: left;
+  padding-bottom: 30px;
+}
+#hero .safepay-wallet .title {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  color: #79EFBD;
+  margin-bottom: 13px;
+}
+#hero .safepay-wallet .sub-title {
+  font-weight: 900;
+  font-size: 120px;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 48px;
+}
+#hero .safepay-wallet .describe {
+  color: #FFFFFF;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 48px;
+  max-width: 400px;
+}
+#hero .safepay-wallet .download-now {
+  z-index: 9;
+}
+#hero .safepay-wallet .download-now button{
+  background: #79efbd;
+  border-radius: 100px;
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 16px 24px;
+  color: #0D0B33;
+  border: none;
+  font-weight: 700;
+}
+#hero .img-box {
+  /* position: absolute;
+  right: 13%;
+  top: 37.7%; */
+
+  position: relative;
+  flex:1;
+  width: 100%;
+}
+#hero .img-box .hero-btc-box {
+  max-width: 600px;
+  height: auto;
+  pointer-events: none;
+}
+#hero .img-box .icon-locked {
+  bottom: 0%;
+  left: -16%;
+  max-width: 162.3px;
+  height: auto;
+  animation: moveY 6s infinite cubic-bezier(0.4, 0, 1, 1);
+  pointer-events: none;
+}
+#hero .img-box .sfp-token {
+  bottom: 16%;
+  left: -52%;
+  max-width: 168.8px;
+  height: auto;
+  animation: moveY 5s infinite cubic-bezier(0.4, 0, 1, 1);
+  pointer-events: none;
+  z-index: -1;
+}
+#hero .token-group {
+  bottom: -6%;
+  right: 18.7%;
+  max-width: 217.6px;
+  height: auto;
+  animation: moveY 7s infinite cubic-bezier(0.4, 0, 1, 1);
+  pointer-events: none;
+}
+#hero .img-box .eth-token {
+  max-width: 144.1px;
+  height: auto;
+  top: 58%;
+  right: 0%;
+  animation: moveY 7s infinite cubic-bezier(0.4, 0, 1, 1);
+  pointer-events: none;
+}
+#hero .img-box .eth-token-subtract {
+  top: 74%;
+  right: 0%;
+  pointer-events: none;
+}
+#hero .img-box .icon-clound {
+  top: 30%;
+  right: 0%;
+  max-width: 145.8px;
+  height: auto;
+  animation: moveY 8s infinite cubic-bezier(0.4, 0, 1, 1);
+  pointer-events: none;
+}
+#hero .img-box .clound-subtract {
+  top: 46%;
+  right: 0%;
+  pointer-events: none;
+}
+#hero .streamline.title {
+  max-width: 800px;
+}
+#hero .streamline.title h3 {
+  color: #f7f6ff;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 36px;
+}
+#hero .streamline.describe {
+  max-width: 800px;
+  padding-bottom: 50px;
+}
+#hero .streamline.describe p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+  text-align: center;
+}
+@media only screen and (min-width: 991px) and (max-width: 1440px) {
+  #hero .img-box {
+    /* right: 30%;
+    top: 58%; */
+    pointer-events: none;
+  }
+  #hero .img-box img {
+    pointer-events: none;
+  }
+  #hero .img-box .hero-btc-box {
+    max-width: 460px;
+    height: auto;
+  }
+  #hero .img-box .icon-locked {
+    top: 73%;
+    left: -18%;
+    max-width: 115.75px;
+    height: auto;
+  }
+  #hero .img-box .sfp-token {
+    top: 17.3%;
+    left: -23%;
+    max-width: 111.3px;
+    height: auto;
+  }
+  #hero .token-group {
+    bottom: -6%;
+    right: 18.7%;
+    max-width: 129.9px;
+    height: auto;
+  }
+  #hero .img-box .eth-token {
+  }
+  #hero .img-box .icon-clound {
+
+  }
+  #hero .token-group {
+    bottom: -3%;
+    right: -41%;
+    max-width: 129.9px;
+    height: auto;
+}
+}
+@media(max-width: 991px){
+  #hero {
+    /* background-position: top 68px center, top 336% left 42%, top; */
+    /* background-position: top 68px center, top -1551% left 43%, top; */
+    background-position: top 68px center, top -988px left 42%, top;
+    background-size: auto, auto 100%;
+  }
+  #hero .img-box{
+    position: relative;
+    flex:1;
+    width: 100%;
+  }
+  #hero .hero-stripe1 {
+    max-width: 100%;
+    height: auto;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+  #hero .hero-stripe2 {
+    top: -20px;
+    left: -3%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  #hero .hero-stripe3 {
+    top: -10px;
+    left: 19%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  #hero .hero-container {
+    padding: 189px 16px 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+  }
+  #hero .safepay-wallet {
+    max-width: 100%;
+    padding-bottom: 0;
+  }
+  #hero .safepay-wallet .sub-title {
+    font-weight: 1000;
+    font-size: 64px;
+  }
+  #hero .safepay-wallet .describe {
+    max-width: 100%;
+  }
+  #hero .img-box {
+    position: relative;
+    right: -28%;
+    /* top: 55%; */
+    margin-top: 30px;
+    pointer-events: none;
+  }
+  #hero .img-box img {
+    pointer-events: none;
+  }
+  #hero .img-box .hero-btc-box {
+    max-width: 231px;
+    height: auto;
+  }
+  #hero .img-box .icon-locked {
+    top: 55%;
+    left: -29%;
+    max-width: 115.75px;
+    height: auto;
+  }
+  #hero .img-box .sfp-token {
+    top: 8.3%;
+    left: -33%;
+    max-width: 111.3px;
+    height: auto;
+  }
+  #hero .token-group {
+    bottom: 0%;
+    right: 20.5%;
+    max-width: 129.9px;
+    height: auto;
+  }
+  #hero .img-box .eth-token-subtract {
+    top: 80%;
+    right: 100%;
+  }
+  #hero .img-box .eth-token {
+    display:none;
+  }
+  #hero .img-box .icon-clound, #hero .img-box .clound-subtract {
+    display:none;
+  }
+  #hero .streamline.title {
+    padding: 0px 16px;
+    max-width: 100%;
+    padding-bottom: 128px;
+  }
+  #hero .streamline.title h3 {
+    font-size: 48px;
+    margin-bottom: 24px;
+  }
+  #hero .streamline.describe {
+    max-width: 100%;
+    margin-bottom: 50px;
+  }
+}
+/* ------------------------- streamline ---------------------------------- */
+#streamline {
+  background: #3A19BE;
+}
+#streamline .title {
+  max-width: 800px;
+}
+#streamline .title h3 {
+  color: #f7f6ff;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 36px;
+}
+#streamline .describe {
+  max-width: 800px;
+  margin-bottom: 50px;
+}
+#streamline .describe p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+  text-align: center;
+}
+#streamline .list {
+  /* padding: 0px 10px; */
+}
+#streamline .list-item {
+  padding-bottom: 100px;
+  margin: 0 -30px;
+}
+#streamline .list-item .text-show {
+  max-width: 580px;
+  padding: 0px 30px;
+  box-sizing: content-box;
+}
+#streamline .list-item .image-show {
+  padding: 0px 30px;
+  overflow: hidden;
+  text-align: center;
+}
+#streamline .list-item .image-show .video-box {
+  /* width: 60%; */
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  text-align: center;
+}
+#streamline .list-item .image-show img {
+  max-width: 560px;
+  width: 100%;
+}
+#streamline .list-item .text-show .title {
+  margin-bottom: 16px;
+}
+#streamline .list-item .text-show .title h3 {
+  color: #79efbd;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: left;
+}
+#streamline .list-item .text-show .sub-title {
+  margin-bottom: 36px;
+}
+#streamline .list-item .text-show .sub-title p {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  color: #ffffff;
+  text-align: left;
+}
+#streamline .list-item .text-show .describe p {
+  font-size: 24px;
+  line-height: 1.6;
+  color: #ffffff;
+  text-align: left;
+}
+@media(max-width: 991px){
+  #streamline .title {
+    max-width: 100%;
+  }
+  #streamline .title h3 {
+    font-size: 48px;
+    margin-bottom: 24px;
+  }
+  #streamline .describe {
+    max-width: 100%;
+    margin-bottom: 48px;
+  }
+  #streamline .list {
+    padding: 40px 16px;
+  }
+  #streamline .list-item {
+    margin: 0px;
+    padding-bottom: 160px;
+  }
+  #streamline .list-item .image-show {
+    padding: 0px;
+  }
+  #streamline .list-item .text-show {
+    max-width: 100%;
+    padding: 0px;
+  }
+  #streamline .list-item .text-show .describe p {
+    font-size: 20px;
+  }
+  #streamline .list-item .image-show img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+/* -------------------unlimited-assets--------------------------- */
+#unlimited-assets {
+  overflow: hidden;
+  background: 
+    url("https://www.safepal.com/assets/img/start-bg.svg") no-repeat center/auto,
+    linear-gradient(181.43deg, rgba(74, 33, 239, 0) 8.84%, #BFFFE4 47.44%, rgba(74, 33, 239, 0) 90.39%, rgba(14, 3, 58, 0) 83.88%), 
+    linear-gradient(0deg, #3A19BE, #3A19BE), #1D1D1D;
+  padding: 147px 0px;
+}
+#unlimited-assets  .unlimited-assets-main {
+  flex: auto;
+  background: linear-gradient(124.15deg, #0d0b33 0%, #4b3ed3 218.07%), #ffffff;
+  border-radius: 48px;
+  max-width: 2048px;
+  margin: 0 15px;
+}
+#unlimited-assets .unlimited-assets-box {
+  margin: 0px auto;
+  /* background: linear-gradient(124.15deg, #0d0b33 0%, #4b3ed3 218.07%), #ffffff;
+  border-radius: 48px; */
+  padding: 120px 76px;
+}
+#unlimited-assets .title {
+  max-width: 784px;
+  margin: 0 auto 120px;
+}
+#unlimited-assets .title h3 {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+}
+#unlimited-assets .title.pc-star .start-1{
+  top: -17%;
+  left: -11.4%;
+}
+#unlimited-assets .title.pc-star .start-2{
+  top: 46%;
+  right: -11.4%;
+}
+#unlimited-assets .item-list .row {
+  margin-left: -24px;
+  margin-right: -24px;
+}
+#unlimited-assets .item-list .item {
+  padding: 0px 24px;
+  text-align: center;
+}
+#unlimited-assets .item-list .item .icon {
+  height: 187px;
+  margin-bottom: 30px;
+}
+#unlimited-assets .item-list .item .icon:hover {
+  animation: moveY 2s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#unlimited-assets .item-list .item .text p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#unlimited-assets .crypto-moon {
+  /* left: $%; */
+  top: 0;
+}
+#unlimited-assets .crypto-stripe1 {
+  top: 0;
+  left: -3%;
+}
+#unlimited-assets .crypto-stripe2 {
+  bottom: 0;
+  right: -20%;
+  pointer-events: none;
+}
+@media(max-width: 991px){
+  #unlimited-assets  .unlimited-assets-main {
+    border-radius: 0px;
+    max-width: 100%;
+    margin: 0 ;
+  }
+  #unlimited-assets .crypto-stripe1 {
+    top: 0%;
+    left: -20%;
+  }
+  #unlimited-assets {
+    padding: 0px;
+  }
+  #unlimited-assets .unlimited-assets-box {
+    margin: 0px auto;
+    border-radius: 0px;
+    padding: 97px 16px;
+  }
+  #unlimited-assets .unlimited-assets-box .unlimited-assets-swiper{
+    overflow: hidden;
+  }
+  #unlimited-assets .unlimited-assets-box .unlimited-swiper-pagination {
+    margin-top: 50px;
+    text-align: center;
+  }
+  #unlimited-assets .unlimited-assets-box .unlimited-swiper-pagination .swiper-pagination-bullet-active {
+    background: #18d26e !important;
+  }
+  #unlimited-assets .title {
+    max-width: 100%;
+    margin: 0 auto 160px;
+  }
+  #unlimited-assets .item-list .row {
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+  #unlimited-assets .item-list .item {
+    padding: 0px 24px;
+    text-align: center;
+  }
+  #unlimited-assets .item-list .item .icon {
+    height: 187px;
+    margin-bottom: 30px;
+  }
+  #unlimited-assets .navigation-box {
+    margin-top: 58px;
+  }
+  #unlimited-assets .navigation-box .button-prev {
+    margin-right: 8px;
+  }
+  #unlimited-assets .navigation-box .button-next {
+      margin-left: 8px;
+  }
+  #unlimited-assets .navigation-box .button-prev,
+  #unlimited-assets .navigation-box .button-next {
+    border: 1px solid #F7F6FF;
+    border-radius: 100px;
+    padding: 14.5px 20px;
+    font-size: 24px;
+    line-height: 1;
+    color: #F7F6FF;
+    background: transparent;
+    font-family: "AlibabaPuHuiTi-2";
+    width: 50%;
+  }
+}
+/* -------------- explore-dapps --------------------- */
+#explore-dapps {
+  background: #3A19BE;;
+}
+#explore-dapps .title {
+  max-width: 800px;
+  color: #f7f6ff;
+  text-align: center;
+  margin: 0 auto 60px;
+}
+#explore-dapps .title h3 {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 36px;
+}
+#explore-dapps .title p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+#explore-dapps .item-list {
+  /* margin: 0px 104px; */
+}
+#explore-dapps .item-list .row {
+  margin-left: -25px;
+  margin-right: -25px;
+}
+#explore-dapps .item-list .item {
+  padding: 0px 25px;
+  text-align: center;
+}
+#explore-dapps .item-list .item .img {
+  margin-bottom: 50px;
+  max-width: 365px;
+}
+#explore-dapps .item-list .item .img img {
+  width: 100%;
+}
+#explore-dapps .item-list .item .img .video-box {
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  text-align: center;
+}
+#explore-dapps .item-list .item .text h3 {
+  color: #79efbd;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+}
+#explore-dapps .item-list .item .text p {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #ffffff;
+}
+@media(max-width: 991px) {
+  #explore-dapps .explore-dapps {
+    padding-top: 112px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  #explore-dapps .title {
+    max-width: 100%;
+    color: #f7f6ff;
+    text-align: center;
+    margin: 0 auto 69px;
+  }
+  #explore-dapps .item-list {
+    margin: 0px;
+    padding: 0px 16px;
+  }
+  #explore-dapps .item-list .row {
+    margin: 0px;
+  }
+  #explore-dapps .item-list .item {
+    padding: 0px;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  #explore-dapps .item-list .item .img {
+    max-width: 100%;
+    margin: 0 auto;
+    margin-bottom: 59px;
+  }
+  #explore-dapps .item-list .item .img img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+/* ------------------- ntfs -------------------- */
+#ntfs {
+  background: 
+    linear-gradient(180deg, #3A19BE 0%, #4A21EF 34.01%, #0D0B33 86.63%);
+  padding: 180px 0px 200px;
+  background-size: auto;
+}
+#ntfs .title.pc-star {
+  max-width: 666px;
+  margin: 0 auto;
+  text-align: center;
+}
+#ntfs .title.pc-star h3 {
+  color: #FFFFFF;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  margin-bottom: 36px;
+}
+#ntfs .title.pc-star .describe{
+  display: inline-block;
+  max-width: 540px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+#ntfs .title.pc-star .start-1{
+  top: 3%;
+  left: -11.4%;
+}
+#ntfs .title.pc-star .start-2{
+  top: 20%;
+  right: -11.4%;
+}
+#ntfs .img-box .ntfs-1 {
+  max-width: 217px;
+  height: auto;
+  left: 13%;
+  bottom: -8%;
+  animation: moveY 6s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#ntfs .img-box .ntfs-2 {
+  max-width: 174px;
+  height: auto;
+  left: 12%;
+  top: 4%;
+  animation: moveY 7s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#ntfs .img-box .ntfs-3 {
+  max-width: 300px;
+  height: auto;
+  right: 6%;
+  bottom: 0%;
+  animation: moveY 8s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#ntfs .img-box .ntfs-4 {
+  max-width: 224px;
+  height: auto;
+  right: 6%;
+  top: 0%;
+  animation: moveY 9s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+#ntfs .img-box .icon-eth {
+  width: 160px;
+  max-width: 160px;
+  height: auto;
+  left: 53.3%;
+  top: 29.6%;
+  animation: moveY 5s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+@media(max-width: 991px) {
+  #ntfs {
+    padding: 180px 0px 200px;
+    background: 
+    linear-gradient(180deg, #3A19BE 0%, #4A21EF 34.01%, #0D0B33 86.63%);
+    background-size: auto;
+  }
+  #ntfs .title.pc-star {
+    padding: 0px 16px 80px;
+    max-width: 100%;
+  }
+  #ntfs .title.pc-star h3 {
+    font-size: 46px;
+  }
+  #ntfs .title.pc-star .describe{
+    display: inline-block;
+    max-width: 100%;
+  }
+  #ntfs .img-box .ntfs-phone {
+    /* max-width: 270px;
+    height: auto; */
+  }
+  #ntfs .img-box .ntfs-1 {
+    max-width: 162.6px;
+    height: auto;
+    left: -9%;
+    bottom: -30%;
+  }
+  #ntfs .img-box .ntfs-2 {
+    max-width: 119px;
+    height: auto;
+    left: -3%;
+    top: 4%;
+  }
+  #ntfs .img-box .ntfs-3 {
+    max-width: 201.6px;
+    height: auto;
+    right: -16.3%;
+    bottom: -27%;
+  }
+  #ntfs .img-box .ntfs-4 {
+    max-width: 164.7px;
+    height: auto;
+    right: -26%;
+    top: 18%;
+  }
+  #ntfs .img-box .icon-eth {
+    display: none;
+  }
+}
+/* --------------- platform --------------------- */
+#platform {
+  /* background: #4a21ef; */
+  /* background: linear-gradient( 122deg, #4a21ef 35.1%, rgb(47 20 159 / 20%) 99.39% ), #3A19BE */
+}
+#platform  .swiper-free-mode>.swiper-wrapper {
+  transition-timing-function: linear !important;
+  height: auto;
+}
+#platform .platform {
+  padding: 70px 0px;
+  background: url("https://www.safepal.com/assets/img/download/start-bg.svg");
+  background-size: 1440px auto;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+#platform .platform .title {
+  max-width: 666px;
+  padding: 0px;
+}
+#platform .platform .title h3 {
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  color: #f7f6ff;
+  text-align: center;
+}
+#platform .platform .title.pc-star .start-1 {
+  top: 41%;
+  left: -13.4%;
+}
+#platform .platform .title.pc-star .start-2 {
+  top: 68%;
+  right: -13.4%;
+}
+#platform .platform .coins-list {
+  margin: 70px 0px;
+}
+#platform .platform .coins-list .list-top {
+  margin-bottom: 36px;
+}
+#platform .platform .coins-list .list-bottom .coin-item {
+  margin: 0px 78px;
+}
+#platform .platform .full-list .btn {
+  padding: 16px 24px;
+  border: 1px solid #ffffff;
+  border-radius: 100px;
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+@media(max-width: 991px) {
+  #platform .platform {
+    padding: 120px 0px;
+  }
+  #platform .platform .title {
+    max-width: 100%;
+    padding: 16px;
+  }
+  #platform .platform .title h3 {
+    font-size: 32px;
+  }
+  #platform .platform .title.pc-star .start-1 {
+    top: 41%;
+    left: -13.4%;
+  }
+  #platform .platform .title.pc-star .start-2 {
+    top: 68%;
+    right: -13.4%;
+  }
+  #platform .platform .coins-list {
+    margin: 70px 0px;
+  }
+  #platform .platform .coins-list .list-top {
+    margin-bottom: 36px;
+  }
+  #platform .platform .coins-list .list-bottom{
+    margin-top: 12px;
+  }
+  #platform .platform .coins-list .list-bottom .coin-item {
+    margin: 0px 72px 0 0;
+  }
+  #platform .platform .coins-list .list-bottom .coin-item:nth-last-child(1){
+    margin-right: 0px;
+  }
+  #platform .platform .coins-list .list-bottom .coin-item img {
+    max-width: 62px;
+    height: auto;
+  }
+  #platform .platform .full-list .btn {
+    padding: 16px 24px;
+    border: 1px solid #ffffff;
+    border-radius: 100px;
+    color: #f7f6ff;
+    font-size: 18px;
+    line-height: 1.6;
+  }
+}
+/* --------------- safepal ---------------- */
+#safepal {
+  /* background: #4a21ef; */
+  /* background: linear-gradient( 56deg, #4a21ef 35.1%, rgb(47 20 159 / 20%) 99.39% ), #3A19BE; */
+}
+#safepal .safepal {
+  padding: 120px 0px 100px;
+  background: url("https://www.safepal.com/assets/img/download/start-bg.svg");
+  background-position: bottom 100% left 0;
+}
+#safepal .safepal .text {
+  max-width: 580px;
+}
+#safepal .safepal .text,
+#safepal .safepal .image {
+  padding: 0px 44px;
+  color: #f7f6ff;
+}
+#safepal .safepal .text h3 {
+  color: #f7f6ff;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+}
+#safepal .safepal .text .describe {
+  margin: 36px 0px;
+}
+#safepal .safepal .text .describe p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+#safepal .safepal .text .btn {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+  border-radius: 100px;
+  padding: 16px 24px;
+  border: 1px solid #ffffff;
+}
+#safepal .safepal .safepal-down {
+  animation-duration: 8s;
+  animation-iteration-count: 1;
+  animation-name: bottomShadowBackInDown !important;
+}
+#safepal .safepal .locked-down {
+  animation-duration: 8s;
+  animation-iteration-count: 1;
+  animation-name: lowerHalfBackInDown !important;
+}
+#safepal .safepal .token-down {
+  animation-duration: 8s;
+  animation-iteration-count: 1;
+  animation-name: tokenBackInDown !important;
+}
+@media(max-width:991px) {
+  #safepal {
+    /* background: linear-gradient( 65deg, #4a21ef 35.1%, rgb(47 20 159 / 20%) 99.39% ), #3A19BE; */
+  }
+  #safepal .safepal{
+    padding: 120px 0px 153px;
+  }
+  #safepal .safepal .text {
+    max-width: 100%;
+  }
+  #safepal .safepal .text,
+  #safepal .safepal .image {
+    padding: 16px;
+  }
+  #safepal .safepal .text .describe {
+    margin: 36px 0px;
+  }
+  #safepal .safepal .m-safepal {
+    left: 0%;
+    top: 1%;
+    padding: 0px 16px;
+  }
+}
+/* ------------level-up-------------- */
+#level-up .level-up {
+  overflow: hidden;
+  margin: 0px 24px;
+  border-radius: 48px;
+  background: url("https://www.safepal.com/assets/img/level-up/start-bg.svg"),
+    linear-gradient(166.3deg, #f7f6ff 63.9%, #79efbd 136.2%) no-repeat;
+  animation: bgShow 3s infinite;
+}
+@keyframes bgShow {
+  0% {
+    background-size: 100% 100%;
+    background: url("https://www.safepal.com/assets/img/level-up/start-bg.svg"),
+      linear-gradient(166.3deg, #f7f6ff 63.9%, #79efbd 136.2%) no-repeat;
+  }
+  50% {
+    background-size: 120% 100%;
+  }
+  100% {
+    background-size: 100% 100%;
+    background: url("https://www.safepal.com/assets/img/level-up/start-bg.svg"),
+      linear-gradient(166.3deg, #f7f6ff 63.9%, #79efbd 136.2%) no-repeat;
+  }
+}
+#level-up .level-up .content-box {
+  max-width: 784px;
+  text-align: center;
+  padding: 170px 0;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+}
+#level-up .level-up .content-box h3 {
+  color: #0d0b33;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+}
+#level-up .content-box .text {
+  margin: 36px 60px;
+}
+#level-up .content-box .text p {
+  color: #0d0b33;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#level-up .content-box .btn-box .btn {
+  background: #79efbd;
+  border-radius: 100px;
+  color: #0d0b33;
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 16px 24px;
+}
+#level-up .icon-clound {
+  top: 32.6%;
+  left: 0%;
+}
+#level-up .icon-locked {
+  bottom: 0%;
+  left: 5%;
+}
+#level-up .icon-safe-box {
+  top: -26%;
+  right: -16%;
+  max-width: 600px;
+  height: auto;
+  pointer-events: none;
+}
+@media(max-width: 991px) {
+  #level-up .level-up {
+    margin: 0px;
+    border-radius: 0px;
+  }
+  #level-up .level-up .content-box {
+    max-width: 100%;
+    padding: 450px 16px;
+    margin: auto;
+  }
+  #level-up .content-box .text {
+    margin: 36px 0px;
+  }
+  #level-up .icon-clound-m {
+    bottom: 13.6%;
+    right: -7%;
+    max-width: 152px;
+    height: auto;
+  }
+  #level-up .icon-locked-m {
+    max-width: 177px;
+    height: auto;
+    bottom: 6%;
+    left: -2%;
+  }
+  #level-up .icon-safe-box {
+    top: 1.8%;
+    right: 0%;
+    max-width: 100%;
+    height: auto;
+    pointer-events: none;
+  }
+}
+/* ------------------ start-today-footer ---------------------- */
+.start-today-footer {
+  background: 
+  linear-gradient( 138deg, rgba(123, 84, 252, 0) 48.1%, rgba(117, 84, 252, 0.2) 105.39% ), 
+  linear-gradient(169.15deg, rgba(13, 11, 51, 0) 45.61%, #0d0b33 72.13%), #4421d3;
+  /* background-size: auto; */
+  /* url("/assets/img/crypto-stripe1.svg") no-repeat top 36% left 17%/ auto,
+    url("../img/one-wallet-footer-bg.svg") no-repeat bottom/ 100% auto,
+    url("../img/crypto-stripe1.svg") no-repeat bottom 24% right 10% / auto,
+  linear-gradient( 156deg, rgba(117, 84, 252, 0) 35.1%, rgba(117, 84, 252, 0.2) 99.39% ), 
+  linear-gradient(169.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%), #4a21ef; */
+}
+/* ----start-today---- */
+#start-today {
+  background: 
+  url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat top 36% left 17%/ auto,
+  url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat bottom/auto 100%,
+  url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 24% right 10% / auto;
+  animation: starFooter 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes starFooter {
+    0% {
+      background: 
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat top 36% left 17%/ auto,
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat bottom/auto 100%,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 24% right 10% / auto;
+    }
+    50% {
+      background: 
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat top 36% left 17%/ auto,
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg") no-repeat bottom/auto 100%,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 24% right 10% / auto;
+    }
+    100% {
+      background: 
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat top 36% left 17%/ auto,
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat bottom/auto 100%,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 24% right 10% / auto;
+    }
+  } 
+}
+#start-today .start-today {
+  text-align: center;
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 180px 0 90px;
+}
+#start-today .start-today .sfp-logo .logo-box {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+#start-today .start-today .title {
+  margin-bottom: 48px;
+}
+#start-today .start-today .text {
+  margin: 0px 50px 50px;
+}
+#start-today .start-today .text p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#start-today .start-today .title h3 {
+  color: #ffffff;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+#start-today .start-today .download .set-off-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(
+    183.08deg,
+    rgba(191, 255, 228, 0.2) 43.82%,
+    rgba(191, 255, 228, 0) 111.17%
+  );
+  border-radius: 100px;
+  padding: 10px;
+}
+#start-today .start-today .download .downloads-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  color: #0d0b33;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+  border: none;
+}
+@media (max-width: 991px) {
+  .start-today-footer {
+    /* background: url("/assets/img/crypto-stripe1.svg") no-repeat top 36% left 17%,
+      url("../img/one-wallet-footer-bg-m.svg") no-repeat bottom,
+      url("../img/crypto-stripe1.svg") no-repeat bottom 31% right 400%,
+    linear-gradient( 156deg, rgba(117, 84, 252, 0) 35.1%, rgba(117, 84, 252, 0.2) 99.39% ), 
+    linear-gradient(169.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%), #4a21ef */
+    background: 
+    linear-gradient( 138deg, rgba(123, 84, 252, 0) 48.1%, rgba(117, 84, 252, 0.2) 105.39% ), 
+    linear-gradient(169.15deg, rgba(13, 11, 51, 0) 45.61%, #0d0b33 72.13%), #4421d3;
+  }
+  #start-today {
+    background: url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat top 36% left 17%,
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg") no-repeat bottom/ auto 100%,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 31% right 400%;
+  }
+  #start-today .start-today {
+    max-width: 100%;
+    padding: 80px 16px 90px;
+  }
+  #start-today .start-today .title h3 {
+    font-weight: 1000;
+    font-size: 48px;
+  }
+}
+@media (max-width: 1440px) {
+  #hero .hero-moon {
+    display: none !important;
+  }
+}

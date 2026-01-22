@@ -1,0 +1,108 @@
+/* header -------------- 浅色背景引入此文件 - logo默认为深色 */
+@media(max-width: 991px){
+  
+    /* logo */
+    #header .final-mark-logo {
+      display: none;
+      transition: 0.5s;
+    }
+    #header .final-dark-logo {
+      display: block;
+      transition: 0.5s;
+    }
+    #header.header-scrolled .final-mark-logo {
+      display: block !important;
+      transition: 0.5s;
+    }
+    #header.header-scrolled .final-dark-logo {
+      display: none !important;
+      transition: 0.5s;
+    }
+    #navbar .mobile-nav-toggle .mobile-nav-light {
+      display: none;
+      transition: 0.5s;
+    }
+    #navbar .mobile-nav-toggle .mobile-nav-dark {
+      display: block;
+      transition: 0.5s;
+    }
+    #header.header-scrolled .mobile-nav-toggle .mobile-nav-light{
+      display: block !important;
+      transition: 0.5s;
+    }
+    #header.header-scrolled .mobile-nav-toggle .mobile-nav-dark{
+      display: none !important;
+      transition: 0.5s;
+    }
+    /* header ---- icon download */
+    #navbar .downloads-nav-toggle .mobile-download-light {
+      display: none;
+      transition: 0.5s;
+    }
+    #navbar .downloads-nav-toggle .mobile-download-dark {
+      display: block;
+      transition: 0.5s;
+    }
+    #header.header-scrolled .downloads-nav-toggle .mobile-download-light{
+      display: block !important;
+      transition: 0.5s;
+    }
+    #header.header-scrolled .downloads-nav-toggle .mobile-download-dark{
+      display: none !important;
+      transition: 0.5s;
+    }
+    /* ---------------------- */
+  }
+
+  /* 浅色背景对应的 --- button */
+  #header .downloads-btn .set-off-btn {
+    background: linear-gradient(183.08deg, rgba(74, 33, 239, 0.048) 43.82%, rgba(74, 33, 239, 0) 111.17%);
+  }
+  #main {
+    overflow: hidden;
+  }
+  #header .downloads-btn .my-downloads-btn {
+    background: #4a21ef;
+    color: #ffffff;
+  }
+  #header .downloads-btn .my-downloads-btn:hover {
+    background: #0D0B33;
+  }
+  #header.header-scrolled .downloads-btn .my-downloads-btn {
+    background-color: #ffffff;
+    color: #1d1d1d;
+  }
+  #header.header-scrolled .downloads-btn .my-downloads-btn:hover {
+    background-color: #79EFBD;
+  }
+  #header.header-scrolled .downloads-btn .set-off-btn {
+    background: linear-gradient(183.08deg,rgba(191, 255, 228, 0.2) 43.82%,rgba(191, 255, 228, 0) 111.17%);
+  }
+  #header .navbar a {
+    color: #0d0b33;
+  }
+  #header .logo.logo-dark {
+    display: block;
+  }
+  #header .logo-light{
+    display: none;
+  }
+  #header.header-scrolled .navbar:not(.navbar-mobile) a.scrollto {
+    color: #F7F6FF;
+  }
+
+  .language .icon-language .icon .icon-path{
+    stroke: #0D0B33;
+  }
+  #header.header-scrolled .language .icon-language .icon .icon-path{
+    stroke: #F7F6FF;
+  }
+  #header .downloads-btn .language .icon-language .lang-show,
+  #header .downloads-btn .language .icon-language .bi {
+    color: #0d0b33;
+  }
+  #header.header-scrolled .language .icon-language .lang-show,
+  #header.header-scrolled .language .icon-language .bi{
+    color: #F7F6FF;
+  }
+  

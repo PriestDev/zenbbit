@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Redirect root to en folder
+RewriteCond %{REQUEST_URI} ^/site/$
+RewriteRule ^(.*)$ /site/en/ [L,R=301]
+RewriteCond %{HTTP_HOST} ^zenbbit\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.zenbbit\.com$
+RewriteRule ^/?$ "https\:\/\/zenbbit\.com\/en" [R=301,L]
+

@@ -1,0 +1,685 @@
+/* ----------- header ------------- */
+#header.header-scrolled {
+  background: #4a21ef;
+}
+#main {
+  /* background: linear-gradient(189deg, #bfffe4 12.44%, #3918bd 38.51%), #c4c4c4; */
+  background: linear-gradient(180deg, #BFFFE4 2.4%, #4B22EF 56.31%, #79EFBD 118.61%), #C4C4C4;
+}
+/* -------------------- hero ----------------------------- */
+#hero {
+  background: url(https://www.safepal.com/assets/img/kol/icon-start-bg.svg) no-repeat left 1% top 8%/100% auto,
+    url(https://www.safepal.com/assets/img/kol/hero-bg-vector.svg) no-repeat top center/100%,
+    url(../img/kol/hero-bg-personal.png) no-repeat top center/ 100%;
+  overflow: hidden;
+  animation: star2 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes star2 {
+    0% {
+      background: url(https://www.safepal.com/assets/img/kol/icon-start-bg1.svg) no-repeat left 1% top 8%/100% auto,
+        url(https://www.safepal.com/assets/img/kol/hero-bg-vector.svg) no-repeat top center/100%,
+        url(../img/kol/hero-bg-personal.png) no-repeat top center/ 100%;
+    }
+    33.33% {
+      background: url(https://www.safepal.com/assets/img/kol/icon-start-bg2.svg) no-repeat left 1% top 8%/100% auto,
+        url(https://www.safepal.com/assets/img/kol/hero-bg-vector.svg) no-repeat top center/100%,
+        url(../img/kol/hero-bg-personal.png) no-repeat top center/ 100%;
+    }
+    66.66% {
+      background: url(https://www.safepal.com/assets/img/kol/icon-start-bg1.svg) no-repeat left 1% top 8%/100% auto,
+        url(https://www.safepal.com/assets/img/kol/hero-bg-vector.svg) no-repeat top center/100%,
+        url(../img/kol/hero-bg-personal.png) no-repeat top center/ 100%;
+    }
+    100% {
+      background: url(https://www.safepal.com/assets/img/kol/icon-start-bg.svg) no-repeat left 1% top 8%/100% auto,
+        url(https://www.safepal.com/assets/img/kol/hero-bg-vector.svg) no-repeat top center/100%,
+        url(../img/kol/hero-bg-personal.png) no-repeat top center/ 100%;
+    }
+  } 
+}
+#hero .hero {
+  padding: 222px 0px 80px;
+  color: #f7f6ff;
+  font-size: 18px;
+}
+#hero .hero .title {
+  max-width: 1200px;
+}
+#hero .hero .title h3 {
+  font-size: 120px;
+  font-weight: 900;
+  line-height: 1;
+}
+#hero .hero .img {
+  height: 600px;
+}
+#hero .hero .img .hero-clound1 {
+  left: 1%;
+  top: 35%;
+  max-width: 286px;
+  height: auto;
+}
+#hero .hero .img .hero-hard-sfp {
+  right: 36%;
+  top: 7%;
+  max-width: 504px;
+  height: auto;
+}
+#hero .hero .img .hero-clound2 {
+  right: 31%;
+  top: 12%;
+}
+#hero .hero .img .hero-phone {
+  right: -13%;
+  top: -19%;
+  max-width: 367px;
+  height: auto;
+}
+@media (max-width: 991px) {
+  #hero {
+    background: url(https://www.safepal.com/assets/img/kol/hero-bg-vector-m.svg) no-repeat,
+      url(../img/kol/hero-bg-personal-m.png) no-repeat;
+    background-position: left 10% top 24%, bottom center, bottom center;
+    background-size: cover, cover, cover;
+  }
+  #hero .hero {
+    padding: 146px 8px 0px;
+  }
+  #hero .hero .title {
+    max-width: 100%;
+    width: 100%;
+  }
+  #hero .hero .title h3 {
+    font-size: 48px;
+    font-weight: 1000;
+  }
+  #hero .hero .img {
+    height: 360px;
+  }
+  #hero .hero .img .hero-clound1 {
+    z-index: 2;
+    left: 2%;
+    top: 28%;
+    max-width: 90px;
+    height: auto;
+  }
+  #hero .hero .img .hero-hard-sfp {
+    right: 37%;
+    top: 14%;
+    max-width: 179px;
+    height: auto;
+    z-index: 1;
+  }
+  #hero .hero .img .hero-clound2 {
+    max-width: 61px;
+    height: auto;
+    right: 54%;
+    top: 5%;
+  }
+  #hero .hero .img .hero-phone {
+    right: -2%;
+    top: 3%;
+    max-width: 140px;
+    height: auto;
+  }
+}
+/* ----------------------------- experts-reviews -------------------------- */
+#experts-reviews{
+  max-width: 1200px;
+  margin: 50px auto
+}
+#experts-reviews .experts-reviews {
+  padding: 0px;
+}
+#experts-reviews .video-box iframe{
+  width: 100%;
+  height: 320px;
+  border-radius: 12px;
+}
+#experts-reviews .experts-reviews .top-title {
+  max-width: 450px;
+  margin: 0 auto 100px;
+}
+#experts-reviews .experts-reviews .top-title h3 {
+  color: #f7f6ff;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  text-align: center;
+}
+#experts-reviews .experts-reviews .top-title.pc-star .start-1 {
+  top: -25%;
+  left: -8.4%;
+}
+#experts-reviews .experts-reviews .top-title.pc-star .start-2 {
+  top: 62%;
+  right: -12.4%;
+}
+#experts-reviews .experts-reviews .box-item {
+  margin-left: -36px;
+  margin-right: -36px;
+  margin-bottom: 210px;
+  color: #f7f6ff;
+}
+#experts-reviews .experts-reviews .box-item:nth-last-child(1) {
+  margin-bottom: 100px;
+}
+#experts-reviews .experts-reviews .box-item.row > * {
+  padding-left: 36px;
+  padding-right: 36px;
+}
+#experts-reviews .experts-reviews .box-item .img {
+  text-align: center;
+}
+#experts-reviews .experts-reviews .box-item .personal {
+  margin-bottom: 20px;
+}
+#experts-reviews .experts-reviews .box-item .avatar {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+#experts-reviews .experts-reviews .box-item .avatar img {
+  width: 100%;
+  height: auto;
+  font-size: 0px;
+  border-radius: 50%;
+}
+#experts-reviews .experts-reviews .box-item .personal-info h3.name {
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 1000;
+  margin-bottom: 4px;
+}
+#experts-reviews .experts-reviews .box-item .personal-info p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+#experts-reviews .experts-reviews .box-item .title h3 {
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 1000;
+  margin-bottom: 20px;
+}
+#experts-reviews .experts-reviews .box-item .views p {
+  font-size: 16px;
+  line-height: 160%;
+}
+#experts-reviews .experts-reviews .box-item .get {
+  color: #79efbd;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+}
+#experts-reviews .experts-reviews .pagination-box .my-paginationjs-theme li {
+  border: none;
+  border-radius: none;
+}
+#experts-reviews .experts-reviews .pagination-box .my-paginationjs-theme li a {
+  height: 37px;
+  color: #f7f6ff;
+  font-size: 24px;
+  line-height: 37px;
+  background: transparent;
+}
+#experts-reviews
+  .experts-reviews
+  .pagination-box
+  .my-paginationjs-theme
+  li.active
+  a {
+  color: #79efbd;
+}
+#experts-reviews
+  .experts-reviews
+  .pagination-box
+  .my-paginationjs-theme
+  .paginationjs-go-input #paginationjsInput {
+  font-size: 18px;
+  margin-left: 80px;
+  height: 37px;
+  line-height: 37px;
+}
+#experts-reviews
+  .experts-reviews
+  .pagination-box
+  .my-paginationjs-theme
+  .paginationjs-go-input
+  #paginationjsInput
+  > input[type="text"] {
+  border: 1.25px solid #f7f6ff;
+  border-radius: 22px;
+  width: 50px;
+  height: 24px;
+  padding: 0;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: baseline;
+  outline: 0;
+  box-shadow: none;
+  box-sizing: initial;
+}
+#experts-reviews
+  .experts-reviews
+  .pagination-box
+  .my-paginationjs-theme
+  .paginationjs-go-button {
+  height: 37px;
+  line-height: 37px;
+  font-size: 18px;
+}
+#experts-reviews
+  .experts-reviews
+  .pagination-box
+  .my-paginationjs-theme
+  .paginationjs-go-button
+  > input[type="button"] {
+  background: transparent;
+  border: none;
+  border-radius: none;
+  font-size: 18px;
+  color: #f7f6ff;
+  line-height: 24px;
+  padding: none;
+}
+@media (max-width: 991px) {
+  #experts-reviews .experts-reviews {
+    padding: 30px 16px;
+  }
+  #experts-reviews .experts-reviews .top-title {
+    max-width: 100%;
+    margin: 0 auto 60px;
+  }
+  #experts-reviews .experts-reviews .top-title h3 {
+    color: #f7f6ff;
+    font-weight: 1000;
+    font-size: 48px;
+    line-height: 1;
+    text-align: center;
+  }
+  #experts-reviews .experts-reviews .top-title.pc-star .start-1 {
+    top: 12%;
+    left: 5.6%;
+  }
+  #experts-reviews .experts-reviews .top-title.pc-star .start-2 {
+    top: 55%;
+    right: 0.6%;
+  }
+  #experts-reviews .experts-reviews .box-item {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 80px;
+  }
+  #experts-reviews .experts-reviews .box-item:nth-last-child(1) {
+    margin-bottom: 60px;
+  }
+  #experts-reviews .experts-reviews .box-item.row > * {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  #experts-reviews .experts-reviews .box-item .img {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #experts-reviews .experts-reviews .box-item .img .video-img {
+    max-width: 100%;
+    height: auto;
+  }
+  #experts-reviews .experts-reviews .box-item .avatar {
+    width: 80px;
+    height: 80px;
+  }
+  #experts-reviews .experts-reviews .box-item .avatar img {
+    max-width: 100%;
+  }
+  #experts-reviews .experts-reviews .pagination-box .my-paginationjs-theme li {
+    border: none;
+    border-radius: none;
+  }
+  #experts-reviews
+    .experts-reviews
+    .pagination-box
+    .my-paginationjs-theme
+    li
+    a {
+    min-width: 24px;
+    height: 37px;
+    color: #f7f6ff;
+    font-size: 18px;
+    line-height: 37px;
+    background: transparent;
+  }
+  #experts-reviews
+    .experts-reviews
+    .pagination-box
+    .my-paginationjs-theme
+    li.active
+    a {
+    color: #79efbd;
+  }
+  #experts-reviews
+    .experts-reviews
+    .pagination-box
+    .my-paginationjs-theme
+    .paginationjs-go-input #paginationjsInput {
+    font-size: 18px;
+    margin-left: 10px;
+    height: 37px;
+    line-height: 37px;
+  }
+  #experts-reviews
+    .experts-reviews
+    .pagination-box
+    .my-paginationjs-theme
+    .paginationjs-go-input
+    #paginationjsInput
+    > input[type="text"] {
+    border: 1.25px solid #f7f6ff;
+    border-radius: 12px;
+    width: 36px;
+    height: 24px;
+  }
+  #experts-reviews
+    .experts-reviews
+    .pagination-box
+    .my-paginationjs-theme
+    .paginationjs-go-button {
+    height: 37px;
+    line-height: 37px;
+    font-size: 18px;
+  }
+  #experts-reviews
+    .experts-reviews
+    .pagination-box
+    .my-paginationjs-theme
+    .paginationjs-go-button
+    > input[type="button"] {
+    background: transparent;
+    border: none;
+    border-radius: none;
+    font-size: 18px;
+    color: #f7f6ff;
+    line-height: 24px;
+    padding: none;
+  }
+}
+/* ------------------------ say - about --------------------------- */
+#say-about {
+  background: #f8f7ff;
+}
+#say-about .say-about {
+  padding: 120px 0px 60px;
+}
+#say-about .say-about .top-title {
+  max-width: 780px;
+  margin: 0 auto 100px;
+}
+#say-about .say-about .top-title h3 {
+  color: #020202;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  text-align: center;
+}
+#say-about .say-about .top-title.pc-star .start-1 {
+  top: -27%;
+  left: -8.4%;
+}
+#say-about .say-about .top-title.pc-star .start-2 {
+  top: 43%;
+  right: -8.4%;
+}
+#say-about .say-about .swiper .row {
+  margin: 0px;
+}
+#say-about .say-about .swiper .row > * {
+  padding: 0;
+}
+#say-about .say-about .say-about-carousel .swiper-item {
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  color: #020202;
+  margin: 0px 25px 50px;
+  height: calc(100% - 50px);
+}
+#say-about .say-about .say-about-carousel .swiper-item .comment {
+  text-align: left;
+  margin-top: 20px;
+  line-height: 1.6;
+  display: block;
+  /* max-height: 82px;
+  // 使用box布局实现多行文本
+  display: -webkit-box;
+  display: -moz-box;
+  // post-css 警告，先去除
+  // display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-line-clamp: 3;
+  -moz-line-clamp: 3;
+  line-clamp: 3;
+
+  overflow: hidden; */
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+#say-about .say-about .say-about-carousel .swiper-item .avatar {
+  margin-right: 10px;
+}
+#say-about .say-about .say-about-carousel .swiper-item .name p {
+  line-height: 1.6;
+  text-align: center;
+}
+#say-about .say-about .say-about-carousel .swiper-item .submit-time {
+  margin-left: 10px;
+  line-height: 1.6;
+}
+#say-about .say-about .swiper-other .navigation-box {
+  margin-top: 55px;
+  text-align: right;
+}
+#say-about .say-about .swiper-other .button-prev {
+  margin-right: 25px;
+  background: url(https://www.safepal.com/assets/img/kol/icon-prve.svg) no-repeat center;
+}
+#say-about .say-about .swiper-other .button-next {
+  margin-left: 25px;
+  background: url(https://www.safepal.com/assets/img/kol/icon-next.svg) no-repeat center;
+}
+#say-about .say-about .swiper-other .button-prev,
+#say-about .say-about .swiper-other .button-next {
+  border: none;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  background-size: contain;
+}
+@media (max-width: 991px) {
+  #say-about .say-about {
+    padding: 60px 16px;
+  }
+  #say-about .say-about .top-title {
+    max-width: 100%;
+    margin: 0 auto 45px;
+  }
+  #say-about .say-about .say-about-carousel .swiper-item {
+    padding: 30px 15px;
+    margin: 0px 0px 20px;
+    /* height: calc(100% -20px); */
+    height: auto;
+  }
+}
+/* ---------------------  start-soar-footer -------------------- */
+/* .start-soar-footer {
+  background: linear-gradient(
+    177.67deg,
+    #f7f6ff 4.11%,
+    #bfffe4 30.23%,
+    #4a21ef 100%
+  );
+} */
+.start-soar-footer {
+  background: 
+    linear-gradient(
+      109.75deg,
+      rgba(117, 84, 252, 0) 35.1%,
+      rgba(117, 84, 252, 0.2) 99.39%
+    ),
+    linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+    #4a21ef;
+}
+.start-soar-footer-main {
+  background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+  url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+  url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+  animation: starFooter 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes starFooter {
+    0% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    50% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    100% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+  } 
+}
+.start-soar-footer .top {
+  padding: 100px 0px;
+}
+.start-soar-footer .bottom {
+
+}
+/* -----------------------start-soar-------------------------- */
+#start-soar {
+  /* background: url("../img/start-bg.svg"); */
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#start-soar .start-soar {
+  text-align: center;
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 180px 0 90px;
+}
+#start-soar .start-soar .sfp-logo .logo-box {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+#start-soar .start-soar .title {
+  margin-bottom: 48px;
+}
+#start-soar .start-soar .text {
+  margin: 0px 50px 50px;
+}
+#start-soar .start-soar .text p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#start-soar .start-soar .title h3 {
+  color: #ffffff;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+#start-soar .start-soar .download .set-off-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(
+    183.08deg,
+    rgba(191, 255, 228, 0.2) 43.82%,
+    rgba(191, 255, 228, 0) 111.17%
+  );
+  border-radius: 100px;
+  padding: 10px;
+}
+#start-soar .start-soar .download .downloads-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  color: #0d0b33;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+  border: none;
+}
+#start-soar .start-soar .download .btn-press .press-btn {
+  line-height: 1.6;
+  border: none;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  color: #f7f6ff;
+  border: 1px solid #ffffff;
+  background: transparent;
+  margin-left: 30px;
+}
+@media (max-width: 991px) {
+  .start-soar-footer {
+    background: 
+    linear-gradient(
+      109.75deg,
+      rgba(117, 84, 252, 0) 35.1%,
+      rgba(117, 84, 252, 0.2) 99.39%
+    ),
+    linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+    #4a21ef;
+    background-position: top left, bottom, bottom right 320%, center;
+  }
+  .start-soar-footer-main {
+    background:
+    url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+    url(https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg) no-repeat bottom,
+    url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+  }
+  .start-soar-footer .top {
+    padding: 86.5px 0px;
+    background: url("https://www.safepal.com/assets/img/start-bg.svg");
+    background-size: 165% 200%;
+    background-position: bottom;
+  }
+  #start-soar .start-soar {
+    max-width: 100%;
+    padding: 80px 16px 90px;
+  }
+  #start-soar .start-soar .title h3 {
+    font-weight: 1000;
+    font-size: 48px;
+  }
+}
+@media screen and (min-width: 320px) and  (max-width: 374px) {
+  #main.kol-main #experts-reviews .experts-reviews .pagination-box .my-paginationjs-theme li a {
+      font-size: 16px;
+      min-width: 22px;
+  }
+  #main.kol-main #experts-reviews .experts-reviews .pagination-box .my-paginationjs-theme .paginationjs-go-input #paginationjsInput {
+      margin-left: 4px;
+      font-size: 16px;
+  }
+}
+@media (max-width: 319px){
+  #main.kol-main #experts-reviews .experts-reviews .pagination-box .my-paginationjs-theme li a {
+    font-size: 14px;
+    min-width: 20px;
+  }
+  #main.kol-main #experts-reviews .experts-reviews .pagination-box .my-paginationjs-theme .paginationjs-go-input #paginationjsInput {
+    margin-left: 4px;
+    font-size: 14px;
+  }
+}

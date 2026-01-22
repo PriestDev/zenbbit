@@ -1,0 +1,988 @@
+
+  
+  .hero-choose-your {
+    background: #F7F6FF;
+    overflow: hidden;
+  }
+  .hero-choose-your .lattice-line-left{
+    left: 0;
+    pointer-events: none;
+  }
+  .hero-choose-your .lattice-line-right {
+    right: 0;
+    pointer-events: none;
+  }
+  .hero-choose-your .lattice-left {
+    top: 26.1%;
+  }
+  .hero-choose-your .lattice-left1 {
+    top: 61.5%;
+  }
+  .hero-choose-your .lattice-left2 {
+    top: 89.9%;
+  }
+  .hero-choose-your .lattice-right {
+    /* top: 14.3%; */
+    top: 1675px;
+  }
+  .hero-choose-your .lattice-right1 {
+    top: 49.7%;
+  }
+  .hero-choose-your .lattice-right2 {
+    top: 79.1%;
+  }
+  @media(max-width: 1919px) {
+    .hero-choose-your .lattice-line-left {
+      display: none;
+    }
+    .hero-choose-your .lattice-line-right {
+      display: none;
+    }
+  }
+  /*--------------------------------------------------------------
+  # Hero Section
+  --------------------------------------------------------------*/
+  #hero {
+    overflow: hidden;
+    width: 100%;
+    /* background: linear-gradient(158.47deg, #0D0B33 38.16%, #4B3ED3 125.54%); */
+    background: #F7F6FF;
+  }
+  #hero .hero{
+    overflow: hidden;
+    width: 100%;
+    /* background: linear-gradient(158.47deg, #0D0B33 38.16%, #4B3ED3 125.54%); */
+    padding-bottom: 560px;
+    background: 
+      url(../img/s1/1.png) no-repeat bottom -5px center, 
+      url(../img/s1/1-3.png) no-repeat bottom 0px center, 
+      url(../img/s1/1-2.png) no-repeat bottom 0px center, 
+      url(../img/s1/1-1.png) no-repeat bottom 0px center, 
+      linear-gradient(158.47deg, #0D0B33 38.16%, #4B3ED3 125.54%);
+    background-size: 100% auto, 100% auto, 100% auto, 100% auto, 100% auto;
+  }
+  #hero .hero-bg {
+    position: relative;
+    animation: star2 5s ease-in infinite;
+  }
+  @media (min-width: 991px){
+    @keyframes star2 {
+      0% {
+        background: url("https://www.safepal.com/assets/img/start-bg-white.svg") repeat-x,
+        url("https://www.safepal.com/assets/img/streamline.svg") no-repeat;
+        background-position: top 68px center, bottom 680px center;
+      }
+      33.33% {
+        background: url("https://www.safepal.com/assets/img/start-bg-white2.svg") repeat-x,
+        url("https://www.safepal.com/assets/img/streamline.svg") no-repeat;
+        background-position: top 68px center, bottom 680px center;
+      }
+      66.66% {
+        background: url("https://www.safepal.com/assets/img/start-bg-white3.svg") repeat-x,
+        url("https://www.safepal.com/assets/img/streamline.svg") no-repeat;
+        background-position: top 68px center, bottom 680px center;
+      }
+      100% {
+        background: url("https://www.safepal.com/assets/img/start-bg-white.svg") repeat-x,
+        url("https://www.safepal.com/assets/img/streamline.svg") no-repeat;
+        background-position: top 68px center, bottom 680px center;
+      }
+    } 
+  }
+  #hero .hero-container {
+    padding-top: 230px;
+  }
+  #hero .hero-left {
+    width: 695px;
+    margin-right: 30px;
+  }
+  #hero .hero-left .mySwiper2 {
+    width: 100%;
+    height: 505px;
+    border-radius: 30px;
+  }
+  #hero .hero-left .mySwiper2 img,
+  #hero .hero-left .mySwiper img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  #hero .hero-left .mySwiper {
+    width: 100%;
+    height: 78px;
+    margin-top: 20px;
+  }
+  #hero .hero-left .mySwiper .swiper-slide {
+    border-radius: 10px;
+    cursor:pointer;
+  }
+  #hero .hero-left .mySwiper .swiper-slide img {
+    border-radius: 10px;
+  }
+  #hero .hero-left .mySwiper .swiper-slide.swiper-slide-thumb-active {
+    border: 6px solid #79EFBD;
+  }
+  #hero .hero-left .mySwiper .swiper-slide.swiper-slide-thumb-active img{
+    border-radius: 0 !important;
+  }
+  #hero .hero-left .swiper-button-next, #hero .hero-left .swiper-button-prev {
+    display: none;
+  }
+  #hero .hero-left .mySwiper2:hover .swiper-button-next,
+  #hero .hero-left .mySwiper2:hover .swiper-button-prev {
+    display: block;
+  }
+  #mySwiper2Placeholder, #mySwiperPlaceholder {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+  #mySwiper2Placeholder .placeholder, #mySwiperPlaceholder .placeholder {
+    height: 100%;
+  }
+  #hero .hero-right {
+    flex: 1;
+  }
+  #hero .hero-right .title-text h1.title {
+    color: #F7F6FF;
+    font-style: normal;
+    font-weight: 1000;
+    font-size: 48px;
+    line-height: 100%;
+  }
+  #hero .hero-right .title-text h3.sub-title {
+    color: #F7F6FF;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 18px;
+  }
+  #hero .hero-right .price {
+    margin-top: 35px;
+    justify-content: space-between;
+    align-items: flex-end;
+    align-items: start;
+    /* flex-direction: column-reverse; */
+  }
+  #hero .hero-right .price .price-text {
+    color: #79EFBD;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 100%;
+  }
+  #hero .hero-right .evaluation .text-evaluation {
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    display: inline-block;
+  }
+  #hero .hero-right .evaluation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  #hero .hero-right  .qty{
+    margin-top: 20px;
+  }
+  #hero .hero-right .qty .qty-text{
+    color: #F7F6FF;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 160%;
+    margin-right: 10px;
+  }
+  #hero .hero-right #qty-input {
+    width: 80px;
+    height: 36px;
+    border: 1px solid #FFFFFF;
+    border-radius: 80px;
+    background-color: rgba(0,0,0,0);
+    text-align: center;
+    color: #FFFFFF;
+    padding: 4px 8px;
+  }
+  #hero .hero-right .add-order {
+    margin-top: 36px;
+    display: flex;
+  }
+  #hero .hero-right .add-order .my-btn {
+    border-radius: 100px;
+    color: #0D0B33;
+    font-size: 18px;
+    line-height: 160%;
+    border: none;
+    padding: 16px 24px;
+    flex: 1;
+  }
+  #hero .hero-right .add-order .my-btn.my-btn-add {
+    background: #6A66FF;
+    color: #ffffff;
+    margin-right: 8px;
+  }
+  #hero .hero-right .add-order .my-btn.my-btn-order {
+    background: #79EFBD;
+    margin-left: 8px;
+  }
+  #hero .hero-right .dividing-line {
+    width: 100%;
+    border: 1px solid rgba(223, 223, 223, 0.1);
+    margin: 36px 0px 32px;
+  }
+  #hero .hero-right .shg-content {
+    background: rgba(0,0,0,0)
+  }
+  #hero .hero-right .shg-content .shg-item {
+    /* padding: 16px 12px; */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  #hero .hero-right .shg-content .shg-item .shg-item-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 12px;
+    cursor: pointer;
+  }
+  #hero .hero-right .shg-content .shg-item:nth-last-child(1) {
+    margin: 0px;
+  }
+  #hero .hero-right .shg-content .shg-item .shg-item-img {
+    margin-right: 8px;
+  }
+  #hero .hero-right .shg-content .shg-item .shg-item-text {
+    font-weight: 400;
+    font-size: 14px;
+    /* line-height: 100%; */
+    color: #F7F6FF;
+  }
+  #hero .hero-stripe1 {
+    max-width: 100%;
+    max-height: 1035px;
+    top: 0;
+    left: 50px;
+    pointer-events: none;
+  }
+  #hero .hero-stripe2 {
+    top: 16%;
+    right: -0.2%;
+    pointer-events: none;
+  }
+
+  @media (max-width: 991px) {
+    #hero {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+      background: #F7F6FF;
+    }
+    #hero .hero {
+      padding-bottom: 200px;
+      background: 
+        url(../img/s1/1-m.png) no-repeat bottom -5px center, 
+        url(../img/s1/1-3-m.png) no-repeat bottom 0px center, 
+        url(../img/s1/1-2-m.png) no-repeat bottom 0px center, 
+        url(../img/s1/1-1-m.png) no-repeat bottom 0px center, 
+        linear-gradient(158.47deg, #0D0B33 38.16%, #4B3ED3 125.54%);
+      background-size: 100% auto, 100% auto, 100% auto, 100% auto, 100% auto;
+    }
+
+    #hero .hero-bg{
+      padding: 0 16px;
+    }
+    #hero .hero-container {
+      padding-top: 80px;
+    }
+    #hero .hero-left {
+      width: 100%;
+      margin-right: 0px;
+      margin-bottom: 30px;
+    }
+    #hero .hero-left .mySwiper2 {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+    }
+    #hero .hero-left .mySwiper2 img{
+      width: 100%;
+      /* height: 100%; */
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    #mySwiper2Placeholder {
+      height:270px;
+    }
+    #hero .hero-left .swiper-button-next, #hero .hero-left .swiper-button-prev {
+      display: none;
+    }
+    #hero .hero-left .mySwiper-mobile-pagination {
+      text-align: center;
+      margin-top: 10px;
+    }
+    #hero .hero-right .title-text h1.title {
+      color: #F7F6FF;
+      font-style: normal;
+      font-weight: 1000;
+      font-size: 32px;
+      line-height: 100%;
+      margin-bottom: 20px;
+    }
+    #hero .hero-right .title-text h3.sub-title {
+      color: #F7F6FF;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 18px;
+    }
+    #hero .hero-right .price {
+      margin-top: 35px;
+      justify-content: space-between;
+      align-items: flex-end;
+      align-items: start;
+      flex-direction: column-reverse;
+    }
+    #hero .hero-right .evaluation .text-evaluation {
+      color: #FFFFFF;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 24px;
+      display: inline-block;
+    }
+    #hero .hero-right .evaluation {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #hero .hero-right  .qty{
+      margin-top: 20px;
+    }
+    #hero .hero-right .qty .qty-text{
+      color: #F7F6FF;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 160%;
+      margin-right: 10px;
+    }
+    #hero .hero-right #qty-input {
+      width: 80px;
+      height: 36px;
+      border: 1px solid #FFFFFF;
+      border-radius: 80px;
+      background-color: rgba(0,0,0,0);
+      text-align: center;
+      color: #FFFFFF;
+      padding: 4px 8px;
+    }
+    #hero .hero-right .add-order {
+      margin-top: 36px;
+      display: flex;
+    }
+    #hero .hero-right .add-order .my-btn {
+      border-radius: 100px;
+      color: #0D0B33;
+      font-size: 18px;
+      line-height: 160%;
+      border: none;
+      padding: 16px 24px;
+      flex: 1;
+    }
+    #hero .hero-right .add-order .my-btn.my-btn-add {
+      background: #6A66FF;
+      color: #ffffff;
+      margin-right: 8px;
+    }
+    #hero .hero-right .add-order .my-btn.my-btn-order {
+      background: #79EFBD;
+      margin-left: 8px;
+    }
+    #hero .hero-right .dividing-line {
+      width: 100%;
+      border: 1px solid rgba(223, 223, 223, 0.1);
+      margin: 36px 0px 32px;
+    }
+    #hero .hero-right .shg-content {
+      background: rgba(0,0,0,0)
+    }
+
+    #hero .hero-right .shg-content .shg-item:nth-last-child(1) {
+      margin: 0px;
+    }
+    #hero .hero-right .shg-content .shg-item .shg-item-img {
+      margin-right: 8px;
+    }
+    #hero .hero-right .shg-content .shg-item .shg-item-text {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 100%;
+      color: #F7F6FF;
+    }
+    #hero .hero-stripe1 {
+      max-width: 100%;
+      height: auto;
+      top: 0;
+      left: -140px;
+      pointer-events: none;
+    }
+    #hero .hero-stripe1 {
+      top: 84px;
+      left: 12.4%;
+      pointer-events: none;
+    }
+  }
+  @media (max-width: 375px) {
+    #hero .hero-right .add-order {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+    }
+    #hero .hero-right .add-order .my-btn.my-btn-add {
+      margin-right: 0px;
+      margin-bottom: 20px;
+    }
+    #hero .hero-right .add-order .my-btn.my-btn-order {
+      margin-left: 0px;
+    }
+  }
+  /* ----------------------  exhibit start  ------------------------- */
+  #exhibit {
+    margin-top: 100px;
+  }
+  #exhibit .describe {
+    max-width: 800px;
+    margin-bottom: 50px;
+  }
+  #exhibit .describe p {
+    color: #272727;
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: left;
+  }
+  #exhibit .list-item {
+    padding-bottom: 100px;
+    margin: 0 -30px;
+  }
+  #exhibit .list-item .text-show {
+    max-width: 485px;
+    padding: 0px 30px;
+    box-sizing: content-box;
+  }
+  #exhibit .list-item h3.title {
+    color: #272727;
+    text-align: center;
+    font-weight: 1000;
+    font-size: 48px;
+    line-height: 100%;
+    margin-bottom: 80px;
+  }
+  #exhibit .list-item .image-show {
+    padding: 0px 30px;
+    overflow: hidden;
+    text-align: center;
+  }
+  #exhibit .list-item .image-show img {
+    max-width: 580px;
+    width: 100%;
+  }
+  #exhibit .list-item .image-show.image-show-full img {
+    max-width: 100%;
+  }
+  #exhibit .list-item .text-show .title {
+    margin-bottom: 30px;
+  }
+  #exhibit .list-item .text-show .title h3 {
+    color: #000000;
+    font-weight: 1000;
+    font-size: 48px;
+    line-height: 100%;
+    text-align: left;
+  }
+  #exhibit .list-item .text-show .describe .describe-item {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #000000;
+    text-align: left;
+    font-weight: 400;
+  }
+  #exhibit .list-item .text-show .describe .describe-item .describe-item-point {
+    padding-right: 8px;
+  }
+  #exhibit .list-item .text-show .describe .icon-no-box {
+    display: flex;
+    justify-content: space-around;
+  }
+  #exhibit .list-item .text-show .describe .icon-no-box .no-item {
+    max-width: 120px;
+    text-align: center;
+  }
+  #exhibit .list-item .text-show .describe .icon-no-box .no-item p {
+    display: inline-block;
+    color: #000000;
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: center;
+    margin-top: 14px;
+  }
+  #exhibit .list-item.replenish-item .image-show img {
+    max-width: 730px;
+    width: 100%;
+  }
+  #exhibit .list-item.replenish-item .text-show {
+    max-width: 485px;
+    padding: 0px 30px;
+    box-sizing: content-box;
+  }
+  #exhibit .list-item.replenish-item .text-show-maxwidth500 {
+    max-width: 500px;
+  }
+  #exhibit .list-item .text-show.text-show-max-width520 {
+    max-width: 520px;
+    flex: 1;
+  }
+  #exhibit .exhibit-gradient {
+    margin-top: -100px;
+    height: 252px;
+    background: linear-gradient(180deg, rgba(121, 239, 189, 0) 2.08%, rgba(121, 239, 189, 0.46) 100%);
+  }
+  @media(max-width: 991px){
+    #exhibit .describe {
+      max-width: 100%;
+    }
+    #exhibit .describe p {
+      color: #000000;
+      font-size: 18px;
+      line-height: 1.6;
+      text-align: center;
+    }
+    #exhibit .list {
+      padding: 0px 15px;
+    }
+    #exhibit .title {
+      max-width: 100%;
+    }
+    #exhibit .list-item h3.title {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    #exhibit .describe {
+      max-width: 100%;
+      margin-bottom: 0px;
+    }
+    #exhibit .list-item .text-show {
+      margin-bottom: 30px;
+    }
+    #exhibit .list-item .text-show .title h3 {
+      color: #000000;
+      font-weight: 1000;
+      font-size: 24px;
+      line-height: 100%;
+      text-align: center;
+    }
+    #exhibit .list-item {
+      margin: 0px;
+      padding-bottom: 100px;
+    }
+    #exhibit .list-item .image-show {
+      padding: 0px;
+    }
+    #exhibit .list-item .text-show {
+      max-width: 100%;
+      padding: 0px;
+    }
+    #exhibit .list-item .image-show img {
+      max-width: 100%;
+      height: auto;
+    }
+    #exhibit .list-item .text-show .describe .icon-no-box {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    #exhibit .list-item .text-show .describe .icon-no-box .no-item {
+      width: 50%;
+      max-width: auto;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    #exhibit .list-item .text-show .describe .icon-no-box .no-item img {
+      max-width: 60px;
+      height: auto;
+    }
+    #exhibit .list-item .text-show .describe .icon-no-box .no-item p {
+      display: inline-block;
+      color: #000000;
+      font-size: 18px;
+      line-height: 1.2;
+      text-align: center;
+      margin-top: 10px;
+    }
+    #exhibit .list-item.replenish-item .image-show img {
+      max-width: 730px;
+      width: 100%;
+    }
+    #exhibit .list-item.replenish-item .text-show {
+      max-width: 100%;
+      padding: 0px;
+      box-sizing: content-box;
+    }
+  }
+  /* -------------------------  exhibit end  ----------------------------- */
+  
+  /* -------------------------------- */
+  #inside-box {
+    background: #F7F6FF;
+  }
+  #inside-box .inside-box-main {
+    background: 
+      url(../img/s1/inside-box-bg-4.png) no-repeat bottom 0px center,
+      url(../img/s1/inside-box-bg-3.png) no-repeat bottom 0px center,
+      url(../img/s1/inside-box-bg-2.png) no-repeat bottom 0px center,
+      url(../img/s1/inside-box-bg-1.png) no-repeat bottom -5px center, 
+      linear-gradient(180deg, #4A63A8 0%, #282075 97.49%);
+    background-size: 100% auto, 100% auto, 100% auto, 100% auto, auto;
+  }
+  #inside-box .inside-box {
+    padding-top: 175px;
+    margin-bottom: 300px;
+  }
+  #inside-box .mgt280 {
+    margin-top: 280px;
+  }
+  #inside-box .inside-box .inside-box-item {
+    width: 100%;
+    margin: 0px 0px 185px;
+  }
+  #inside-box .inside-box .inside-box-item .title {
+    margin-bottom: 30px;
+  }
+  #inside-box .inside-box .inside-box-item .title h3{
+    color: #FFFFFF;
+    font-weight: 1000;
+    font-size: 48px;
+    line-height: 100%;
+    text-align: left;
+  }
+  #inside-box .inside-box .inside-box-item .text-show {
+    margin-right: 30px;
+    /* min-width: 454px; */
+  }
+  #inside-box .inside-box .inside-box-item .text-show-other {
+    width: 42.13%;
+    margin-right: 40px;
+  }
+  #inside-box .inside-box .inside-box-item .image-show {
+    margin-left: 30px;
+  }
+  #inside-box .inside-box .inside-box-item .image-show-other {
+    width: 57.86%;
+    margin-left: 0;
+  }
+  #inside-box .inside-box .inside-box-item .describe p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  #inside-box .inside-box .inside-box-item .image-show img {
+    max-width: 654px;
+    height: auto;
+  }
+  #inside-box .inside-box .inside-box-item .image-show-other img {
+    width: 100%;
+    max-width: 100%;
+  }
+  #inside-box .inside-box .inside-box-item .how-is-works-box {
+    width: 100%;
+    background: linear-gradient(124.15deg, #0d0b33 0%, #4b3ed3 218.07%), #ffffff;
+    border-radius: 40px;
+    padding: 40px 0px 54px;
+  }
+  #inside-box .inside-box .inside-box-item .how-is-works-box .item-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    z-index: 9;
+  }
+  #inside-box .inside-box .inside-box-item .how-is-works-box .item-list .youtube {
+    width: 62.25%;
+    height: 420px;
+    border-radius: 20px;
+  }
+  #inside-box .inside-box .inside-box-item .how-is-works-box .crypto-moon {
+    left: 9%;
+    top: 0;
+    pointer-events: none;
+  }
+  #inside-box .inside-box .inside-box-item .how-is-works-box .crypto-stripe {
+    bottom: 0;
+    right: 48%;
+    pointer-events: none;
+    height: 100%;
+    z-index: 1;
+  }
+  @media (max-width: 991px) {
+    #inside-box {
+      background: #F7F6FF;
+    }
+    #inside-box .inside-box-main {
+      background: 
+        url(https://www.safepal.com/assets/img/s1/inside-box-bg-4-m.svg) no-repeat bottom 0px center,
+        url(https://www.safepal.com/assets/img/s1/inside-box-bg-3-m.svg) no-repeat bottom 0px center,
+        url(https://www.safepal.com/assets/img/s1/inside-box-bg-2-m.svg) no-repeat bottom 0px center,
+        url(https://www.safepal.com/assets/img/s1/inside-box-bg-1-m.svg) no-repeat bottom -5px center, 
+        linear-gradient(0deg, #1E0E66 3.83%, #669AD3 89.91%);
+      background-size: 100% auto, 100% auto, 100% auto, 100% auto, auto;
+    }
+    #inside-box .inside-box {
+      /* padding: 0px 16px; */
+      padding-top: 50px;
+      margin-bottom: 30px;
+    }
+    #inside-box .inside-box .inside-box-item .title {
+      margin-bottom: 16px;
+    }
+    #inside-box .inside-box .inside-box-item .title h3{
+      color: #F7F6FF;
+      font-size: 24px;
+      text-align: center;
+    }
+    #inside-box .inside-box .inside-box-item .title h3.m-text-left {
+      text-align: left;
+    }
+    #inside-box .inside-box .inside-box-item .text-show {
+      margin-right: 0px;
+    }
+    #inside-box .inside-box .inside-box-item .text-show-other {
+      width: 100%;
+      padding: 0px 16px;
+    }
+    #inside-box .inside-box .inside-box-item .image-show-other {
+      width: 100%;
+    }
+    #inside-box .inside-box .inside-box-item .image-show {
+      margin-left: 0px;
+    }
+    #inside-box .inside-box .inside-box-item .describe p {
+      color: #F7F6FF;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    #inside-box .inside-box .inside-box-item .image-show img {
+      max-width: 100%;
+      height: auto;
+    }
+    #inside-box .inside-box .inside-box-item .how-is-works-box {
+      width: 100%;
+      background: none;
+      border-radius: 0px;
+      padding: 0;
+    }
+    #inside-box .inside-box .inside-box-item .how-is-works-box .item-list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      z-index: 9;
+    }
+    #inside-box .inside-box .inside-box-item {
+      padding: 0px 16px;
+      margin: 0px 0px 62px;
+    }
+    #inside-box .inside-box .inside-box-item.m-each-word {
+      padding: 0px;
+    }
+    #inside-box .inside-box .inside-box-item .how-is-works-box .item-list .youtube {
+      width: 100%;
+      height: 300px;
+      border-radius: 10px;
+    }
+    #inside-box .inside-box .inside-box-item .how-is-works-box .crypto-moon {
+      left: 9%;
+      top: 0;
+      pointer-events: none;
+      display: none;
+    }
+    #inside-box .inside-box .inside-box-item .how-is-works-box .crypto-stripe {
+      bottom: 0;
+      right: 48%;
+      pointer-events: none;
+      z-index: 1;
+      display: none;
+    }
+  }
+  @media (max-width: 767px) {
+    #inside-box .inside-box .inside-box-item .how-is-works-box .item-list .youtube {
+      width: 100%;
+      height: 194px;
+      border-radius: 8px;
+    }
+  }
+  #yotpo, #my-comment {
+    padding: 60px 0px 0px;
+    background: #F7F6FF;
+  }
+  #yotpo .yotpo-gradient, #my-comment .comment-gradient {
+    height: 120px;
+    background: linear-gradient(180deg, rgba(121, 239, 189, 0) 2.08%, rgba(121, 239, 189, 0.46) 100%);
+  }
+  @media(max-width: 991px){
+    #yotpo, #my-comment {
+      padding: 30px 0px 0px;
+      background: #F7F6FF;
+    }
+    #yotpo .yotpo-gradient, #my-comment .comment-gradient {
+      height: 60px;
+      background: linear-gradient(180deg, rgba(121, 239, 189, 0) 2.08%, rgba(121, 239, 189, 0.46) 100%);
+    }
+  }
+  /* ------------------------ inside-box start ----------------------------------- */
+  /* ------------------------------- inside-box end ---------------------------------------- */
+  /* ----------------------------------------------------------------- */
+  .one-wallet-footer {
+    /* background: url("/assets/img/crypto-stripe1.svg") no-repeat,
+      url("../img/one-wallet-footer-bg.svg") no-repeat,
+      url("../img/crypto-stripe1.svg") no-repeat,
+      linear-gradient(
+        109.75deg,
+        rgba(117, 84, 252, 0) 35.1%,
+        rgba(117, 84, 252, 0.2) 99.39%
+      ),
+      linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+      #4a21ef;
+    background-position: top left, bottom, bottom right -26%, center;
+    background-size: auto;
+    animation: starFooter 2.5s ease-in infinite; */
+    background: linear-gradient(
+        109.75deg,
+        rgba(117, 84, 252, 0) 35.1%,
+        rgba(117, 84, 252, 0.2) 99.39%
+      ),
+      linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+      #4a21ef;
+    background-position: center;
+  }
+  .one-wallet-footer-main {
+    background: url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+    background-position: top left, bottom, bottom right -26%;
+    background-size: auto;
+    animation: starFooter 5s ease-in infinite;
+  }
+  @media (min-width: 991px){
+    @keyframes starFooter {
+      0% {
+        background: 
+          url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+        background-position: bottom, top left, bottom right -26%, center;
+        background-size: auto;
+      }
+      50% {
+        background: 
+          url("https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+        background-position: bottom, top left, bottom right -26%, center;
+        background-size: auto;
+      }
+      100% {
+        background: 
+          url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+          url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+          background-position: bottom, top left,  bottom right -26%, center;
+          background-size: auto;
+      }
+    } 
+  }
+  /* ----one-wallet---- */
+  #one-wallet .one-wallet {
+    text-align: center;
+    max-width: 800px;
+    margin: 48px auto;
+  }
+  #one-wallet .one-wallet .sfp-logo .logo-box {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+  }
+  #one-wallet .one-wallet .title {
+    margin-bottom: 48px;
+  }
+  #one-wallet .one-wallet .title h3 {
+    color: #ffffff;
+    font-weight: 1000;
+    font-size: 80px;
+    line-height: 1;
+    text-align: center;
+  }
+  #one-wallet .one-wallet .download .set-off-btn {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    background: linear-gradient(
+      183.08deg,
+      rgba(191, 255, 228, 0.2) 43.82%,
+      rgba(191, 255, 228, 0) 111.17%
+    );
+    border-radius: 100px;
+    padding: 10px;
+  }
+  #one-wallet .one-wallet .download .downloads-btn {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    color: #0d0b33;
+    font-size: 18px;
+    padding: 16px 24px;
+    border-radius: 100px;
+    background-color: #79efbd;
+    line-height: 1.6;
+    border: none;
+  }
+  @media (max-width: 991px) {
+    .one-wallet-footer {
+      background: 
+        linear-gradient(
+          109.75deg,
+          rgba(117, 84, 252, 0) 35.1%,
+          rgba(117, 84, 252, 0.2) 99.39%
+        ),
+        linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+        #4a21ef;
+    }
+    .one-wallet-footer-main {
+      background: 
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg") no-repeat,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat;
+      background-position: top left, bottom, bottom right 320%, center;
+      background-size: auto;
+    }
+    #one-wallet .one-wallet {
+      max-width: 100%;
+      padding: 0px 16px;
+    }
+    #one-wallet .one-wallet .title h3 {
+      font-size: 48px;
+    }
+    #one-wallet .one-wallet .download .downloads-btn {
+      font-weight: 500;
+    }
+  }
+  /*--------------------------------------------------------------
+  # Sections
+  --------------------------------------------------------------*/
+  @media screen and (min-width: 991px) and  (max-width: 1199px) {
+    #main.cypher #inside-box .inside-box .inside-box-item .image-show img {
+        max-width: 522px;
+    }
+}
+  section {
+    overflow: hidden;
+  }
+  button {
+    font-weight: 700 !important;
+  }

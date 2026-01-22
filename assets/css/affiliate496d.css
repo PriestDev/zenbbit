@@ -1,0 +1,591 @@
+/* ----------- header ------------- */
+#header.header-scrolled {
+  background: #4a21ef;
+}
+
+/* ---------------------- hero ------------------------ */
+#hero {
+  background: 
+    linear-gradient(0deg, #79EFBD 0%, #3E1CC9 108.09%);
+  font-size: 18px;
+  overflow: hidden;
+}
+#hero .hero-main {
+  padding: 222px 0px 80px;
+  color: #f7f6ff;
+  background: url(https://www.safepal.com/assets/img/affiliate/bg-start.svg) repeat-x center top 50px/ 100% auto,
+  url(https://www.safepal.com/assets/img/affiliate/hero-subtract1.svg) no-repeat bottom -30px center/ 100%,
+  url(https://www.safepal.com/assets/img/affiliate/hero-subtract2.svg) no-repeat bottom -30px center / 100%,
+  url(https://www.safepal.com/assets/img/affiliate/hero-subtract3.svg) no-repeat bottom -30px center / 100%;
+  animation: star2 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes star2 {
+    0% {
+      background: url(https://www.safepal.com/assets/img/affiliate/bg-start.svg) repeat-x center top 50px/ 100% auto,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract1.svg) no-repeat bottom -30px center/ 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract2.svg) no-repeat bottom -30px center / 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract3.svg) no-repeat bottom -30px center / 100%;
+    }
+    25% {
+      background: url(https://www.safepal.com/assets/img/affiliate/bg-start1.svg) repeat-x center top 50px/ 100% auto,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract1.svg) no-repeat bottom -30px center/ 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract2.svg) no-repeat bottom -30px center / 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract3.svg) no-repeat bottom -30px center / 100%;
+    }
+    50% {
+      background: url(https://www.safepal.com/assets/img/affiliate/bg-start2.svg) repeat-x center top 50px/ 100% auto,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract1.svg) no-repeat bottom -30px center/ 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract2.svg) no-repeat bottom -30px center / 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract3.svg) no-repeat bottom -30px center / 100%;
+    }
+    75% {
+      background: url(https://www.safepal.com/assets/img/affiliate/bg-start1.svg) repeat-x center top 50px/ 100% auto,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract1.svg) no-repeat bottom -30px center/ 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract2.svg) no-repeat bottom -30px center / 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract3.svg) no-repeat bottom -30px center / 100%;
+    }
+    100% {
+      background: url(https://www.safepal.com/assets/img/affiliate/bg-start.svg) repeat-x center top 50px/ 100% auto,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract1.svg) no-repeat bottom -30px center/ 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract2.svg) no-repeat bottom -30px center / 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-subtract3.svg) no-repeat bottom -30px center / 100%;
+    }
+  } 
+}
+#hero .hero .left {
+  max-width: 940px;
+  margin-bottom: 300px;
+}
+#hero .hero h3.title {
+  color: #79EFBD;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+#hero .hero p.describe {
+  line-height: 1.6;
+}
+#hero .hero p.sub-title {
+  font-weight: 900;
+  font-size: 120px;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  
+  margin-top: 20px;
+}
+#hero .hero .btn-box {
+  margin-top: 30px;
+}
+#hero .hero .btn-box .my-btn {
+  padding: 16px 24px;
+  border-radius: 100px;
+  line-height: 1.6;
+}
+#hero .hero .btn-box .my-btn.btn-register {
+  background: #79efbd;
+  color: #0d0b33;
+  border: none;
+}
+#hero .hero .btn-box .my-btn.btn-register a {
+  color: #f7f6ff;
+  font-weight: 700;
+}
+#hero .hero .btn-box .btn_border {
+  margin-right: 15px;
+}
+#hero .hero .btn-box .btn_border {
+  margin-left: 15px;
+}
+#hero .hero .btn-box .my-btn.btn-have {
+  background: transparent;
+  border: 1px solid #0d0b33;
+  color: #0d0b33;
+}
+#hero .hero .btn-box .my-btn.btn-have a {
+  color: #0d0b33;
+  font-weight: 700;
+}
+#hero .hero .img-box {
+  top: 30%;
+  /* right: 35%; */
+  right: 33%;
+}
+#hero .hero .img-box img {
+  /* max-width: 626px; */
+  max-width: 600px;
+  height: auto;
+  font-size: 0;
+}
+
+@media (max-width: 991px) {
+  #hero {
+    background: 
+      linear-gradient(0deg, #79EFBD 0%, #3E1CC9 108.09%);
+    font-size: 18px;
+  }
+  #hero .hero-main {
+    padding: 123px 0px 80px;
+    color: #f7f6ff;
+    background: url(https://www.safepal.com/assets/img/affiliate/hero-m-star.svg) repeat-x  top 8% center/ 100% auto,
+    url(https://www.safepal.com/assets/img/affiliate/hero-m-subtract1.svg) no-repeat bottom -5px center/ 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-m-subtract2.svg) no-repeat bottom -5px center / 100%,
+    url(https://www.safepal.com/assets/img/affiliate/hero-m-subtract3.svg) no-repeat bottom -5px center / 100%;
+  }
+  #hero .hero .left {
+    max-width: 100%;
+    margin-bottom: 0px;
+    padding: 0px 16px;
+    text-align: center;
+  }
+  #hero .hero h3.title {
+    margin-bottom: 30px;
+  }
+  #hero .hero p.describe {
+    line-height: 1.6;
+  }
+  #hero .hero p.sub-title {
+    font-weight: 1000;
+    font-size: 64px;
+  }
+  #hero .hero .btn-box {
+    margin-top: 35px;
+    margin-bottom: 24px;
+  }
+  #hero .hero .btn-box .my-btn {
+    padding: 16px 24px;
+    width: 100%;
+  }
+  #hero .hero .btn-box .my-btn.btn-register {
+    margin-right: 0px;
+    margin-bottom: 20px;
+  }
+  #hero .hero .btn-box .my-btn.btn-have {
+    margin-left: 0px;
+  }
+  #hero .hero .m-img-box {
+
+  }
+  #hero .hero .m-img-box img {
+    max-width: 100%;
+    height: auto;
+    font-size: 0;
+  }
+  #hero .hero .btn-box .btn_border,
+  #hero .hero .btn-box .btn_normal {
+    margin: 0px;
+    width: 100%;
+  }
+  #hero .hero .btn-box .btn_normal {
+    margin-bottom: 0px;
+  }
+}
+
+/* --------------------- reasons --------------------------- */
+#reasons {
+  background: #f8f7ff;
+  overflow: hidden;
+}
+#reasons .reasons {
+  padding: 240px 0px;
+}
+#reasons .reasons .title {
+  max-width: 800px;
+  margin: 0 auto;
+}
+#reasons .reasons .title h3 {
+  color: #0d0b33;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 50px;
+}
+#reasons .reasons .pc-star.title .start-1 {
+  top: -38%;
+  left: -8.4%;
+}
+#reasons .reasons .item-box {
+  padding: 0px;
+  margin-left: -20px;
+  margin-right: -20px;
+  margin-bottom: -50px;
+}
+#reasons .reasons .row > * {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 50px;
+}
+#reasons .reasons .item-box .list-item {
+  padding: 20px 30px;
+  color: #0d0b33;
+  background: #ffffff;
+  border-radius: 12px;
+  text-align: left;
+  height: 100%;
+}
+#reasons .reasons .item-box .list-item .img {
+  width: 109px;
+  height: 120px;
+  margin-right: 20px;
+}
+#reasons .reasons .item-box .list-item .img img {
+  /* width: 100%; */
+  height: auto;
+  font-size: 0px;
+}
+#reasons .reasons .item-box .list-item h3.title {
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 1000;
+  margin-bottom: 16px;
+  color: #000000;
+}
+#reasons .reasons .item-box .list-item p.describe {
+  font-size: 18px;
+  line-height: 1.6;
+}
+@media(max-width:991px) {
+  #reasons .reasons {
+    padding: 60px 16px 120px;
+  }
+  #reasons .reasons .title {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  #reasons .reasons .item-box {
+    padding: 0px;
+    margin:0;
+  }
+  #reasons .reasons .row > * {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  #reasons .reasons .item-box .list-item {
+    padding: 20px 15px;
+    border-radius: 12px;
+    text-align: center;
+    height: 100%;
+  }
+  #reasons .reasons .item-box .list-item .img {
+    width: 80px;
+    height: 80px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+  }
+  #reasons .reasons .item-box .list-item .img img {
+    max-width: 100%;
+    height: auto;
+    font-size: 0px;
+  }
+  #reasons .reasons .item-box .list-item h3.title {
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+}
+/* ------------------------ earn-income ------------------------------- */
+#earn-income {
+  overflow: hidden;
+  background: #f8f7ff;
+}
+#earn-income .earn-income {
+  text-align: center;
+}
+#earn-income .earn-income .title {
+  max-width: 730px;
+  margin: 0 auto;
+}
+#earn-income .earn-income .title h3 {
+  color: #0d0b33;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 50px;
+}
+#earn-income .earn-income .pc-star.title .start-1{
+  left: -13.4%;
+  top: 19%;
+}
+#earn-income .earn-income .pc-star.title .start-2{
+  right: -13.4%;
+}
+#earn-income .earn-income .item-list {
+  padding: 0px;
+  margin-left: -22px;
+  margin-right: -22px;
+  margin-bottom: -60px;
+}
+#earn-income .earn-income .row > * {
+  padding-left: 22px;
+  padding-right: 22px;
+  margin-bottom: 60px;
+}
+#earn-income .earn-income .item-list .list-item {
+  height: 100%;
+  padding: 40px 52px;
+  background: #79efbd;
+  border-radius: 20px;
+}
+#earn-income .earn-income .item-list .list-item .img {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 10px;
+}
+#earn-income .earn-income .item-list .list-item .img img {
+  width: 100%;
+  height: auto;
+  font-size: 0px;
+}
+#earn-income .earn-income .item-list .list-item .text h3.title {
+  color: #000000;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 37px;
+  margin-bottom: 4px;
+}
+#earn-income .earn-income .item-list .list-item .text p.describe {
+  color: #2d2d2d;
+  font-size: 16px;
+  line-height: 25px;
+}
+#earn-income .earn-income .note-tips,
+#earn-income .earn-income .register-account {
+  margin-top: 60px;
+}
+#earn-income .earn-income .note-tips p {
+  color: #ff4c64;
+  font-size: 24px;
+  line-height: 30px;
+}
+#earn-income .earn-income .register-account .my-btn{
+  padding: 16px 24px;
+  border-radius: 100px;
+  line-height: 1.6;
+  font-weight: 700;
+}
+#earn-income .earn-income .register-account .my-btn.btn-register {
+  background: #79efbd;
+  color: #0d0b33;
+  
+  border: none;
+}
+#earn-income .earn-income .register-account .btn_border{
+  margin-right: 15px;
+}
+#earn-income .earn-income .register-account .btn_normal{
+  margin-left: 15px;
+}
+#earn-income .earn-income .register-account .my-btn.btn-register a {
+  color: #0D0B33;
+}
+#earn-income .earn-income .register-account .my-btn.btn-have {
+  background: transparent;
+  border: 1px solid #0D0B33;
+  
+  color: #0D0B33;
+}
+#earn-income .earn-income .register-account .my-btn.btn-have a {
+  color: #0d0b33;
+}
+@media(max-width:991px) {
+  #earn-income .earn-income {
+    padding: 0px 16px;
+  }
+  #earn-income .earn-income .title {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  #earn-income .earn-income .title h3 {
+    margin-bottom: 20px;
+  }
+  #earn-income .earn-income .item-list {
+    padding: 0px;
+    margin: 0;
+  }
+  #earn-income .earn-income .row {
+    margin: 0px;
+    padding: 0px;
+  }
+  #earn-income .earn-income .row > * {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  #earn-income .earn-income .item-list .list-item {
+    height: 100%;
+    padding: 30px 15px;
+  }
+  #earn-income .earn-income .item-list .list-item .img img {
+    max-width: 100%;
+    height: auto;
+    font-size: 0px;
+  }
+  #earn-income .earn-income .item-list .list-item .text p.describe {
+    color: #2d2d2d;
+    font-size: 16px;
+    line-height: 25px;
+  }
+  #earn-income .earn-income .register-account {
+    margin-top: 0px;
+  }
+  #earn-income .earn-income .register-account .my-btn {
+    padding: 16px 24px;
+    border-radius: 100px;
+    line-height: 1.6;
+    width: 100%;
+  }
+  #earn-income .earn-income .register-account .my-btn.btn-register {
+    margin-bottom: 20px;
+  }
+  #earn-income .earn-income .btn_border,
+  #earn-income .earn-income .btn_normal {
+    margin: 0px !important;
+    width: 100%;
+  }
+}
+/* ---------------------  start-soar-footer -------------------- */
+.start-soar-footer {
+    background: linear-gradient( 177.67deg, #f7f6ff 4.11%, #bfffe4 30.23%, #4a21ef 100% );
+}
+.start-soar-footer .top {
+    padding: 100px 0px;
+}
+.start-soar-footer-main {
+  background: 
+  linear-gradient(
+    109.75deg,
+    rgba(117, 84, 252, 0) 35.1%,
+    rgba(117, 84, 252, 0.2) 99.39%
+  ),
+  linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+  #4a21ef;
+  
+}
+.start-soar-footer .bottom {
+  background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+  url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+  url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+  animation: starFooter 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes starFooter {
+    0% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    50% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+    100% {
+      background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+        url(https://www.safepal.com/assets/img/one-wallet-footer-bg.svg) no-repeat bottom/ auto 100%,
+        url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%;
+    }
+  } 
+}
+/* -----------------------start-soar-------------------------- */
+#start-soar {
+  /* background: url("../img/start-bg.svg"); */
+  background-repeat: no-repeat;
+  background-position: center;
+  
+}
+#start-soar .start-soar {
+  text-align: center;
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 180px 0 90px;
+}
+#start-soar .start-soar .sfp-logo .logo-box {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+#start-soar .start-soar .title {
+  margin-bottom: 48px;
+}
+#start-soar .start-soar .text {
+  margin: 0px 50px 50px;
+}
+#start-soar .start-soar .text p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#start-soar .start-soar .title h3 {
+  color: #ffffff;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+#start-soar .start-soar .download .set-off-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(
+    183.08deg,
+    rgba(191, 255, 228, 0.2) 43.82%,
+    rgba(191, 255, 228, 0) 111.17%
+  );
+  border-radius: 100px;
+  padding: 10px;
+}
+#start-soar .start-soar .download .downloads-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  color: #0d0b33;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+  border: none;
+}
+#start-soar .start-soar .download .btn-press .press-btn {
+  line-height: 1.6;
+  border: none;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  color: #f7f6ff;
+  border: 1px solid #ffffff;
+  background: transparent;
+  margin-left: 30px;
+}
+@media (max-width: 991px) {
+  .start-soar-footer-main {
+    background: linear-gradient(
+      109.75deg,
+      rgba(117, 84, 252, 0) 35.1%,
+      rgba(117, 84, 252, 0.2) 99.39%
+    ),
+    linear-gradient(162.15deg, rgba(13, 11, 51, 0) 1.61%, #0d0b33 71.13%),
+    #4a21ef;
+    background-position: center;
+  }
+  .start-soar-footer .top {
+    padding: 86.5px 0px;
+    background: url("https://www.safepal.com/assets/img/start-bg.svg");
+    background-size: 165% 200%;
+    background-position: bottom;
+  }
+  .start-soar-footer .bottom {
+    background: url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat top 0% left 17%,
+    url(https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg) no-repeat bottom,
+    url(https://www.safepal.com/assets/img/crypto-stripe1.svg) no-repeat bottom 42% right 8%,
+    
+    background-position: top left, bottom, bottom right 320%;
+   }
+  #start-soar .start-soar {
+    max-width: 100%;
+    padding: 80px 16px 90px;
+  }
+  #start-soar .start-soar .title h3 {
+    font-weight: 1000;
+    font-size: 48px;
+  }
+}

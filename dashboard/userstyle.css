@@ -1,0 +1,194 @@
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: black;
+      color: #f1f1f1;
+      height: 100vh;
+    }
+
+    .header {
+      display:flex;
+        justify-content: space-between;
+        align-items: center;
+        top: 0;
+        left: 0;
+        right: 0;
+        position: fixed;
+        background: black;
+        padding: 1rem 2.5rem;
+        z-index: 1000;
+      
+      border-bottom:0.5px solid #272121ff;
+
+    }
+    
+    .home i{
+        color: #622faa;
+        transition: ease-in 0.5s;
+        cursor: pointer;
+    }
+    i{
+        color: #622faa;
+        transition: ease-in 0.5s;
+    }
+    .header i:hover{
+      color: #622faa;
+    }
+    .home i:hover{
+      color: #c6bed1ff;
+    }
+    .header .icon {
+      color: #622faa;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .card {
+      background: #141414;
+      margin: 20px;
+      padding: 25px;
+      border-radius: 10px;
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+    }
+
+    .balance {
+      font-size: 26px;
+      font-weight: bold;
+      color: #622faa;
+    }
+
+    .wallet-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    .wallet-info .wallet-id {
+      font-weight: bold;
+    }
+
+    .in-out {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .in-out div {
+      text-align: center;
+    }
+
+    .in-out span {
+      display: block;
+      margin-top: 5px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .actions div {
+      cursor: pointer;
+    }
+
+    .actions i {
+      font-size: 22px;
+      color: #4b1b8dff;
+      margin-bottom: 5px;
+    }
+
+    .actions p {
+      font-size: 14px;
+      color: #fff;
+    }
+    .toggle-btn{
+        height: 2.2rem;
+        width: 2.2rem;
+        border-radius: 50%;
+        font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .toggle-btn:hover{
+        background: #aaa;
+    }
+    
+    /* Notification */
+    .notification-wrapper {
+      position: relative;
+    }
+    .icon-btn i{
+        font-size: 1.3rem;
+    }
+    .icon-btn {
+      background: #141414;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: orange;
+      font-size: 1.2rem;
+      position: relative;
+    }
+    .icon-btn:hover {
+      background: #222;
+    }
+    .badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: #0d6efd;
+      color: white;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 12px;
+    }
+
+    /* Dropdown */
+    .dropdown {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: #1a1a1a;
+      border-radius: 8px;
+      width: 280px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .dropdown.active {
+      display: flex;
+    }
+    .dropdown h4 {
+      margin: 0;
+      padding: 12px;
+      background: #222;
+      font-size: 14px;
+      border-bottom: 1px solid #333;
+    }
+    .dropdown .notif {
+      padding: 12px;
+      font-size: 13px;
+      border-bottom: 1px solid #333;
+      color: #ccc;
+    }
+    .dropdown .notif:last-child {
+      border-bottom: none;
+    }
+    .dropdown .notif:hover {
+      background: #2a2a2a;
+    }

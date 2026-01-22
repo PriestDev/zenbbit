@@ -1,0 +1,652 @@
+
+body {
+  background: #4a21ef;
+}
+#main {
+  overflow: hidden;
+}
+/* ------------------ header ------------------- */
+#header .downloads-btn .set-off-btn {
+  background: linear-gradient(
+    183.08deg,
+    rgba(74, 33, 239, 0.048) 43.82%,
+    rgba(74, 33, 239, 0) 111.17%
+  );
+}
+#header .navbar a,
+#header .navbar a:focus {
+  color: #0d0b33;
+}
+#header .downloads-btn .my-downloads-btn {
+  background: #4a21ef;
+  color: #ffffff;
+}
+/* ------------- hero --------------- */
+#hero {
+  background: 
+  url("https://www.safepal.com/assets/img/sfp-token/hero-subtract1.svg") no-repeat bottom -120px center/100% auto,
+  url("https://www.safepal.com/assets/img/sfp-token/hero-subtract2.svg") no-repeat bottom -165px center/100% auto,
+  url("https://www.safepal.com/assets/img/sfp-token/hero-subtract3.svg") no-repeat bottom -210px center/100% auto,
+  linear-gradient(
+      160.59deg,
+      rgba(117, 84, 252, 0.58) -7.42%,
+      rgba(177, 159, 250, 0) 33.43%
+    ),
+    #f7f6ff;
+}
+#hero .hero {
+  background: url("https://www.safepal.com/assets/img/sfp-token/hero-sfp-star-bg.svg") no-repeat;
+  background-size: 100%;
+  background-position: center;
+  padding: 198px 0px 320px;
+  animation: star2 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes star2 {
+    0% {
+      background: url("https://www.safepal.com/assets/img/sfp-token/hero-sfp-star-bg.svg") no-repeat;
+    }
+    25% {
+      background: url("https://www.safepal.com/assets/img/sfp-token/hero-sfp-star-bg1.svg") no-repeat;
+    }
+    50% {
+      background: url("https://www.safepal.com/assets/img/sfp-token/hero-sfp-star-bg2.svg") no-repeat;
+    }
+    75% {
+      background: url("https://www.safepal.com/assets/img/sfp-token/hero-sfp-star-bg1.svg") no-repeat;
+    }
+    100% {
+      background: url("https://www.safepal.com/assets/img/sfp-token/hero-sfp-star-bg.svg") no-repeat;
+    }
+  } 
+}
+#hero .safepay-token {
+  max-width: 750px;
+}
+#hero .safepay-token .title {
+  margin-bottom: 46px;
+}
+#hero .safepay-token .title h3 {
+  color: #0D0B33;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+#hero .safepay-token .sub-title {
+  margin-bottom: 10px;
+}
+#hero .safepay-token .sub-title h3 {
+  color: #79efbd;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+}
+#hero .safepay-token .btn-sfp-view .btn-view,
+#hero .safepay-token .btn-sfp-view .btn-whitepaper {
+  border-radius: 100px;
+}
+#hero .safepay-token .btn-sfp-view .btn-view {
+  border: 1px solid #0d0b33;
+  background: #ffffff;
+  /* margin-right: 20px; */
+}
+#hero .safepay-token .btn-sfp-view .btn-view:focus {
+  outline-color: #79efbd;
+}
+#hero .safepay-token .btn-sfp-view .btn-whitepaper {
+  border: 1px solid #79efbd;
+  background: #79efbd;
+  margin-left: 20px;
+}
+#hero .safepay-token .btn-sfp-view .btn-whitepaper:focus {
+  outline-color: #79efbd;
+}
+#hero .img-box {
+  max-width: 465px;
+  max-height: 465px;
+  left: 53%;
+  top: 48%;
+  pointer-events: none;
+}
+#hero .img-box .token-group1 {
+  animation-duration: 10s;
+  animation-iteration-count: 1;
+  animation-name: bottomShadowBackInDown !important;
+}
+#hero .img-box .token-group2 {
+  animation-duration: 10s;
+  animation-iteration-count: 1;
+  animation-name: bottomShadowBackInDown !important;
+}
+#hero .img-box .token-group3 {
+  animation-duration: 10s;
+  animation-iteration-count: 1;
+  animation-name: bottomShadowBackInDown !important;
+}
+#hero .img-box .token-animation {
+  animation-duration: 10s;
+  animation-iteration-count: 1;
+  animation-name: tokenBackInDown !important;
+}
+@media(max-width: 991px) {
+  #hero {
+    background: 
+    url("https://www.safepal.com/assets/img/sfp-token/hero-m-subtract1.svg") no-repeat bottom -50px center /100% auto,
+    url("https://www.safepal.com/assets/img/sfp-token/hero-m-subtract2.svg") no-repeat bottom -50px center/ 100% auto,
+    url("https://www.safepal.com/assets/img/sfp-token/hero-m-subtract3.svg") no-repeat bottom -50px center / 100% auto,
+    linear-gradient(
+        160.59deg,
+        rgba(117, 84, 252, 0.58) -7.42%,
+        rgba(177, 159, 250, 0) 33.43%
+      ),
+      #f7f6ff;
+  }
+  #hero .hero {
+    padding: 132px 16px 0px;
+  }
+  #hero .safepay-token {
+    max-width: 100%;
+    text-align: center;
+  }
+  #hero .safepay-token .sub-title {
+    margin-bottom: 10px;
+  }
+  #hero .safepay-token .sub-title h3 {
+    color: #4A21EF;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+  }
+  #hero .safepay-token .title {
+    margin-bottom: 23px;
+    max-width: 100% !important;
+  }
+  #hero .safepay-token .title h3 {
+    font-size: 48px;
+  }
+  #hero .m-img-box {
+    max-width: 100%;
+  }
+  #hero .m-img-box .hero-token-bottom {
+    width: 449px;
+    height: auto;
+  }
+}
+/* ----------------- what is sfp --------------- */
+#what-is-sfp .pc-star .start-1 {
+  top: -15%;
+    left: -23.4%;
+}
+#what-is-sfp .pc-star .start-2 {
+  top: 50%;
+  right: -19.4%;
+}
+#what-is-sfp .describe {
+  max-width: 750px;
+  margin: 0 auto;
+}
+#what-is-sfp .describe p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #F7F6FF;
+  margin-bottom: 20px;
+  text-align: center;
+}
+#what-is-sfp .btn-box a{
+  display: inline-block;
+ }
+ #what-is-sfp .btn-box a.a-bscscan {
+   margin-right: 20px;
+ }
+#what-is-sfp .btn-box {
+  text-align: center;
+  margin-top: 50px;
+}
+#what-is-sfp .btn-box .btn-view {
+  border-radius: 100px;
+  border: 1px solid #0d0b33;
+  background: #ffffff;
+ }
+/* ------------------------- use - cases -------------------------------- */
+#what-is-sfp .title,
+#use-cases .title,
+#get-sfp .title {
+  max-width: 360px;
+  margin: 180px auto 100px;
+}
+#what-is-sfp .title h3.title-top,
+#use-cases .title h3,
+#get-sfp .title h3 {
+  color: #f7f6ff;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 100%;
+  text-align: center;
+}
+#use-cases  .pc-star .start-1 {
+  top: -16%;
+  left: -22.4%;
+}
+#use-cases  .pc-star .start-2 {
+  top: 57%;
+  right: -22.4%;
+  animation: no;
+}
+#use-cases .pc-star .start-2 .start {
+  animation: startFadeInOut 3s infinite ease-in-out;
+}
+#use-cases .content-item {
+  margin-left: -40px;
+  margin-right: -40px;
+}
+#use-cases .content-item .item-box {
+  margin: 0 40px 60px;
+  max-width: 550px;
+  text-align: left;
+  color: #f7f6ff;
+}
+#use-cases .content-item .item-box .icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  margin-bottom: 25px;
+}
+#use-cases .content-item .item-box .icon img {
+  font-size: 0px;
+  width: 100%;
+  height: 100%;
+}
+#use-cases .content-item .item-box .item-title {
+  font-weight: 1000;
+  font-size: 24px;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+#use-cases .content-item .item-box .describe {
+  font-size: 18px;
+  line-height: 1.6;
+}
+@media(max-width: 1660px) {
+  #use-cases .lattice-line1,
+  #use-cases .lattice-line2 {
+    display: none !important;
+  }
+}
+@media(max-width: 991px) {
+  #get-sfp .get-sfp,  #get-sfp .content{
+    padding: 0px 16px;
+  }
+  #what-is-sfp .title,
+  #use-cases .title,
+  #get-sfp .title {
+    max-width: 100%;
+    margin: 30px auto 20px;
+  }
+  #what-is-sfp .title h3.title-top,
+  #use-cases .title h3,
+  #get-sfp .title h3 {
+    text-align: center;
+  }
+  #use-cases .use-cases {
+    overflow: hidden;
+  }
+  #use-cases .content-item {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  #use-cases .content-item .item-box {
+    margin: 0 0px 40px;
+    max-width: 100%;
+    text-align: center;
+  }
+  #use-cases .content-item .item-box .icon {
+    margin-bottom: 20px;
+  }
+  #what-is-sfp {
+    padding: 80px 0px;
+  }
+  #what-is-sfp .what-is-sfp,#use-cases .use-cases {
+    padding: 0px 16px;
+  }
+  #use-cases {
+    padding-bottom: 80px;
+  }
+
+  #what-is-sfp .btn-box a{
+    display: inline-block;
+    min-width: 240px;
+   }
+   #what-is-sfp .btn-box a.a-bscscan {
+     margin-right: 0px;
+     margin-bottom: 20px;
+   }
+  #what-is-sfp .btn-box {
+    text-align: center;
+    margin-top: 50px;
+  }
+  #what-is-sfp .btn-box .btn-view {
+    width: 100%;
+    border-radius: 100px;
+    border: 1px solid #0d0b33;
+    background: #ffffff;
+   }
+
+}
+@media(max-width: 374px) {
+  #what-is-sfp .btn-box .btn-view {
+    padding: 8px 16px;
+  }
+  #get-sfp .content .enumera-item .btn {
+    padding: 0px;
+  }
+  #get-sfp .content .enumera-item .btn .btn-common {
+    padding: 8px 12px;
+  }
+  #stay-safe .content-box .btn-box .btn {
+    font-size: 14px !important;
+    padding: 8px 16px !important;
+  }
+}
+/* ----------------------- get-sfp ------------------------ */
+#get-sfp .title {
+  max-width: 390px;
+}
+#get-sfp .pc-star .start-1 {
+  top: -16%;
+  left: -22.4%;
+}
+#get-sfp .pc-star .start-2 {
+  top: 57%;
+  right: -22.4%;
+}
+#get-sfp .content .enumera-item {
+  width: 360px;
+  margin-right: 87px;
+  margin-bottom: 120px;
+}
+#get-sfp .content .enumera-item .top {
+  margin-bottom: 10px;
+}
+#get-sfp .content .enumera-item .top .enumera-img:hover {
+  animation: moveY 2s infinite cubic-bezier(0.4, 0, 1, 1);
+}
+
+#get-sfp .content .enumera-item .btn {
+  margin-top: 57px;
+}
+#get-sfp .content .enumera-item .btn a {
+  display: inline-block;
+}
+#get-sfp .content .enumera-item .btn .btn-common {
+  border: 1px solid #79efbd;
+  background: #79efbd;
+  border-radius: 100px;
+ }
+ #get-sfp .content .enumera-item .btn .btn-common a {
+  color: #0D0B33;
+ }
+#get-sfp .content .enumera-top .enumera-item:last-child,
+#get-sfp .content .enumera-bottom .enumera-item:last-child {
+  margin-right: 0px;
+}
+#get-sfp .content .enumera-item .bottom div.item-title {
+  margin-bottom: 13px;
+}
+#get-sfp .content .enumera-item .bottom div.item-title h3 {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.6;
+  color: #f7f6ff;
+  text-align: center;
+}
+#get-sfp .content .enumera-item .bottom .text p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #f7f6ff;
+  text-align: center;
+}
+@media(max-width: 991px) {
+  #get-sfp .content .enumera-item .btn {
+    margin-top: 20px;
+  }
+  #get-sfp .content .enumera-item {
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0px;
+    margin-bottom: 60px;
+  }
+  #get-sfp .content .enumera-item .bottom div.item-title {
+    margin-bottom: 12px;
+  }
+  #get-sfp .content .enumera-item .bottom div.item-title h3 {
+    font-weight: 1000;
+  }
+}
+/* ----------------------------------------------------------------- */
+#stay-safe {
+  margin: 30px auto 100px;
+  display: flex;
+  justify-content: center;
+}
+#stay-safe .stay-safe-main {
+  flex: auto;
+  max-width: 2048px;
+  overflow: hidden;
+  margin: 0px 24px;
+  border-radius: 48px;
+  background: linear-gradient(166.3deg, #f7f6ff 63.9%, #79efbd 136.2%);
+}
+#stay-safe .stay-safe {
+  background: url("https://www.safepal.com/assets/img/sfp-token/start-bg.svg") no-repeat;
+  background-size: 100% 100%;
+  animation: bgShow 3s infinite ease-in-out;
+}
+
+@keyframes bgShow {
+  0% {
+    background: url("https://www.safepal.com/assets/img/sfp-token/start-bg.svg") no-repeat;
+  }
+  25% {
+    background: url("https://www.safepal.com/assets/img/sfp-token/start-bg1.svg") no-repeat;
+  }
+  50% {
+    background: url("https://www.safepal.com/assets/img/sfp-token/start-bg2.svg") no-repeat;
+  }
+  75% {
+    background: url("https://www.safepal.com/assets/img/sfp-token/start-bg1.svg") no-repeat;
+  }
+  100% {
+    background: url("https://www.safepal.com/assets/img/sfp-token/start-bg.svg") no-repeat;
+  }
+}
+#stay-safe .stay-safe .content-box {
+  position: inherit;
+  max-width: 784px;
+  text-align: center;
+  padding: 246px 0;
+  margin: auto;
+  z-index: 9;
+}
+#stay-safe .stay-safe .content-box h3 {
+  color: #0d0b33;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 36px;
+}
+#stay-safe .stay-safe .content-box a {
+  display: inline-block;
+}
+#stay-safe .content-box .btn-box .btn {
+  background: #79efbd;
+  border-radius: 100px;
+  color: #0d0b33;
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 16px 24px;
+}
+#stay-safe .icon-clound {
+  max-width: 145px;
+  height: auto;
+}
+@media(max-width: 991px) {
+  #stay-safe {
+    margin: 30px auto 50px;
+  }
+  #stay-safe .stay-safe-main {
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0px 16px;
+    border-radius: 24px;
+    padding: 50px 10px;
+  }
+  #stay-safe .stay-safe .content-box {
+    max-width: 100%;
+    padding: 0;
+  }
+  #stay-safe .stay-safe .phone-illo {
+    text-align: center;
+  }
+  #stay-safe .stay-safe .phone-illo .icon-safe-box {
+    max-width: 287px;
+    height: auto;
+    transform: translateY(-46px);
+    pointer-events: none;
+  }
+  #stay-safe .stay-safe .phone-illo .icon-locked {
+    max-width: 86px;
+    height: auto;
+    right: -19%;
+  }
+  #stay-safe .stay-safe .phone-illo .icon-clound {
+    max-width: 145px;
+    height: auto;
+    left: -24%;
+    bottom: 5%;
+  }
+}
+/* ------------------------------------------------------------------------- */
+.start-soar-footer {
+  background: 
+    linear-gradient( 181deg, rgba(117, 84, 252, 0) 35.1%, rgba(117, 84, 252, 0.2) 99.39% ), 
+    linear-gradient(180deg, rgba(13, 11, 51, 0) 11.15%, #0d0b33 71.27%), 
+    linear-gradient(180deg, rgba(74, 33, 239, 0) 0%, #4a21ef 100%), #4a21ef;
+    margin-top: 1px;
+}
+.start-soar-footer-main {
+  background: url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat bottom/ auto 100%,
+  url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 36% right -36%/ auto;
+  animation: starFooter 5s ease-in infinite;
+}
+@media (min-width: 991px){
+  @keyframes starFooter {
+    0% {
+      background: 
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat bottom/ auto 100%,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 36% right -36%/ auto;
+    }
+    50% {
+      background: 
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg2.svg") no-repeat bottom/ auto 100%,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 36% right -36%/ auto;
+    }
+    100% {
+      background: 
+      url("https://www.safepal.com/assets/img/one-wallet-footer-bg.svg") no-repeat bottom/ auto 100%,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat bottom 36% right -36%/ auto;
+    }
+  } 
+}
+/* -----------------------start-soar-------------------------- */
+#start-soar {
+}
+#start-soar .start-soar {
+  text-align: center;
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 180px 0 90px;
+}
+#start-soar .start-soar .sfp-logo .logo-box {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+#start-soar .start-soar .title {
+  margin-bottom: 48px;
+}
+#start-soar .start-soar .text {
+  margin: 0px 50px 50px;
+}
+#start-soar .start-soar .text p {
+  color: #f7f6ff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+#start-soar .start-soar .title h3 {
+  color: #ffffff;
+  font-weight: 1000;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+#start-soar .start-soar .download .set-off-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(
+    183.08deg,
+    rgba(191, 255, 228, 0.2) 43.82%,
+    rgba(191, 255, 228, 0) 111.17%
+  );
+  border-radius: 100px;
+  padding: 10px;
+}
+#start-soar .start-soar .download .downloads-btn {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  color: #0d0b33;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  background-color: #79efbd;
+  line-height: 1.6;
+  border: none;
+}
+#start-soar .start-soar .download .btn-press .press-btn {
+  line-height: 1.6;
+  border: none;
+  font-size: 18px;
+  padding: 16px 24px;
+  border-radius: 100px;
+  color: #f7f6ff;
+  border: 1px solid #ffffff;
+  background: transparent;
+  margin-left: 30px;
+}
+#footer {
+  background: none !important;
+}
+@media (max-width: 991px) {
+  .start-soar-footer {
+    background: url("https://www.safepal.com/assets/img/one-wallet-footer-bg-m.svg") no-repeat,
+      url("https://www.safepal.com/assets/img/crypto-stripe1.svg") no-repeat,
+      linear-gradient(
+        109.75deg,
+        rgba(117, 84, 252, 0) 35.1%,
+        rgba(117, 84, 252, 0.2) 99.39%
+      ),
+      linear-gradient(162.63deg, rgba(13, 11, 51, 0) 11.15%, #0d0b33 71.27%),
+      linear-gradient(180deg, rgba(74, 33, 239, 0) 0%, #4a21ef 100%), #4a21ef;
+      background-position: bottom,bottom right 320%,top, top;
+      background-size: auto;
+      margin-top: 0px;
+  }
+  #start-soar .start-soar {
+    max-width: 100%;
+    padding: 80px 16px 90px;
+  }
+  #start-soar .start-soar .title h3 {
+    font-weight: 1000;
+    font-size: 48px;
+  }
+}
