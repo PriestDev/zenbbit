@@ -194,20 +194,20 @@ include 'assets/header.php';
     </style>
 </header>
 <main id="main" class="home">
-    <div id="brandoverview" class="brandoverview-swiper swiper d-none d-lg-block">
-        <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide"><?= NAME ?> has launched the first crypto friendly banking gateway and Mastercard! Learn more <a href="bank.php" style="margin-left:6px;text-decoration: underline;color: #79EFBD;">here</a>.</div>
-            <div class="swiper-slide">Security is indispensable. Learn how we make crypto safer for users <a href="https://www.safepal.com/secure" style="margin-left:6px;text-decoration: underline;color: #79EFBD;">here</a>.</div>
-        </div>
-    </div>
+    <!--<div id="brandoverview" class="brandoverview-swiper swiper d-none d-lg-block">-->
+    <!--    <div class="swiper-wrapper align-items-center">-->
+    <!--        <div class="swiper-slide"><?= NAME ?> has launched the first crypto friendly banking gateway and Mastercard! Learn more <a href="bank.php" style="margin-left:6px;text-decoration: underline;color: #79EFBD;">here</a>.</div>-->
+    <!--        <div class="swiper-slide">Security is indispensable. Learn how we make crypto safer for users <a href="https://www.safepal.com/secure" style="margin-left:6px;text-decoration: underline;color: #79EFBD;">here</a>.</div>-->
+    <!--    </div>-->
+    <!--</div>-->
     <div class="position-relative hero-choose-your-wallet">
         <section id="hero" class="position-relative">
-            <div id="brandoverview" class="brandoverview-swiper-m swiper d-lg-none">
-                <div class="swiper-wrapper align-items-center">
-                    <div class="swiper-slide"><?= NAME ?> has launched the first crypto friendly banking gateway and Mastercard! Learn more <a href="bank.php" style="margin-left:6px;text-decoration: underline;color: #79EFBD;">here</a>.</div>
-                    <div class="swiper-slide">Security is indispensable. Learn how we make crypto safer for users <a href="https://www.safepal.com/secure" style="margin-left:6px;text-decoration: underline;color: #79EFBD;">here</a>.</div>
-                </div>
-            </div>
+            <!--<div id="brandoverview" class="brandoverview-swiper-m swiper d-lg-none">-->
+            <!--    <div class="swiper-wrapper align-items-center">-->
+            <!--        <div class="swiper-slide"><?= NAME ?> has launched the first crypto friendly banking gateway and Mastercard! Learn more <a href="bank.php" style="margin-left:6px;text-decoration: underline;color: #79EFBD;">here</a>.</div>-->
+            <!--        <div class="swiper-slide">Security is indispensable. Learn how we make crypto safer for users <a href="https://www.safepal.com/secure" style="margin-left:6px;text-decoration: underline;color: #79EFBD;">here</a>.</div>-->
+            <!--    </div>-->
+            <!--</div>-->
             <div class="container position-relative hero-container d-flex align-items-center justify-content-center flex-column">
                 <div class="title" data-aos="fade-down">
                     <h3>Own Your</h3>

@@ -1,7 +1,10 @@
 <?php
-include('../database/db_config.php');
-require '../details.php';
-require '../admin.php';
+// Determine base directory for includes
+$baseDir = dirname(dirname(__FILE__));
+
+include($baseDir . '/database/db_config.php');
+require $baseDir . '/details.php';
+require $baseDir . '/admin.php';
 
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
     header('location: login.php');
@@ -126,47 +129,3 @@ $user = $_SESSION['user_id'];
 	}
 	
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="../image/fav.png" type="image/x-icon">
-  <title>User Profile</title>
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="userstyle.css">
-  <link rel="stylesheet" href="darkmode.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-</head>
-<body class="light-mode">
-
-  <!-- Sidebar -->
-  <?php include 'includes/sidebar.php'; ?>
-
-  <!-- Header -->
-  <?php include 'includes/header.php'; ?>
-
-  <!-- Main Content -->
-  <div class="user-profile-container" style="margin-top: 6rem; padding: 20px;">
-    <div class="card">
-      <h2>User Profile</h2>
-      <div class="user-info">
-        <p><strong>Name:</strong> <?php echo htmlspecialchars($fname . ' ' . $lname); ?></p>
-        <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-        <p><strong>Balance:</strong> $<?php echo number_format($bal, 2); ?></p>
-        <p><strong>Profit:</strong> $<?php echo number_format($profit, 2); ?></p>
-        <p><strong>Total Balance:</strong> $<?php echo number_format($total_bal, 2); ?></p>
-        <p><strong>Phone:</strong> <?php echo htmlspecialchars($phone); ?></p>
-        <p><strong>Country:</strong> <?php echo htmlspecialchars($country); ?></p>
-        <p><strong>Account ID:</strong> <?php echo htmlspecialchars($acct_id); ?></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <?php include 'includes/footer.php'; ?>
-
-  <script src="js/dashboard.js"></script>
-</body>
-</html>

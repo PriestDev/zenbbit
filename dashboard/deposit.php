@@ -1,4 +1,4 @@
-<?php $pageTitle = 'Deposit'; $includeIziToast = true; include 'includes/head.php'; ?>
+<?php include 'includes/dashboard_init.php'; $pageTitle = 'Deposit'; $includeIziToast = true; include 'includes/head.php'; ?>
 <body class="light-mode dashboard-body">
   <!-- Sidebar Component -->
   <?php include 'includes/sidebar.php'; ?>

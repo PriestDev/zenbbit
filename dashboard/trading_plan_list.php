@@ -1,4 +1,5 @@
 <?php
+include 'includes/dashboard_init.php';
 $pageTitle = 'Trading Plans';
 $includeIziToast = true;
 include 'includes/head.php';

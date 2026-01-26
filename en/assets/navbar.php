@@ -13,285 +13,405 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
         }
 
-        #header.transparent {
-            background: rgba(30, 30, 30, 0.7) !important;
-            border-bottom: 1px solid rgba(51, 51, 51, 0.5) !important;
+        /* Navbar Wrapper - Main Container */
+        .navbar-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            gap: 20px;
+            width: 100%;
+        }
+
+        /* Logo Styling */
+        .navbar-logo {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-logo:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Hamburger Menu Toggle */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            margin: 0;
+            z-index: 1001;
+            flex-shrink: 0;
+            background: none;
+            border: none;
+        }
+
+        .hamburger-menu:active {
+            background: rgba(98, 47, 170, 0.1);
+            border-radius: 5px;
+        }
+
+        .hamburger-menu span {
+            width: 24px;
+            height: 2.5px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            transition: all 0.4s ease;
+            display: block;
+        }
+
+        .hamburger-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Default Navbar (Desktop) */
+        .navbar {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0;
+            flex: 1;
+        }
+
+        .navbar ul {
+            display: flex;
+            flex-direction: row;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0;
+            align-items: center;
+            width: 100%;
         }
 
         .navbar ul li a {
-            color: #e0e0e0 !important;
-            transition: color 0.3s ease !important;
-            font-weight: 500 !important;
+            color: #e0e0e0;
+            font-weight: 500;
+            padding: 12px 18px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
         }
 
-        .navbar ul li a:hover,
-        .navbar ul li a.active {
-            color: #622faa !important;
+        .navbar ul li a:hover {
+            color: #622faa;
+            background: rgba(98, 47, 170, 0.1);
+            border-radius: 5px;
         }
 
-        .navbar ul li a span {
-            color: #e0e0e0 !important;
-            font-weight: 500 !important;
+        /* Auth Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0;
         }
 
-        .navbar ul li a span:hover {
-            color: #622faa !important;
+        .auth-buttons a {
+            text-decoration: none;
         }
 
-        .navbar i {
-            color: #622faa !important;
+        .btn-login, .btn-register {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 14px;
         }
 
-        .dropdown-box,
-        .dropdown-mobile {
-            background: #262626 !important;
-            border: 1px solid #333 !important;
+        .btn-register {
+            background: #622faa;
+            color: white;
+            border: 2px solid #622faa;
         }
 
-        .dropdown-box-item a,
-        .dropdown-mobile a,
-        .dropdown-box-item li,
-        .dropdown-mobile li {
-            color: #fff !important;
-            font-weight: 500 !important;
+        .btn-register:hover {
+            background: #8c3fca;
+            border-color: #8c3fca;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(98, 47, 170, 0.3);
         }
 
-        .dropdown-box-item a:hover,
-        .dropdown-mobile a:hover {
-            color: #622faa !important;
+        .btn-login {
+            color: #622faa;
+            border: 2px solid #622faa;
+            background: transparent;
         }
 
-        .btn-common.my-downloads-btn {
-            background: #622faa !important;
-            color: #fff !important;
-            border: 1px solid #622faa !important;
-            transition: all 0.3s ease !important;
+        .btn-login:hover {
+            background: #622faa;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(98, 47, 170, 0.3);
         }
 
-        .btn-common.my-downloads-btn:hover {
-            background: #8c3fca !important;
-            border-color: #8c3fca !important;
+        /* Mobile Navbar */
+        @media (max-width: 992px) {
+            .navbar-wrapper {
+                padding: 10px 15px;
+                gap: 10px;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .navbar {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: linear-gradient(135deg, rgba(20, 20, 20, 0.99) 0%, rgba(30, 30, 30, 0.99) 100%);
+                flex-direction: column;
+                padding: 20px 0;
+                overflow-y: auto;
+                transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1000;
+                border-right: 1px solid #333;
+            }
+
+            .navbar.active {
+                left: 0;
+                box-shadow: 2px 0 15px rgba(0, 0, 0, 0.5);
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
+                padding: 0;
+                margin: 0;
+            }
+
+            .navbar ul li {
+                width: 100%;
+                border-bottom: 1px solid rgba(51, 51, 51, 0.5);
+            }
+
+            .navbar ul li:last-child {
+                border-bottom: 1px solid #333;
+            }
+
+            .navbar ul li a {
+                display: block;
+                padding: 16px 20px;
+                border-bottom: none;
+                color: #e0e0e0;
+                font-size: 15px;
+                font-weight: 500;
+            }
+
+            .navbar ul li a:active {
+                background: rgba(98, 47, 170, 0.15);
+            }
+
+            /* Mobile Auth Section */
+            .mobile-auth {
+                width: 100%;
+                border-top: 2px solid #333;
+                margin-top: 10px;
+                padding: 15px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .mobile-auth a {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 14px 20px;
+                color: #622faa;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 15px;
+                transition: all 0.3s ease;
+                border-bottom: 1px solid rgba(51, 51, 51, 0.5);
+                gap: 10px;
+            }
+
+            .mobile-auth a:last-child {
+                border-bottom: none;
+            }
+
+            .mobile-auth a:active {
+                background: rgba(98, 47, 170, 0.15);
+                transform: translateX(5px);
+            }
+
+            .mobile-auth a:hover {
+                color: #8c3fca;
+                padding-left: 25px;
+            }
         }
 
-        /* Logo styling */
-        .logo img,
-        .final-mark-logo img,
-        .final-dark-logo img {
-            filter: brightness(1.2) !important;
-            opacity: 1 !important;
-        }
-
-        .logo, .final-mark-logo, .final-dark-logo {
-            opacity: 1 !important;
-        }
-
-        /* Mobile nav toggle */
-        .mobile-nav-toggle {
-            cursor: pointer !important;
-        }
-
-        .mobile-nav-light {
-            display: block !important;
-        }
-
-        .mobile-nav-dark {
-            display: none !important;
-        }
-
-        /* Light Mode Support */
-        body.light-mode #header {
-            background: rgba(248, 249, 250, 0.95) !important;
-            border-bottom: 1px solid #ddd !important;
-        }
-
-        body.light-mode #header.scrolled {
-            background: rgba(248, 249, 250, 0.98) !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-        }
-
-        body.light-mode #header.transparent {
-            background: rgba(248, 249, 250, 0.7) !important;
-            border-bottom: 1px solid rgba(221, 221, 221, 0.5) !important;
-        }
-
-        body.light-mode .navbar ul li a {
-            color: #666 !important;
-        }
-
-        body.light-mode .navbar ul li a:hover,
-        body.light-mode .navbar ul li a.active {
-            color: #622faa !important;
-        }
-
-        body.light-mode .navbar ul li a span {
-            color: #666 !important;
-        }
-
-        body.light-mode .dropdown-box,
-        body.light-mode .dropdown-mobile {
-            background: #fff !important;
-            border: 1px solid #ddd !important;
-        }
-
-        body.light-mode .dropdown-box-item a,
-        body.light-mode .dropdown-mobile a {
-            color: #666 !important;
-        }
-
-        body.light-mode .dropdown-box-item a:hover,
-        body.light-mode .dropdown-mobile a:hover {
-            color: #622faa !important;
-        }
-
-        body.light-mode .mobile-nav-light {
-            display: none !important;
-        }
-
-        body.light-mode .mobile-nav-dark {
-            display: block !important;
-        }
-
-        /* Responsive Navbar */
+        /* Tablet Responsive Adjustments */
         @media (max-width: 768px) {
-            .navbar ul li a {
-                font-size: 14px !important;
+            .navbar-wrapper {
+                padding: 8px 12px;
             }
 
-            .btn-common.my-downloads-btn {
-                padding: 8px 16px !important;
-                font-size: 13px !important;
+            .navbar {
+                width: 85vw;
+                max-width: 280px;
+            }
+
+            .navbar ul li a {
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+
+            .mobile-auth a {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .btn-login, .btn-register {
+                padding: 8px 16px;
+                font-size: 13px;
             }
         }
 
+        /* Small Mobile Devices */
         @media (max-width: 480px) {
+            .navbar-wrapper {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .navbar-logo img {
+                height: 35px;
+            }
+
+            .hamburger-menu {
+                padding: 6px;
+            }
+
+            .hamburger-menu span {
+                width: 22px;
+                height: 2px;
+            }
+
+            .navbar {
+                width: 100%;
+                max-width: 100%;
+                border-right: none;
+            }
+
             .navbar ul li a {
-                font-size: 13px !important;
+                padding: 12px 16px;
+                font-size: 13px;
             }
 
-            .btn-common.my-downloads-btn {
-                padding: 6px 12px !important;
-                font-size: 12px !important;
+            .mobile-auth a {
+                padding: 10px 16px;
+                font-size: 13px;
             }
 
-            .dropdown-mobile {
-                margin-top: 10px !important;
+            .auth-buttons {
+                gap: 8px;
+            }
+
+            .btn-login, .btn-register {
+                padding: 8px 14px;
+                font-size: 12px;
             }
         }
     </style>
-    <div class="justify-content-center align-items-center">
-        <div class="d-flex align-items-center justify-content-between">
-            <!-- pc - logo -  -->
-            <a href="./" class="logo logo-light">
-                <img src="../uploads/<?= LOGO ?>" alt="" class="img-fluid"></a>
-            <!-- pc - dark logo -->
-            <a href="./" class="logo logo-dark">
-                <img src="../uploads/<?= LOGO ?>" style="filter:invert(100%)" alt="" class="img-fluid"></a>
-            <!-- m --logo  -->
-            <a href="./" class="final-mark-logo">
-                <img style="height:24px;" src="../uploads/<?= LOGO ?>" alt="" class="img-fluid"></a>
-            <!-- m --dark logo -->
-            <a href="./" class="final-dark-logo">
-                <img style="height:24px;" src="../uploads/<?= LOGO ?>" style="filter:invert(100%)" alt="" class="img-fluid"></a>
+    <div class="navbar-wrapper">
+        <!-- Logo -->
+        <a href="./" class="navbar-logo">
+            <img src="../uploads/<?= LOGO ?>" alt="Logo">
+        </a>
 
-            <!-- m --logo  -->
-            <!-- <a href="/" class="final-mark-logo">
-                    <img src="/assets/img/safepal-final-mark-logo.svg" alt="" class="img-fluid"></a> -->
-            <!-- m --dark logo -->
-            <!-- <a href="" class="final-dark-logo">
-                    <img src="/assets/img/safepal-final-dark-logo.svg" alt="" class="img-fluid"></a> -->
-            <!-- style="position:unset;" -->
-            <nav id="navbar" class="navbar">
-                <div id="language-m" class="position-relative d-lg-none language"></div>
-                <!-- mobile dowload btn -->
-                <div class="d-lg-none show-download-btn downloads-btn">
-                    <!-- <div class="">
-                            <a href="/download">
-                                <button type="button" class="btn-common my-downloads-btn animate__animated animate__pulse">Download</button>
-                            </a>
-                        </div> -->
-                    <div class="downloads-nav-toggle">
-                        <a href="download.php">
-                            <svg class="mobile-download-light" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#FCFCFC"
-                                    stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M7 10L12 15L17 10" stroke="#FCFCFC" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M12 15V3" stroke="#FCFCFC" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                            <svg class="mobile-download-dark" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#0D0B33"
-                                    stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M7 10L12 15L17 10" stroke="#0D0B33" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M12 15V3" stroke="#0D0B33" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <!--  -->
-                <ul>
-                    <div class="d-lg-none d-flex justify-content-between align-items-center dropdown-mobile-logo">
-                        <div class="dropdown-logo">
-                            <img src="https://www.safepal.com/assets/img/dropdown-mobile-logo.svg" alt="" srcset="">
-                        </div>
-                        <div class="dropdown-off">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M9.636 8.223L17.131 0.727997L19.272 2.86899L11.777 10.364L19.272 17.859L17.131 20L9.636 12.505L2.141 20L0 17.859L7.495 10.364L0 2.86899L2.141 0.727997L9.636 8.223Z" fill="#4A21EF" />
-                            </svg>
-                        </div>
-                    </div>
-                    
-                    
-                    <li class="dropdown"><a class="scrollto" href="bank.php">Banking</a></li>
-                    <li class="dropdown"><a class="scrollto" href="lists.php">Assets</a></li>
-                    <li class="dropdown new-dropdown">
-                        <a class="scrollto" href="sfp.php">SFP</a>
-                    </li>
-                    <li class="dropdown new-dropdown">
-                        <!-- <a class="scrollto" href="/about">About</a> -->
-                        <a class="scrollto" href="#hero">
-                            <span>About</span>
-                            <i class="bi bi-caret-down-fill"></i>
-                            <i style="display: none;" class="bi bi-caret-up-fill"></i>
-                            <i class="d-lg-none bi bi-plus"></i>
-                            <i class="d-lg-none bi bi-dash"></i>
-                        </a>
-                        <ul class="d-none d-lg-block dropdown-box">
-                            <div class="dropdown-box-content">
-                                <div class="dropdown-box-item">
-                                    <div class="">
-                                        <li data-path="about.php"><a href="about.php">About Us</a></li>
-                                        <li><a href="../dashboard/register.php">Join Us</a></li>
-                                        <!-- <li><a href="https://safepalsupport.zendesk.com/hc/en-us/requests/new?ticket_form_id=360001760732">Contact Us</a></li> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </ul>
-                        <ul class="d-lg-none dropdown-mobile">
-                            <li><a href="about.php">About Us</a></li>
-                            <li><a href="../dashboard/register.php">Join Us</a></li>
-                            <!-- <li><a href="https://safepalsupport.zendesk.com/hc/en-us/requests/new?ticket_form_id=360001760732">Contact Us</a></li> -->
-                        </ul>
-                    </li>
-                </ul>
-                <i class="mobile-nav-toggle">
-                    <img class="mobile-nav-light" src="https://www.safepal.com/assets/img/icon-meun-mobile.svg" alt="" sizes="" srcset="">
-                    <!-- 深色 -->
-                    <img class="mobile-nav-dark" src="https://www.safepal.com/assets/img/icon-meun-mobile-dark.svg" alt="" sizes="" srcset="">
-                </i>
-            </nav><!-- .navbar -->
+        <!-- Main Navigation -->
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a href="bank.php">Banking</a></li>
+                <li><a href="lists.php">Assets</a></li>
+                <li><a href="sfp.php">SFP</a></li>
+                <li><a href="about.php">About</a></li>
+            </ul>
+            
+            <!-- Mobile Auth Section -->
+            <!-- <div class="mobile-auth">
+                <a href="../dashboard/register.php">📝 Register</a>
+                <a href="../dashboard/">🔐 Login</a>
+            </div> -->
+        </nav>
 
-            <!-- downloads -->
-            <div class="downloads-btn position-relative">
-                <!-- class="position-relative language" -->
+        <!-- Hamburger Menu Toggle -->
+        <button class="hamburger-menu" id="hamburger" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
-                <div class="set-off-btn animate__animated animate__pulse">
-                    <div class="set-off-btn animate__animated animate__pulse">
-                        <a href="../dashboard/">
-                            <button type="button" class="btn-common my-downloads-btn animate__animated animate__pulse">Login</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <!-- Desktop Auth Buttons -->
+        <div class="auth-buttons">
+            <a href="../dashboard/" class="btn-login">Login</a>
+            <a href="../dashboard/register.php" class="btn-register">Register</a>
         </div>
     </div>
 
-</div>
+    <!-- Mobile Navbar Toggle Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburger = document.getElementById('hamburger');
+        const navbar = document.getElementById('navbar');
+
+        // Toggle mobile menu and hamburger animation
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navbar.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        const navLinks = navbar.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navbar.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const isClickInsideNavbar = e.target.closest('.navbar');
+            const isClickOnHamburger = e.target.closest('.hamburger-menu');
+            
+            if (!isClickInsideNavbar && !isClickOnHamburger) {
+                navbar.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Close menu on resize if going to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 992) {
+                navbar.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    });
+    </script>

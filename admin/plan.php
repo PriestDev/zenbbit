@@ -1,140 +1,109 @@
 <?php 
     include('security.php');
-    
     include('includes/header.php');
     include('includes/navbar.php');
 ?>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLongTitle"> Setup Plan</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="server.php" method="POST">
-        <div class="modal-body">
-          <div class="form-group">
-            <label> Plan Name </label>
-            <input type="text" name="pair" class="form-control" placeholder="Trading Plan Name" required>
-          </div>
-          <div class="form-group">
-            <label> Min Amount ($) </label>
-            <input type="number" min='1' name="min" class="form-control" placeholder="Plan Price" required>
-          </div>
-          <div class="form-group">
-            <label> Max Amount ($) <small>Set to zero (0) for unlimited</small> </label>
-            <input type="number" name="max" class="form-control" placeholder="Plan Price" required>
-          </div>
-          <div class="form-group">
-            <label> Profit (%) </label>
-            <input type="number" name="prof" class="form-control" placeholder="Trade Profit" required>
-          </div>
-          <div class="form-group">
-            <label> Duration (minutes)</label>
-            <input type="number" name="duration" class="form-control" placeholder="Duration" required>
-          </div>
-          <div class="form-group">
-            <label> Status </label>
-            <select class="form-control" name="status" required>
-              <option value="0">-- Select Status --</option>
-              <option value="1">Active</option>
-              <option value="0">Inactive</option>
-            </select>
-          </div>
+<main id="content">
+    <!-- Page Heading -->
+    <h1 class="page-heading">Investment Plans</h1>
+
+    <!-- Status Messages -->
+    <?php 
+        if (isset($_SESSION['success']) && $_SESSION['success'] != '') {
+            echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
+            unset($_SESSION['success']);
+        }
+        if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
+            echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['status']) . '</div>';
+            unset($_SESSION['status']);
+        }
+    ?>
+
+    <!-- Plans Table Card -->
+    <div class="card">
+        <div class="card-header d-flex justify-between align-center">
+            <h3 class="m-0">Investment Plans</h3>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#planModal">
+                <i class="fas fa-plus"></i> New Plan
+            </button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" name="trade" class="btn btn-primary">Save</button>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Plan Name</th>
+                            <th>Min Amount</th>
+                            <th>Max Amount</th>
+                            <th>Profit %</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $stmt = mysqli_prepare($conn, "SELECT id, name, min, max, per, duration, status, reg_date, up_date FROM plan ORDER BY id DESC");
+                        if ($stmt) {
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $status_badge = ($row['status'] == 1)
+                                        ? '<span class="badge badge-approved">ACTIVE</span>'
+                                        : '<span class="badge badge-pending">INACTIVE</span>';
+
+                                    $max_display = ($row['max'] == 0) ? 'Unlimited' : '$' . number_format($row['max'], 2);
+                                    $plan_name = htmlspecialchars($row['name']);
+                                    $min_amount = '$' . number_format($row['min'], 2);
+                                    $profit = $row['per'] . '%';
+                                    $duration = $row['duration'] . ' min';
+                                    $id = (int)$row['id'];
+                                    $reg_date = date('Y-m-d', strtotime($row['reg_date']));
+                                    $up_date = date('Y-m-d', strtotime($row['up_date']));
+                        ?>
+                        <tr>
+                            <td><strong><?php echo $plan_name; ?></strong></td>
+                            <td><?php echo $min_amount; ?></td>
+                            <td><?php echo $max_display; ?></td>
+                            <td><?php echo $profit; ?></td>
+                            <td><?php echo $duration; ?></td>
+                            <td><?php echo $status_badge; ?></td>
+                            <td><?php echo $reg_date; ?></td>
+                            <td><?php echo $up_date; ?></td>
+                            <td>
+                                <form action="plan_edit.php" method="POST" style="display: inline;">
+                                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                    <button type="submit" name="edit_plan" class="btn btn-sm btn-secondary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                </form>
+                                <form action="plan_edit.php" method="POST" style="display: inline;">
+                                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                    <button type="submit" name="del_trade" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php
+                                }
+                            } else {
+                                echo '<tr><td colspan="9" class="text-center text-muted">No investment plans found</td></tr>';
+                            }
+                            mysqli_stmt_close($stmt);
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-     </form>
     </div>
-  </div>
-</div>
-<div>
-  <h5> Trade
-  <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-  New Trade
-</button>
-  </h5>
-</div>
-
-
- <div class="card-body">            
-  <div class="table-responsive">
-      <?php 
-    if (isset($_SESSION['success']) && $_SESSION['success'] !='') {
-      echo "<h2 class='text-info'> ".$_SESSION['success']." </h2>";
-      unset($_SESSION['success']);
-    }
-    if (isset($_SESSION['status']) && $_SESSION['status'] !='') {
-      echo "<h2 class='text-danger'> ".$_SESSION['status']." </h2>";
-      unset($_SESSION['status']);
-    }
-  ?>
-    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-      <thead>
-        <tr>
-          <th>Plan_Name</th>
-          <th>Min_Amount</th>
-          <th>Max_Amount</th>
-          <th>Profit(%)</th>
-          <th>Duration</th>
-          <th>Status</th>
-          <th>Reg_date</th>
-          <th>Last_update</th>
-          <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-      <?php 
-       $sql = "SELECT * FROM plan ORDER BY id DESC";
-      $run = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($run) > 0) {
-      while ($row = mysqli_fetch_assoc($run)) {     
-       ?>
-        <tr>
-          <td> <?php echo $row['name']; ?></td>
-          <td>$<?= number_format($row['min']); ?></td>
-          <td><?php if ($row['max'] == 0) { echo "Unlimited"; } else { echo '$'.number_format($row['max']); } ?></td>
-          <td><?= $row['per']; ?>%</td>
-          <td><?= $row['duration']; ?> minutes</td>
-           <td><?php if ($row['status'] == 1) {
-            echo ' <b class="bg-success" style="text-align: center; margin-top: 10px; padding: 3px 6px; font-size: 10px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Active</b>';
-          } elseif ($row['status'] == 0) {
-            echo ' <b class="bg-warning" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Inactive</b>';
-          } ?></td>
-          <td><?= $row['reg_date']; ?></td>
-          <td><?= $row['up_date']; ?></td>
-          <td>
-            <form action="plan_edit.php" method="POST">
-              <div style="display: flex;">
-
-                <button type="submit" name="edit_plan" class="btn btn-success btn-sm" style="padding: 4px; margin: 3px;"> Edit </button>
-            
-                <input type="hidden" name="id" value=" <?php echo $row['id']; ?> ">
-                <button type="submit" name="del_trade" class="btn btn-danger btn-sm" style="padding: 4px; margin: 3px;"> Delete </button>
-              </div>
-            </form>
-          </td>
-        </tr>
-
-       <?php
-      }
-    } else {
-      echo "No Record Found";
-    }
-  ?>
-      </tbody>
-    </table>
-  </div>
-</div>
-
+</main>
 
 <?php 
 include('includes/script.php');

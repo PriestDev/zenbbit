@@ -3,180 +3,180 @@ include('security.php');
 require('../details.php');
 include('includes/header.php');
 include('includes/navbar.php');
-
-
 ?>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLongTitle">Add Bonus</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <center class='text-danger'> All field is required</center>
-      <form action="code.php" method="POST">
-	      <div class="modal-body">
-            <div class="form-group">
-            <label>User</label>
-            <?php
-            
-                $sql = "SELECT * FROM user ORDER BY id DESC";
-                $run = mysqli_query($conn, $sql);
-            
-            ?>
-              <select class="form-control" name="user" required>
-                  <option  value"" class="text-fade">-- Select user  --</option>
-                  <?php
-                    
-                    while ($row = mysqli_fetch_assoc($run))
-                        {
-                  ?>
-                <option  value="<?= $row['email'] ?>" class="text-fade"><?= $row['first_name'] .' '. $row['last_name']; ?></option>
-                <?php }
-                ?>
-              </select>
-          </div>
-	        <div class="form-group">
-	        	<label> Amount <span class='text-danger'>*</span></label>
-	        	<input type="number" required name="amount" class="form-control" placeholder="Enter Amount">
-	        </div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="submit" name="bonus" class="btn btn-primary">Save</button>
-	      </div>
-     </form>
-    </div>
-  </div>
-</div>
+<main id="content">
+    <h1 class="page-heading">Bonus & Other Transactions</h1>
 
-<div class="card-body">
-      <div class="table-responsive">
-         <div>
-        	<h5> Bonus
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-                  Add
-                </button>
-        	</h5>
-        </div>
-
-           <?php 
-                if (isset($_SESSION['success']) && $_SESSION['success'] !='') {
-                  echo "<h2 class='text-info'> ".$_SESSION['success']." </h2>";
-                  unset($_SESSION['success']);
-                }
-                if (isset($_SESSION['status']) && $_SESSION['status'] !='') {
-                  echo "<h2 class='text-danger'> ".$_SESSION['status']." </h2>";
-                  unset($_SESSION['status']);
-                }
-              ?>
-            <div class="mb-3">
-                <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search TRX_ID in table.." title="Type in a Transaction ID">
-            </div>
-            <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th>TRX_ID</th>
-              <th>User_ID</th>
-              <th>Method</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Create_at</th>
-              <th>Last_update</th>
-              <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-          <?php 
-          
-          $sql = "SELECT * FROM transaction WHERE status = 'other' ORDER BY id DESC";
-          $run = mysqli_query($conn, $sql); 
-          
-            if (mysqli_num_rows($run) > 0) {
-              while ($row = mysqli_fetch_assoc($run)) {
-           ?>
-            <tr>
-              <td><?php echo $row['trx_id']; ?></td>
-              <td><?php echo $row['user_id']; ?></td>
-              <td><?php echo $row['name']; ?></td>
-              <td><?php echo '$' .$row['amt']; ?></td>
-               <td><?php if ($row['serial'] == 0) {
-                echo ' <b class="bg-warning" style="text-align: center; margin-top: 10px; padding: 3px 6px; font-size: 10px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Pending</b>';
-              } elseif ($row['serial'] == 1) {
-                echo ' <b class="bg-success" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Approved</b>';
-              } elseif ($row['serial'] == 2) {
-                echo ' <b class="bg-danger" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Declined</b>';
-              } ?></td>
-              <td><?= date('Y-m-d h:ia', strtotime($row['create_date'])) ?></td>
-              <td><?= date('Y-m-d h:ia', strtotime($row['update'])) ?></td>
-              <td>
-               <form method="POST" action="code.php"> 
-                <input type="hidden" value="<?= $row['amt']; ?>" name="amt">
-                <input type="hidden" value="<?= $row['user_id'] ?>" name="user_id">
-                <input type="hidden" value="<?= $row['email'] ?>" name="email">
-                <?php if ($row['serial'] == 0) {
-                  ?>
-                    <center >
-                    <input type="hidden" name="approve_serial" value="<?php echo $row['trx_id']; ?>">
-                  <button type="submit" name="approve_deposit" class="btn btn-success btn-sm"> Approve </button>
-    
-                <input type="hidden" name="serial" value="<?php echo $row['trx_id'] ?>">
-                 <button type="submit" name="decline_deposit" class="btn btn-danger btn-sm"> Decline </button>
-                  </center>
-                  
-                  <?php
-                } else {
-                  ?>
-    
-                <center>
-                    <input type="hidden" name="delete_wth" value="<?php echo $row['id'] ?>">
-                    <button type="submit" name="delete_trx" class="btn btn-danger btn-sm"> DELETE </button>
-                </center>
-    
-                  <?php
-                } ?>
-            
-                  
-                  
-                </form>
-              </td>        
-            </tr>
-    
-           <?php
-          }
-    
-        } else {
-          echo "No Record Found";
+    <!-- Status Messages -->
+    <?php 
+        if (isset($_SESSION['success']) && $_SESSION['success'] != '') {
+            echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
+            unset($_SESSION['success']);
         }
-      ?>
-          </tbody>
-        </table>
-      </div>
-</div>
+        if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
+            echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['status']) . '</div>';
+            unset($_SESSION['status']);
+        }
+    ?>
 
+    <!-- Add Bonus Modal -->
+    <div class="modal-overlay" id="bonusModal">
+        <div class="modal-dialog" style="max-width: 500px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Bonus</h3>
+                    <button type="button" class="modal-close" onclick="document.getElementById('bonusModal').style.display='none'">×</button>
+                </div>
+                <form action="code.php" method="POST">
+                    <div class="modal-body">
+                        <p style="color: #d32f2f; font-size: 12px; margin-bottom: 15px;">All fields are required</p>
+
+                        <div class="form-group">
+                            <label>Select User *</label>
+                            <?php
+                                $stmt = mysqli_prepare($conn, "SELECT id, email, first_name, last_name FROM user ORDER BY id DESC");
+                                if ($stmt) {
+                                    mysqli_stmt_execute($stmt);
+                                    $result = mysqli_stmt_get_result($stmt);
+                            ?>
+                            <select class="form-control" name="user" required>
+                                <option value="">-- Select user --</option>
+                                <?php
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo '<option value="' . htmlspecialchars($row['email']) . '">' . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . '</option>';
+                                    }
+                                    mysqli_stmt_close($stmt);
+                                ?>
+                            </select>
+                            <?php } ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Amount * ($)</label>
+                            <input type="number" required name="amount" class="form-control" placeholder="Enter amount" step="0.01">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('bonusModal').style.display='none'">Cancel</button>
+                        <button type="submit" name="bonus" class="btn btn-primary">Add Bonus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bonus Transactions Card -->
+    <div class="card">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="m-0">Transactions</h3>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('bonusModal').style.display='flex'">
+                + Add Bonus
+            </button>
+        </div>
+        <div class="card-body">
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search by TRX ID..." style="max-width: 300px;">
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>TRX ID</th>
+                            <th>User</th>
+                            <th>Method</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            $stmt = mysqli_prepare($conn, "SELECT * FROM transaction WHERE status='other' ORDER BY id DESC");
+                            if ($stmt) {
+                                mysqli_stmt_execute($stmt);
+                                $result = mysqli_stmt_get_result($stmt);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $status_badge = '';
+                                        if ($row['serial'] == 0) {
+                                            $status_badge = '<span class="badge" style="background-color: #ff9800;">Pending</span>';
+                                        } elseif ($row['serial'] == 1) {
+                                            $status_badge = '<span class="badge" style="background-color: #4caf50;">Approved</span>';
+                                        } elseif ($row['serial'] == 2) {
+                                            $status_badge = '<span class="badge" style="background-color: #f44336;">Declined</span>';
+                                        }
+                        ?>
+                        <tr>
+                            <td><strong><?= htmlspecialchars($row['trx_id']); ?></strong></td>
+                            <td><?= htmlspecialchars($row['user_id']); ?></td>
+                            <td><?= htmlspecialchars($row['name']); ?></td>
+                            <td>$<?= number_format($row['amt'], 2); ?></td>
+                            <td><?= $status_badge; ?></td>
+                            <td><?= date('M d, Y H:i', strtotime($row['create_date'])); ?></td>
+                            <td>
+                                <form method="POST" action="code.php" style="display: inline;">
+                                    <input type="hidden" value="<?= htmlspecialchars($row['amt']); ?>" name="amt">
+                                    <input type="hidden" value="<?= htmlspecialchars($row['user_id']); ?>" name="user_id">
+                                    <input type="hidden" value="<?= htmlspecialchars($row['email']); ?>" name="email">
+
+                                    <?php if ($row['serial'] == 0) { ?>
+                                        <input type="hidden" name="approve_serial" value="<?= htmlspecialchars($row['trx_id']); ?>">
+                                        <button type="submit" name="approve_deposit" class="btn btn-sm btn-success">Approve</button>
+
+                                        <input type="hidden" name="serial" value="<?= htmlspecialchars($row['trx_id']); ?>">
+                                        <button type="submit" name="decline_deposit" class="btn btn-sm btn-danger">Decline</button>
+                                    <?php } else { ?>
+                                        <input type="hidden" name="delete_wth" value="<?= htmlspecialchars($row['id']); ?>">
+                                        <button type="submit" name="delete_trx" class="btn btn-sm btn-danger">Delete</button>
+                                    <?php } ?>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php
+                                    }
+                                    mysqli_stmt_close($stmt);
+                                } else {
+                        ?>
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 30px; color: #999;">
+                                No transactions found
+                            </td>
+                        </tr>
+                        <?php
+                                }
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
 
 <script>
+// Modal backdrop click handler
+document.getElementById('bonusModal').addEventListener('click', function(e) {
+    if (e.target === this) this.style.display = 'none';
+});
+
+// Search function
 function myFunction() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
+    var input = document.getElementById("myInput");
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("myTable");
+    var tr = table.getElementsByTagName("tr");
+    
+    for (var i = 1; i < tr.length; i++) {
+        var td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            var txtValue = td.textContent || td.innerText;
+            tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+        }
+    }
 }
 </script>
 

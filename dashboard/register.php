@@ -44,12 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             if (mysqli_stmt_execute($stmt)) {
             // Send welcome email
-            $subject = "Welcome to SafeWallet!";
+            $subject = "Welcome to ". NAME ."!";
             $welcome_message = "
                 <div style='background-color: rgb(175, 175, 175); padding: 30px;'>
                     <div style='text-align: center; max-width: 600px; margin: auto; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); padding: 40px; border-radius: 12px;'>
                         <div style='margin-bottom: 30px;'>
-                            <h2 style='color: #622faa; margin: 0 0 10px 0; font-size: 32px;'>Welcome to SafeWallet!</h2>
+                            <h2 style='color: #622faa; margin: 0 0 10px 0; font-size: 32px;'>Welcome to ". NAME ."!</h2>
                             <p style='color: #666; margin: 0; font-size: 14px;'>Your secure cryptocurrency wallet</p>
                         </div>
                         
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         
                         <p style='color: #666; margin: 25px 0 15px 0; font-size: 14px;'>
-                            <a href='https://" . $_SERVER['HTTP_HOST'] . "/p/dashboard/' style='display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #622faa 0%, #8c3fca 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;'>Go to Dashboard</a>
+                            <a href='https://" . DOMAIN . "/p/dashboard/' style='display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #622faa 0%, #8c3fca 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;'>Go to Dashboard</a>
                         </p>
                         
                         <hr style='border: none; border-top: 1px solid #ddd; margin: 30px 0;'>
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $headers = "MIME-Version: 1.0" . "\r\n";
             $headers .= "Content-type: text/html;charset=UTF-8" . "\r\n";
-            $headers .= 'From: '.EMAIL . "\r\n";
+            $headers .= 'From:'.NAME.' <'.EMAIL.'>' . "\r\n";
             
             // mail($email, $subject, $welcome_message, $headers);
             

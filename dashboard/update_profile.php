@@ -1,4 +1,5 @@
 <?php 
+include 'includes/dashboard_init.php';
 $pageTitle = 'Edit Profile'; 
 include 'includes/head.php'; 
 

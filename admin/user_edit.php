@@ -4,372 +4,384 @@
     include('includes/navbar.php');
     
     if (isset($_GET['id']) && $_GET['id'] != null) {
-        $id = $_GET['id'];
-        $sql = "SELECT * FROM user WHERE id = '$id'";
-        $run = mysqli_query($conn, $sql);
-        $row = $run->fetch_array(MYSQLI_ASSOC);
+        $id = intval($_GET['id']);
+        $stmt = mysqli_prepare($conn, "SELECT * FROM user WHERE id=?");
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        mysqli_stmt_close($stmt);
 ?>
 
-<div class="container-fluid">
+<main id="content">
+    <!-- Page Header -->
+    <div class="page-header" style="margin-bottom: 2rem;">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h1 class="page-heading">
+                    <i class="fas fa-fw fa-user-edit" style="margin-right: 0.75rem;"></i>
+                    Edit User Details
+                </h1>
+                <p class="page-subtitle">Account ID: <strong><?= htmlspecialchars($row['acct_id'] ?? 'N/A'); ?></strong></p>
+            </div>
+            <div style="text-align: right;">
+                <span class="badge" style="font-size: 0.8rem; padding: 0.35rem 0.75rem; border-radius: 0.375rem;
+                    background: <?= $row['status'] == 1 ? '#10b981' : ($row['status'] == 0 ? '#ef4444' : '#f59e0b'); ?>; 
+                    color: white; font-weight: 600; letter-spacing: 0.3px;">
+                    <?= $row['status'] == 1 ? '✓ Active' : ($row['status'] == 0 ? '⊘ Suspended' : ($row['status'] == 2 ? '⏳ Pending' : '✕ Banned')); ?>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Messages -->
     <?php 
         if (isset($_SESSION['success']) && $_SESSION['success'] !='') {
-          echo "<h2 class='text-info'> ".$_SESSION['success']." </h2>";
-          unset($_SESSION['success']);
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-bottom: 1.5rem;">
+                <i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>
+                ' . htmlspecialchars($_SESSION['success']) . '
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>';
+            unset($_SESSION['success']);
         }
         if (isset($_SESSION['status']) && $_SESSION['status'] !='') {
-          echo "<h2 class='text-danger'> ".$_SESSION['status']." </h2>";
-          unset($_SESSION['status']);
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom: 1.5rem;">
+                <i class="fas fa-exclamation-circle" style="margin-right: 0.5rem;"></i>
+                ' . htmlspecialchars($_SESSION['status']) . '
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>';
+            unset($_SESSION['status']);
         }
-      ?>
-<div class="row">
-    <div class="col-md-6">
-    	 <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header header-elements-inline">
-                <h6 class="card-title font-weight-semibold">Edit User Details</h6>
-                
-            </div>
-            <div class="card-body">
-                <form method="POST" action="code.php">
-                	<input type="hidden" name="edit_id" value="<?php echo $row['id'] ?>">
-                	<input type="hidden" value="<?= $_SERVER['PHP_SELF'].'?id='.$id ?>" name="file">
-                	<input type="hidden" name="ip_address" value="<?php echo $row['ip_address'] ?>">
-                	<div class="form-group">
-        	        	<label> First Name: </label>
-        	        	<input type="text" name="edit_fname" value="<?php echo $row['first_name'] ?>" class="form-control" required>
-        	        </div>
-        	        <div class="form-group">
-        	        	<label> Last Name: </label>
-        	        	<input type="text" name="edit_lname" value="<?php echo $row['last_name'] ?>" class="form-control" required>
-        	        </div>
-        	        <div class="form-group">
-        	        	<label>Deposited Balance: </label>
-        	        	<input type="text" name="user_bal" value="<?php echo $row['balance'] ?>" class="form-control" required>
-        	        </div>
-        	        <div class="form-group">
-        	        	<label>Profit Balance: </label>
-        	        	<input type="text" name="profit" value="<?php echo $row['profit'] ?>" class="form-control" required >
-        	        </div>
-        	        <!--<div class="form-group">-->
-        	        <!--	<label>Profit Percent: </label>-->
-        	        <!--	<input type="text" name="profit_per" value="<?php echo $row['profit_per'] ?>" class="form-control" required >-->
-        	        <!--</div>-->
-        	        <div class="form-group">
-        	        	<label> Email: </label>
-        	        	<input type="email" name="edit_email" value="<?php echo $row['email'] ?>" class="form-control" required>
-        	        </div>
-        	        <div class="form-group">
-        	        	<label> User Trade Progress Percent: (current: <?= $row['trade_per'] ?>%)</label>
-        	        	<input type="number" name="trade_per"value="<?php echo $row['trade_per'] ?>" max="100" class="form-control" required>
-        	        </div>
-        	         <div class="form-group">
-        	        	<label> Phone: </label>
-        	        	<input type="text" name="phone" value="<?php echo $row['phone'] ?>" class="form-control" required>
-        	        </div>
-        	        <div class="form-group">
-        	        	<label> Passsword: </label>
-        	        	<input type="text" name="edit_password"value="<?php echo $row['password'] ?>"  class="form-control" required>
-        	        </div>
-        	          <div class="form-group">
-        	          	<label>Status:</label>
-        	            <select class="form-control" name="status">
-        	              <option value="1">Activate</option>
-        	              <option value="0">Suspend</option>
-        	              <option value="2">Pend</option>
-        	              <option value="3">Ban</option>
-        	            </select>
-        	          </div>
-        	          <div class="form-group">
-        	          	<label>Account Status (<small>Default: <?= $row['acct_stat'] ?></small>):</label>
-        	            <select class="form-control" name="acct_stat">
-        	              <option class="text-fade" value="<?= $row['acct_stat']; ?>"> --Default-- </option>
-        	              <option value="Inactive">Inactive</option>
-        	              <option value="Maintenance Mode">Maintenance Mode</option>
-        	              <option value="Bronze">Bronze</option>
-        	              <option value="Silver">Silver</option>
-        	              <option value="Gold">Gold</option>
-        	              <option value="Platinum">Platinum</option>
-        	              <option value="Diamond">Diamond</option>
-        	            </select>
-        	          </div>
-        	          <div class="form-group">
-        	        	<label>Manual Withdrawable Amount:</label>
-        	        	<input type="text" name="wth_amt_u" value="<?php echo $row['wth_amt'] ?>" class="form-control">
-        	        </div>
-        	          <div class="form-check">
-                          <input class="form-check-input" name="t_btn" type="checkbox" <?php if ($row['trade_btn'] == 1) {echo 'checked';}  ?> value="1" id="defaultCheck1">
-                          <label class="form-check-label" for="defaultCheck1">
-                            Off Start Trade Button
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" name="wth_amt_status" type="checkbox" <?php if ($row['wth_amt_status'] == 1) {echo 'checked';}  ?> value="1" id="defaultCheck1">
-                          <label class="form-check-label" for="defaultCheck1">
-                            Switch to manual withdraw for user
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" name="kyc" type="checkbox" <?php if ($row['kyc'] == 1) {echo 'checked';}  ?> value="1" id="defaultCheck1">
-                          <label class="form-check-label" for="defaultCheck1">
-                            KYC
-                          </label>
-                        </div>
-        	          <br>
-        	        <div class="d-flex flex-row">
-        	       <button type="submit" name="updatebtn" class="btn btn-dark ml-auto p-2">UPDATE</button>
-        	        </div>
-        	    </form>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-	     <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header header-elements-inline">
-                <h6 class="card-title font-weight-semibold">User Profile</h6>
-            </div>
-            <div class="card-body">
-            	<center>
-           		    <img src="../uploads/<?php echo $row['image']; ?>" class="rounded mx-auto d-block" width= 320; height= 300;>
-           		</center>
-    	       	<div class="text-sm-left mt-4 ml-4 font-weight-semibold">
-           			<small><p class=""><b>IP address:</b> <mark><?= $row['ip_address']; ?></mark></p></small>
-           			<small><p class=""><b>Country:</b> <mark><?= $row['country']; ?></mark></p></small>
-           			<small><p class=""><b>State:</b> <mark><?= $row['state']; ?></mark></p></small>
-           			<small><p class=""><b>City:</b> <mark><?= $row['city']; ?></mark></p></small>
-           			<small><p class=""><b>Account ID:</b> <mark><?= $row['acct_id']; ?></mark></p></small>
-           			<small><p class=""><b>Device:</b> <mark><?= $row['device']; ?></mark></p></small>
-           			<small><p class=""><b>Device Type:</b> <mark><?= $row['device_type']; ?></mark></p></small>
-           			<small><p class=""><b>Browser:</b> <mark><?= $row['browser']; ?></mark></p></small>
-           			<small><p class=""><b>Last Login:</b> <mark><?= date("l, jS F Y (h:ia)", strtotime($row['last_login']));?></mark></p></small>
-           			<small><p class=""><b>Last Updated:</b> <mark><?= date("l, jS F Y (h:ia)", strtotime($row['update']));?></mark></p></small>
-           			<small><p class=""><b>Reg_date:</b> <mark><?= date("l, jS F Y (h:ia)", strtotime($row['reg_date']));?></mark></p></small>
-           		</div>
-           	</div>
-        </div>
-    </div>
-</div>
-<div class="col-md-12">
-	 <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header header-elements-inline">
-            <h6 class="card-title font-weight-semibold">Referral List</h6>
-        </div>
-        <div class="card-body">
-             <div class="table-responsive">
-            	<table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">First_Name</th>
-                  <th scope="col">Last_Name</th>
-                  <th scope="col">Ref_Amount</th>
-                  <th scope="col">Reg_date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                
-        			$user = $row['acct_id'];
+    ?>
 
-        			$sql = "SELECT * FROM user WHERE ref_id = '$user' ";
-        			$run = mysqli_query($conn, $sql);
-    
-            		if (mysqli_num_rows($run) > 0) {
-                        while ($ref = mysqli_fetch_assoc($run)) {
-        
-                	?>
-                <tr>
-                  <th scope="row"><?= $ref['first_name'] ?></th>
-                  <td><?= $ref['last_name'] ?></td>
-                  <td><?= REF ?>%</td>
-                  <td><?= $ref['reg_date'] ?></td>
-                </tr>
-                <?php
-    
-    		            }
-                	} else {
-                	    ?>
-                	        <tr>
-                              <td colspan="8">No result found</td>
-                            </tr>
-                	    <?php
-                	}
-    	        ?>
-              </tbody>
-            </table>
+    <!-- Two Column Layout -->
+    <div class="row" style="margin-bottom: 2rem;">
+        <!-- User Details Form - Left Column -->
+        <div class="col-lg-8">
+            <div class="card shadow-lg" style="margin-bottom: 1.5rem;">
+                <div class="card-header bg-gradient" style="display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fas fa-fw fa-id-card" style="color: var(--primary-color); font-size: 1.25rem;"></i>
+                    <div>
+                        <h3 class="m-0">Account Information</h3>
+                        <small class="text-muted">Update user account details and settings</small>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="code.php">
+                        <input type="hidden" name="edit_id" value="<?= htmlspecialchars($row['id']); ?>">
+                        <input type="hidden" value="<?= htmlspecialchars($_SERVER['PHP_SELF'].'?id='.$id); ?>" name="file">
+                        <input type="hidden" name="ip_address" value="<?= htmlspecialchars($row['ip_address']); ?>">
+
+                        <!-- Personal Information Section -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">
+                                <i class="fas fa-user-circle"></i> Personal Information
+                            </h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-user" style="color: var(--primary-color); margin-right: 0.5rem;"></i>First Name *</label>
+                                        <input type="text" name="edit_fname" value="<?= htmlspecialchars($row['first_name']); ?>" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-user" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Last Name *</label>
+                                        <input type="text" name="edit_lname" value="<?= htmlspecialchars($row['last_name']); ?>" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-envelope" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Email *</label>
+                                        <input type="email" name="edit_email" value="<?= htmlspecialchars($row['email']); ?>" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-phone" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Phone</label>
+                                        <input type="text" name="phone" value="<?= htmlspecialchars($row['phone']); ?>" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Financial Information Section -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">
+                                <i class="fas fa-wallet"></i> Financial Information
+                            </h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-dollar-sign" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Deposited Balance ($) *</label>
+                                        <input type="number" name="user_bal" value="<?= htmlspecialchars($row['balance']); ?>" class="form-control" step="0.01" required>
+                                        <small class="text-muted">Total amount deposited by user</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-chart-line" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Profit Balance ($) *</label>
+                                        <input type="number" name="profit" value="<?= htmlspecialchars($row['profit']); ?>" class="form-control" step="0.01" required>
+                                        <small class="text-muted">Generated profit from trades</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Settings Section -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">
+                                <i class="fas fa-sliders-h"></i> Account Settings
+                            </h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-toggle-on" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Account Status</label>
+                                        <select class="form-control" name="status">
+                                            <option value="1" <?= $row['status'] == 1 ? 'selected' : ''; ?>>✓ Activate</option>
+                                            <option value="0" <?= $row['status'] == 0 ? 'selected' : ''; ?>>⊘ Suspend</option>
+                                            <option value="2" <?= $row['status'] == 2 ? 'selected' : ''; ?>>⏳ Pending</option>
+                                            <option value="3" <?= $row['status'] == 3 ? 'selected' : ''; ?>>✕ Ban</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div style="display: flex; gap: 0.75rem; margin-top: 2rem;">
+                            <a href="./" class="btn btn-secondary" style="padding: 0.625rem 1.5rem;">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </a>
+                            <button type="submit" name="updatebtn" class="btn btn-primary" style="padding: 0.625rem 2rem; margin-left: auto;">
+                                <i class="fas fa-save"></i> Update User
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Card - Right Column -->
+        <div class="col-lg-4">
+            <div class="card shadow-lg" style="position: sticky; top: 80px; margin-bottom: 1.5rem;">
+                <div class="card-header bg-gradient" style="display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fas fa-fw fa-address-card" style="color: var(--primary-color); font-size: 1.25rem;"></i>
+                    <div>
+                        <h3 class="m-0">Profile Information</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Profile Image -->
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <?php if (!empty($row['image'])): ?>
+                            <img src="../uploads/<?= htmlspecialchars($row['image']); ?>" alt="Profile" style="max-width: 100%; height: 200px; object-fit: cover; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <?php else: ?>
+                            <div style="width: 100%; height: 200px; background: var(--bg-secondary); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; border: 2px solid var(--border-color);">
+                                <i class="fas fa-user-circle" style="font-size: 4rem; color: var(--text-secondary);"></i>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- User Details -->
+                    <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 0.5rem; border: 1px solid var(--border-color);">
+                        <?php if (!empty($row['ip_address'])): ?>
+                        <div class="detail-row" style="display: flex; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            <i class="fas fa-globe" style="color: var(--primary-color); margin-right: 0.75rem; width: 20px;"></i>
+                            <div>
+                                <small style="color: var(--text-secondary); display: block;">IP Address</small>
+                                <strong><?= htmlspecialchars($row['ip_address']); ?></strong>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($row['country'])): ?>
+                        <div class="detail-row" style="display: flex; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            <i class="fas fa-map-marker-alt" style="color: var(--primary-color); margin-right: 0.75rem; width: 20px;"></i>
+                            <div>
+                                <small style="color: var(--text-secondary); display: block;">Country</small>
+                                <strong><?= htmlspecialchars($row['country']); ?></strong>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($row['city'])): ?>
+                        <div class="detail-row" style="display: flex; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            <i class="fas fa-city" style="color: var(--primary-color); margin-right: 0.75rem; width: 20px;"></i>
+                            <div>
+                                <small style="color: var(--text-secondary); display: block;">City</small>
+                                <strong><?= htmlspecialchars($row['city']); ?></strong>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($row['last_login'])): ?>
+                        <div class="detail-row" style="display: flex; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            <i class="fas fa-sign-in-alt" style="color: var(--primary-color); margin-right: 0.75rem; width: 20px;"></i>
+                            <div>
+                                <small style="color: var(--text-secondary); display: block;">Last Login</small>
+                                <strong><?= date("M d, Y h:i A", strtotime($row['last_login'])); ?></strong>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <div class="detail-row" style="display: flex; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            <i class="fas fa-calendar-plus" style="color: var(--primary-color); margin-right: 0.75rem; width: 20px;"></i>
+                            <div>
+                                <small style="color: var(--text-secondary); display: block;">Registered</small>
+                                <strong><?= date("M d, Y h:i A", strtotime($row['reg_date'])); ?></strong>
+                            </div>
+                        </div>
+
+                        <?php if (!empty($row['update'])): ?>
+                        <div class="detail-row" style="display: flex; align-items: center;">
+                            <i class="fas fa-calendar-edit" style="color: var(--primary-color); margin-right: 0.75rem; width: 20px;"></i>
+                            <div>
+                                <small style="color: var(--text-secondary); display: block;">Last Updated</small>
+                                <strong><?= date("M d, Y h:i A", strtotime($row['update'])); ?></strong>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="col-md-12">
-	 <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header header-elements-inline">
-            <h6 class="card-title font-weight-semibold">Trade List</h6>
+    <!-- Referral List Card -->
+    <div class="card shadow-lg" style="margin-bottom: 1.5rem;">
+        <div class="card-header bg-gradient" style="display: flex; align-items: center; gap: 0.75rem;">
+            <i class="fas fa-fw fa-link" style="color: var(--primary-color); font-size: 1.25rem;"></i>
+            <div>
+                <h3 class="m-0">Referral List</h3>
+                <small class="text-muted">Users referred by this account</small>
+            </div>
         </div>
-        <div class="card-body">
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light">
                         <tr>
-                          <th>Trade ID</th>
-                          <th>Trade Pair</th>
-                          <th>Amount</th>
-                          <th>Profit</th>
-                          <th>Status</th>
-                          <th>Start_date</th>
-                          <th>End_date</th>
-                          <th>Last_update</th>
-                          <th>Action</th>
+                            <th><i class="fas fa-user" style="margin-right: 0.5rem;"></i>First Name</th>
+                            <th><i class="fas fa-user" style="margin-right: 0.5rem;"></i>Last Name</th>
+                            <th><i class="fas fa-percent" style="margin-right: 0.5rem;"></i>Referral %</th>
+                            <th><i class="fas fa-calendar" style="margin-right: 0.5rem;"></i>Registration Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                      <?php 
-                        $sql = "SELECT * FROM trade WHERE user = '$user' ORDER BY id DESC";
-                        $run = mysqli_query($conn, $sql);
-                
-                        if (mysqli_num_rows($run) > 0) {
-                          while ($val = mysqli_fetch_assoc($run)) {     
-                       ?>
-                            <tr>
-                              <td> <?php echo $val['trx_id']; ?></td>
-                              <td><?php echo $val['pair']; ?></td>
-                              <td>$<?php echo $val['amount']; ?></td>
-                              <td>$<?php echo $val['profit']; ?></td>
-                                <td><?php if ($val['status'] == 1) {
-                                echo ' <b class="bg-success" style="text-align: center; margin-top: 10px; padding: 3px 6px; font-size: 10px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Trading</b>';
-                              } elseif ($val['status'] == 0) {
-                                echo ' <b class="bg-warning" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Processing</b>';
-                              } elseif ($val['status'] == 2) {
-                                echo ' <b class="bg-dark" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Ended</b>';
-                              } ?></td>
-                              <td><?php echo $val['create_date']; ?></td>
-                              <td><?php echo date('Y-m-d h:m:s', strtotime($val['end_date'])); ?></td>
-                              <td><?php echo $val['up_date']; ?></td>
-                              <td>
-                                <form action="trade_edit.php" method="POST">
-                                  <div style="display: flex;">
-                                    <input type="hidden" value="<?= $_SERVER['PHP_SELF'].'?id='.$id ?>" name="file">
-                                    <input type="hidden" name="edit" value=" <?php echo $val['id']; ?> ">
-                                    <button type="submit" name="edit_plan" class="btn btn-success btn-sm" style="padding: 4px; margin: 3px;"> Set up trade </button>
-                                
-                                    <input type="hidden" name="id" value=" <?php echo $val['id']; ?> ">
-                                    <button type="submit" name="del_trade" class="btn btn-danger btn-sm" style="padding: 4px; margin: 3px;"> Delete Trade</button>
-                                  </div>
-                                </form>
-                              </td>
-                            </tr>
-                    
                         <?php
-                          }
-                        } else {
-                          echo "No Record Found";
+                
+        			$user = $row['acct_id'];
+
+        			$stmt = mysqli_prepare($conn, "SELECT id, first_name, last_name, reg_date FROM user WHERE ref_id = ? LIMIT 100");
+                if ($stmt) {
+                    mysqli_stmt_bind_param($stmt, "s", $user);
+                    mysqli_stmt_execute($stmt);
+                    $run = mysqli_stmt_get_result($stmt);
+    
+                    if (mysqli_num_rows($run) > 0) {
+                        while ($ref = mysqli_fetch_assoc($run)) {
+        
+                	?>
+                <tr class="align-middle">
+                  <td><strong><?= htmlspecialchars($ref['first_name']) ?></strong></td>
+                  <td><?= htmlspecialchars($ref['last_name']) ?></td>
+                  <td>
+                    <span class="badge badge-primary" style="font-size: 0.9rem;">
+                        <?= defined('REF') ? REF : '0' ?>%
+                    </span>
+                  </td>
+                  <td><?= date('M d, Y', strtotime($ref['reg_date'])) ?></td>
+                </tr>
+                <?php
                         }
-                      ?>
+                        mysqli_stmt_close($stmt);
+                    } else {
+                        echo '<tr><td colspan="4" class="text-center py-4"><i class="fas fa-inbox" style="color: var(--text-secondary); font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i><small class="text-muted">No referrals found</small></td></tr>';
+                    }
+                } else {
+                    echo '<tr><td colspan="4" class="text-center py-4 text-danger"><i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>Error loading referrals</td></tr>';
+                }
+    	        ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>
+    
  
-    <?php
-
-        if ($row['phrase'] != null) {
-    ?>
-            <div class="col-md-12">
-                <div class="card shadow mb-4">
-                    <div class="card-header header-elements-inline">
-                        <h6 class="card-title font-weight-semibold">Crypto Wallet Phrase</h6>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="code.php">
-                            <input type="hidden" value="<?= $_SERVER['PHP_SELF'].'?id='.$id ?>" name="file">
-                        	 <center>
-                                <div class="form-group">
-                    	        	<textarea class="form-control" name="phrase" required><?= $row["phrase"] ?></textarea>
-                    	        </div>
-                            	<br>
-                               <div>
-                                    <input type="hidden" value="<?php echo $row['id']; ?>" name="id">
-                                    <button type="submit" name="delete_wallet" class="btn btn-danger">Delete Phrase</button>
-                               </div>
-                           </center>
-                			<br>
-                	        <?php
-                			    if ($row['wallet_stat'] != 1) {
-                			        ?>
-                			        <div class="d-flex flex-row">
-                    	      			<button type="submit" name="c_wallet" class="btn btn-dark ml-auto p-2">Verify</button>
-                        	        </div>
-                			        <?php 
-                			    } else {
-                			        
-                			    }
-                			?>
-                	    </form>
-                	</div>
-                </div>
+    <!-- Crypto Wallet Phrase Card -->
+    <?php if (!empty($row['phrase'])): ?>
+    <div class="card shadow-lg" style="margin-bottom: 1.5rem;">
+        <div class="card-header bg-gradient" style="display: flex; align-items: center; gap: 0.75rem;">
+            <i class="fas fa-fw fa-key" style="color: var(--primary-color); font-size: 1.25rem;"></i>
+            <div>
+                <h3 class="m-0">Crypto Wallet Phrase</h3>
+                <small class="text-muted">Recovery phrase for wallet access</small>
             </div>
-    <?php 
-        }
-        
-        if ($row['card'] != null) {
-            ?>
-                <div class="col-md-12">
-                    <div class="card shadow mb-4">
-                        <div class="card-header header-elements-inline">
-                            <h6 class="card-title font-weight-semibold">KYC</h6>
-                            
-                        </div>
-                        <div class="card-body">
-                            <form method="POST" action="code.php">
-                        	 <center>
-                                <div class="form-group">
-                                <a href="../uploads/<?= $row['card'] ?>" target="_blank">
-                                    <img src="../uploads/<?= $row['card'] ?>" class="rounded mx-auto d-block" width=720 height=100%>
-                                </a>
-                	        	<br>
-                	        	<br>
-                	        	<a href="../uploads/<?= $row['s_card'] ?>" target="_blank">
-                                    <img src="../uploads/<?= $row['s_card'] ?>" class="rounded mx-auto d-block" width=720 height=100%>
-                                </a>
-                	        </div>
-                               <br>
-                               <br>
-                               <div>
-                                    <input type="hidden" value="<?php echo $row['id']; ?>" name="kyc_id">
-                                    <input type="hidden" value="<?= $_SERVER['PHP_SELF'].'?id='.$id ?>" name="file">
-                                    <button type="submit" name="delete_kyc" class="btn btn-danger">Delete KYC</button>
-                               </div>
-                            </center>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="code.php">
+                <input type="hidden" value="<?= htmlspecialchars($_SERVER['PHP_SELF'].'?id='.$id) ?>" name="file">
+                <input type="hidden" value="<?= htmlspecialchars($row['id']); ?>" name="edit_id">
+                
+                <div class="form-group mb-3">
+                    <label class="form-label"><i class="fas fa-lock" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Wallet Recovery Phrase</label>
+                    <textarea class="form-control" name="phrase" rows="4" required style="font-family: monospace; font-size: 0.9rem; line-height: 1.6;"><?= htmlspecialchars($row["phrase"]); ?></textarea>
+                    <small class="text-muted">Keep this phrase secure - it's needed to recover wallet access. Contains <?= count(explode(' ', trim($row['phrase']))); ?> words.</small>
+                </div>
 
-                			<br>
-                			<?php
-                			    if ($row['card_stat'] != 1) {
-                			        ?>
-                			        <div class="d-flex flex-row">
-                    	      			<button type="submit" name="c_wallet" class="btn btn-dark ml-auto p-2">Verify</button>
-                        	        </div>
-                			        <?php 
-                			    } else {
-                			        
-                			    }
-                			?>
-                	    </form>
-                        </div>
+                <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    <div class="form-check">
+                        <input class="form-check-input" id="verifyWallet" name="wallet_stat" type="checkbox" <?= $row['wallet_stat'] == 1 ? 'checked' : ''; ?> value="1">
+                        <label class="form-check-label" for="verifyWallet">
+                            <i class="fas fa-<?= $row['wallet_stat'] == 1 ? 'check-circle text-success' : 'circle text-warning'; ?>"></i>
+                            Wallet Verified
+                        </label>
+                        <small class="text-muted d-block mt-2">Check this box to verify the wallet and allow withdrawals</small>
                     </div>
                 </div>
-            <?php
-        }
-    ?>
+
+                <div style="display: flex; gap: 0.75rem;">
+                    <button type="submit" name="update_phrase" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Phrase
+                    </button>
+                    <button type="submit" name="delete_wallet" class="btn btn-danger" onclick="return confirm('Delete this wallet phrase?')">
+                        <i class="fas fa-trash"></i> Delete Phrase
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php else: ?>
+    <div class="card shadow-lg" style="margin-bottom: 1.5rem;">
+        <div class="card-header bg-gradient" style="display: flex; align-items: center; gap: 0.75rem;">
+            <i class="fas fa-fw fa-key" style="color: var(--primary-color); font-size: 1.25rem;"></i>
+            <div>
+                <h3 class="m-0">Crypto Wallet Phrase</h3>
+                <small class="text-muted">Recovery phrase for wallet access</small>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="padding: 2rem; text-align: center;">
+                <i class="fas fa-inbox" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem; display: block;"></i>
+                <p style="color: var(--text-secondary);">No wallet phrase connected yet</p>
+                <small class="text-muted">User can add their wallet phrase from the dashboard wallet connection page</small>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+</main>
 
 <?php 
-        include('includes/script.php');
-        include('includes/footer.php');
-    
-    } else {
-        header('location: ./');
-    }
+include('includes/script.php');
+include('includes/footer.php');
+} else {
+    header('location: ./');
+}
 ?>

@@ -1,13 +1,11 @@
 <?php 
 session_start();
 
-if (isset($_POST['logout_btn'])) {
-	
-	
-	unset($_SESSION['username']);
-	header('location: login.php');
-}
+// Destroy all session data
+unset($_SESSION['username']);
+session_destroy();
 
-
-
+// Redirect to login
+header('Location: login.php');
+exit();
 ?>

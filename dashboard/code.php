@@ -80,15 +80,18 @@ function get_future_date($startDate, $hours) {
  * Get crypto wallet address from gateway
  */
 function get_wallet_address($gateway) {
-    switch ($gateway) {
+    // Normalize input and handle common aliases
+    $g = strtolower((string)$gateway);
+    switch ($g) {
         case 'btc':
-            return w_btc;
+            return defined('w_btc') ? constant('w_btc') : '';
         case 'usdt':
-            return w_trc;
+        case 'trc':
+            return defined('w_trc') ? constant('w_trc') : '';
         case 'eth':
-            return w_eth;
+            return defined('w_eth') ? constant('w_eth') : '';
         case 'ltc':
-            return w_ltc;
+            return defined('w_ltc') ? constant('w_ltc') : '';
         default:
             return '';
     }
@@ -722,7 +725,7 @@ function handle_plan_activation() {
                 </div>';
             send_email(Admin_Email, "Trade Request", $message);
 
-            redirect_with_message('trading_plan_list.php', 'success', 'Plan Activated Successfully! Your trading plan is now active.');
+            redirect_with_message('schema.php', 'success', 'Plan Activated!');
         }
     }
 
@@ -781,10 +784,10 @@ function handle_plan_activation() {
                 </div>';
             send_email(Admin_Email, "Trade Request", $message);
 
-            redirect_with_message('trading_plan_list.php', 'success', 'Plan Activated Successfully! Your trading plan is now active.');
+            redirect_with_message('schemas.php', 'success', 'Plan Activated!');
         }
     } else {
-        redirect_with_message('trading_plan_list.php', 'status', 'An error occurred, please try again');
+        redirect_with_message('schema.php', 'status', 'An error occured, please try again');
     }
 }
 
@@ -948,163 +951,8 @@ function handle_kyc_upload() {
 }
 
 // ============================================
-// FORM HANDLER - Deposit Processing
-// ============================================
-
-/**
- * Handle cryptocurrency deposit submission
- */
-function handle_crypto_deposit() {
-    global $conn;
-    
-    // Check if this is an AJAX request
-    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    
-    $user = acct_id;
-    $email = email;
-    $deposit_method = isset($_POST['deposit_method']) ? safe_input($_POST['deposit_method']) : '';
-    $deposit_amount = isset($_POST['deposit_amount']) ? (float)$_POST['deposit_amount'] : 0;
-    $wallet_address = isset($_POST['wallet_address']) ? safe_input($_POST['wallet_address']) : '';
-
-    // Validate inputs
-    if (!$deposit_method || $deposit_amount <= 0 || !$wallet_address) {
-        if ($isAjax) {
-            echo json_encode(['success' => false, 'message' => 'Invalid deposit details']);
-        } else {
-            redirect_with_message('deposit.php', 'status', 'Invalid deposit details');
-        }
-        return;
-    }
-
-    // Validate file upload
-    if (!isset($_FILES['payment_receipt']) || $_FILES['payment_receipt']['error'] !== UPLOAD_ERR_OK) {
-        if ($isAjax) {
-            echo json_encode(['success' => false, 'message' => 'Payment receipt upload failed']);
-        } else {
-            redirect_with_message('deposit.php', 'status', 'Payment receipt upload failed');
-        }
-        return;
-    }
-
-    $file = $_FILES['payment_receipt'];
-    $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
-    
-    if (!in_array($file['type'], $allowed_types)) {
-        if ($isAjax) {
-            echo json_encode(['success' => false, 'message' => 'Invalid file type. Only images and PDF are allowed']);
-        } else {
-            redirect_with_message('deposit.php', 'status', 'Invalid file type');
-        }
-        return;
-    }
-
-    if ($file['size'] > 5 * 1024 * 1024) {
-        if ($isAjax) {
-            echo json_encode(['success' => false, 'message' => 'File size exceeds 5MB limit']);
-        } else {
-            redirect_with_message('deposit.php', 'status', 'File size exceeds limit');
-        }
-        return;
-    }
-
-    // Generate transaction ID
-    $trx_id = bin2hex(random_bytes(6));
-    
-    // Upload file
-    $upload_dir = '../uploads/proofs/';
-    if (!is_dir($upload_dir)) {
-        mkdir($upload_dir, 0755, true);
-    }
-    
-    $file_name = time() . '_' . basename($file['name']);
-    $file_path = $upload_dir . $file_name;
-
-    if (!move_uploaded_file($file['tmp_name'], $file_path)) {
-        if ($isAjax) {
-            echo json_encode(['success' => false, 'message' => 'Failed to save receipt']);
-        } else {
-            redirect_with_message('deposit.php', 'status', 'Failed to save receipt');
-        }
-        return;
-    }
-
-    // Get method label
-    $method_labels = [
-        'btc' => 'Bitcoin (BTC)',
-        'usdt_trc' => 'USDT (TRC20)',
-        'usdt_erc' => 'USDT (ERC20)',
-        'eth' => 'Ethereum (ETH)',
-        'ltc' => 'Litecoin (LTC)'
-    ];
-    $method_name = isset($method_labels[$deposit_method]) ? $method_labels[$deposit_method] : $deposit_method;
-
-    // Insert into transaction table
-    $user_esc = safe_input($user);
-    $email_esc = safe_input($email);
-    $method_esc = safe_input($method_name);
-    $amount_esc = safe_input($deposit_amount);
-    $addr_esc = safe_input($wallet_address);
-    $file_esc = safe_input($file_name);
-    $trx_esc = safe_input($trx_id);
-
-    $sql = "INSERT INTO transaction (
-        trx_id, user_id, name, amt, status, email, proof, serial, details, create_date
-    ) VALUES (
-        '$trx_esc', '$user_esc', '$method_esc', '$amount_esc', 'deposit', '$email_esc', 
-        '$file_esc', 0, '$addr_esc', NOW()
-    )";
-
-    if (mysqli_query($conn, $sql)) {
-        // Send notification email to user
-        $message = '
-            <div style="background-color: rgb(175, 175, 175); padding: 30px;">
-                <div style="text-align: center; max-width: 500px; margin:auto; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); padding: 30px;">
-                    <h6 style="text-align: center; background-color: rgb(175, 175, 175); padding: 15px; margin: 6px -12px;">Deposit Received</h6>
-                    <center>
-                        <img src="https://' . DOMAIN . '/uploads/' . LOGO . '" width="100%" height="180" alt="LOGO">
-                    </center>
-                    <h4>Hello ' . fname . '</h4><br>
-                    <p>Your deposit has been received and is pending verification.</p>
-                    <p><strong>Deposit Details:</strong></p>
-                    <ul style="text-align: left;">
-                        <li>Transaction ID: ' . $trx_id . '</li>
-                        <li>Method: ' . $method_name . '</li>
-                        <li>Amount: $' . number_format($deposit_amount, 2) . '</li>
-                        <li>Status: Pending Review</li>
-                    </ul>
-                    <p style="color: #888; font-size: 12px;">We will verify your payment within 24 hours and update your account balance.</p>
-                    <br><br>
-                    <p style="text-align: center; font-size: 10px;">&copy; ' . NAME . ', ' . date('Y') . '</p>
-                </div>
-            </div>
-        ';
-        send_email($email, "Deposit Received - Pending Verification", $message);
-
-        if ($isAjax) {
-            echo json_encode(['success' => true, 'message' => 'Deposit submitted successfully']);
-            exit;
-        } else {
-            redirect_with_message('deposit.php', 'success', 'Deposit submitted successfully. Please wait for verification.');
-        }
-    } else {
-        if ($isAjax) {
-            echo json_encode(['success' => false, 'message' => 'Failed to save deposit record']);
-        } else {
-            redirect_with_message('deposit.php', 'status', 'Failed to save deposit record');
-        }
-    }
-}
-
-// ============================================
 // EXECUTION
 // ============================================
-
-// Check for deposit submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deposit') {
-    header('Content-Type: application/json');
-    handle_crypto_deposit();
-    exit;
-}
 
 process_form();
 

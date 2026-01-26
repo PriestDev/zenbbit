@@ -1,4 +1,4 @@
-<?php $pageTitle = 'Account Blocked'; include 'includes/head.php'; ?>
+<?php include 'includes/dashboard_init.php'; $pageTitle = 'Account Blocked'; include 'includes/head.php'; ?>
 <body class="light-mode" style="background: #f5f5f5;">
 
   <!-- Main Content -->

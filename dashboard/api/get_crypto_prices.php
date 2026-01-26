@@ -4,7 +4,21 @@
  * This endpoint retrieves real-time market data for multiple cryptocurrencies
  */
 
+// Set proper headers
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Cache-Control: public, max-age=60');
+
+// Check if we have a valid session (optional, for security)
+// Uncomment if you want to require authentication
+// if (session_status() === PHP_SESSION_NONE) {
+//     session_start();
+// }
+// if (!isset($_SESSION['user_id'])) {
+//     http_response_code(401);
+//     echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+//     exit;
+// }
 
 // List of cryptocurrencies to fetch prices for
 $cryptos = array(
@@ -201,7 +215,12 @@ try {
     echo json_encode(array(
         'success' => false,
         'error' => $e->getMessage(),
-        'timestamp' => time()
+        'timestamp' => time(),
+        'debug' => [
+            'file' => basename(__FILE__),
+            'method' => $_SERVER['REQUEST_METHOD'],
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'Unknown'
+        ]
     ));
 }
 ?>

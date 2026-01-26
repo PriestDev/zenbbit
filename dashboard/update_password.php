@@ -1,4 +1,5 @@
 <?php 
+include 'includes/dashboard_init.php';
 $pageTitle = 'Change Password'; 
 include 'includes/head.php'; 
 

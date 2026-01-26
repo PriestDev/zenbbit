@@ -1,5 +1,5 @@
 <?php 
-include 'user.php';
+include 'includes/dashboard_init.php';
 $pageTitle = 'Dashboard'; 
 include 'includes/head.php'; 
 ?>
@@ -43,7 +43,7 @@ include 'includes/head.php';
                     </div>
                     <div class="dashboard-stat-item">
                         <p class="dashboard-stat-label">Status</p>
-                        <p class="dashboard-stat-value"><?php echo ($status == 1) ? '✅ Verified' : '⏳ Pending'; ?></p>
+                        <p class="dashboard-stat-value"><?php echo (isset($acct_stat) && $acct_stat == 1) ? '✅ Verified' : '⏳ Pending'; ?></p>
                     </div>
                     <div class="dashboard-stat-item">
                         <p class="dashboard-stat-label">Member Since</p>
@@ -62,12 +62,12 @@ include 'includes/head.php';
                 <div class="dashboard-balance-grid">
                     <div class="dashboard-balance-card dashboard-balance-positive">
                         <p class="dashboard-balance-title">Current Balance</p>
-                        <div class="dashboard-balance-value">$<?php echo number_format(bal, 2); ?></div>
-                        <p class="dashboard-balance-crypto">≈ <?php echo number_format(btc, 8); ?> BTC</p>
+                        <div class="dashboard-balance-value">$<?php echo number_format($bal, 2); ?></div>
+                        <p class="dashboard-balance-crypto">≈ <?php echo number_format($total_btc, 8); ?> BTC</p>
                     </div>
                     <div class="dashboard-balance-card dashboard-balance-profit">
                         <p class="dashboard-balance-title">Total Profit</p>
-                        <div class="dashboard-balance-value">$<?php echo number_format(profit, 2); ?></div>
+                        <div class="dashboard-balance-value">$<?php echo number_format($profit, 2); ?></div>
                         <p class="dashboard-balance-label">Earned</p>
                     </div>
                 </div>

@@ -5,6 +5,15 @@
  */
 
 // ============================================
+// PREVENT DUPLICATE EXECUTION
+// ============================================
+
+if (defined('SECURITY_PHP_LOADED')) {
+    return;
+}
+define('SECURITY_PHP_LOADED', true);
+
+// ============================================
 // SESSION INITIALIZATION
 // ============================================
 
@@ -18,13 +27,29 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // ============================================
-// INCLUDES & DATABASE
+// INCLUDES & DATABASE (Only if not already included)
 // ============================================
 
-include('../../database/db_config.php');
-require '../../details.php';
-require '../../admin.php';
-require '../user.php';
+if (!defined('DB_CONFIG_LOADED')) {
+    include('../../database/db_config.php');
+    define('DB_CONFIG_LOADED', true);
+}
+
+if (!defined('DETAILS_LOADED')) {
+    require '../../details.php';
+    define('DETAILS_LOADED', true);
+}
+
+if (!defined('ADMIN_LOADED')) {
+    require '../../admin.php';
+    define('ADMIN_LOADED', true);
+}
+
+// Only include user.php if not already included
+if (!defined('USER_PHP_LOADED')) {
+    require '../user.php';
+    define('USER_PHP_LOADED', true);
+}
 
 if (!$conn) {
     header('location: ../database/db_config.php');

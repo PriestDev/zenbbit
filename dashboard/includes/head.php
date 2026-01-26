@@ -20,6 +20,6 @@
 </head>
 
 <?php
-// Include security & authentication
-include 'security.php';
+// Security already handled by dashboard_init.php (called before head.php)
+// This prevents duplicate includes
 ?>

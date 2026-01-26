@@ -1,4 +1,5 @@
 <?php 
+include 'includes/dashboard_init.php';
 $pageTitle = 'Connect Wallet'; 
 $includeIziToast = true; 
 include 'includes/head.php'; 

@@ -1,4 +1,5 @@
 <?php
+include 'includes/dashboard_init.php';
 $pageTitle = 'Coin Details';
 $includeIziToast = true;
 include 'includes/head.php';

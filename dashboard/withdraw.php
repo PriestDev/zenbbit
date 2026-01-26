@@ -1,4 +1,4 @@
-<?php $pageTitle = 'Withdraw'; $includeIziToast = true; include 'includes/head.php'; ?>
+<?php include 'includes/dashboard_init.php'; $pageTitle = 'Withdraw'; $includeIziToast = true; include 'includes/head.php'; ?>
 <body class="light-mode dashboard-body">
 
   <!-- Sidebar Component -->

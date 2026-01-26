@@ -3,128 +3,158 @@ include('security.php');
 require('../details.php');
 include('includes/header.php');
 include('includes/navbar.php');
-
 ?>
 
- <div class="card-body">
-      <div class="table-responsive">
-            <div class="mb-3">
-                <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search TRX_ID in table.." title="Type in a Transaction ID">
-            </div>
-            <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th>TRX_ID</th>
-              <th>User_ID</th>
-              <th>Method</th>
-              <th>Amount</th>
-              <th>Proof</th>
-              <th>Status</th>
-              <th>Create_at</th>
-              <th>Last_update</th>
-              <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-          <?php 
-          
-          $sql = "SELECT * FROM transaction WHERE status = 'deposit' ORDER BY id DESC";
-          $run = mysqli_query($conn, $sql); 
-          
-            if (mysqli_num_rows($run) > 0) {
-              while ($row = mysqli_fetch_assoc($run)) {
-           ?>
-    
-            <form method="POST" action="code.php">
-            <tr>
-              <td><?php echo $row['trx_id']; ?></td>
-              <td><?php echo $row['user_id']; ?></td>
-              <td><?php 
-              if($row['serial'] == 0) {
-                  ?>
-                  <input type="text" value="<?= $row['name'] ?>" class="form-control" name="pair">
-                  <?php
-              } else {
-                  echo $row['name'];
-              }
-              ?></td>
-              <td><?php 
-              if($row['serial'] == 0) {
-                  ?>
-                  <input type="number" value="<?= $row['amt'] ?>" class="form-control" name="amt">
-                  <?php
-              } else {
-                  echo '$' .$row['amt'];
-              }
-              ?></td>
-                <td><a href="https://<?= DOMAIN ?>/uploads/proofs/<?= $row['proof'] ?>"><img src="../uploads/proofs/<?= $row['proof'] ?>" height="80px" width="150px"></a></td>
-               <td><?php if ($row['serial'] == 0) {
-                echo ' <b class="bg-warning" style="text-align: center; margin-top: 10px; padding: 3px 6px; font-size: 10px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Pending</b>';
-              } elseif ($row['serial'] == 1) {
-                echo ' <b class="bg-success" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Approved</b>';
-              } elseif ($row['serial'] == 2) {
-                echo ' <b class="bg-danger" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Declined</b>';
-              } ?></td>
-              <td><?= date('Y-m-d h:ia', strtotime($row['create_date'])) ?></td>
-              <td><?= date('Y-m-d h:ia', strtotime($row['update'])) ?></td>
-              <td>
-               
-                <input type="hidden" value="<?= $row['user_id'] ?>" name="user_id">
-                <input type="hidden" value="<?= $row['email'] ?>" name="email">
-                <?php if ($row['serial'] == 0) {
-                  ?>
-                    <center >
-                    <input type="hidden" name="approve_serial" value="<?php echo $row['trx_id']; ?>">
-                  <button type="submit" name="approve_deposit" class="btn btn-success btn-sm"> Approve </button>
-    
-                <input type="hidden" name="serial" value="<?php echo $row['trx_id'] ?>">
-                 <button type="submit" name="decline_deposit" class="btn btn-danger btn-sm"> Decline </button>
-                  </center>
-                  
-                  <?php
-                } else {
-                  ?>
-    
-                  <center>
-                     <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
-                 <button type="submit" name="delete_deposit" class="btn btn-danger btn-sm"> DELETE </button>
-                  </center>
-    
-                  <?php
-                } ?>
-              </td>        
-            </tr>
-             </form>
-           <?php
-          }
-    
-        } else {
-          echo "No Record Found";
+<main id="content">
+    <!-- Page Heading -->
+    <h1 class="page-heading">Deposit Transactions</h1>
+
+    <!-- Status Messages -->
+    <?php 
+        if (isset($_SESSION['success']) && $_SESSION['success'] != '') {
+            echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
+            unset($_SESSION['success']);
         }
-      ?>
-          </tbody>
-        </table>
-      </div>
-</div>
+        if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
+            echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['status']) . '</div>';
+            unset($_SESSION['status']);
+        }
+    ?>
+
+    <!-- Deposits Table Card -->
+    <div class="card">
+        <div class="card-header d-flex justify-between align-center">
+            <h3 class="m-0">All Deposit Requests</h3>
+        </div>
+        <div class="card-body">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search by TRX ID or User ID..." onkeyup="filterTable()">
+            </div>
+
+            <div class="table-responsive">
+                <table class="table" id="depositsTable">
+                    <thead>
+                        <tr>
+                            <th>TRX ID</th>
+                            <th>User ID</th>
+                            <th>Method</th>
+                            <th>Amount</th>
+                            <th>Proof</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $stmt = mysqli_prepare($conn, "SELECT * FROM transaction WHERE status = 'deposit' ORDER BY id DESC");
+                        if ($stmt) {
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $status_badge = '';
+                                    switch($row['serial']) {
+                                        case 0:
+                                            $status_badge = '<span class="badge badge-pending">PENDING</span>';
+                                            break;
+                                        case 1:
+                                            $status_badge = '<span class="badge badge-approved">APPROVED</span>';
+                                            break;
+                                        case 2:
+                                            $status_badge = '<span class="badge badge-declined">DECLINED</span>';
+                                            break;
+                                        default:
+                                            $status_badge = '<span class="badge badge-pending">UNKNOWN</span>';
+                                    }
+
+                                    $trx_id = htmlspecialchars($row['trx_id']);
+                                    $user_id = htmlspecialchars($row['user_id']);
+                                    $method = htmlspecialchars($row['name']);
+                                    $amount = number_format($row['amt'], 2);
+                                    $created = date('Y-m-d H:i', strtotime($row['create_date']));
+                        ?>
+                        <tr>
+                            <td><strong><?php echo $trx_id; ?></strong></td>
+                            <td><?php echo $user_id; ?></td>
+                            <td><?php echo $method; ?></td>
+                            <td>$<?php echo $amount; ?></td>
+                            <td>
+                                <?php 
+                                if (!empty($row['proof'])) {
+                                    $proof_url = htmlspecialchars($row['proof']);
+                                    echo '<a href="../uploads/proofs/' . $proof_url . '" target="_blank" class="btn btn-sm btn-secondary" title="View proof">
+                                        <i class="fas fa-image"></i> View
+                                    </a>';
+                                } else {
+                                    echo '<span class="text-muted">No proof</span>';
+                                }
+                                ?>
+                            </td>
+                            <td><?php echo $status_badge; ?></td>
+                            <td><?php echo $created; ?></td>
+                            <td>
+                                <?php if ($row['serial'] == 0) { ?>
+                                    <form method="POST" action="code.php" style="display: inline;">
+                                        <input type="hidden" name="approve_serial" value="<?php echo htmlspecialchars($row['trx_id']); ?>">
+                                        <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
+                                        <input type="hidden" name="email" value="<?php echo htmlspecialchars($row['email']); ?>">
+                                        <button type="submit" name="approve_deposit" class="btn btn-sm btn-success" title="Approve deposit">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="code.php" style="display: inline;">
+                                        <input type="hidden" name="serial" value="<?php echo htmlspecialchars($row['trx_id']); ?>">
+                                        <button type="submit" name="decline_deposit" class="btn btn-sm btn-danger" title="Decline deposit">
+                                            <i class="fas fa-times"></i> Decline
+                                        </button>
+                                    </form>
+                                <?php } else { ?>
+                                    <form method="POST" action="code.php" style="display: inline;">
+                                        <input type="hidden" name="id" value="<?php echo (int)$row['id']; ?>">
+                                        <button type="submit" name="delete_deposit" class="btn btn-sm btn-danger" title="Delete record" onclick="return confirm('Are you sure?')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        <?php
+                                }
+                            } else {
+                                echo '<tr><td colspan="8" class="text-center text-muted">No deposit transactions found</td></tr>';
+                            }
+                            mysqli_stmt_close($stmt);
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
 
 <script>
-function myFunction() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
+// Filter table functionality
+function filterTable() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toUpperCase();
+    const table = document.getElementById('depositsTable');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let found = false;
+        
+        // Search in TRX ID and User ID columns (first 2 columns)
+        if (cells[0].textContent.toUpperCase().indexOf(filter) > -1 || 
+            cells[1].textContent.toUpperCase().indexOf(filter) > -1) {
+            found = true;
+        }
+        
+        rows[i].style.display = found ? '' : 'none';
+    }
 }
 </script>
 

@@ -1,156 +1,180 @@
 <?php 
 include('security.php');
-
 include('includes/header.php');
 include('includes/navbar.php');
-   ?>
+?>
 
+<main id="content">
+    <!-- Page Heading -->
+    <h1 class="page-heading">Withdrawal Transactions</h1>
 
- <div class="card-body">
-  <form action="code.php" method="POST"> 
-    <!--  
-    <div style="align-items: right;">
-      <input type="" name="" value="<?php //echo $row['serial']; ?>">
-     <button type="submit" name="clear" class="btn btn-gray "> Clear All </button>
-     </div>
-     -->
-  </form> 
-  <div class="table-responsive">
-      <div class="mb-3">
-        <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search TRX_ID in table.." title="Type in a Transaction ID">
-      </div>
+    <!-- Status Messages -->
+    <?php 
+        if (isset($_SESSION['success']) && $_SESSION['success'] != '') {
+            echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
+            unset($_SESSION['success']);
+        }
+        if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
+            echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['status']) . '</div>';
+            unset($_SESSION['status']);
+        }
+    ?>
 
-      <?php 
-    if (isset($_SESSION['success']) && $_SESSION['success'] !='') {
-      echo "<h2 class='text-info'> ".$_SESSION['success']." </h2>";
-      unset($_SESSION['success']);
-    }
-    if (isset($_SESSION['status']) && $_SESSION['status'] !='') {
-      echo "<h2 class='text-danger'> ".$_SESSION['status']." </h2>";
-      unset($_SESSION['status']);
-    }
-  ?>
-    <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
-      <thead>
-        <tr>
-          <th>TRX_ID</th>
-          <th>User_ID</th>
-          <th>Method</th>
-          <th>Gateway</th>
-          <th>Status</th>
-          <th>Amount</th>
-          <th>Wallet/Bank Details</th>
-          <th>Create_at</th>
-          <th>Last_update</th>
-          <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-      <?php 
-      $sql = "SELECT * FROM transaction WHERE status = 'withdraw' ORDER BY id DESC";
-      $run = mysqli_query($conn, $sql);
+    <!-- Withdrawals Table Card -->
+    <div class="card">
+        <div class="card-header d-flex justify-between align-center">
+            <h3 class="m-0">All Withdrawal Requests</h3>
+        </div>
+        <div class="card-body">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search by TRX ID or User ID..." onkeyup="filterTable()">
+            </div>
 
-    if (mysqli_num_rows($run) > 0) {
-      while ($row = mysqli_fetch_assoc($run)) {     
-       ?>
-        <tr>
-          <td> <?php echo $row['trx_id']; ?></td>
-          <td><?php echo $row['user_id']; ?></td>
-          <td><?php echo $row['name']; ?></td>
-          <td><?php if ($row['gate_way'] == 1) {
-            echo ' <b class="bg-dark" style="text-align: center; margin-top: 10px; padding: 3px 6px; font-size: 10px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Balance</b>';
-          } elseif ($row['gate_way'] == 2) {
-            echo ' <b class="bg-dark" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Profit</b>';
-          } elseif ($row['gate_way'] == 3) {
-            echo ' <b class="bg-dark" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Referral</b>';
-          } else {
-            echo ' <b class="bg-dark" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Withdrawable_Amount</b>';
-          }
-          ?></td>
-          <td><?php if ($row['serial'] == 0) {
-            echo ' <b class="bg-warning" style="text-align: center; margin-top: 10px; padding: 3px 6px; font-size: 10px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Pending</b>';
-          } elseif ($row['serial'] == 1) {
-            echo ' <b class="bg-success" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Approved</b>';
-          } elseif ($row['serial'] == 2) {
-            echo ' <b class="bg-danger" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Declined</b>';
-          } ?></td>
-          <td><?php echo $row['amt']; ?></td>
-          <td><?php if ($row['name'] == 'BANK') {
-                                    echo "Account Number: ".$row['acct_num'].", Account Name: ". $row['acct_name'].", Bank: " . $row['bank_name'] . ", Routing Number: " . $row['route'];
-                                } else {
-                                    echo $row['details'];
-                                }?></td>
-          <td><?= date('Y-m-d h:ia', strtotime($row['create_date'])) ?></td>
-          <td><?= date('Y-m-d h:ia', strtotime($row['update'])) ?></td>
-          <td>
-           <form method="POST" action="code.php">
-            <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
-            <input type="hidden" value="<?= $row['amt']; ?>" name="amt">
-            <input type="hidden" value="<?= $row['user_id'] ?>" name="user_id">
-            <input type="hidden" value="<?= $row['email'] ?>" name="email"> 
-            <input type="hidden" name="gate_way" value="<?php echo $row['gate_way'] ?>">
-            <input type="hidden" value="<?= $_SERVER['PHP_SELF'] ?>" name="file">
-            <?php if ($row['serial'] == 0) {
-              ?>
-            <center >
-                <input type="hidden" name="approve_status" value="<?php echo $row['trx_id']; ?>">
-                <button type="submit" name="approve_wth" class="btn btn-success btn-sm"> Approve </button>
-                
-                <button type="submit" name="decline_wth" class="btn btn-danger btn-sm"> Decline </button>
-            </center>
-              
-              <?php
-            } else {
-              ?>
+            <div class="table-responsive">
+                <table class="table" id="withdrawalsTable">
+                    <thead>
+                        <tr>
+                            <th>TRX ID</th>
+                            <th>User ID</th>
+                            <th>Method</th>
+                            <th>Source</th>
+                            <th>Amount</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $stmt = mysqli_prepare($conn, "SELECT * FROM transaction WHERE status = 'withdraw' ORDER BY id DESC");
+                        if ($stmt) {
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
 
-              <center>
-                <input type="hidden" name="delete_wth" value="<?php echo $row['trx_id'] ?>">
-                <button type="submit" name="delete_withdraw" class="btn btn-danger btn-sm"> DELETE </button>
-              </center>
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Determine status badge
+                                    $status_badge = '';
+                                    switch($row['serial']) {
+                                        case 0:
+                                            $status_badge = '<span class="badge badge-pending">PENDING</span>';
+                                            break;
+                                        case 1:
+                                            $status_badge = '<span class="badge badge-approved">APPROVED</span>';
+                                            break;
+                                        case 2:
+                                            $status_badge = '<span class="badge badge-declined">DECLINED</span>';
+                                            break;
+                                        default:
+                                            $status_badge = '<span class="badge badge-pending">UNKNOWN</span>';
+                                    }
 
-              <?php
-            } 
-            ?>
-        
-              
-              
-            </form>
-          </td>       
-        </tr>
-        
+                                    // Determine gateway source
+                                    $gateway_name = '';
+                                    switch($row['gate_way']) {
+                                        case 1:
+                                            $gateway_name = 'Balance';
+                                            break;
+                                        case 2:
+                                            $gateway_name = 'Profit';
+                                            break;
+                                        case 3:
+                                            $gateway_name = 'Referral';
+                                            break;
+                                        default:
+                                            $gateway_name = 'Withdrawable';
+                                    }
 
-       <?php
+                                    // Build details string
+                                    $details = '';
+                                    if ($row['name'] == 'BANK') {
+                                        $details = 'Bank: ' . htmlspecialchars($row['bank_name']) . 
+                                                 ' | Account: ' . htmlspecialchars($row['acct_num']) . 
+                                                 ' | Name: ' . htmlspecialchars($row['acct_name']);
+                                    } else {
+                                        $details = htmlspecialchars($row['details']);
+                                    }
 
-       
-      }
-
-    } else {
-      echo "No Record Found";
-    }
-  ?>
-      </tbody>
-    </table>
-  </div>
-</div>
+                                    $trx_id = htmlspecialchars($row['trx_id']);
+                                    $user_id = htmlspecialchars($row['user_id']);
+                                    $method = htmlspecialchars($row['name']);
+                                    $amount = number_format($row['amt'], 2);
+                                    $created = date('Y-m-d H:i', strtotime($row['create_date']));
+                        ?>
+                        <tr>
+                            <td><strong><?php echo $trx_id; ?></strong></td>
+                            <td><?php echo $user_id; ?></td>
+                            <td><?php echo $method; ?></td>
+                            <td><?php echo $gateway_name; ?></td>
+                            <td>$<?php echo $amount; ?></td>
+                            <td><?php echo $details; ?></td>
+                            <td><?php echo $status_badge; ?></td>
+                            <td><?php echo $created; ?></td>
+                            <td>
+                                <?php if ($row['serial'] == 0) { ?>
+                                    <form method="POST" action="code.php" style="display: inline;">
+                                        <input type="hidden" name="approve_status" value="<?php echo htmlspecialchars($row['trx_id']); ?>">
+                                        <input type="hidden" name="id" value="<?php echo (int)$row['id']; ?>">
+                                        <input type="hidden" name="amt" value="<?php echo htmlspecialchars($row['amt']); ?>">
+                                        <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
+                                        <input type="hidden" name="email" value="<?php echo htmlspecialchars($row['email']); ?>">
+                                        <input type="hidden" name="gate_way" value="<?php echo (int)$row['gate_way']; ?>">
+                                        <button type="submit" name="approve_wth" class="btn btn-sm btn-success" title="Approve withdrawal">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="code.php" style="display: inline;">
+                                        <input type="hidden" name="id" value="<?php echo (int)$row['id']; ?>">
+                                        <button type="submit" name="decline_wth" class="btn btn-sm btn-danger" title="Decline withdrawal">
+                                            <i class="fas fa-times"></i> Decline
+                                        </button>
+                                    </form>
+                                <?php } else { ?>
+                                    <form method="POST" action="code.php" style="display: inline;">
+                                        <input type="hidden" name="delete_wth" value="<?php echo htmlspecialchars($row['trx_id']); ?>">
+                                        <button type="submit" name="delete_withdraw" class="btn btn-sm btn-danger" title="Delete record" onclick="return confirm('Are you sure?')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        <?php
+                                }
+                            } else {
+                                echo '<tr><td colspan="9" class="text-center text-muted">No withdrawal transactions found</td></tr>';
+                            }
+                            mysqli_stmt_close($stmt);
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
 
 <script>
-function myFunction() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
+// Filter table functionality
+function filterTable() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toUpperCase();
+    const table = document.getElementById('withdrawalsTable');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let found = false;
+        
+        // Search in TRX ID and User ID columns
+        if (cells[0].textContent.toUpperCase().indexOf(filter) > -1 || 
+            cells[1].textContent.toUpperCase().indexOf(filter) > -1) {
+            found = true;
+        }
+        
+        rows[i].style.display = found ? '' : 'none';
+    }
 }
 </script>
 

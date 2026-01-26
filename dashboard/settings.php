@@ -1,4 +1,4 @@
-<?php $pageTitle = 'Settings'; include 'includes/head.php'; ?>
+<?php include 'includes/dashboard_init.php'; $pageTitle = 'Settings'; include 'includes/head.php'; ?>
 <body class="light-mode dashboard-body">
     <!-- Include Components -->
     <?php include 'includes/sidebar.php'; ?>

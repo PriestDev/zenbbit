@@ -1,351 +1,260 @@
 <?php 
 include('security.php');
-
 include('includes/header.php'); 
 include('includes/navbar.php');
 ?>
-  
 
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-       
+<main id="content">
+    <!-- Status Messages -->
+    <div id="statusContainer"></div>
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <!-- Page Heading -->
+    <h1 class="page-heading">Dashboard</h1>
 
+    <?php 
+        if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
+            echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['status']) . '</div>';
+            unset($_SESSION['status']);
+        }
+        if (isset($_SESSION['success']) && $_SESSION['success'] != '') {
+            echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
+            unset($_SESSION['success']);
+        }
+    ?>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <!-- Total Balance Card -->
+        <div class="stat-card primary">
+            <div>
+                <div class="stat-label">Platform Balance</div>
+                <div class="stat-value">
+                    <?php 
+                    // Get total deposits
+                    $stmt = mysqli_prepare($conn, "SELECT COALESCE(SUM(amt), 0) AS figure FROM transaction WHERE serial = 1 AND status = 'deposit'");
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+                    $val = mysqli_fetch_assoc($result);
+                    $total_deposits = $val['figure'];
+                    
+                    // Get total withdrawals
+                    $stmt = mysqli_prepare($conn, "SELECT COALESCE(SUM(amt), 0) AS total FROM transaction WHERE serial = 1 AND status = 'withdraw'");
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+                    $row = mysqli_fetch_assoc($result);
+                    $total_withdrawals = $row['total'];
+                    
+                    $balance = $total_deposits - $total_withdrawals;
+                    echo number_format($balance, 2);
+                    ?>
+                </div>
+            </div>
+            <i class="fas fa-dollar-sign stat-icon"></i>
         </div>
-        <?php 
-           
-            if (isset($_SESSION['status']) && $_SESSION['status'] !='') {
-              echo "<h2 class='text-danger'> ".$_SESSION['status']." </h2>";
-              unset($_SESSION['status']);
-            }
-            if (isset($_SESSION['success']) && $_SESSION['success'] !='') {
-              echo "<h2 class='text-success'> ".$_SESSION['success']." </h2>";
-              unset($_SESSION['success']);
-            }
-        ?>
 
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Balance</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    
-                                    <?php 
-                                    $mysqli_query = "SELECT SUM(amt) AS figure FROM transaction WHERE serial= 1 AND status = 'deposit'";
-
-                                      $run = mysqli_query($conn, $mysqli_query);
-                                      $val = mysqli_fetch_assoc($run);
-                                      $total = $val['figure'];
-                                   
-
-                                    $sql = "SELECT SUM(amt) AS total FROM transaction WHERE serial= 1 AND status = 'withdraw'";
-
-                                      $result = mysqli_query($conn, $sql);
-                                      $row = mysqli_fetch_assoc($result);
-                                      $sum = $row['total'];
-
-                                      $display = $total - $sum;
-                                      if ($display <= 0) {
-                                          echo '<h1>0</h1>';
-                                      } else{
-                                         echo '<h1>' .number_format($display). '</h1>';
-                                      }
-                                       
-
-                                     ?>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Total Users Card -->
+        <a href="users.php" class="stat-card success" style="text-decoration: none; color: inherit;">
+            <div>
+                <div class="stat-label">Total Users</div>
+                <div class="stat-value">
+                    <?php 
+                    $stmt = mysqli_prepare($conn, "SELECT COUNT(id) AS count FROM user");
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+                    $row = mysqli_fetch_assoc($result);
+                    echo $row['count'];
+                    ?>
                 </div>
             </div>
+            <i class="fas fa-users stat-icon"></i>
+        </a>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                   <a href="users.php" class="text-dark">Total Users</a></div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-
-                                    <?php 
-                                            $sql = "SELECT id FROM user ORDER BY id";
-                                            $run = mysqli_query($conn, $sql);
-
-                                            $row = mysqli_num_rows($run);
-
-                                            echo "<h1>".$row."</h1>";
-
-                                        ?>
-
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-users fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Registered Admins Card -->
+        <a href="register.php" class="stat-card info" style="text-decoration: none; color: inherit;">
+            <div>
+                <div class="stat-label">Admin Accounts</div>
+                <div class="stat-value">
+                    <?php 
+                    $stmt = mysqli_prepare($conn, "SELECT COUNT(id) AS count FROM admin");
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+                    $row = mysqli_fetch_assoc($result);
+                    echo $row['count'];
+                    ?>
                 </div>
             </div>
+            <i class="fas fa-shield-alt stat-icon"></i>
+        </a>
 
-            <!-- registered admin Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1"> 
-                                <a href="register.php" class="text-dark"> Registered Admin </a>
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <?php 
-                                            $sql = "SELECT id FROM admin ORDER BY id";
-                                            $run = mysqli_query($conn, $sql);
-
-                                            $row = mysqli_num_rows($run);
-
-                                            echo "<h1>".$row."</h1>";
-
-                                        ?>
-                                        
-                                    </div>
-                                    <div class="col">
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-user fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Pending Deposits Card -->
+        <a href="deposit.php" class="stat-card warning" style="text-decoration: none; color: inherit;">
+            <div>
+                <div class="stat-label">Pending Deposits</div>
+                <div class="stat-value">
+                    <?php
+                    $stmt = mysqli_prepare($conn, "SELECT COUNT(id) AS count FROM transaction WHERE status = 'deposit' AND serial = 0");
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+                    $row = mysqli_fetch_assoc($result);
+                    echo $row['count'];
+                    ?>
                 </div>
             </div>
+            <i class="fas fa-hourglass stat-icon"></i>
+        </a>
 
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    <a href="deposit.php" class="text-dark"> Pending Deposit </a></div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    
-                                    <?php
-                                    $sql = "SELECT * FROM transaction WHERE status= 'deposit' AND serial = 0 ";
-                                    $run = mysqli_query($conn, $sql);
-
-                                            $row = mysqli_num_rows($run);
-
-                                            echo "<h1>".$row."</h1>";
-                                     ?>
-                                </div>
-                            </div>
-                            <?php if($row >= 1)
-                            {
-                              ?>
-                                <div class="col-auto">
-                                <i class="fas fa-spinner fa-spin fa-2x text-gray-300"></i>
-                                </div>
-                              <?php
-                            }?>
-                            
-                        </div>
-                    </div>
+        <!-- Pending Withdrawals Card -->
+        <a href="withdraw.php" class="stat-card danger" style="text-decoration: none; color: inherit;">
+            <div>
+                <div class="stat-label">Pending Withdrawals</div>
+                <div class="stat-value">
+                    <?php
+                    $stmt = mysqli_prepare($conn, "SELECT COUNT(id) AS count FROM transaction WHERE status = 'withdraw' AND serial = 0");
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+                    $row = mysqli_fetch_assoc($result);
+                    echo $row['count'];
+                    ?>
                 </div>
             </div>
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    <a href="withdraw.php" class="text-dark">Pending Withdraw</a></div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    
-                                    <?php
-                                    $sql = "SELECT * FROM transaction WHERE serial= 0 AND status = 'withdraw' ";
-                                    $run = mysqli_query($conn, $sql);
+            <i class="fas fa-exclamation-circle stat-icon"></i>
+        </a>
+    </div>
 
-                                            $row = mysqli_num_rows($run);
-
-                                            echo "<h1>".$row."</h1>";
-                                     ?>
-                                </div>
-                            </div>
-                            <?php if($row >= 1)
-                            {
-                              ?>
-                            <div class="col-auto">
-                                <i class="fas fa-spinner fa-pulse fa-2x text-gray-300"></i>
-                            </div>
-                            <?php
-                            }?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- trades -->
-
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    <a href="trade.php" class="text-dark">Pending Trades</a></div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    
-                                    <?php
-                                    $sql = "SELECT * FROM trade WHERE status = 0 ";
-                                    $run = mysqli_query($conn, $sql);
-
-                                            $row = mysqli_num_rows($run);
-
-                                            echo "<h1>".$row."</h1>";
-                                     ?>
-                                </div>
-                            </div>
-                            <?php if($row >= 1)
-                            {
-                              ?>
-                            <div class="col-auto">
-                                <i class="fas fa-spinner fa-pulse fa-2x text-gray-300"></i>
-                            </div>
-                            <?php
-                            }?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+    <!-- Recent Transactions Section -->
+    <div class="card mt-4">
+        <div class="card-header d-flex justify-between align-center">
+            <h3 class="m-0">Recent Transactions</h3>
         </div>
-        <!-- Begin Page Content -->
-    <div class="container-fluid">
-
-        <!-- Page Heading -->
-        
-
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Transactions</h6>
-                <!-- <form action="code.php" method="POST">
-                  <button type="submit" name="clear_t" class="btn btn-sm"><i class="fas fa-trash"></i></button>
-                </form> -->
+        <div class="card-body">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by TRX ID or User ID..." onkeyup="filterTable()">
             </div>
-         <div class="card-body">
-  <div class="table-responsive">
-      <div class="mb-3">
-        <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search TRX_ID in table.." title="Type in a Transaction ID">
-      </div>
-    <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
-      <thead>
-        <tr>
-          <th>Trx_ID</th>
-          <th>User_ID</th>
-          <th>gateway</th>
-          <th>Status</th>
-          <th>Trx Type</th>
-          <th>Amount</th>
-          <th>Create_at</th>
-          <th>Last_update</th>
-        </tr>
-    </thead>
-    <tbody>
-      <?php 
-
-      
-             $sql = "SELECT * FROM transaction ORDER BY id DESC";
-            $run = mysqli_query($conn,$sql);
-
-               if (mysqli_num_rows($run) > 0) {
-                while ($row = mysqli_fetch_assoc($run)) {
-      ?>
-
-
-        <tr>
-          <td><?php echo $row['trx_id']; ?></td>
-          <td><?php echo $row['user_id']; ?></td>
-          <td><?php echo $row['name']; ?></td>
-          <td><?php if ($row['serial'] == 0) {
-            echo ' <b class="bg-warning" style="text-align: center; margin-top: 10px; padding: 3px 6px; font-size: 10px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Pending</b>';
-          } elseif ($row['serial'] == 1) {
-            echo ' <b class="bg-success" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Approved</b>';
-          } elseif ($row['serial'] == 2) {
-            echo ' <b class="bg-danger" style="text-align: center; font-size: 10px; padding: 3px 6px; margin: 3px; color: white; font-weight: 6em; border-radius: 5px;">Declined</b>';
-          } ?></td>
-          <td><?php echo $row['status']; ?></td>
-          <td><?php echo $row['amt']; ?></td>
-          <td><?php echo date('Y-m-d h:ia', strtotime($row['create_date'])) ?></td>
-          <td><?= date('Y-m-d h:ia', strtotime($row['update'])) ?></td>
-        </tr>
-
-       <?php
-      }
-
-    } else {
-      echo "No Record Found";
-    }
- 
-  ?>
-      </tbody>
-    </table>
-  </div>
-</div>
-</div>
-
-    
-
-</div>
-    <!-- /.container-fluid -->
-
-</div>
-<!-- End of Main Content -->
+            
+            <div class="table-responsive">
+                <table class="table" id="transactionTable">
+                    <thead>
+                        <tr>
+                            <th>TRX ID</th>
+                            <th>User ID</th>
+                            <th>Gateway</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $stmt = mysqli_prepare($conn, "SELECT * FROM transaction ORDER BY id DESC LIMIT 20");
+                        mysqli_stmt_execute($stmt);
+                        $result = mysqli_stmt_get_result($stmt);
+                        
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $status_badge = '';
+                                if ($row['serial'] == 0) {
+                                    $status_badge = '<span class="badge badge-pending">Pending</span>';
+                                } elseif ($row['serial'] == 1) {
+                                    $status_badge = '<span class="badge badge-approved">Approved</span>';
+                                } elseif ($row['serial'] == 2) {
+                                    $status_badge = '<span class="badge badge-declined">Declined</span>';
+                                }
+                        ?>
+                        <tr>
+                            <td><strong><?php echo htmlspecialchars($row['trx_id']); ?></strong></td>
+                            <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['status']); ?></td>
+                            <td><?php echo number_format($row['amt'], 2); ?></td>
+                            <td><?php echo $status_badge; ?></td>
+                            <td><?php echo date('Y-m-d H:i', strtotime($row['create_date'])); ?></td>
+                        </tr>
+                        <?php
+                            }
+                        } else {
+                            echo '<tr><td colspan="7" class="text-center text-muted">No transactions found</td></tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
 
 <script>
-function myFunction() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
+// Apply dark mode from localStorage
+const theme = localStorage.getItem('admin-theme') || 'light';
+if (theme === 'dark') {
+    document.body.classList.add('dark-mode');
+}
+
+// Theme toggle functionality
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('admin-theme', isDark ? 'dark' : 'light');
+    });
+}
+
+// Sidebar toggle for mobile
+const toggleBtn = document.querySelector('.toggle-sidebar-btn');
+const sidebar = document.getElementById('sidebar');
+if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        sidebar.classList.toggle('show');
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#sidebar') && !e.target.closest('.toggle-sidebar-btn')) {
+            sidebar.classList.remove('show');
+        }
+    });
+}
+
+// Collapse menu items
+const collapseLinks = document.querySelectorAll('[data-toggle="collapse"]');
+collapseLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.getAttribute('data-target');
+        const menu = document.querySelector(target);
+        if (menu) {
+            menu.classList.toggle('show');
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isExpanded);
+        }
+    });
+});
+
+// Table search/filter function
+function filterTable() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toUpperCase();
+    const table = document.getElementById('transactionTable');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let found = false;
+        
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                found = true;
+                break;
+            }
+        }
+        
+        rows[i].style.display = found ? '' : 'none';
+    }
 }
 </script>
 
-  <?php 
+<?php 
 include('includes/script.php');
 include('includes/footer.php');
-  ?>
-   
-   
+?>

@@ -479,7 +479,25 @@ if (connectForm) {
     const PRICE_UPDATE_INTERVAL = 60000; // Update every 60 seconds
     
     // Determine the correct API endpoint path
-    const apiEndpoint = 'api/get_crypto_prices.php';
+    // Detect if we're in /p/dashboard/ subdirectory or /dashboard/
+    function getApiEndpoint() {
+        const currentPath = window.location.pathname;
+        
+        // Check if we're in /p/dashboard/
+        if (currentPath.includes('/p/dashboard/')) {
+            return '/p/dashboard/api/get_crypto_prices.php';
+        }
+        // Check if we're in /dashboard/
+        else if (currentPath.includes('/dashboard/')) {
+            return '/dashboard/api/get_crypto_prices.php';
+        }
+        // Fallback: use relative path
+        else {
+            return 'api/get_crypto_prices.php';
+        }
+    }
+    
+    const apiEndpoint = getApiEndpoint();
     
     // Cryptocurrency ID mapping to symbol
     const cryptoMap = {
@@ -512,17 +530,30 @@ if (connectForm) {
     async function fetchCryptoPrices() {
         try {
             console.log('Fetching crypto prices from:', apiEndpoint);
+            console.log('Current URL:', window.location.href);
+            console.log('Pathname:', window.location.pathname);
             
-            const response = await fetch(apiEndpoint);
+            const response = await fetch(apiEndpoint, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                },
+                cache: 'no-cache'
+            });
+            
             if (!response.ok) {
                 console.error('API Response Error:', response.status, response.statusText);
-                throw new Error('API Error: ' + response.status);
+                console.error('Full URL attempted:', response.url);
+                throw new Error('API Error: ' + response.status + ' - ' + response.statusText);
             }
             
             const result = await response.json();
             console.log('API Response:', result);
             
-            if (!result.success) throw new Error(result.error);
+            if (!result.success) {
+                console.error('API returned success=false:', result.error);
+                throw new Error(result.error);
+            }
             
             const prices = result.data;
             let updateCount = 0;
@@ -572,6 +603,13 @@ if (connectForm) {
             
         } catch (error) {
             console.error('Failed to fetch crypto prices:', error);
+            console.error('Error stack:', error.stack);
+            console.error('Attempting to retry with fallback in 5 seconds...');
+            // Retry after delay
+            setTimeout(() => {
+                console.log('Retrying crypto price fetch...');
+                fetchCryptoPrices().catch(e => console.error('Retry failed:', e));
+            }, 5000);
         }
     }
     

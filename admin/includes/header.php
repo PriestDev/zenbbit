@@ -3,67 +3,62 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content= <?php echo NAME; ?> >
-    <link rel="shortcut icon" href= <?php echo "../uploads/".FAV; ?> />
-    <link rel="apple-touch-icon" sizes="72x72" href="<?php echo "../uploads/".FAV; ?>" />
-    <link rel="apple-touch-icon" sizes="114x114" href="<?php echo "../uploads/".FAV; ?>" />
-    <link rel="touch-icon"  sizes="114x114" href="<?php echo "../uploads/".FAV; ?>">
-    <title><?php echo NAME; ?> - CPanel</title>
+    <meta name="author" content="<?php echo NAME; ?>">
+    
+    <!-- Favicon -->
+    <?php if(!empty($FAV)): ?>
+        <link rel="shortcut icon" href="<?php echo "../uploads/".FAV; ?>" />
+        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo "../uploads/".FAV; ?>" />
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo "../uploads/".FAV; ?>" />
+    <?php endif; ?>
+    
+    <title><?php echo NAME; ?> - Admin Panel</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS (for collapse functionality) -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Modern Admin CSS -->
+    <link href="css/admin-modern.css" rel="stylesheet">
+
+    <script>
+        // Apply theme BEFORE page renders to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('admin-theme') || 'light';
+            
+            // Apply to html immediately
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            }
+            
+            // Create and inject CSS for immediate application
+            const style = document.createElement('style');
+            if (savedTheme === 'dark') {
+                style.textContent = `
+                    html, html body {
+                        --bg-primary: #0f0f0f;
+                        --bg-secondary: #1a1a1a;
+                        --text-primary: #f3f4f6;
+                        --text-secondary: #9ca3af;
+                        --border-color: #333333;
+                    }
+                `;
+            }
+            if (style.textContent) {
+                document.head.appendChild(style);
+            }
+        })();
+    </script>
 </head>
 
-<style>
-/** {*/
-/*  box-sizing: border-box;*/
-/*}*/
-
-#myInput {
-  background-image: url('/css/searchicon.png');
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  width: 100%;
-  font-size: 16px;
-  padding: 12px 20px 12px 40px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-}
-
-#myTable {
-  border-collapse: collapse;
-  width: 100%;
-  border: 1px solid #ddd;
-  font-size: 18px;
-}
-
-#myTable th, #myTable td {
-  text-align: left;
-  padding: 12px;
-}
-
-#myTable tr {
-  border-bottom: 1px solid #ddd;
-}
-
-#myTable tr.header, #myTable tr:hover {
-  background-color: #f1f1f1;
-}
-</style>
-
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
