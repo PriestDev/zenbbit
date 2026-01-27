@@ -128,12 +128,19 @@ body.dark-mode {
     max-height: 400px;
     overflow-y: auto;
     z-index: 1001;
-    display: none;
+    display: none !important;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
 }
 
 .notification-dropdown-wrapper.show .notification-dropdown-menu,
 .profile-dropdown-wrapper.show .profile-dropdown-menu {
-    display: block;
+    display: block !important;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .notification-dropdown-header,
@@ -687,15 +694,24 @@ body.dark-mode {
     function initNotificationDropdown() {
         var notificationBtn = document.querySelector('.notification-trigger');
         var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
+        var notificationMenu = document.querySelector('.notification-dropdown-menu');
         
         if (!notificationBtn || !notificationWrapper) return;
         
         notificationBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            notificationWrapper.classList.toggle('show');
-            // Close profile dropdown if open
+            var isOpen = notificationWrapper.classList.contains('show');
+            // Close profile dropdown
             document.querySelector('.profile-dropdown-wrapper')?.classList.remove('show');
+            // Toggle notification dropdown
+            if (isOpen) {
+                notificationWrapper.classList.remove('show');
+                if (notificationMenu) notificationMenu.style.display = 'none';
+            } else {
+                notificationWrapper.classList.add('show');
+                if (notificationMenu) notificationMenu.style.display = 'block';
+            }
         });
     }
     
@@ -705,15 +721,24 @@ body.dark-mode {
     function initProfileDropdown() {
         var profileBtn = document.querySelector('.profile-dropdown-trigger');
         var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
+        var profileMenu = document.querySelector('.profile-dropdown-menu');
         
         if (!profileBtn || !profileWrapper) return;
         
         profileBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            profileWrapper.classList.toggle('show');
-            // Close notification dropdown if open
+            var isOpen = profileWrapper.classList.contains('show');
+            // Close notification dropdown
             document.querySelector('.notification-dropdown-wrapper')?.classList.remove('show');
+            // Toggle profile dropdown
+            if (isOpen) {
+                profileWrapper.classList.remove('show');
+                if (profileMenu) profileMenu.style.display = 'none';
+            } else {
+                profileWrapper.classList.add('show');
+                if (profileMenu) profileMenu.style.display = 'block';
+            }
         });
     }
     
@@ -722,14 +747,21 @@ body.dark-mode {
     // ===========================================
     function initDropdownAutoClose() {
         document.addEventListener('click', function(e) {
+            var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
+            var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
+            
             // Close notification dropdown
-            if (!e.target.closest('.notification-dropdown-wrapper')) {
-                document.querySelector('.notification-dropdown-wrapper')?.classList.remove('show');
+            if (notificationWrapper && !e.target.closest('.notification-dropdown-wrapper')) {
+                notificationWrapper.classList.remove('show');
+                var notifMenu = document.querySelector('.notification-dropdown-menu');
+                if (notifMenu) notifMenu.style.display = 'none';
             }
             
             // Close profile dropdown
-            if (!e.target.closest('.profile-dropdown-wrapper')) {
-                document.querySelector('.profile-dropdown-wrapper')?.classList.remove('show');
+            if (profileWrapper && !e.target.closest('.profile-dropdown-wrapper')) {
+                profileWrapper.classList.remove('show');
+                var profMenu = document.querySelector('.profile-dropdown-menu');
+                if (profMenu) profMenu.style.display = 'none';
             }
         });
     }
