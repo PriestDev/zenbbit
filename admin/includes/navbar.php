@@ -370,14 +370,30 @@ body.dark-mode {
     #sidebar {
         transform: translateX(-100%);
         box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+        position: fixed;
+        z-index: 1001;
     }
     
     #sidebar.show {
         transform: translateX(0);
+        z-index: 1001;
     }
     
     .header {
         padding: 0.75rem 1rem;
+        z-index: 1000;
+    }
+    
+    /* Add mobile overlay to prevent interaction with content when sidebar is open */
+    #sidebar.show::before {
+        content: '';
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: -1;
     }
 }
 </style>
@@ -624,8 +640,12 @@ body.dark-mode {
         var toggleBtn = document.querySelector('.toggle-sidebar-btn');
         var sidebar = document.getElementById('sidebar');
         
-        if (!toggleBtn || !sidebar) return;
+        if (!toggleBtn || !sidebar) {
+            console.warn('Mobile toggle elements not found');
+            return;
+        }
         
+        // Handle toggle button click
         toggleBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -633,13 +653,24 @@ body.dark-mode {
         });
         
         // Close sidebar when clicking outside on mobile
-        if (window.innerWidth <= 768) {
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('#sidebar') && !e.target.closest('.toggle-sidebar-btn')) {
+        document.addEventListener('click', function(e) {
+            // Only apply auto-close on mobile screens
+            if (window.innerWidth <= 768) {
+                var isClickInsideSidebar = e.target.closest('#sidebar');
+                var isClickOnToggle = e.target.closest('.toggle-sidebar-btn');
+                
+                if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('show')) {
                     sidebar.classList.remove('show');
                 }
-            });
-        }
+            }
+        });
+        
+        // Close sidebar when window is resized to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('show');
+            }
+        });
     }
     
     // ===========================================
