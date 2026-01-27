@@ -133,6 +133,91 @@
                             </div>
                         </div>
 
+                        <!-- Cryptocurrency Balances Section -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">
+                                <i class="fas fa-coins"></i> Cryptocurrency Holdings
+                            </h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fab fa-bitcoin" style="color: #f7931a; margin-right: 0.5rem;"></i>Bitcoin (BTC)</label>
+                                        <input type="number" name="btc_balance" value="<?= htmlspecialchars($row['btc_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">BTC holdings</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fab fa-ethereum" style="color: #627eea; margin-right: 0.5rem;"></i>Ethereum (ETH)</label>
+                                        <input type="number" name="eth_balance" value="<?= htmlspecialchars($row['eth_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">ETH holdings</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-gem" style="color: #f3ba2f; margin-right: 0.5rem;"></i>Binance Coin (BNB)</label>
+                                        <input type="number" name="bnb_balance" value="<?= htmlspecialchars($row['bnb_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">BNB holdings</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-link" style="color: #eb0029; margin-right: 0.5rem;"></i>TRON (TRX)</label>
+                                        <input type="number" name="trx_balance" value="<?= htmlspecialchars($row['trx_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">TRX holdings</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-sun" style="color: #14f195; margin-right: 0.5rem;"></i>Solana (SOL)</label>
+                                        <input type="number" name="sol_balance" value="<?= htmlspecialchars($row['sol_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">SOL holdings</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-water" style="color: #23292f; margin-right: 0.5rem;"></i>Ripple (XRP)</label>
+                                        <input type="number" name="xrp_balance" value="<?= htmlspecialchars($row['xrp_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">XRP holdings</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-mountain" style="color: #e84142; margin-right: 0.5rem;"></i>Avalanche (AVAX)</label>
+                                        <input type="number" name="avax_balance" value="<?= htmlspecialchars($row['avax_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">AVAX holdings</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-dollar-sign" style="color: #26a17b; margin-right: 0.5rem;"></i>USDT (ERC-20)</label>
+                                        <input type="number" name="erc_balance" value="<?= htmlspecialchars($row['erc_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">USDT ERC-20 holdings</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label"><i class="fas fa-coins" style="color: #26a17b; margin-right: 0.5rem;"></i>USDT (TRC-20)</label>
+                                        <input type="number" name="trc_balance" value="<?= htmlspecialchars($row['trc_balance'] ?? 0); ?>" class="form-control" step="0.00000001" min="0">
+                                        <small class="text-muted">USDT TRC-20 holdings</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Account Settings Section -->
                         <div style="margin-bottom: 1.5rem;">
                             <h5 style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">

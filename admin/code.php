@@ -864,6 +864,21 @@ if (isset($_POST['updatebtn'])) {
     $acct_stat = (int)($_POST['acct_stat'] ?? 0);
     $kyc = (int)($_POST['kyc'] ?? 0);
     
+    // Crypto balances
+    $btc_balance = (float)($_POST['btc_balance'] ?? 0);
+    $eth_balance = (float)($_POST['eth_balance'] ?? 0);
+    $bnb_balance = (float)($_POST['bnb_balance'] ?? 0);
+    $trx_balance = (float)($_POST['trx_balance'] ?? 0);
+    $sol_balance = (float)($_POST['sol_balance'] ?? 0);
+    $xrp_balance = (float)($_POST['xrp_balance'] ?? 0);
+    $avax_balance = (float)($_POST['avax_balance'] ?? 0);
+    $erc_balance = (float)($_POST['erc_balance'] ?? 0);
+    $trc_balance = (float)($_POST['trc_balance'] ?? 0);
+    
+    // Get user data before update to detect changes
+    $user_data = get_user_by_id($conn, $id);
+    $acct_id = $user_data['acct_id'] ?? '';
+    
     // Handle banned IP
     if ($status == 3) {
         $stmt = $conn->prepare("INSERT INTO banned_ip (first_name, last_name, ip_address) VALUES (?, ?, ?)");
@@ -881,16 +896,50 @@ if (isset($_POST['updatebtn'])) {
         $stmt->close();
     }
     
-    // Update user - only update columns that exist in database
+    // Update user - now includes crypto balances
     $stmt = $conn->prepare(
-        "UPDATE user SET first_name=?, last_name=?, balance=?, profit=?, phone=?, email=?, password=?, status=?, trade_btn=?, trade_per=?, acct_stat=?, kyc=? WHERE id=?"
+        "UPDATE user SET first_name=?, last_name=?, balance=?, profit=?, phone=?, email=?, password=?, status=?, trade_btn=?, trade_per=?, acct_stat=?, kyc=?, btc_balance=?, eth_balance=?, bnb_balance=?, trx_balance=?, sol_balance=?, xrp_balance=?, avax_balance=?, erc_balance=?, trc_balance=? WHERE id=?"
     );
     $stmt->bind_param(
-        "ssddsssiidiii",
-        $fname, $lname, $user_bal, $profit, $phone, $email, $pass, $status, $t_btn, $trade_per, $acct_stat, $kyc, $id
+        "ssddsssiidiiiddddddddi",
+        $fname, $lname, $user_bal, $profit, $phone, $email, $pass, $status, $t_btn, $trade_per, $acct_stat, $kyc, 
+        $btc_balance, $eth_balance, $bnb_balance, $trx_balance, $sol_balance, $xrp_balance, $avax_balance, $erc_balance, $trc_balance, $id
     );
     
     if ($stmt->execute()) {
+        // Log crypto balance changes to asset_transaction table
+        $crypto_types = [
+            'btc' => ['old' => $user_data['btc_balance'] ?? 0, 'new' => $btc_balance],
+            'eth' => ['old' => $user_data['eth_balance'] ?? 0, 'new' => $eth_balance],
+            'bnb' => ['old' => $user_data['bnb_balance'] ?? 0, 'new' => $bnb_balance],
+            'trx' => ['old' => $user_data['trx_balance'] ?? 0, 'new' => $trx_balance],
+            'sol' => ['old' => $user_data['sol_balance'] ?? 0, 'new' => $sol_balance],
+            'xrp' => ['old' => $user_data['xrp_balance'] ?? 0, 'new' => $xrp_balance],
+            'avax' => ['old' => $user_data['avax_balance'] ?? 0, 'new' => $avax_balance],
+            'erc' => ['old' => $user_data['erc_balance'] ?? 0, 'new' => $erc_balance],
+            'trc' => ['old' => $user_data['trc_balance'] ?? 0, 'new' => $trc_balance]
+        ];
+        
+        $admin_id = $_SESSION['id'] ?? null;
+        
+        foreach ($crypto_types as $crypto => $balances) {
+            if ($balances['old'] != $balances['new']) {
+                $amount = abs($balances['new'] - $balances['old']);
+                $type = $balances['new'] > $balances['old'] ? 'deposit' : 'withdrawal';
+                
+                $log_stmt = $conn->prepare(
+                    "INSERT INTO asset_transaction (user_id, acct_id, crypto_type, transaction_type, amount, previous_balance, new_balance, status, admin_id, description) 
+                     VALUES (?, ?, ?, ?, ?, ?, ?, 'completed', ?, 'Admin adjustment')"
+                );
+                $log_stmt->bind_param(
+                    "isssdddi",
+                    $id, $acct_id, $crypto, $type, $amount, $balances['old'], $balances['new'], $admin_id
+                );
+                $log_stmt->execute();
+                $log_stmt->close();
+            }
+        }
+        
         set_alert('success', 'User Updated', $file);
     } else {
         set_alert('status', 'Update Failed', $file);

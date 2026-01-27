@@ -3,6 +3,35 @@
     <div class="list">
         <h2>Holding</h2>
 
+        <?php
+        // Get user's crypto balances
+        if (isset($_SESSION['acct_id'])) {
+            $user_acct_id = $_SESSION['acct_id'];
+            $stmt = $conn->prepare(
+                "SELECT btc_balance, eth_balance, bnb_balance, trx_balance, sol_balance, xrp_balance, avax_balance, erc_balance, trc_balance 
+                 FROM user WHERE acct_id = ?"
+            );
+            $stmt->bind_param("s", $user_acct_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $balances = $result->fetch_assoc();
+            $stmt->close();
+        } else {
+            // Default balances if not logged in
+            $balances = [
+                'btc_balance' => 0,
+                'eth_balance' => 0,
+                'bnb_balance' => 0,
+                'trx_balance' => 0,
+                'sol_balance' => 0,
+                'xrp_balance' => 0,
+                'avax_balance' => 0,
+                'erc_balance' => 0,
+                'trc_balance' => 0
+            ];
+        }
+        ?>
+
         <!-- Bitcoin -->
         <div class="asset" data-crypto="BTC" onclick="window.location='view.php?coin=btc'">
             <div class="icon"><img src="uploads/1758392283_Bitcoin.png" alt="Bitcoin"></div>
@@ -10,7 +39,7 @@
                 <div class="name">BTC</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / BTC<br>
-                    0.000 BTC
+                    <?= number_format($balances['btc_balance'] ?? 0, 8); ?> BTC
                 </div>
             </div>
             <div class="asset-right">
@@ -26,7 +55,7 @@
                 <div class="name">BNB</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / BNB<br>
-                    0.000 BNB
+                    <?= number_format($balances['bnb_balance'] ?? 0, 8); ?> BNB
                 </div>
             </div>
             <div class="asset-right">
@@ -42,7 +71,7 @@
                 <div class="name">ETH</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / ETH<br>
-                    0.000 ETH
+                    <?= number_format($balances['eth_balance'] ?? 0, 8); ?> ETH
                 </div>
             </div>
             <div class="asset-right">
@@ -58,7 +87,7 @@
                 <div class="name">TRX</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / TRX<br>
-                    0.000 TRX
+                    <?= number_format($balances['trx_balance'] ?? 0, 8); ?> TRX
                 </div>
             </div>
             <div class="asset-right">
@@ -74,7 +103,7 @@
                 <div class="name">USDT (ERC-20)</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / USDT (ERC-20)<br>
-                    0.000 USDT (ERC-20)
+                    <?= number_format($balances['erc_balance'] ?? 0, 8); ?> USDT (ERC-20)
                 </div>
             </div>
             <div class="asset-right">
@@ -90,7 +119,7 @@
                 <div class="name">SOL</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / SOL<br>
-                    0.000 SOL
+                    <?= number_format($balances['sol_balance'] ?? 0, 8); ?> SOL
                 </div>
             </div>
             <div class="asset-right">
@@ -106,7 +135,7 @@
                 <div class="name">XRP</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / XRP<br>
-                    0.000 XRP
+                    <?= number_format($balances['xrp_balance'] ?? 0, 8); ?> XRP
                 </div>
             </div>
             <div class="asset-right">
@@ -122,7 +151,7 @@
                 <div class="name">AVAX</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / AVAX<br>
-                    0.000 AVAX
+                    <?= number_format($balances['avax_balance'] ?? 0, 8); ?> AVAX
                 </div>
             </div>
             <div class="asset-right">
@@ -138,7 +167,7 @@
                 <div class="name">USDT (TRC-20)</div>
                 <div class="small">
                     <span class="crypto-price">$0.00</span> / USDT (TRC-20)<br>
-                    0.000 USDT (TRC-20)
+                    <?= number_format($balances['trc_balance'] ?? 0, 8); ?> USDT (TRC-20)
                 </div>
             </div>
             <div class="asset-right">
