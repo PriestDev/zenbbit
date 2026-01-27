@@ -153,8 +153,9 @@
     function initNotificationDropdown() {
         var notificationBtn = document.querySelector('.notification-trigger');
         var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
+        var notificationMenu = document.querySelector('.notification-dropdown-menu');
         
-        if (!notificationBtn || !notificationWrapper) return;
+        if (!notificationBtn || !notificationWrapper || !notificationMenu) return;
         
         notificationBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -167,7 +168,13 @@
             }
             
             // Toggle notification dropdown
+            var isOpen = notificationWrapper.classList.contains('show');
             notificationWrapper.classList.toggle('show');
+            
+            // Position dropdown correctly
+            if (!isOpen) {
+                positionDropdown(notificationBtn, notificationMenu);
+            }
         });
     }
     
@@ -177,8 +184,9 @@
     function initProfileDropdown() {
         var profileBtn = document.querySelector('.profile-dropdown-trigger');
         var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
+        var profileMenu = document.querySelector('.profile-dropdown-menu');
         
-        if (!profileBtn || !profileWrapper) return;
+        if (!profileBtn || !profileWrapper || !profileMenu) return;
         
         profileBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -191,7 +199,13 @@
             }
             
             // Toggle profile dropdown
+            var isOpen = profileWrapper.classList.contains('show');
             profileWrapper.classList.toggle('show');
+            
+            // Position dropdown correctly
+            if (!isOpen) {
+                positionDropdown(profileBtn, profileMenu);
+            }
         });
     }
     
@@ -213,6 +227,32 @@
                 profileWrapper.classList.remove('show');
             }
         });
+    }
+    
+    // ===========================================
+    // DROPDOWN POSITIONING HELPER
+    // ===========================================
+    function positionDropdown(triggerBtn, dropdownMenu) {
+        var triggerRect = triggerBtn.getBoundingClientRect();
+        var dropdownRect = dropdownMenu.getBoundingClientRect();
+        var gap = 8; // pixels
+        
+        // Position below button
+        var top = triggerRect.bottom + gap;
+        var right = window.innerWidth - triggerRect.right;
+        
+        // Adjust if dropdown goes off-screen
+        if (top + dropdownRect.height > window.innerHeight) {
+            top = triggerRect.top - dropdownRect.height - gap;
+        }
+        
+        // Ensure dropdown doesn't go off right edge
+        if (right - dropdownRect.width < 0) {
+            right = 10; // 10px margin from right
+        }
+        
+        dropdownMenu.style.top = top + 'px';
+        dropdownMenu.style.right = right + 'px';
     }
     
     // ===========================================

@@ -163,7 +163,7 @@
     <div class="sidebar-divider"></div>
 
     <!-- Navigation Items -->
-    <ul style="list-style: none; padding: 0; margin: 0;">
+    <ul class="sidebar-nav-container" style="list-style: none; padding: 0; margin: 0;">
         <!-- Dashboard -->
         <li class="nav-item">
             <a href="index.php" class="nav-link">
