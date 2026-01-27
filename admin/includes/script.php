@@ -26,16 +26,16 @@
         });
 
         // ========================================
-        // SIDEBAR TOGGLE (Mobile)
+        // SIDEBAR TOGGLE (Mobile) - Works on All Pages
         // ========================================
         document.addEventListener('DOMContentLoaded', function() {
             const toggleBtn = document.querySelector('.toggle-sidebar-btn');
             const sidebar = document.getElementById('sidebar');
-            const wrapper = document.getElementById('wrapper');
             
             if (toggleBtn && sidebar) {
                 // Toggle sidebar on button click
                 toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
                     e.stopPropagation();
                     sidebar.classList.toggle('show');
                 });
@@ -59,6 +59,13 @@
                             sidebar.classList.remove('show');
                         }
                     });
+                });
+                
+                // Close sidebar on window resize if showing and width > 768px
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768 && sidebar.classList.contains('show')) {
+                        sidebar.classList.remove('show');
+                    }
                 });
             }
         });
