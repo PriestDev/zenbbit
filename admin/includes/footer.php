@@ -19,135 +19,18 @@
     <!-- Bootstrap JS for collapse functionality -->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Sidebar & Theme Script -->
+    <!-- Theme initialization - apply saved theme before navbar.php runs -->
     <script>
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('admin-theme') || 'light';
-            applyTheme(savedTheme);
-            updateThemeButton(savedTheme);
-        });
-
-        // Update theme button appearance
-        function updateThemeButton(theme) {
-            const btn = document.getElementById('themeToggle');
-            if (!btn) return;
-            
-            const isDark = theme === 'dark';
-            const icon = btn.querySelector('i');
-            const span = btn.querySelector('span');
-            
-            if (isDark) {
-                // Dark mode active - show sun icon to switch to light
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                span.textContent = 'Light Mode';
-                btn.setAttribute('data-theme', 'dark');
-            } else {
-                // Light mode active - show moon icon to switch to dark
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                span.textContent = 'Dark Mode';
-                btn.removeAttribute('data-theme');
-            }
-        }
-
-        // Apply theme to entire page uniformly
-        function applyTheme(theme) {
-            const isDark = theme === 'dark';
-            
-            // Apply to html element
-            document.documentElement.setAttribute('data-theme', theme);
-            document.documentElement.style.colorScheme = theme;
-            
-            // Apply to body element
-            if (isDark) {
-                document.body.setAttribute('data-theme', 'dark');
+        (function() {
+            // Apply saved theme immediately to prevent flash
+            var savedTheme = localStorage.getItem('admin-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark-mode');
                 document.body.classList.add('dark-mode');
-                document.body.style.colorScheme = 'dark';
-            } else {
-                document.body.removeAttribute('data-theme');
-                document.body.classList.remove('dark-mode');
-                document.body.style.colorScheme = 'light';
             }
-            
-            // Force CSS variables update
-            const root = document.documentElement;
-            if (isDark) {
-                root.style.setProperty('--bg-primary', '#0f0f0f');
-                root.style.setProperty('--bg-secondary', '#1a1a1a');
-                root.style.setProperty('--text-primary', '#f3f4f6');
-                root.style.setProperty('--text-secondary', '#9ca3af');
-                root.style.setProperty('--border-color', '#333333');
-            } else {
-                root.style.setProperty('--bg-primary', '#ffffff');
-                root.style.setProperty('--bg-secondary', '#f9fafb');
-                root.style.setProperty('--text-primary', '#1f2937');
-                root.style.setProperty('--text-secondary', '#6b7280');
-                root.style.setProperty('--border-color', '#e5e7eb');
-            }
-            
-            // Update all elements with CSS variable dependencies
-            updateElementStyles();
-            
-            // Update logo filter based on theme
-            const logoImg = document.querySelector('.sidebar-brand-logo');
-            if (logoImg) {
-                if (isDark) {
-                    logoImg.style.filter = 'brightness(1.3) contrast(1.1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))';
-                } else {
-                    logoImg.style.filter = 'brightness(1.15) contrast(1.2) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2))';
-                }
-            }
-            
-            // Update sidebar background
-            const sidebar = document.getElementById('sidebar');
-            if (sidebar) {
-                if (isDark) {
-                    sidebar.style.background = 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)';
-                } else {
-                    sidebar.style.background = 'linear-gradient(135deg, #2d1b4e 0%, #3d2660 100%)';
-                }
-            }
-            
-            // Update header background
-            const header = document.querySelector('.header');
-            if (header) {
-                if (isDark) {
-                    header.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #262626 100%)';
-                    header.style.borderBottomColor = 'rgba(255, 255, 255, 0.1)';
-                } else {
-                    header.style.background = 'linear-gradient(135deg, #622faa 0%, #7d3fc0 100%)';
-                    header.style.borderBottomColor = 'rgba(255, 255, 255, 0.2)';
-                }
-            }
-            
-            // Force repaint on all elements
-            document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease';
-            setTimeout(() => {
-                document.body.style.transition = '';
-            }, 300);
-        }
-
-        // Update element styles that depend on CSS variables
-        function updateElementStyles() {
-            const isDark = localStorage.getItem('admin-theme') === 'dark';
-            
-            // Refresh cards and containers
-            const cards = document.querySelectorAll('.card, .stat-card, .modal-content, .navbar, .topbar');
-            cards.forEach(card => {
-                if (card.classList.contains('table-responsive')) return;
-                card.style.backgroundColor = 'var(--bg-secondary)';
-                card.style.borderColor = 'var(--border-color)';
-                card.style.color = 'var(--text-primary)';
-            });
-            
-            // Refresh form elements
-            const forms = document.querySelectorAll('.form-control, .form-select, input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea, select, .input-group');
-            forms.forEach(form => {
-                if (form.classList.contains('btn') || form.classList.contains('toggle-sidebar-btn')) return;
-                form.style.backgroundColor = 'var(--bg-secondary)';
-                form.style.borderColor = 'var(--border-color)';
+        })();
+    </script>
                 form.style.color = 'var(--text-primary)';
             });
             
@@ -249,7 +132,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const toggleBtn = document.querySelector('.toggle-sidebar-btn');
             const sidebar = document.getElementById('sidebar');
-            const wrapper = document.getElementById('wrapper');
 
             if (toggleBtn) {
                 toggleBtn.addEventListener('click', function() {
@@ -272,21 +154,6 @@
                     sidebar.classList.remove('active');
                 }
             });
-        });
-
-        // Theme Toggle
-        document.getElementById('themeToggle')?.addEventListener('click', function() {
-            const currentTheme = localStorage.getItem('admin-theme') || 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            // Save to localStorage
-            localStorage.setItem('admin-theme', newTheme);
-            
-            // Apply theme
-            applyTheme(newTheme);
-            
-            // Update button appearance
-            updateThemeButton(newTheme);
         });
     </script>
 </body>

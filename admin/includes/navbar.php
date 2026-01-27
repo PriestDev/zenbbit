@@ -788,7 +788,10 @@ body.dark-mode {
     // ===========================================
     function initThemeToggle() {
         var themeToggle = document.getElementById('themeToggle');
-        if (!themeToggle) return;
+        if (!themeToggle) {
+            console.warn('Theme toggle button not found');
+            return;
+        }
         
         // Check current theme from localStorage
         var currentTheme = localStorage.getItem('admin-theme') || 'light';
@@ -819,19 +822,28 @@ body.dark-mode {
         }
         
         function updateThemeButton(theme) {
+            if (!themeToggle) return;
+            
             var icon = themeToggle.querySelector('i');
             var text = themeToggle.querySelector('span');
             
+            // Update button classes
             if (theme === 'dark') {
                 themeToggle.classList.remove('btn-secondary');
                 themeToggle.classList.add('btn-warning');
-                if (icon) icon.className = 'fas fa-sun';
-                if (text) text.textContent = 'Light Mode';
             } else {
                 themeToggle.classList.remove('btn-warning');
                 themeToggle.classList.add('btn-secondary');
-                if (icon) icon.className = 'fas fa-moon';
-                if (text) text.textContent = 'Dark Mode';
+            }
+            
+            // Update icon if it exists
+            if (icon) {
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            // Update text if it exists
+            if (text) {
+                text.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
             }
         }
     }
