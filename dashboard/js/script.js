@@ -172,14 +172,20 @@ function openModal(type) {
     const modal = document.getElementById("walletModal");
     const modalTitle = document.getElementById("modalTitle");
     if (modal && modalTitle) {
+        modal.classList.add("show");
         modal.style.display = "flex";
-        modalTitle.innerText = type === "send" ? "Send" : "Receive";
+        modalTitle.innerText = type === "send" ? "Send Cryptocurrency" : "Receive Cryptocurrency";
     }
 }
 
 function closeModal() {
     const modal = document.getElementById("walletModal");
-    if (modal) modal.style.display = "none";
+    if (modal) {
+        modal.classList.remove("show");
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, 300);
+    }
 }
 
 window.onclick = function(event) {

@@ -1,183 +1,168 @@
 <!-- Wallet Modal Component -->
-<div id="walletModal" class="modal">
-    <div class="modal-content" style="background-color: #0000007c">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h3 id="modalTitle">Select Coin</h3>
-        
-        <div class="container py-3">
-            <div class="crypto-section">CRYPTO</div>
-
-            <!-- Bitcoin -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('btc', 5)">
-                <div class="icon">
-                    <img src="uploads/1758392283_Bitcoin.png" alt="Bitcoin">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">BTC</div>
-                    <div class="small" id="btc-small">
-                        Loading price...<br>
-                        0.00000 BTC <span style="color:gray;">($0.00)</span>
-                    </div>
-                </div>
-                <div class="asset-right">
-                    <div class="price" id="btc-price">$0.00</div>
-                    <div class="change positive" id="btc-change">0%</div>
-                </div>
+<div id="walletModal" class="wallet-modal-overlay">
+    <div class="wallet-modal-wrapper">
+        <div class="wallet-modal-header">
+            <div class="wallet-modal-header-content">
+                <h2 id="modalTitle" class="wallet-modal-title">Select Coin</h2>
+                <p class="wallet-modal-subtitle">Choose a cryptocurrency to proceed</p>
             </div>
+            <button class="wallet-modal-close-btn" onclick="closeModal()" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
 
-            <!-- Binance Coin -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('bnb', 6)">
-                <div class="icon">
-                    <img src="uploads/1758392904_bnb-binance.PNG" alt="BNB">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">BNB</div>
-                    <div class="small" id="bnb-small">
-                        Loading price...<br>
-                        0.00000 BNB <span style="color:gray;">($0.00)</span>
+        <div class="wallet-modal-body">
+            <div class="wallet-coins-container">
+                <div class="wallet-coins-section-title">CRYPTOCURRENCIES</div>
+
+                <!-- Bitcoin -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('btc', 5)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1758392283_Bitcoin.png" alt="Bitcoin">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">BTC</div>
+                        <div class="wallet-coin-description" id="btc-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="btc-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="btc-change">0%</div>
                     </div>
                 </div>
-                <div class="asset-right">
-                    <div class="price" id="bnb-price">$0.00</div>
-                    <div class="change positive" id="bnb-change">0%</div>
-                </div>
-            </div>
 
-            <!-- Ethereum -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('eth', 8)">
-                <div class="icon">
-                    <img src="uploads/1758393392_eth.png" alt="Ethereum">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">ETH</div>
-                    <div class="small" id="eth-small">
-                        Loading price...<br>
-                        0.00000 ETH <span style="color:gray;">($0.00)</span>
+                <!-- Ethereum -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('eth', 8)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1758393392_eth.png" alt="Ethereum">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">ETH</div>
+                        <div class="wallet-coin-description" id="eth-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="eth-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="eth-change">0%</div>
                     </div>
                 </div>
-                <div class="asset-right">
-                    <div class="price" id="eth-price">$0.00</div>
-                    <div class="change positive" id="eth-change">0%</div>
-                </div>
-            </div>
 
-            <!-- TRON -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('trx', 9)">
-                <div class="icon">
-                    <img src="uploads/1758393351_trx2.png" alt="TRON">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">TRX</div>
-                    <div class="small" id="trx-small">
-                        Loading price...<br>
-                        0.00000 TRX <span style="color:gray;">($0.00)</span>
+                <!-- Binance Coin -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('bnb', 6)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1758392904_bnb-binance.PNG" alt="BNB">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">BNB</div>
+                        <div class="wallet-coin-description" id="bnb-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="bnb-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="bnb-change">0%</div>
                     </div>
                 </div>
-                <div class="asset-right">
-                    <div class="price" id="trx-price">$0.00</div>
-                    <div class="change positive" id="trx-change">0%</div>
-                </div>
-            </div>
 
-            <!-- USDT ERC-20 -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('erc', 13)">
-                <div class="icon">
-                    <img src="uploads/1759140395_tether.png" alt="USDT">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">USDT (ERC-20)</div>
-                    <div class="small" id="erc-small">
-                        Loading price...<br>
-                        0.00000 USDT (ERC-20) <span style="color:gray;">($0.00)</span>
+                <!-- TRON -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('trx', 9)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1758393351_trx2.png" alt="TRON">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">TRX</div>
+                        <div class="wallet-coin-description" id="trx-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="trx-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="trx-change">0%</div>
                     </div>
                 </div>
-                <div class="asset-right">
-                    <div class="price" id="erc-price">$0.00</div>
-                    <div class="change positive" id="erc-change">0%</div>
-                </div>
-            </div>
 
-            <!-- Solana -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('sol', 15)">
-                <div class="icon">
-                    <img src="uploads/1759140771_Solana.png" alt="Solana">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">SOL</div>
-                    <div class="small" id="sol-small">
-                        Loading price...<br>
-                        0.00000 SOL <span style="color:gray;">($0.00)</span>
+                <!-- Solana -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('sol', 15)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1759140771_Solana.png" alt="Solana">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">SOL</div>
+                        <div class="wallet-coin-description" id="sol-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="sol-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="sol-change">0%</div>
                     </div>
                 </div>
-                <div class="asset-right">
-                    <div class="price" id="sol-price">$0.00</div>
-                    <div class="change positive" id="sol-change">0%</div>
-                </div>
-            </div>
 
-            <!-- Ripple -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('xrp', 16)">
-                <div class="icon">
-                    <img src="uploads/1759141201_xrp.png" alt="XRP">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">XRP</div>
-                    <div class="small" id="xrp-small">
-                        Loading price...<br>
-                        0.00000 XRP <span style="color:gray;">($0.00)</span>
+                <!-- Ripple -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('xrp', 16)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1759141201_xrp.png" alt="XRP">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">XRP</div>
+                        <div class="wallet-coin-description" id="xrp-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="xrp-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="xrp-change">0%</div>
                     </div>
                 </div>
-                <div class="asset-right">
-                    <div class="price" id="xrp-price">$0.00</div>
-                    <div class="change positive" id="xrp-change">0%</div>
-                </div>
-            </div>
 
-            <!-- Avalanche -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('avax', 17)">
-                <div class="icon">
-                    <img src="uploads/1759141105_av.jpeg" alt="AVAX">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">AVAX</div>
-                    <div class="small" id="avax-small">
-                        Loading price...<br>
-                        0.00000 AVAX <span style="color:gray;">($0.00)</span>
+                <!-- Avalanche -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('avax', 17)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1759141105_av.jpeg" alt="AVAX">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">AVAX</div>
+                        <div class="wallet-coin-description" id="avax-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="avax-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="avax-change">0%</div>
                     </div>
                 </div>
-                <div class="asset-right">
-                    <div class="price" id="avax-price">$0.00</div>
-                    <div class="change positive" id="avax-change">0%</div>
-                </div>
-            </div>
 
-            <!-- USDT TRC-20 -->
-            <div class="coin-item" style="cursor: pointer;" onclick="navigateToCoin('trc', 18)">
-                <div class="icon">
-                    <img src="uploads/1759331218_tether.png" alt="USDT TRC-20">
-                </div>
-                <div class="meta" style="text-align: left;">
-                    <div class="name">USDT (TRC-20)</div>
-                    <div class="small" id="trc-small">
-                        Loading price...<br>
-                        0.00000 USDT (TRC-20) <span style="color:gray;">($0.00)</span>
+                <!-- USDT ERC-20 -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('erc', 13)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1759140395_tether.png" alt="USDT">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">USDT (ERC-20)</div>
+                        <div class="wallet-coin-description" id="erc-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="erc-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="erc-change">0%</div>
                     </div>
                 </div>
-                <div class="asset-right">
-                    <div class="price" id="trc-price">$0.00</div>
-                    <div class="change positive" id="trc-change">0%</div>
+
+                <!-- USDT TRC-20 -->
+                <div class="wallet-coin-item" onclick="navigateToCoin('trc', 18)">
+                    <div class="wallet-coin-icon">
+                        <img src="uploads/1759331218_tether.png" alt="USDT TRC-20">
+                    </div>
+                    <div class="wallet-coin-info">
+                        <div class="wallet-coin-name">USDT (TRC-20)</div>
+                        <div class="wallet-coin-description" id="trc-small">Loading...</div>
+                    </div>
+                    <div class="wallet-coin-price-section">
+                        <div class="wallet-coin-price" id="trc-price">$0.00</div>
+                        <div class="wallet-coin-change positive" id="trc-change">0%</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="close-bottom" onclick="closeModal()">Close</div>
+        <div class="wallet-modal-footer">
+            <button class="wallet-modal-close-bottom" onclick="closeModal()">
+                <i class="fas fa-times-circle"></i> Close
+            </button>
+        </div>
     </div>
 </div>
 
 <script>
 // Navigate to coin view page
 function navigateToCoin(coinType, coinId) {
-    // Use coin type parameter as primary, fallback to ID
     const url = 'view.php?coin=' + encodeURIComponent(coinType);
     console.log('🔗 Navigating to:', url);
     window.location.href = url;
@@ -206,8 +191,7 @@ function loadWalletModalPrices() {
                     const changeEl = document.getElementById(coin + '-change');
                     if (changeEl) {
                         changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
-                        changeEl.className = change >= 0 ? 'change positive' : 'change negative';
-                        changeEl.style.color = change >= 0 ? '#4caf50' : '#f44336';
+                        changeEl.className = change >= 0 ? 'wallet-coin-change positive' : 'wallet-coin-change negative';
                     }
                 }
             })

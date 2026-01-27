@@ -58,20 +58,6 @@ include 'includes/head.php';
                     <p class="dashboard-balance-crypto">≈ <?php echo number_format($total_btc, 8); ?> BTC</p>
                 </div>
 
-                <!-- Stats Section - Balance and Profit -->
-                <div class="dashboard-balance-grid">
-                    <div class="dashboard-balance-card dashboard-balance-positive">
-                        <p class="dashboard-balance-title">Current Balance</p>
-                        <div class="dashboard-balance-value">$<?php echo number_format($bal, 2); ?></div>
-                        <p class="dashboard-balance-crypto">≈ <?php echo number_format($total_btc, 8); ?> BTC</p>
-                    </div>
-                    <div class="dashboard-balance-card dashboard-balance-profit">
-                        <p class="dashboard-balance-title">Total Profit</p>
-                        <div class="dashboard-balance-value">$<?php echo number_format($profit, 2); ?></div>
-                        <p class="dashboard-balance-label">Earned</p>
-                    </div>
-                </div>
-
                 <!-- Actions Section -->
                 <div class="dashboard-actions-section">
                     <p class="dashboard-actions-title">Quick Actions</p>
