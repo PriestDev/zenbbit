@@ -10,11 +10,9 @@
     <meta name="author" content="<?php echo NAME; ?>">
     
     <!-- Favicon -->
-    <?php if(!empty($FAV)): ?>
-        <link rel="shortcut icon" href="<?php echo "../uploads/".FAV; ?>" />
-        <link rel="apple-touch-icon" sizes="72x72" href="<?php echo "../uploads/".FAV; ?>" />
-        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo "../uploads/".FAV; ?>" />
-    <?php endif; ?>
+    <link rel="shortcut icon" href="<?php echo "../uploads/".FAV; ?>" />
+    <link rel="apple-touch-icon" sizes="72x72" href="<?php echo "../uploads/".FAV; ?>" />
+    <link rel="apple-touch-icon" sizes="114x114" href="<?php echo "../uploads/".FAV; ?>" />
     
     <title><?php echo NAME; ?> - Admin Panel</title>
 

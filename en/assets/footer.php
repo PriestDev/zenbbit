@@ -168,68 +168,39 @@
             </style>
             <div class="container footer-top">
                 <div class="row footer-top-box">
-                    <div
-                        class="col-lg col-md-6 col-sm-6 col-6 order-lg-1 order-md-1 order-sm-1 footer-products col-xs-6 top-item">
-                        <h3>Products</h3>
-                        <ul>
-                            <li><a href="appinfo.html">SafePal App</a></li>
-                            <!-- <li><a href="https://www.safepal.com/en/store/s1">Hardware Wallet</a></li> -->
-                            <li><a href="store/s1.html">SafePal S1</a></li>
-                            <li><a href="store/s1pro.html">SafePal S1 Pro</a></li>
-                            <li><a href="store/x1.html">SafePal X1</a></li>
-                            <li><a href="extension.html">Extension Wallet</a></li>
-                            <li><a href="store/cypher.html">Cypher Seed Board</a></li>
-                            <li><a href="store/leathercase.html">Leather Case</a></li>
-                            <li><a href="downloadb3db.html">Firmware Upgrade</a></li>
-                            <li><a href="kol.html">Experts' Reviews</a></li>
-                        </ul>
-                    </div>
 
                     <div class="col-lg col-md-6 col-sm-6 col-6 order-lg-2 order-md-3 order-sm-3 footer-support col-xs-6 top-item">
                         <h3>Support</h3>
                         <ul>
-                            <li><a href="https://safepalsupport.zendesk.com/hc/en-us">Help Center</a></li>
-                            <li><a href="track.html">Track my order</a></li>
-                            <li><a href="https://safepalsupport.zendesk.com/hc/en-us/categories/360004554271-Troubleshooting">Technical Issues</a></li>
-                            <li><a href="https://safepalsupport.zendesk.com/hc/en-us/articles/360047261272">Device Authentication</a></li>
-                            <li><a href="https://safepalsupport.zendesk.com/hc/en-us/requests/new?ticket_form_id=360001760732">Submit A Request</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Track my order</a></li>
+                            <li><a href="#">Technical Issues</a></li>
+                            <li><a href="#">Device Authentication</a></li>
+                            <li><a href="#">Submit A Request</a></li>
                         </ul>
                     </div>
 
-                    <div class="col-lg col-md-6 col-sm-6 col-6 order-lg-3 order-md-5 order-sm-5 footer-partner col-xs-6 top-item">
-                        <h3>Partner</h3>
-                        <ul>
-                            <li><a href="reseller.html">Reseller</a></li>
-                            <li><a href="affiliate.html">Affiliate</a></li>
-                            <li><a target="_blanck" href="https://forms.gle/YJqSv326oR5i49g29">Submit a Token</a></li>
-                            <li><a target="_blanck" href="https://forms.gle/4czF6T9Z569uyU2h8">Submit a DApp</a></li>
-                        </ul>
-                    </div>
+                    
 
                     <div class="col-lg col-md-6 col-sm-6 col-6 order-lg-4 order-md-2 order-sm-2 footer-about col-xs-6 top-item">
                         <h3>About</h3>
                         <ul>
-                            <li><a href="about.html">The Company</a></li>
+                            <li><a href="about.php">The Company</a></li>
                             <!--                    <li><a href="">Careers</a></li>-->
-                            <li><a href="sfp.html">SFP Token</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="brandassets.html">Brand Resource Center</a></li>
-                            <li><a href="sitemap.html">Site Map</a></li>
-                            <li><a href="joinus.html">Join Us</a></li>
-
-
-                            <!--                    <li><a href="">Campaigns</a></li>-->
-                            <!--                    <li><a href="https://www.safepal.com/pub/Safepal_Media_Kit.pdf?v=1">Media Kit</a></li>-->
-                            <!--                    <li><a href="#">Contact Us</a></li>-->
+                            <li><a href="sfp.php">SFP Token</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Brand Resource Center</a></li>
+                            <li><a href="#">Site Map</a></li>
+                            <li><a href="../dashboard/register.php">Join Us</a></li>
                         </ul>
                     </div>
                     <div class="col-lg col-md-6 col-sm-6 col-6 order-lg-5 order-md-4 order-sm-4 footer-legal col-xs-6 top-item">
                         <h3>Legal</h3>
                         <ul>
-                            <li><a href="about/terms.html">Terms of Service</a></li>
-                            <li><a href="about/privacy.html">Privacy Policy</a></li>
-                            <li><a href="about/shipping.html">Shipping Policy</a></li>
-                            <li><a href="about/refund.html">Refund Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Shipping Policy</a></li>
+                            <li><a href="#">Refund Policy</a></li>
                         </ul>
                     </div>
 
@@ -241,7 +212,7 @@
                     class="copyright d-flex justify-content-between align-items-lg-end align-items-start flex-lg-row flex-column">
                     <div class="safepay d-flex justify-content-start align-items-center">
                         <div class="logo">
-                            <img src="https://www.safepal.com/assets/img/footer/icon-safepay-footer.svg" alt="">
+                            <img src="../uploads/<?= LOGO ?>" width="auto" height="50px" alt="">
                         </div>
                         <div class="text">
                             <p>© <?= date('Y'). ' ' . NAME; ?></p>

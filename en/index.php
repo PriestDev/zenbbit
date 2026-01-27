@@ -302,7 +302,7 @@ include 'assets/header.php';
                         <div class="wallet-item">
                             <a href="#">
                                 <div class="img" data-aos="fade-up">
-                                    <img src="../assets/img/home/icon-wallet-extension_en.svg" alt="" onerror="handleImageError(this, `/assets/img/home/icon-wallet-extension_en.svg`)">
+                                    <img src="../assets/img/home/icon-wallet-extension_en.png" alt="" onerror="handleImageError(this, `/assets/img/home/icon-wallet-extension_en.png`)">
                                 </div>
                             </a>
                             <div class="item-middle d-flex align-items-start justify-content-start flex-column download">

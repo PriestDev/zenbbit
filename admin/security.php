@@ -34,9 +34,19 @@ if (!$conn) {
 }
 
 // =====================================================================
-// SESSION VALIDATION - Check if user is logged in
+// SESSION VALIDATION - Check if ADMIN is logged in
 // =====================================================================
-if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
+if (!isset($_SESSION['admin_id']) || empty($_SESSION['admin_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// =====================================================================
+// PREVENT USER SESSION FROM ACCESSING ADMIN AREA
+// =====================================================================
+if (isset($_SESSION['user_id']) || isset($_SESSION['user_email'])) {
+    // User is trying to access admin area - clear their session
+    session_destroy();
     header('Location: login.php');
     exit;
 }

@@ -168,7 +168,6 @@
                 <a href="mail.php" class="collapse-item"><i class="fas fa-envelope"></i> Send Email</a>
                 <a href="mails.php" class="collapse-item"><i class="fas fa-inbox"></i> Email History</a>
                 <a href="notification.php" class="collapse-item"><i class="fas fa-bell"></i> Notifications</a>
-                <a href="security.php" class="collapse-item"><i class="fas fa-lock"></i> Security</a>
             </div>
         </li>
     </ul>

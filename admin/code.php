@@ -1085,8 +1085,13 @@ if (isset($_POST['login_btn'])) {
         // Regenerate session ID for security (prevent session fixation)
         session_regenerate_id(true);
         
-        $_SESSION['username'] = $username;
+        // Set ADMIN-specific session variables
+        $_SESSION['admin_id'] = $admin['id'];
+        $_SESSION['admin_username'] = $username;
+        $_SESSION['admin_email'] = $admin['email'];
+        $_SESSION['admin_type'] = $admin['usertype'];
         $_SESSION['last_activity'] = time();
+        $_SESSION['session_type'] = 'admin'; // Track session type
         
         header('location: index.php');
         exit;

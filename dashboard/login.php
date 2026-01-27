@@ -1,5 +1,26 @@
 <?php
-ob_start();
+/**
+ * LOGIN AUTHENTICATION SYSTEM
+ * 
+ * Password Hashing Method: bcrypt (PASSWORD_BCRYPT)
+ * - Industry standard for password hashing
+ * - Provides built-in salt generation and cost factor
+ * - Immune to rainbow table attacks
+ * - Compatible with all cPanel hosting providers
+ * - PHP version required: 5.5+ (available in cPanel default installations)
+ * 
+ * Verification Flow:
+ * 1. User enters email and password
+ * 2. Email is used to fetch hashed password from database
+ * 3. password_verify() performs constant-time comparison
+ * 4. Bcrypt algorithm internally handles salt and comparison
+ * 
+ * Backward Compatibility:
+ * - Also supports legacy MD5/SHA1/plaintext passwords
+ * - Automatically falls back to older methods if bcrypt fails
+ * - Allows gradual migration of legacy accounts
+ */
+
 include '../database/db_config.php';
 session_start();
 require '../details.php';
@@ -18,8 +39,13 @@ function decrypt_password($encrypted_password) {
 }
 
 // Function to verify password - tries multiple methods
+// PRIMARY METHOD: password_verify() with bcrypt (recommended, cPanel compatible)
+// FALLBACK METHODS: Support for legacy password storage formats
 function verify_user_password($input_password, $db_password) {
     // Method 1: bcrypt comparison (PRIORITY - for new registrations)
+    // password_verify() is the PHP standard for bcrypt verification
+    // Uses constant-time comparison to prevent timing attacks
+    // Works on all cPanel servers with PHP 5.5+
     if (password_verify($input_password, $db_password)) {
         return true;
     }
@@ -117,7 +143,7 @@ function send_login_email($email, $username, $ip_address, $is_new_ip = false) {
     $headers .= 'From: ' . EMAIL . "\r\n";
     
     // Uncomment line below when uploading to hosting with SMTP configured
-    // mail($email, $subject, $message, $headers);
+    mail($email, $subject, $message, $headers);
 }
 
 // Get error from session and clear it
@@ -155,12 +181,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             mysqli_query($conn, $update_query);
             
-            // Set session variables
+            // Set session variables - USER-specific sessions
             $_SESSION['user_id'] = $user['acct_id'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['username'] = $user['acct_id'];
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_account_id'] = $user['acct_id'];
+            $_SESSION['session_type'] = 'user'; // Track session type
+            $_SESSION['last_activity'] = time();
             
-            header('Location: index.php');
+            header('Location: ./');
             exit();
         } else {
             $_SESSION['login_error'] = "Invalid email or password";
@@ -173,8 +201,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 }
-
-ob_end_flush();
 ?>
 
 <!DOCTYPE html>
@@ -235,11 +261,5 @@ ob_end_flush();
     </div>
 
     <script src="js/script.js"></script>
-    <script>
-        // JavaScript fallback redirect in case header redirect didn't work
-        if (<?php echo isset($_SESSION['user_id']) && !empty($_SESSION['user_id']) ? 'true' : 'false'; ?>) {
-            window.location.href = 'index.php';
-        }
-    </script>
 </body>
 </html>

@@ -5,15 +5,6 @@
  */
 
 // ============================================
-// PREVENT DUPLICATE EXECUTION
-// ============================================
-
-if (defined('SECURITY_PHP_LOADED')) {
-    return;
-}
-define('SECURITY_PHP_LOADED', true);
-
-// ============================================
 // SESSION INITIALIZATION
 // ============================================
 
@@ -27,29 +18,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // ============================================
-// INCLUDES & DATABASE (Only if not already included)
+// INCLUDES & DATABASE
 // ============================================
 
-if (!defined('DB_CONFIG_LOADED')) {
-    include('../../database/db_config.php');
-    define('DB_CONFIG_LOADED', true);
-}
-
-if (!defined('DETAILS_LOADED')) {
-    require '../../details.php';
-    define('DETAILS_LOADED', true);
-}
-
-if (!defined('ADMIN_LOADED')) {
-    require '../../admin.php';
-    define('ADMIN_LOADED', true);
-}
-
-// Only include user.php if not already included
-if (!defined('USER_PHP_LOADED')) {
-    require '../user.php';
-    define('USER_PHP_LOADED', true);
-}
+include('../database/db_config.php');
+require '../details.php';
+require '../admin.php';
+require '../dashboard/user.php';
 
 if (!$conn) {
     header('location: ../database/db_config.php');
@@ -150,9 +125,16 @@ if (!function_exists('validate_user_session')) {
     function validate_user_session($conn) {
     global $user;
     
+    // Verify this is a USER session, not an admin session
+    if (isset($_SESSION['session_type']) && $_SESSION['session_type'] === 'admin') {
+        session_destroy();
+        header('Location: ../login.php', true, 302);
+        exit();
+    }
+    
     if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] === null) {
-        header('location: ../login.php');
-        exit;
+        header('Location: ../login.php', true, 302);
+        exit();
     }
     
     $user = $_SESSION['user_id'];
@@ -169,8 +151,8 @@ if (!function_exists('validate_user_session')) {
     
     // Account blocked
     if ($result['status'] == 0) {
-        header('location: ../blocked.php');
-        exit;
+        header('Location: ../blocked.php', true, 302);
+        exit();
     }
     }
 }
