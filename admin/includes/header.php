@@ -62,16 +62,25 @@
         
         /* Collapse/Accordion Styles for Sidebar Navigation */
         .collapse {
-            display: none;
+            display: none !important;
             overflow: hidden;
+            visibility: hidden;
         }
         .collapse.show {
-            display: block;
+            display: block !important;
+            visibility: visible !important;
+            overflow: visible !important;
+        }
+        
+        .collapse.show .collapse-item {
+            display: block !important;
+            visibility: visible !important;
         }
         
         .collapse-item {
-            display: block;
-            padding: 0.75rem 1.5rem 0.75rem 2.5rem;
+            display: block !important;
+            visibility: visible;
+            padding: 0.75rem 1.5rem 0.75rem 2.5rem !important;
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.9rem;

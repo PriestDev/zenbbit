@@ -4,8 +4,9 @@
 
 <!-- Navbar CSS with theme support -->
 <style>
-/* Navbar & Sidebar Theming */
+/* Apply CSS variables globally for entire page theme */
 :root {
+    /* Navbar & Sidebar Light Mode */
     --navbar-bg: #ffffff;
     --navbar-border: #e5e7eb;
     --navbar-text: #1f2937;
@@ -13,19 +14,18 @@
     --sidebar-text: #374151;
     --collapse-bg: #f3f4f6;
     --collapse-text: #6b7280;
+    
+    /* Page/Body Light Mode */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
 }
 
-html[data-theme="dark"] {
-    --navbar-bg: #1a1a1a;
-    --navbar-border: #333333;
-    --navbar-text: #f3f4f6;
-    --sidebar-bg: #0f0f0f;
-    --sidebar-text: #d1d5db;
-    --collapse-bg: #2d2d2d;
-    --collapse-text: #9ca3af;
-}
-
+html[data-theme="dark"],
 body.dark-mode {
+    /* Navbar & Sidebar Dark Mode */
     --navbar-bg: #1a1a1a;
     --navbar-border: #333333;
     --navbar-text: #f3f4f6;
@@ -33,6 +33,13 @@ body.dark-mode {
     --sidebar-text: #d1d5db;
     --collapse-bg: #2d2d2d;
     --collapse-text: #9ca3af;
+    
+    /* Page/Body Dark Mode */
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --border-color: #333333;
 }
 
 /* Header/Navbar Styles */
@@ -283,35 +290,49 @@ body.dark-mode {
 
 /* Collapse Menu Styles */
 .collapse {
-    display: none;
+    display: none !important;
     overflow: hidden;
+    max-height: 0;
+    transition: all 0.3s ease;
+    visibility: hidden;
 }
 
 .collapse.show {
-    display: block;
+    display: block !important;
+    max-height: 500px;
+    overflow: visible !important;
+    visibility: visible;
+}
+
+.collapse.show .collapse-item {
+    display: block !important;
+    visibility: visible !important;
 }
 
 .collapse-item {
-    display: block;
-    padding: 0.65rem 1.5rem 0.65rem 3.25rem;
-    color: var(--collapse-text);
+    display: block !important;
+    visibility: visible;
+    padding: 0.65rem 1.5rem 0.65rem 3.25rem !important;
+    color: var(--collapse-text) !important;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
     border-left: 3px solid transparent;
     transition: all 0.2s ease;
-    background-color: var(--collapse-bg);
+    background-color: var(--collapse-bg) !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
 }
 
 .collapse-item i {
-    margin-right: 0.5rem;
-    font-size: 0.8rem;
+    margin-right: 0.5rem !important;
+    font-size: 0.8rem !important;
 }
 
 .collapse-item:hover {
-    color: var(--navbar-text);
-    background-color: var(--navbar-bg);
-    border-left-color: var(--primary-color, #622faa);
-    padding-left: 3.4rem;
+    color: var(--navbar-text) !important;
+    background-color: var(--navbar-bg) !important;
+    border-left-color: var(--primary-color, #622faa) !important;
+    padding-left: 3.4rem !important;
 }
 
 /* Mobile Responsiveness */
@@ -601,7 +622,10 @@ body.dark-mode {
     function initCollapseMenus() {
         var triggers = document.querySelectorAll('[data-toggle="collapse"]');
         
-        if (!triggers.length) return;
+        if (!triggers.length) {
+            console.warn('No collapse triggers found');
+            return;
+        }
         
         triggers.forEach(function(trigger) {
             trigger.addEventListener('click', function(e) {
@@ -617,39 +641,49 @@ body.dark-mode {
                 }
                 
                 var target = document.querySelector(targetId);
-                if (!target) return;
-                
-                // Handle accordion grouping (close other items in same parent)
-                var parentId = target.getAttribute('data-parent');
-                if (parentId) {
-                    var parentEl = document.querySelector(parentId);
-                    if (parentEl) {
-                        var otherItems = parentEl.querySelectorAll('.collapse');
-                        otherItems.forEach(function(item) {
-                            if (item !== target && item.classList.contains('show')) {
-                                item.classList.remove('show');
-                                
-                                // Update aria-expanded on related trigger
-                                var itemId = item.getAttribute('id');
-                                if (itemId) {
-                                    var relatedTrigger = document.querySelector('[data-target="#' + itemId + '"], [data-target="' + itemId + '"], [href="#' + itemId + '"]');
-                                    if (relatedTrigger) {
-                                        relatedTrigger.classList.add('collapsed');
-                                        relatedTrigger.setAttribute('aria-expanded', 'false');
-                                    }
-                                }
-                            }
-                        });
-                    }
+                if (!target) {
+                    console.warn('Collapse target not found:', targetId);
+                    return;
                 }
                 
-                // Toggle the target
-                target.classList.toggle('show');
-                this.classList.toggle('collapsed');
+                // Get parent for accordion behavior
+                var parentId = target.getAttribute('data-parent');
+                var parentEl = parentId ? document.querySelector(parentId) : null;
                 
-                // Update aria-expanded
-                var isOpen = target.classList.contains('show');
-                this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                // Close all other expanded items in same parent
+                if (parentEl) {
+                    var allCollapses = parentEl.querySelectorAll('.collapse');
+                    allCollapses.forEach(function(collapseItem) {
+                        if (collapseItem !== target && collapseItem.classList.contains('show')) {
+                            collapseItem.classList.remove('show');
+                            collapseItem.style.display = 'none';
+                            
+                            // Update the trigger for this collapsed item
+                            var itemId = collapseItem.getAttribute('id');
+                            if (itemId) {
+                                var relatedTrigger = document.querySelector('[data-target="#' + itemId + '"], [data-target="' + itemId + '"]');
+                                if (relatedTrigger) {
+                                    relatedTrigger.setAttribute('aria-expanded', 'false');
+                                    relatedTrigger.classList.add('collapsed');
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                // Toggle current target visibility
+                var isNowOpen = !target.classList.contains('show');
+                if (isNowOpen) {
+                    target.classList.add('show');
+                    target.style.display = 'block';
+                    this.setAttribute('aria-expanded', 'true');
+                    this.classList.remove('collapsed');
+                } else {
+                    target.classList.remove('show');
+                    target.style.display = 'none';
+                    this.setAttribute('aria-expanded', 'false');
+                    this.classList.add('collapsed');
+                }
             });
         });
     }
@@ -708,26 +742,39 @@ body.dark-mode {
     }
     
     // ===========================================
-    // 6. THEME TOGGLE (if exists)
+    // 6. THEME TOGGLE (if exists) - Applies to entire page
     // ===========================================
     function initThemeToggle() {
         var themeToggle = document.getElementById('themeToggle');
         if (!themeToggle) return;
         
-        // Check current theme
-        var currentTheme = localStorage.getItem('theme') || 'light';
+        // Check current theme from localStorage
+        var currentTheme = localStorage.getItem('admin-theme') || 'light';
         updateThemeButton(currentTheme);
+        applyTheme(currentTheme);
         
         themeToggle.addEventListener('click', function() {
-            var theme = localStorage.getItem('theme') || 'light';
+            var theme = localStorage.getItem('admin-theme') || 'light';
             var newTheme = theme === 'light' ? 'dark' : 'light';
             
-            localStorage.setItem('theme', newTheme);
-            document.documentElement.setAttribute('data-theme', newTheme);
-            document.body.classList.toggle('dark-mode');
-            
+            localStorage.setItem('admin-theme', newTheme);
+            applyTheme(newTheme);
             updateThemeButton(newTheme);
         });
+        
+        function applyTheme(theme) {
+            // Apply to html element for CSS variables - this affects entire page
+            document.documentElement.setAttribute('data-theme', theme);
+            
+            // Apply to body for backwards compatibility
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+                document.body.classList.add('dark-mode');
+            } else {
+                document.documentElement.classList.remove('dark-mode');
+                document.body.classList.remove('dark-mode');
+            }
+        }
         
         function updateThemeButton(theme) {
             var icon = themeToggle.querySelector('i');
