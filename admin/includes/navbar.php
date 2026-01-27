@@ -275,6 +275,8 @@ body.dark-mode {
     transition: all 0.2s ease;
     border-left: 3px solid transparent;
     cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .nav-link i {
@@ -287,6 +289,7 @@ body.dark-mode {
     background-color: var(--collapse-bg);
     color: var(--navbar-text);
     border-left-color: var(--primary-color, #622faa);
+    padding-left: 1.75rem;
 }
 
 .nav-link.collapsed {
@@ -300,6 +303,11 @@ body.dark-mode {
     overflow: visible;
     visibility: visible;
     transition: max-height 0.3s ease, visibility 0.3s ease;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.04) 100%);
+    border-left: 3px solid var(--primary-color, #622faa);
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0;
 }
 
 .collapse.collapse-closed {
@@ -310,29 +318,41 @@ body.dark-mode {
 }
 
 .collapse-item {
-    display: block !important;
+    display: flex !important;
+    align-items: center;
+    gap: 0.75rem;
     visibility: visible !important;
-    padding: 0.65rem 1.5rem 0.65rem 3.25rem;
+    padding: 0.75rem 1.5rem 0.75rem 3rem;
     color: var(--collapse-text);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     border-left: 3px solid transparent;
     transition: all 0.2s ease;
-    background-color: var(--collapse-bg);
-    margin: 0;
-    line-height: 1.5;
+    background-color: transparent;
+    margin: 0.25rem 0;
+    line-height: 1.4;
 }
 
 .collapse-item i {
-    margin-right: 0.5rem;
-    font-size: 0.8rem;
+    margin-right: 0.25rem;
+    font-size: 0.75rem;
+    width: 1rem;
+    text-align: center;
+    opacity: 0.8;
 }
 
 .collapse-item:hover {
     color: var(--navbar-text);
-    background-color: var(--navbar-bg);
-    border-left-color: var(--primary-color);
-    padding-left: 3.4rem;
+    background-color: var(--collapse-bg);
+    border-left-color: var(--primary-color, #622faa);
+    padding-left: 3.25rem;
+}
+
+.collapse-item:active {
+    background-color: var(--collapse-bg);
+    color: var(--primary-color, #622faa);
+    border-left-color: var(--primary-color, #622faa);
 }
 
 /* Mobile Responsiveness */
