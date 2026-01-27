@@ -293,20 +293,20 @@ body.dark-mode {
     background-color: transparent;
 }
 
-/* Collapse Menu Styles */
+/* Collapse Menu Styles - Show by default */
 .collapse {
-    display: none !important;
-    max-height: 0;
-    overflow: hidden;
-    visibility: hidden;
-    transition: max-height 0.3s ease, visibility 0.3s ease;
-}
-
-.collapse.show {
     display: block !important;
     max-height: 1000px;
     overflow: visible;
     visibility: visible;
+    transition: max-height 0.3s ease, visibility 0.3s ease;
+}
+
+.collapse.collapse-closed {
+    display: none !important;
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
 }
 
 .collapse-item {
@@ -650,13 +650,12 @@ body.dark-mode {
                 var parentId = target.getAttribute('data-parent');
                 var parentEl = parentId ? document.querySelector(parentId) : null;
                 
-                // Close all other expanded items in same parent
+                // Close all other expanded items in same parent (remove collapse-closed from others)
                 if (parentEl) {
                     var allCollapses = parentEl.querySelectorAll('.collapse');
                     allCollapses.forEach(function(collapseItem) {
-                        if (collapseItem !== target && collapseItem.classList.contains('show')) {
-                            collapseItem.classList.remove('show');
-                            collapseItem.style.display = 'none';
+                        if (collapseItem !== target) {
+                            collapseItem.classList.add('collapse-closed');
                             
                             // Update the trigger for this collapsed item
                             var itemId = collapseItem.getAttribute('id');
@@ -671,16 +670,14 @@ body.dark-mode {
                     });
                 }
                 
-                // Toggle current target visibility
-                var isNowOpen = !target.classList.contains('show');
-                if (isNowOpen) {
-                    target.classList.add('show');
-                    target.style.display = 'block';
+                // Toggle current target collapse-closed state
+                var isClosed = target.classList.contains('collapse-closed');
+                if (isClosed) {
+                    target.classList.remove('collapse-closed');
                     this.setAttribute('aria-expanded', 'true');
                     this.classList.remove('collapsed');
                 } else {
-                    target.classList.remove('show');
-                    target.style.display = 'none';
+                    target.classList.add('collapse-closed');
                     this.setAttribute('aria-expanded', 'false');
                     this.classList.add('collapsed');
                 }
