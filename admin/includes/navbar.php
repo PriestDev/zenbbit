@@ -38,19 +38,22 @@
                 <div class="notification-dropdown-body">
                     <?php
                         // Fetch recent pending transactions
-                        $notif_query = "SELECT id, user_id, type, amount, created_at FROM transaction WHERE serial = 0 ORDER BY created_at DESC LIMIT 5";
+                        $notif_query = "SELECT id, name, status, amt, create_date FROM transaction WHERE serial = 0 ORDER BY create_date DESC LIMIT 5";
                         $notif_result = mysqli_query($conn, $notif_query);
                         
                         if ($notif_result && mysqli_num_rows($notif_result) > 0) {
                             while ($notif = mysqli_fetch_assoc($notif_result)) {
-                                $type_icon = $notif['type'] === 'Deposit' ? 'fa-plus-circle text-success' : 'fa-minus-circle text-danger';
-                                $type_label = ucfirst($notif['type']);
-                                $amount = htmlspecialchars($notif['amount']);
+                                $is_deposit = strtolower($notif['status']) === 'deposit';
+                                $type_icon = $is_deposit ? 'fa-plus-circle text-success' : 'fa-minus-circle text-danger';
+                                $type_label = $is_deposit ? 'Deposit' : 'Withdrawal';
+                                $amount = htmlspecialchars($notif['amt']);
+                                $username = htmlspecialchars($notif['name']);
+                                $link = $is_deposit ? 'deposit.php' : 'withdraw.php';
                                 echo '
-                                <a href="deposit.php" class="notification-item">
+                                <a href="'.$link.'" class="notification-item">
                                     <i class="fas '.$type_icon.'"></i>
                                     <div class="notification-content">
-                                        <span class="notification-title">'.$type_label.' Request</span>
+                                        <span class="notification-title">'.$type_label.' - '.$username.'</span>
                                         <span class="notification-amount">$'.$amount.'</span>
                                     </div>
                                 </a>';
