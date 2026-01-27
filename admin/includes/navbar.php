@@ -4,9 +4,8 @@
 
 <!-- Navbar CSS with theme support -->
 <style>
-/* Apply CSS variables globally for entire page theme */
+/* CSS Variables for theming - Light Mode Default */
 :root {
-    /* Navbar & Sidebar Light Mode */
     --navbar-bg: #ffffff;
     --navbar-border: #e5e7eb;
     --navbar-text: #1f2937;
@@ -14,18 +13,19 @@
     --sidebar-text: #374151;
     --collapse-bg: #f3f4f6;
     --collapse-text: #6b7280;
-    
-    /* Page/Body Light Mode */
     --bg-primary: #ffffff;
     --bg-secondary: #f9fafb;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --border-color: #e5e7eb;
+    --primary-color: #622faa;
 }
 
+/* Dark Mode */
 html[data-theme="dark"],
+html[data-theme="dark"] body,
+body[data-theme="dark"],
 body.dark-mode {
-    /* Navbar & Sidebar Dark Mode */
     --navbar-bg: #1a1a1a;
     --navbar-border: #333333;
     --navbar-text: #f3f4f6;
@@ -33,8 +33,6 @@ body.dark-mode {
     --sidebar-text: #d1d5db;
     --collapse-bg: #2d2d2d;
     --collapse-text: #9ca3af;
-    
-    /* Page/Body Dark Mode */
     --bg-primary: #0f0f0f;
     --bg-secondary: #1a1a1a;
     --text-primary: #f3f4f6;
@@ -291,48 +289,43 @@ body.dark-mode {
 /* Collapse Menu Styles */
 .collapse {
     display: none !important;
-    overflow: hidden;
     max-height: 0;
-    transition: all 0.3s ease;
+    overflow: hidden;
     visibility: hidden;
+    transition: max-height 0.3s ease, visibility 0.3s ease;
 }
 
 .collapse.show {
     display: block !important;
-    max-height: 500px;
-    overflow: visible !important;
+    max-height: 1000px;
+    overflow: visible;
     visibility: visible;
-}
-
-.collapse.show .collapse-item {
-    display: block !important;
-    visibility: visible !important;
 }
 
 .collapse-item {
     display: block !important;
-    visibility: visible;
-    padding: 0.65rem 1.5rem 0.65rem 3.25rem !important;
-    color: var(--collapse-text) !important;
+    visibility: visible !important;
+    padding: 0.65rem 1.5rem 0.65rem 3.25rem;
+    color: var(--collapse-text);
     text-decoration: none;
-    font-size: 0.9rem !important;
+    font-size: 0.9rem;
     border-left: 3px solid transparent;
     transition: all 0.2s ease;
-    background-color: var(--collapse-bg) !important;
-    margin: 0 !important;
-    line-height: 1.5 !important;
+    background-color: var(--collapse-bg);
+    margin: 0;
+    line-height: 1.5;
 }
 
 .collapse-item i {
-    margin-right: 0.5rem !important;
-    font-size: 0.8rem !important;
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
 }
 
 .collapse-item:hover {
-    color: var(--navbar-text) !important;
-    background-color: var(--navbar-bg) !important;
-    border-left-color: var(--primary-color, #622faa) !important;
-    padding-left: 3.4rem !important;
+    color: var(--navbar-text);
+    background-color: var(--navbar-bg);
+    border-left-color: var(--primary-color);
+    padding-left: 3.4rem;
 }
 
 /* Mobile Responsiveness */
