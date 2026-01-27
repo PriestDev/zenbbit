@@ -14,7 +14,7 @@
     <div class="header-actions">
         <!-- Notification Dropdown -->
         <div class="notification-dropdown-wrapper">
-            <button class="header-icon-btn notification-dropdown-trigger" title="View Notifications">
+            <a href="#" class="header-icon-btn" title="View Notifications" onclick="return false;">
                 <i class="fas fa-bell"></i>
                 <?php
                     // Get pending transactions count
@@ -27,9 +27,9 @@
                         echo '<span class="notification-badge">' . min($pending_count, 99) . (($pending_count > 99) ? '+' : '') . '</span>';
                     }
                 ?>
-            </button>
+            </a>
             
-            <!-- Notification Dropdown Menu -->
+            <!-- Notification Dropdown Menu (Hidden by default) -->
             <div class="notification-dropdown-menu">
                 <div class="notification-dropdown-header">
                     <h6 style="margin: 0; padding: 0;">Notifications</h6>

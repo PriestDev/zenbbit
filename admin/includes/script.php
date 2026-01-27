@@ -210,39 +210,74 @@
         };
 
         // ========================================
-        // NOTIFICATION & PROFILE DROPDOWN CLOSE ON CLICK
+        // NOTIFICATION DROPDOWN - CLICK & HOVER SUPPORT
         // ========================================
         document.addEventListener('DOMContentLoaded', function() {
             const notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
-            const profileWrapper = document.querySelector('.profile-dropdown-wrapper');
+            const notificationMenu = document.querySelector('.notification-dropdown-menu');
+            const notificationIcon = notificationWrapper ? notificationWrapper.querySelector('.header-icon-btn') : null;
             
-            // Close notification dropdown when clicking a link
-            if (notificationWrapper) {
-                notificationWrapper.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        // Allow default action but dropdowns will close on hover-out
+            if (notificationWrapper && notificationIcon) {
+                // Toggle dropdown on icon click
+                notificationIcon.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    notificationWrapper.classList.toggle('show');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!notificationWrapper.contains(e.target)) {
+                        notificationWrapper.classList.remove('show');
+                    }
+                });
+                
+                // Close dropdown when clicking on a notification item
+                const notificationItems = notificationWrapper.querySelectorAll('.notification-item');
+                notificationItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        notificationWrapper.classList.remove('show');
                     });
                 });
                 
-                // Close on outside click
-                document.addEventListener('click', function(e) {
-                    if (!notificationWrapper.contains(e.target)) {
-                        // Dropdown closes naturally on hover-out due to CSS
-                    }
-                });
+                // Close dropdown when clicking footer link
+                const footerLink = notificationWrapper.querySelector('.notification-dropdown-footer');
+                if (footerLink) {
+                    footerLink.addEventListener('click', function() {
+                        notificationWrapper.classList.remove('show');
+                    });
+                }
             }
             
-            // Same for profile dropdown
-            if (profileWrapper) {
-                profileWrapper.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        // Allow default action
+            // Profile dropdown click support (similar pattern)
+            const profileWrapper = document.querySelector('.profile-dropdown-wrapper');
+            const profileTrigger = profileWrapper ? profileWrapper.querySelector('.profile-dropdown-trigger') : null;
+            
+            if (profileWrapper && profileTrigger) {
+                profileTrigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    profileWrapper.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (!profileWrapper.contains(e.target)) {
+                        profileWrapper.classList.remove('show');
+                    }
+                });
+                
+                // Close profile dropdown when clicking links
+                const profileItems = profileWrapper.querySelectorAll('.profile-dropdown-item');
+                profileItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        profileWrapper.classList.remove('show');
                     });
                 });
             }
         });
 
         // ========================================
+        // RESPONSIVE BEHAVIOR
         // ========================================
         function handleResponsive() {
             const sidebar = document.getElementById('sidebar');
