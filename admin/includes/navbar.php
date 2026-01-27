@@ -227,69 +227,72 @@
         </div>
     </div>
 </nav>
-<!-- Inline script: make collapse toggles work on every page without relying on page-specific JS -->
+
+<!-- Collapse Toggle Script - works on all pages -->
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-    (function(){
-        var sidebar = document.getElementById('sidebar');
-        if(!sidebar) return;
+(function() {
+    'use strict';
+    
+    function initCollapse() {
+        var triggers = document.querySelectorAll('[data-toggle="collapse"]');
         
-        function findTargetSelector(link){
-            var selector = link.getAttribute('data-target') || link.getAttribute('href');
-            if(!selector) return null;
-            // Ensure selector starts with #
-            if(selector.charAt(0) !== '#') {
-                selector = '#' + selector.replace(/^#/, '');
-            }
-            return selector;
-        }
-
-        function collapseOthers(except){
-            sidebar.querySelectorAll('.collapse.show').forEach(function(el){
-                if(el !== except) {
-                    el.classList.remove('show');
-                    // Update corresponding trigger aria-expanded
-                    var trigger = sidebar.querySelector('[data-target="#' + el.id + '"], [data-target="' + el.id + '"]');
-                    if(!trigger) trigger = sidebar.querySelector('[data-target="#' + el.id + '"]');
-                    if(trigger) trigger.setAttribute('aria-expanded', 'false');
+        if (!triggers.length) return;
+        
+        triggers.forEach(function(trigger) {
+            trigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                var selector = this.getAttribute('data-target');
+                if (!selector) return;
+                
+                // Normalize selector
+                if (selector.charAt(0) !== '#') {
+                    selector = '#' + selector;
                 }
+                
+                var target = document.querySelector(selector);
+                if (!target) return;
+                
+                // Get parent from the TARGET, not the trigger
+                var parentSelector = target.getAttribute('data-parent');
+                if (parentSelector) {
+                    var parentEl = document.querySelector(parentSelector);
+                    if (parentEl) {
+                        // Close all other open collapse items in parent
+                        var otherCollapse = parentEl.querySelectorAll('.collapse.show');
+                        otherCollapse.forEach(function(item) {
+                            if (item !== target) {
+                                item.classList.remove('show');
+                                // Find and update the trigger for this item
+                                var itemId = item.getAttribute('id');
+                                if (itemId) {
+                                    var relatedTrigger = document.querySelector('[data-target="#' + itemId + '"]');
+                                    if (relatedTrigger) {
+                                        relatedTrigger.setAttribute('aria-expanded', 'false');
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                // Toggle this target
+                target.classList.toggle('show');
+                
+                // Update aria-expanded
+                var isOpen = target.classList.contains('show');
+                this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             });
-        }
-
-        // Attach click handler to all collapse triggers
-        sidebar.addEventListener('click', function(e){
-            var link = e.target.closest('.nav-link[data-toggle="collapse"]');
-            if(!link) return;
-            
-            e.preventDefault();
-            e.stopPropagation();
-            
-            var selector = findTargetSelector(link);
-            if(!selector) return;
-            
-            var target = document.querySelector(selector);
-            if(!target) return;
-            
-            // Close other menus
-            collapseOthers(target);
-            
-            // Toggle this menu
-            target.classList.toggle('show');
-            
-            // Update aria-expanded
-            var isExpanded = target.classList.contains('show');
-            link.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
         });
-        
-        // Close menus when clicking outside sidebar
-        document.addEventListener('click', function(e){
-            if(sidebar && !sidebar.contains(e.target) && sidebar.classList && sidebar.classList.contains('show')) {
-                var menus = sidebar.querySelectorAll('.collapse.show');
-                menus.forEach(function(menu){
-                    menu.classList.remove('show');
-                });
-            }
-        });
-    })();
-});
+    }
+    
+    // Initialize on DOMContentLoaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCollapse);
+    } else {
+        // Already loaded
+        initCollapse();
+    }
+})();
 </script>

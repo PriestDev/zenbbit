@@ -59,6 +59,37 @@
     <style>
         /* Fallback to ensure main content is visible if JS fails */
         #content{display:block!important; visibility:visible!important; color:var(--text-primary); background-color:var(--bg-primary);}
+        
+        /* Collapse/Accordion Styles for Sidebar Navigation */
+        .collapse {
+            display: none;
+            overflow: hidden;
+        }
+        .collapse.show {
+            display: block;
+        }
+        
+        .collapse-item {
+            display: block;
+            padding: 0.75rem 1.5rem 0.75rem 2.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .collapse-item:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+            padding-left: 2.7rem;
+            border-left-color: var(--primary-color, #622faa);
+        }
+        
+        .collapse-item i {
+            margin-right: 0.5rem;
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 
