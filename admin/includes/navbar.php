@@ -342,11 +342,6 @@ body.dark-mode {
         <i class="fas fa-bars"></i>
     </button>
     
-    <!-- Toggle Sidebar Button (Mobile Only) -->
-    <button class="toggle-sidebar-btn" title="Toggle Sidebar">
-        <i class="fas fa-bars"></i>
-    </button>
-    
     <!-- Center: Spacer (Flexbox growth) -->
     <div style="flex: 1;"></div>
     
@@ -768,3 +763,6 @@ body.dark-mode {
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
+    }
+})();
+</script>
