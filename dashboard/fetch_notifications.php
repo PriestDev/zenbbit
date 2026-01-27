@@ -113,7 +113,6 @@ try {
             first_name,
             last_name,
             wallet_stat,
-            card_stat,
             `update` as create_date
         FROM user
         WHERE acct_id = '$userId_esc'

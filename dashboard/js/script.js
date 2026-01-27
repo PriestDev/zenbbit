@@ -93,12 +93,16 @@
 })();
 
 // ================= SIDEBAR TOGGLE ======================= 
-const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+// Note: toggleSidebarBtn is defined in the inline header.php script, no need to redeclare
+// Commenting out duplicate declaration to avoid "already been declared" error
+// const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
 const closeSidebarBtn = document.getElementById('closeSidebarBtn');
 const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-if (toggleSidebarBtn && sidebar && sidebarOverlay) {
+// Removed duplicate declaration - handled in header.php inline script
+// if (toggleSidebarBtn && sidebar && sidebarOverlay) {
+if (sidebar && sidebarOverlay && document.getElementById('toggleSidebarBtn')) {
     // Open sidebar
     toggleSidebarBtn.addEventListener('click', () => {
         sidebar.classList.add('open');
@@ -133,7 +137,13 @@ const body = document.body;
 const themeToggleBtn = document.getElementById("themeToggleBtn");
 
 // Load saved theme or default to light
-const savedTheme = localStorage.getItem("theme") || "light";
+let savedTheme = "light";
+try {
+    savedTheme = localStorage.getItem("theme") || "light";
+} catch (e) {
+    // Tracking Prevention or private mode - use default theme
+    console.log('localStorage access blocked by browser privacy settings');
+}
 if (savedTheme === "light") {
     body.classList.add("light-mode");
 }
@@ -158,10 +168,14 @@ if (themeToggleBtn) {
         body.classList.toggle("light-mode");
         
         // Save choice
-        if (body.classList.contains("light-mode")) {
-            localStorage.setItem("theme", "light");
-        } else {
-            localStorage.setItem("theme", "dark");
+        try {
+            if (body.classList.contains("light-mode")) {
+                localStorage.setItem("theme", "light");
+            } else {
+                localStorage.setItem("theme", "dark");
+            }
+        } catch (e) {
+            console.log('Unable to save theme preference - localStorage blocked');
         }
         updateIcon();
     });
@@ -221,9 +235,13 @@ const twoFactorToggle = document.getElementById('twoFactorToggle');
 // Load saved 2FA state from localStorage
 function load2FAState() {
     if (twoFactorToggle) {
-        const saved = localStorage.getItem('twoFactorEnabled');
-        if (saved === 'true') {
-            twoFactorToggle.checked = true;
+        try {
+            const saved = localStorage.getItem('twoFactorEnabled');
+            if (saved === 'true') {
+                twoFactorToggle.checked = true;
+            }
+        } catch (e) {
+            console.log('Unable to load 2FA preference - localStorage blocked');
         }
     }
 }
@@ -259,7 +277,11 @@ function show2FAToast(message, type = 'success') {
 if (twoFactorToggle) {
     twoFactorToggle.addEventListener('change', function() {
         const isEnabled = this.checked;
-        localStorage.setItem('twoFactorEnabled', isEnabled);
+        try {
+            localStorage.setItem('twoFactorEnabled', isEnabled);
+        } catch (e) {
+            console.log('Unable to save 2FA preference - localStorage blocked');
+        }
         show2FAToast(isEnabled ? '✓ 2FA Enabled' : '✗ 2FA Disabled', isEnabled ? 'success' : 'warning');
     });
 }
@@ -452,7 +474,7 @@ if (connectForm) {
     const PRICE_UPDATE_INTERVAL = 60000; // Update every 60 seconds
     
     // Determine the correct API endpoint path
-    const apiEndpoint = '/p/dashboard/api/get_crypto_prices.php';
+    const apiEndpoint = './api/get_crypto_prices.php';
     
     // Cryptocurrency ID mapping to symbol
     const cryptoMap = {
@@ -600,8 +622,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (themeToggle) {
         // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme') || 'light-mode';
-        body.className = savedTheme;
+        let savedTheme = 'light-mode';
+        try {
+            savedTheme = localStorage.getItem('theme') || 'light-mode';
+            body.className = savedTheme;
+        } catch (e) {
+            console.log('Unable to load theme - localStorage blocked');
+            body.className = 'light-mode';
+        }
         updateThemeIcon();
 
         themeToggle.addEventListener('click', () => {
@@ -609,7 +637,11 @@ document.addEventListener('DOMContentLoaded', () => {
             body.classList.toggle('dark-mode');
             
             const currentTheme = body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
-            localStorage.setItem('theme', currentTheme);
+            try {
+                localStorage.setItem('theme', currentTheme);
+            } catch (e) {
+                console.log('Unable to save theme - localStorage blocked');
+            }
             updateThemeIcon();
         });
     }
