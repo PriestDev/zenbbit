@@ -523,6 +523,263 @@ body.dark-mode .profile-dropdown-menu {
     border-color: var(--border-color);
 }
 
+/* ===========================
+   NOTIFICATION DROPDOWN
+   =========================== */
+
+.notification-dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.notification-dropdown-trigger {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.notification-dropdown-trigger:hover {
+    transform: scale(1.1);
+}
+
+/* Notification Dropdown Menu */
+.notification-dropdown-menu {
+    position: fixed;
+    top: 70px;
+    right: 12.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    min-width: 320px;
+    max-width: 400px;
+    max-height: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1100;
+    padding: 0;
+    pointer-events: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.notification-dropdown-wrapper:hover .notification-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Notification Dropdown Header */
+.notification-dropdown-header {
+    padding: 1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.notification-dropdown-header h6 {
+    margin: 0;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.notification-dropdown-header small {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+/* Notification Dropdown Body */
+.notification-dropdown-body {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 360px;
+}
+
+.notification-dropdown-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notification-dropdown-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.notification-dropdown-body::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.notification-dropdown-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Notification Items */
+.notification-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item:hover {
+    background: var(--bg-primary);
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+    text-decoration: none;
+    padding-left: calc(1rem + 3px);
+}
+
+.notification-item i {
+    font-size: 1.25rem;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+.notification-item .text-success {
+    color: #10b981;
+}
+
+.notification-item .text-danger {
+    color: #ef4444;
+}
+
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.notification-amount {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* Notification Empty State */
+.notification-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.notification-empty i {
+    font-size: 2rem;
+    opacity: 0.5;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.notification-empty p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Notification Dropdown Footer */
+.notification-dropdown-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border-top: 1px solid var(--border-color);
+}
+
+.notification-dropdown-footer:hover {
+    background: var(--bg-primary);
+    color: var(--primary-dark);
+    text-decoration: none;
+}
+
+.notification-dropdown-footer i {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.notification-dropdown-footer:hover i {
+    transform: translateX(2px);
+}
+
+/* Responsive notification dropdown */
+@media (max-width: 1024px) {
+    .notification-dropdown-menu {
+        right: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .notification-dropdown-menu {
+        min-width: 280px;
+        max-width: 90vw;
+        right: 1rem;
+    }
+    
+    .notification-item {
+        padding: 0.75rem;
+    }
+    
+    .notification-dropdown-header {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .notification-dropdown-menu {
+        position: fixed;
+        top: 60px;
+        right: 0.5rem;
+        min-width: 250px;
+        max-width: calc(100vw - 1rem);
+    }
+    
+    .notification-item {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .notification-title {
+        font-size: 0.8rem;
+    }
+    
+    .notification-amount {
+        font-size: 0.75rem;
+    }
+}
+
+/* Dark mode notification dropdown */
+body[data-theme="dark"] .notification-dropdown-menu,
+body.dark-mode .notification-dropdown-menu {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
 /* Logout button in header */
 .header .btn-danger {
     background: rgba(239, 68, 68, 0.9) !important;

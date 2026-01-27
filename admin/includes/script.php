@@ -210,7 +210,39 @@
         };
 
         // ========================================
-        // RESPONSIVE BEHAVIOR
+        // NOTIFICATION & PROFILE DROPDOWN CLOSE ON CLICK
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
+            const profileWrapper = document.querySelector('.profile-dropdown-wrapper');
+            
+            // Close notification dropdown when clicking a link
+            if (notificationWrapper) {
+                notificationWrapper.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        // Allow default action but dropdowns will close on hover-out
+                    });
+                });
+                
+                // Close on outside click
+                document.addEventListener('click', function(e) {
+                    if (!notificationWrapper.contains(e.target)) {
+                        // Dropdown closes naturally on hover-out due to CSS
+                    }
+                });
+            }
+            
+            // Same for profile dropdown
+            if (profileWrapper) {
+                profileWrapper.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        // Allow default action
+                    });
+                });
+            }
+        });
+
+        // ========================================
         // ========================================
         function handleResponsive() {
             const sidebar = document.getElementById('sidebar');

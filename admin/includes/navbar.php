@@ -12,21 +12,61 @@
     
     <!-- Right: Header Actions (Notifications, Profile & Logout) -->
     <div class="header-actions">
-        <!-- Notification Bell Icon -->
-        <a href="notification.php" class="header-icon-btn" title="View Notifications">
-            <i class="fas fa-bell"></i>
-            <?php
-                // Get pending transactions count
-                $pending_query = "SELECT COUNT(id) AS num FROM transaction WHERE serial = 0";
-                $pending_result = mysqli_query($conn, $pending_query);
-                $pending_data = mysqli_fetch_assoc($pending_result);
-                $pending_count = isset($pending_data['num']) ? intval($pending_data['num']) : 0;
-                
-                if ($pending_count > 0) {
-                    echo '<span class="notification-badge">' . min($pending_count, 99) . (($pending_count > 99) ? '+' : '') . '</span>';
-                }
-            ?>
-        </a>
+        <!-- Notification Dropdown -->
+        <div class="notification-dropdown-wrapper">
+            <button class="header-icon-btn notification-dropdown-trigger" title="View Notifications">
+                <i class="fas fa-bell"></i>
+                <?php
+                    // Get pending transactions count
+                    $pending_query = "SELECT COUNT(id) AS num FROM transaction WHERE serial = 0";
+                    $pending_result = mysqli_query($conn, $pending_query);
+                    $pending_data = mysqli_fetch_assoc($pending_result);
+                    $pending_count = isset($pending_data['num']) ? intval($pending_data['num']) : 0;
+                    
+                    if ($pending_count > 0) {
+                        echo '<span class="notification-badge">' . min($pending_count, 99) . (($pending_count > 99) ? '+' : '') . '</span>';
+                    }
+                ?>
+            </button>
+            
+            <!-- Notification Dropdown Menu -->
+            <div class="notification-dropdown-menu">
+                <div class="notification-dropdown-header">
+                    <h6 style="margin: 0; padding: 0;">Notifications</h6>
+                    <small style="opacity: 0.7;"><?php echo $pending_count; ?> Pending</small>
+                </div>
+                <div class="notification-dropdown-body">
+                    <?php
+                        // Fetch recent pending transactions
+                        $notif_query = "SELECT id, user_id, type, amount, created_at FROM transaction WHERE serial = 0 ORDER BY created_at DESC LIMIT 5";
+                        $notif_result = mysqli_query($conn, $notif_query);
+                        
+                        if ($notif_result && mysqli_num_rows($notif_result) > 0) {
+                            while ($notif = mysqli_fetch_assoc($notif_result)) {
+                                $type_icon = $notif['type'] === 'Deposit' ? 'fa-plus-circle text-success' : 'fa-minus-circle text-danger';
+                                $type_label = ucfirst($notif['type']);
+                                $amount = htmlspecialchars($notif['amount']);
+                                echo '
+                                <a href="deposit.php" class="notification-item">
+                                    <i class="fas '.$type_icon.'"></i>
+                                    <div class="notification-content">
+                                        <span class="notification-title">'.$type_label.' Request</span>
+                                        <span class="notification-amount">$'.$amount.'</span>
+                                    </div>
+                                </a>';
+                            }
+                        } else {
+                            echo '<div class="notification-empty"><i class="fas fa-inbox"></i><p>No pending transactions</p></div>';
+                        }
+                    ?>
+                </div>
+                <hr style="margin: 0.5rem 0; border-color: var(--border-color);">
+                <a href="notification.php" class="notification-dropdown-footer">
+                    <span>View All Notifications</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
         
         <!-- Admin Username & Profile Image with Dropdown -->
         <div class="header-user-info profile-dropdown-wrapper">
