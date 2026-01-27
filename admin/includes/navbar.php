@@ -114,30 +114,36 @@ body.dark-mode {
     font-weight: bold;
 }
 
+/* Dropdown Wrappers - Must have position relative for absolute positioned children */
+.notification-dropdown-wrapper,
+.profile-dropdown-wrapper {
+    position: relative;
+}
+
 /* Dropdown Menus */
 .notification-dropdown-menu,
 .profile-dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 0.5rem);
     right: 0;
     background-color: var(--navbar-bg);
     border: 1px solid var(--navbar-border);
     border-radius: 0.5rem;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    min-width: 280px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+    min-width: 300px;
     max-height: 400px;
     overflow-y: auto;
-    z-index: 1001;
-    display: none !important;
+    z-index: 2000;
+    display: none;
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.2s ease;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .notification-dropdown-wrapper.show .notification-dropdown-menu,
 .profile-dropdown-wrapper.show .profile-dropdown-menu {
-    display: block !important;
+    display: block;
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
@@ -711,24 +717,21 @@ body.dark-mode {
     function initNotificationDropdown() {
         var notificationBtn = document.querySelector('.notification-trigger');
         var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
-        var notificationMenu = document.querySelector('.notification-dropdown-menu');
         
         if (!notificationBtn || !notificationWrapper) return;
         
         notificationBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var isOpen = notificationWrapper.classList.contains('show');
+            
             // Close profile dropdown
-            document.querySelector('.profile-dropdown-wrapper')?.classList.remove('show');
-            // Toggle notification dropdown
-            if (isOpen) {
-                notificationWrapper.classList.remove('show');
-                if (notificationMenu) notificationMenu.style.display = 'none';
-            } else {
-                notificationWrapper.classList.add('show');
-                if (notificationMenu) notificationMenu.style.display = 'block';
+            var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
+            if (profileWrapper) {
+                profileWrapper.classList.remove('show');
             }
+            
+            // Toggle notification dropdown
+            notificationWrapper.classList.toggle('show');
         });
     }
     
@@ -738,24 +741,21 @@ body.dark-mode {
     function initProfileDropdown() {
         var profileBtn = document.querySelector('.profile-dropdown-trigger');
         var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
-        var profileMenu = document.querySelector('.profile-dropdown-menu');
         
         if (!profileBtn || !profileWrapper) return;
         
         profileBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var isOpen = profileWrapper.classList.contains('show');
+            
             // Close notification dropdown
-            document.querySelector('.notification-dropdown-wrapper')?.classList.remove('show');
-            // Toggle profile dropdown
-            if (isOpen) {
-                profileWrapper.classList.remove('show');
-                if (profileMenu) profileMenu.style.display = 'none';
-            } else {
-                profileWrapper.classList.add('show');
-                if (profileMenu) profileMenu.style.display = 'block';
+            var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
+            if (notificationWrapper) {
+                notificationWrapper.classList.remove('show');
             }
+            
+            // Toggle profile dropdown
+            profileWrapper.classList.toggle('show');
         });
     }
     
@@ -767,18 +767,14 @@ body.dark-mode {
             var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
             var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
             
-            // Close notification dropdown
+            // Close notification dropdown if clicking outside
             if (notificationWrapper && !e.target.closest('.notification-dropdown-wrapper')) {
                 notificationWrapper.classList.remove('show');
-                var notifMenu = document.querySelector('.notification-dropdown-menu');
-                if (notifMenu) notifMenu.style.display = 'none';
             }
             
-            // Close profile dropdown
+            // Close profile dropdown if clicking outside
             if (profileWrapper && !e.target.closest('.profile-dropdown-wrapper')) {
                 profileWrapper.classList.remove('show');
-                var profMenu = document.querySelector('.profile-dropdown-menu');
-                if (profMenu) profMenu.style.display = 'none';
             }
         });
     }
