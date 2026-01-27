@@ -1,8 +1,348 @@
 <!-- ========================================
-     TOP NAVIGATION BAR (Header)
+     NAVBAR & SIDEBAR CONTAINER
      ======================================== -->
+
+<!-- Navbar CSS with theme support -->
+<style>
+/* Navbar & Sidebar Theming */
+:root {
+    --navbar-bg: #ffffff;
+    --navbar-border: #e5e7eb;
+    --navbar-text: #1f2937;
+    --sidebar-bg: #f9fafb;
+    --sidebar-text: #374151;
+    --collapse-bg: #f3f4f6;
+    --collapse-text: #6b7280;
+}
+
+html[data-theme="dark"] {
+    --navbar-bg: #1a1a1a;
+    --navbar-border: #333333;
+    --navbar-text: #f3f4f6;
+    --sidebar-bg: #0f0f0f;
+    --sidebar-text: #d1d5db;
+    --collapse-bg: #2d2d2d;
+    --collapse-text: #9ca3af;
+}
+
+body.dark-mode {
+    --navbar-bg: #1a1a1a;
+    --navbar-border: #333333;
+    --navbar-text: #f3f4f6;
+    --sidebar-bg: #0f0f0f;
+    --sidebar-text: #d1d5db;
+    --collapse-bg: #2d2d2d;
+    --collapse-text: #9ca3af;
+}
+
+/* Header/Navbar Styles */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--navbar-bg);
+    border-bottom: 1px solid var(--navbar-border);
+    height: 60px;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-sidebar-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--navbar-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.toggle-sidebar-btn:hover {
+    color: var(--primary-color, #622faa);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-icon-btn,
+.profile-dropdown-trigger {
+    background: none;
+    border: none;
+    color: var(--navbar-text);
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-icon-btn:hover,
+.profile-dropdown-trigger:hover {
+    color: var(--primary-color, #622faa);
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Dropdown Menus */
+.notification-dropdown-menu,
+.profile-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--navbar-bg);
+    border: 1px solid var(--navbar-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    min-width: 280px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1001;
+    display: none;
+}
+
+.notification-dropdown-wrapper.show .notification-dropdown-menu,
+.profile-dropdown-wrapper.show .profile-dropdown-menu {
+    display: block;
+}
+
+.notification-dropdown-header,
+.profile-dropdown-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--navbar-border);
+}
+
+.notification-dropdown-body {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.notification-item,
+.profile-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: var(--navbar-text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.notification-item:hover,
+.profile-dropdown-item:hover {
+    background-color: var(--collapse-bg);
+    border-left-color: var(--primary-color, #622faa);
+}
+
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+    margin-left: 0.75rem;
+}
+
+.notification-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--navbar-text);
+}
+
+.notification-amount {
+    font-size: 0.85rem;
+    color: var(--collapse-text);
+}
+
+.notification-dropdown-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    color: var(--primary-color, #622faa);
+    text-decoration: none;
+    font-weight: 500;
+    border-top: 1px solid var(--navbar-border);
+}
+
+/* Sidebar Styles */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    width: 260px;
+    height: calc(100vh - 60px);
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--navbar-border);
+    padding: 0;
+    overflow-y: auto;
+    z-index: 999;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-brand {
+    padding: 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--navbar-border);
+}
+
+.sidebar-brand-logo {
+    max-width: 100%;
+    height: auto;
+    max-height: 60px;
+}
+
+.sidebar-brand-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--navbar-text);
+}
+
+.sidebar-divider {
+    height: 1px;
+    background-color: var(--navbar-border);
+    margin: 1rem 0;
+}
+
+.sidebar-heading {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--collapse-text);
+    letter-spacing: 0.05em;
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--navbar-border);
+    margin-top: auto;
+}
+
+.sidebar-footer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Navigation Styles */
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+}
+
+.nav-link i {
+    margin-right: 0.75rem;
+    width: 1.25rem;
+    text-align: center;
+}
+
+.nav-link:hover {
+    background-color: var(--collapse-bg);
+    color: var(--navbar-text);
+    border-left-color: var(--primary-color, #622faa);
+}
+
+.nav-link.collapsed {
+    background-color: transparent;
+}
+
+/* Collapse Menu Styles */
+.collapse {
+    display: none;
+    overflow: hidden;
+}
+
+.collapse.show {
+    display: block;
+}
+
+.collapse-item {
+    display: block;
+    padding: 0.65rem 1.5rem 0.65rem 3.25rem;
+    color: var(--collapse-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    background-color: var(--collapse-bg);
+}
+
+.collapse-item i {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.collapse-item:hover {
+    color: var(--navbar-text);
+    background-color: var(--navbar-bg);
+    border-left-color: var(--primary-color, #622faa);
+    padding-left: 3.4rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .toggle-sidebar-btn {
+        display: block;
+    }
+    
+    #sidebar {
+        transform: translateX(-100%);
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    #sidebar.show {
+        transform: translateX(0);
+    }
+    
+    .header {
+        padding: 0.75rem 1rem;
+    }
+}
+</style>
+
+<!-- Navbar HTML Structure -->
 <div class="header">
     <!-- Left: Toggle Sidebar Button (Mobile Only) -->
+    <button class="toggle-sidebar-btn" title="Toggle Sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Toggle Sidebar Button (Mobile Only) -->
     <button class="toggle-sidebar-btn" title="Toggle Sidebar">
         <i class="fas fa-bars"></i>
     </button>
@@ -14,7 +354,7 @@
     <div class="header-actions">
         <!-- Notification Dropdown -->
         <div class="notification-dropdown-wrapper">
-            <a href="#" class="header-icon-btn" title="View Notifications" onclick="return false;">
+            <button class="header-icon-btn notification-trigger" title="View Notifications">
                 <i class="fas fa-bell"></i>
                 <?php
                     // Get pending transactions count
@@ -27,7 +367,7 @@
                         echo '<span class="notification-badge">' . min($pending_count, 99) . (($pending_count > 99) ? '+' : '') . '</span>';
                     }
                 ?>
-            </a>
+            </button>
             
             <!-- Notification Dropdown Menu (Hidden by default) -->
             <div class="notification-dropdown-menu">
@@ -59,11 +399,11 @@
                                 </a>';
                             }
                         } else {
-                            echo '<div class="notification-empty"><i class="fas fa-inbox"></i><p>No pending transactions</p></div>';
+                            echo '<div class="notification-empty" style="padding: 2rem 1rem; text-align: center; color: var(--collapse-text);"><i class="fas fa-inbox"></i><p>No pending transactions</p></div>';
                         }
                     ?>
                 </div>
-                <hr style="margin: 0.5rem 0; border-color: var(--border-color);">
+                <hr style="margin: 0.5rem 0; border-color: var(--navbar-border);">
                 <a href="notification.php" class="notification-dropdown-footer">
                     <span>View All Notifications</span>
                     <i class="fas fa-arrow-right"></i>
@@ -72,9 +412,9 @@
         </div>
         
         <!-- Admin Username & Profile Image with Dropdown -->
-        <div class="header-user-info profile-dropdown-wrapper">
-            <div class="profile-dropdown-trigger">
-                <span class="header-username">
+        <div class="profile-dropdown-wrapper">
+            <button class="profile-dropdown-trigger" title="Profile Options">
+                <span>
                     <?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Admin'; ?>
                 </span>
                 <?php
@@ -87,16 +427,16 @@
                             $result = mysqli_stmt_get_result($stmt);
                             if ($row = mysqli_fetch_assoc($result)) {
                                 if (!empty($row['image'])) {
-                                    echo '<img src="../uploads/'.htmlspecialchars($row['image']).'" alt="Profile" class="header-profile-img" title="Click for profile options">';
+                                    echo '<img src="../uploads/'.htmlspecialchars($row['image']).'" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;" title="Click for profile options">';
                                 } else {
-                                    echo '<div class="header-profile-img" style="background: linear-gradient(135deg, #622faa, #8b5fbf); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer;" title="Click for profile options"><i class="fas fa-user"></i></div>';
+                                    echo '<div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #622faa, #8b5fbf); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.9rem;"><i class="fas fa-user"></i></div>';
                                 }
                             }
                             mysqli_stmt_close($stmt);
                         }
                     }
                 ?>
-            </div>
+            </button>
             
             <!-- Profile Dropdown Menu -->
             <div class="profile-dropdown-menu">
@@ -106,7 +446,7 @@
                     </h6>
                     <small style="opacity: 0.7;">Admin Account</small>
                 </div>
-                <hr style="margin: 0.5rem 0; border-color: var(--border-color);">
+                <hr style="margin: 0.5rem 0; border-color: var(--navbar-border);">
                 <a href="admin.php" class="profile-dropdown-item">
                     <i class="fas fa-fw fa-user-cog"></i>
                     <span>Update Profile</span>
@@ -115,8 +455,8 @@
                     <i class="fas fa-fw fa-shield-alt"></i>
                     <span>Security Settings</span>
                 </a>
-                <hr style="margin: 0.5rem 0; border-color: var(--border-color);">
-                <a href="logout.php" class="profile-dropdown-item text-danger">
+                <hr style="margin: 0.5rem 0; border-color: var(--navbar-border);">
+                <a href="logout.php" class="profile-dropdown-item" style="color: #ef4444;">
                     <i class="fas fa-fw fa-sign-out-alt"></i>
                     <span>Sign Out</span>
                 </a>
@@ -162,7 +502,7 @@
     <ul style="list-style: none; padding: 0; margin: 0;">
         <!-- Dashboard -->
         <li class="nav-item">
-            <a href="index.php" class="nav-link" data-page="dashboard">
+            <a href="index.php" class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
@@ -173,7 +513,7 @@
 
         <!-- Admin & Users Menu -->
         <li class="nav-item">
-            <a href="#" class="nav-link collapsed" data-toggle="collapse" data-target="#manageMenu" aria-expanded="false">
+            <a href="#manageMenu" class="nav-link collapsed" data-toggle="collapse" data-target="#manageMenu" aria-expanded="false">
                 <i class="fas fa-fw fa-users"></i>
                 <span>Management</span>
             </a>
@@ -186,7 +526,7 @@
 
         <!-- Transactions Menu -->
         <li class="nav-item">
-            <a href="#" class="nav-link collapsed" data-toggle="collapse" data-target="#transMenu" aria-expanded="false">
+            <a href="#transMenu" class="nav-link collapsed" data-toggle="collapse" data-target="#transMenu" aria-expanded="false">
                 <i class="fas fa-fw fa-donate"></i>
                 <span>Transactions</span>
             </a>
@@ -202,7 +542,7 @@
 
         <!-- Settings Menu -->
         <li class="nav-item">
-            <a href="#" class="nav-link collapsed" data-toggle="collapse" data-target="#settingsMenu" aria-expanded="false">
+            <a href="#settingsMenu" class="nav-link collapsed" data-toggle="collapse" data-target="#settingsMenu" aria-expanded="false">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Settings</span>
             </a>
@@ -228,12 +568,42 @@
     </div>
 </nav>
 
-<!-- Collapse Toggle Script - works on all pages -->
+<!-- ========================================
+     NAVBAR & SIDEBAR INTERACTIVE SCRIPTS
+     ======================================== -->
 <script>
 (function() {
     'use strict';
     
-    function initCollapse() {
+    // ===========================================
+    // 1. MOBILE SIDEBAR TOGGLE
+    // ===========================================
+    function initMobileSidebarToggle() {
+        var toggleBtn = document.querySelector('.toggle-sidebar-btn');
+        var sidebar = document.getElementById('sidebar');
+        
+        if (!toggleBtn || !sidebar) return;
+        
+        toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            sidebar.classList.toggle('show');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        if (window.innerWidth <= 768) {
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#sidebar') && !e.target.closest('.toggle-sidebar-btn')) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        }
+    }
+    
+    // ===========================================
+    // 2. COLLAPSE/ACCORDION FUNCTIONALITY
+    // ===========================================
+    function initCollapseMenus() {
         var triggers = document.querySelectorAll('[data-toggle="collapse"]');
         
         if (!triggers.length) return;
@@ -243,32 +613,33 @@
                 e.preventDefault();
                 e.stopPropagation();
                 
-                var selector = this.getAttribute('data-target');
-                if (!selector) return;
+                var targetId = this.getAttribute('data-target');
                 
                 // Normalize selector
-                if (selector.charAt(0) !== '#') {
-                    selector = '#' + selector;
+                if (!targetId) return;
+                if (targetId.charAt(0) !== '#') {
+                    targetId = '#' + targetId;
                 }
                 
-                var target = document.querySelector(selector);
+                var target = document.querySelector(targetId);
                 if (!target) return;
                 
-                // Get parent from the TARGET, not the trigger
-                var parentSelector = target.getAttribute('data-parent');
-                if (parentSelector) {
-                    var parentEl = document.querySelector(parentSelector);
+                // Handle accordion grouping (close other items in same parent)
+                var parentId = target.getAttribute('data-parent');
+                if (parentId) {
+                    var parentEl = document.querySelector(parentId);
                     if (parentEl) {
-                        // Close all other open collapse items in parent
-                        var otherCollapse = parentEl.querySelectorAll('.collapse.show');
-                        otherCollapse.forEach(function(item) {
-                            if (item !== target) {
+                        var otherItems = parentEl.querySelectorAll('.collapse');
+                        otherItems.forEach(function(item) {
+                            if (item !== target && item.classList.contains('show')) {
                                 item.classList.remove('show');
-                                // Find and update the trigger for this item
+                                
+                                // Update aria-expanded on related trigger
                                 var itemId = item.getAttribute('id');
                                 if (itemId) {
-                                    var relatedTrigger = document.querySelector('[data-target="#' + itemId + '"]');
+                                    var relatedTrigger = document.querySelector('[data-target="#' + itemId + '"], [data-target="' + itemId + '"], [href="#' + itemId + '"]');
                                     if (relatedTrigger) {
+                                        relatedTrigger.classList.add('collapsed');
                                         relatedTrigger.setAttribute('aria-expanded', 'false');
                                     }
                                 }
@@ -277,8 +648,9 @@
                     }
                 }
                 
-                // Toggle this target
+                // Toggle the target
                 target.classList.toggle('show');
+                this.classList.toggle('collapsed');
                 
                 // Update aria-expanded
                 var isOpen = target.classList.contains('show');
@@ -287,12 +659,112 @@
         });
     }
     
-    // Initialize on DOMContentLoaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initCollapse);
-    } else {
-        // Already loaded
-        initCollapse();
+    // ===========================================
+    // 3. NOTIFICATION DROPDOWN TOGGLE
+    // ===========================================
+    function initNotificationDropdown() {
+        var notificationBtn = document.querySelector('.notification-trigger');
+        var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
+        
+        if (!notificationBtn || !notificationWrapper) return;
+        
+        notificationBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            notificationWrapper.classList.toggle('show');
+            // Close profile dropdown if open
+            document.querySelector('.profile-dropdown-wrapper')?.classList.remove('show');
+        });
     }
-})();
-</script>
+    
+    // ===========================================
+    // 4. PROFILE DROPDOWN TOGGLE
+    // ===========================================
+    function initProfileDropdown() {
+        var profileBtn = document.querySelector('.profile-dropdown-trigger');
+        var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
+        
+        if (!profileBtn || !profileWrapper) return;
+        
+        profileBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            profileWrapper.classList.toggle('show');
+            // Close notification dropdown if open
+            document.querySelector('.notification-dropdown-wrapper')?.classList.remove('show');
+        });
+    }
+    
+    // ===========================================
+    // 5. CLOSE DROPDOWNS ON OUTSIDE CLICK
+    // ===========================================
+    function initDropdownAutoClose() {
+        document.addEventListener('click', function(e) {
+            // Close notification dropdown
+            if (!e.target.closest('.notification-dropdown-wrapper')) {
+                document.querySelector('.notification-dropdown-wrapper')?.classList.remove('show');
+            }
+            
+            // Close profile dropdown
+            if (!e.target.closest('.profile-dropdown-wrapper')) {
+                document.querySelector('.profile-dropdown-wrapper')?.classList.remove('show');
+            }
+        });
+    }
+    
+    // ===========================================
+    // 6. THEME TOGGLE (if exists)
+    // ===========================================
+    function initThemeToggle() {
+        var themeToggle = document.getElementById('themeToggle');
+        if (!themeToggle) return;
+        
+        // Check current theme
+        var currentTheme = localStorage.getItem('theme') || 'light';
+        updateThemeButton(currentTheme);
+        
+        themeToggle.addEventListener('click', function() {
+            var theme = localStorage.getItem('theme') || 'light';
+            var newTheme = theme === 'light' ? 'dark' : 'light';
+            
+            localStorage.setItem('theme', newTheme);
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.classList.toggle('dark-mode');
+            
+            updateThemeButton(newTheme);
+        });
+        
+        function updateThemeButton(theme) {
+            var icon = themeToggle.querySelector('i');
+            var text = themeToggle.querySelector('span');
+            
+            if (theme === 'dark') {
+                themeToggle.classList.remove('btn-secondary');
+                themeToggle.classList.add('btn-warning');
+                if (icon) icon.className = 'fas fa-sun';
+                if (text) text.textContent = 'Light Mode';
+            } else {
+                themeToggle.classList.remove('btn-warning');
+                themeToggle.classList.add('btn-secondary');
+                if (icon) icon.className = 'fas fa-moon';
+                if (text) text.textContent = 'Dark Mode';
+            }
+        }
+    }
+    
+    // ===========================================
+    // INITIALIZE ALL WHEN DOM IS READY
+    // ===========================================
+    function init() {
+        initMobileSidebarToggle();
+        initCollapseMenus();
+        initNotificationDropdown();
+        initProfileDropdown();
+        initDropdownAutoClose();
+        initThemeToggle();
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
