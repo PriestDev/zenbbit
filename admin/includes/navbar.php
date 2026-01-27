@@ -227,3 +227,69 @@
         </div>
     </div>
 </nav>
+<!-- Inline script: make collapse toggles work on every page without relying on page-specific JS -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    (function(){
+        var sidebar = document.getElementById('sidebar');
+        if(!sidebar) return;
+        
+        function findTargetSelector(link){
+            var selector = link.getAttribute('data-target') || link.getAttribute('href');
+            if(!selector) return null;
+            // Ensure selector starts with #
+            if(selector.charAt(0) !== '#') {
+                selector = '#' + selector.replace(/^#/, '');
+            }
+            return selector;
+        }
+
+        function collapseOthers(except){
+            sidebar.querySelectorAll('.collapse.show').forEach(function(el){
+                if(el !== except) {
+                    el.classList.remove('show');
+                    // Update corresponding trigger aria-expanded
+                    var trigger = sidebar.querySelector('[data-target="#' + el.id + '"], [data-target="' + el.id + '"]');
+                    if(!trigger) trigger = sidebar.querySelector('[data-target="#' + el.id + '"]');
+                    if(trigger) trigger.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        // Attach click handler to all collapse triggers
+        sidebar.addEventListener('click', function(e){
+            var link = e.target.closest('.nav-link[data-toggle="collapse"]');
+            if(!link) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            var selector = findTargetSelector(link);
+            if(!selector) return;
+            
+            var target = document.querySelector(selector);
+            if(!target) return;
+            
+            // Close other menus
+            collapseOthers(target);
+            
+            // Toggle this menu
+            target.classList.toggle('show');
+            
+            // Update aria-expanded
+            var isExpanded = target.classList.contains('show');
+            link.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        });
+        
+        // Close menus when clicking outside sidebar
+        document.addEventListener('click', function(e){
+            if(sidebar && !sidebar.contains(e.target) && sidebar.classList && sidebar.classList.contains('show')) {
+                var menus = sidebar.querySelectorAll('.collapse.show');
+                menus.forEach(function(menu){
+                    menu.classList.remove('show');
+                });
+            }
+        });
+    })();
+});
+</script>

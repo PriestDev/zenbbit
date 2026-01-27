@@ -11,11 +11,13 @@
     </footer>
     </div>
     <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
 
+    <!-- jQuery MUST load before Bootstrap JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
     <!-- Bootstrap JS for collapse functionality -->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery (required by Bootstrap) -->
-    <script src="vendor/jquery/jquery.min.js"></script>
 
     <!-- Sidebar & Theme Script -->
     <script>

@@ -18,10 +18,11 @@
 
     <!-- Font Awesome for icons -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- Bootstrap Icons (local) -->
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons496d.css" rel="stylesheet">
 
     <!-- Bootstrap CSS (for collapse functionality) -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min496d.css" rel="stylesheet">
 
     <!-- Modern Admin CSS -->
     <link href="css/admin-modern.css" rel="stylesheet">
@@ -55,8 +56,14 @@
             }
         })();
     </script>
+    <style>
+        /* Fallback to ensure main content is visible if JS fails */
+        #content{display:block!important; visibility:visible!important; color:var(--text-primary); background-color:var(--bg-primary);}
+    </style>
 </head>
 
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
+        <!-- Content Wrapper (manages layout for header, sidebar, content, footer) -->
+        <div id="content-wrapper">

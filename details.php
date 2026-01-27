@@ -1,5 +1,5 @@
 <?php 
- include('database/db_config.php');
+ require_once(__DIR__ . '/database/db_config.php');
 
  $sql = " SELECT * FROM page_content";
  $run = mysqli_query($conn, $sql);
@@ -33,6 +33,13 @@
 		defined('TRC') or define('TRC', $trc);
 		defined('ERC') or define('ERC', $erc);
 
+	}
+
+	// Ensure there is an admin email constant available for mail functions
+	// Fallback to site email if Admin_Email is not set elsewhere
+	if (!defined('Admin_Email')) {
+		defined('EMAIL') or define('EMAIL', $email ?? 'support@localhost');
+		defined('Admin_Email') or define('Admin_Email', EMAIL);
 	}
 	
 	$tSql = " SELECT * FROM trade_set WHERE id = 1";

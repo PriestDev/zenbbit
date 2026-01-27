@@ -241,7 +241,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required style="flex: 1;">
+                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('password')" title="Toggle password visibility" style="position: absolute; right: 12px; background: none; border: none; color: #622faa; cursor: pointer; font-size: 18px; padding: 8px;">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="remember-forgot">
@@ -261,5 +266,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <script src="js/script.js"></script>
+    <script>
+        // Toggle password visibility
+        function togglePasswordVisibility(fieldId) {
+            const field = document.getElementById(fieldId);
+            const button = event.target.closest('button');
+            const icon = button.querySelector('i');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
 </html>

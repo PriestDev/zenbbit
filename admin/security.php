@@ -25,7 +25,7 @@ $_SESSION['last_activity'] = time();
 // =====================================================================
 // DATABASE CONNECTION
 // =====================================================================
-include('../database/db_config.php');
+require_once(__DIR__ . '/../database/db_config.php');
 
 // Check if database connection failed
 if (!$conn) {

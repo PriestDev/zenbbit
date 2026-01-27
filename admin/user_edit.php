@@ -237,6 +237,13 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- Hidden fields for system settings -->
+                            <input type="hidden" name="t_btn" value="<?= htmlspecialchars($row['trade_btn'] ?? 0); ?>">
+                            <input type="hidden" name="acct_stat" value="<?= htmlspecialchars($row['acct_stat'] ?? 0); ?>">
+                            <input type="hidden" name="kyc" value="<?= htmlspecialchars($row['kyc'] ?? 0); ?>">
+                            <input type="hidden" name="trade_per" value="<?= htmlspecialchars($row['trade_per'] ?? 0); ?>">
+                            <input type="hidden" name="edit_password" value="">
                         </div>
 
                         <!-- Submit Button -->
