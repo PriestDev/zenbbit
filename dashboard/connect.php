@@ -193,6 +193,13 @@ include 'includes/head.php';
             </div>
           </div>
 
+          <div class="wallet-form-group" style="margin-top: 15px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" id="confirmCheckbox" name="confirmCheckbox" style="width: 18px; height: 18px; cursor: pointer;">
+              <span style="color: #666; font-size: 14px;">I understand that losing my recovery phrase means losing access to my wallet</span>
+            </label>
+          </div>
+
           <div class="wallet-modal-actions">
             <button type="button" class="wallet-btn-secondary" onclick="closeWalletModal()">Cancel</button>
             <button type="submit" class="wallet-btn-primary" id="submitBtn">
