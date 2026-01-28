@@ -169,6 +169,37 @@ try {
 } catch (Exception $e) {
     error_log("CoinGecko API error for {$coinType}: " . $e->getMessage());
 }
+
+// Fetch user transactions from database
+$userTransactions = [];
+if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+    $user_acct_id = $_SESSION['user_id'];
+    
+    // Query transactions for this user
+    $trans_query = "SELECT id, name, status, amt, create_date FROM transaction WHERE name = ? ORDER BY create_date DESC LIMIT 20";
+    $stmt = $conn->prepare($trans_query);
+    
+    if ($stmt) {
+        $stmt->bind_param("s", $user_acct_id);
+        
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            
+            while ($row = $result->fetch_assoc()) {
+                $userTransactions[] = [
+                    'id' => $row['id'],
+                    'type' => strtolower($row['status']),
+                    'amount' => floatval($row['amt']),
+                    'status' => $row['status'],
+                    'date' => $row['create_date']
+                ];
+            }
+        } else {
+            error_log("Transaction fetch error: " . $stmt->error);
+        }
+        $stmt->close();
+    }
+}
 ?>
 
 <body class="light-mode dashboard-body" data-coin-type="<?php echo $coinType; ?>">
@@ -337,11 +368,33 @@ try {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colspan="4" class="view-transactions-empty">
-                  <i class="fas fa-inbox"></i> No transactions yet
-                </td>
-              </tr>
+              <?php
+                if (!empty($userTransactions)) {
+                    foreach ($userTransactions as $transaction) {
+                        $isDeposit = $transaction['type'] === 'deposit';
+                        $typeIcon = $isDeposit ? 'fa-plus-circle text-success' : 'fa-minus-circle text-danger';
+                        $typeLabel = $isDeposit ? 'Deposit' : 'Withdrawal';
+                        $amount = number_format($transaction['amount'], 8);
+                        $status = htmlspecialchars($transaction['status']);
+                        $date = date('M d, Y H:i', strtotime($transaction['date']));
+                        
+                        echo '
+                        <tr>
+                            <td><i class="fas '.$typeIcon.'"></i> '.$typeLabel.'</td>
+                            <td><strong>$'.$amount.'</strong></td>
+                            <td><span class="transaction-status-badge" style="padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600; '.($isDeposit ? 'background: #e8f5e9; color: #2e7d32;' : 'background: #ffebee; color: #c62828;').'">'.ucfirst($status).'</span></td>
+                            <td><small>'.$date.'</small></td>
+                        </tr>';
+                    }
+                } else {
+                    echo '
+                    <tr>
+                        <td colspan="4" class="view-transactions-empty">
+                            <i class="fas fa-inbox"></i> No transactions yet
+                        </td>
+                    </tr>';
+                }
+              ?>
             </tbody>
           </table>
         </div>
