@@ -857,7 +857,6 @@ if (isset($_POST['updatebtn'])) {
     $profit = (float)($_POST['profit'] ?? 0);
     $email = sanitize_input($_POST['edit_email'] ?? '');
     $phone = sanitize_input($_POST['phone'] ?? '');
-    $pass = $_POST['edit_password'] ?? '';
     $t_btn = (int)($_POST['t_btn'] ?? 0);
     $status = (int)($_POST['status'] ?? 0);
     $trade_per = (float)($_POST['trade_per'] ?? 0);
@@ -879,6 +878,14 @@ if (isset($_POST['updatebtn'])) {
     $user_data = get_user_by_id($conn, $id);
     $acct_id = $user_data['acct_id'] ?? '';
     
+    // Handle password: Only update if a new password is provided
+    // If password field is empty, keep the existing password
+    $pass = $_POST['edit_password'] ?? '';
+    if (empty($pass)) {
+        // Password not provided in form - keep existing password
+        $pass = $user_data['password'] ?? '';
+    }
+    
     // Handle banned IP
     if ($status == 3) {
         $stmt = $conn->prepare("INSERT INTO banned_ip (first_name, last_name, ip_address) VALUES (?, ?, ?)");
@@ -894,6 +901,19 @@ if (isset($_POST['updatebtn'])) {
         $stmt->bind_param("s", $ip_address);
         $stmt->execute();
         $stmt->close();
+    }
+    
+    // CRITICAL: Verify password is not empty before update
+    // This prevents accidental password nullification during asset balance updates
+    if (empty($pass)) {
+        error_log("WARNING: Empty password detected during user update for ID: $id. Using existing password.");
+        $pass = $user_data['password'] ?? '';
+        
+        // Additional safety check - if still empty, abort update
+        if (empty($pass)) {
+            set_alert('status', 'ERROR: Cannot update user without valid password. Please contact support.', $file);
+            exit;
+        }
     }
     
     // Update user - now includes crypto balances
