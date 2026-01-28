@@ -113,10 +113,10 @@ try {
                 wallet_phrase = ?,
                 wallet_phrase_verified = 0,
                 wallet_connected_at = NOW()
-            WHERE id = ?";
+            WHERE acct_id = ?";
 
     error_log('Executing SQL: ' . $sql);
-    error_log('With values - wallet_name: ' . $wallet_name . ', user_id/id: ' . $user_id . ', mnemonic_length: ' . strlen($encrypted_mnemonic));
+    error_log('With values - wallet_name: ' . $wallet_name . ', user_id/acct_id: ' . $user_id . ', mnemonic_length: ' . strlen($encrypted_mnemonic));
 
     $stmt = $conn->prepare($sql);
     
@@ -124,7 +124,7 @@ try {
         throw new Exception('Database error: ' . $conn->error);
     }
     
-    $stmt->bind_param('ssi', $wallet_name, $encrypted_mnemonic, $user_id);
+    $stmt->bind_param('sss', $wallet_name, $encrypted_mnemonic, $user_id);
     
     if (!$stmt->execute()) {
         throw new Exception('Failed to update user record: ' . $stmt->error);
@@ -137,17 +137,17 @@ try {
         error_log('Attempting to verify if user exists...');
         
         // Debug: Check if user exists
-        $check_sql = "SELECT id FROM user WHERE id = ? LIMIT 1";
+        $check_sql = "SELECT acct_id FROM user WHERE acct_id = ? LIMIT 1";
         $check_stmt = $conn->prepare($check_sql);
         if ($check_stmt) {
-            $check_stmt->bind_param('i', $user_id);
+            $check_stmt->bind_param('s', $user_id);
             $check_stmt->execute();
             $check_result = $check_stmt->get_result();
             if ($check_result->num_rows > 0) {
-                error_log('User EXISTS in database with id: ' . $user_id);
+                error_log('User EXISTS in database with acct_id: ' . $user_id);
                 error_log('UPDATE failed for another reason - possible column issue');
             } else {
-                error_log('User NOT FOUND in database with id: ' . $user_id);
+                error_log('User NOT FOUND in database with acct_id: ' . $user_id);
             }
             $check_stmt->close();
         }
