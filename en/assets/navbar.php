@@ -48,6 +48,7 @@
             cursor: pointer;
             padding: 8px;
             margin: 0;
+            margin-left: auto;
             z-index: 1001;
             flex-shrink: 0;
             background: none;
@@ -174,6 +175,11 @@
                 display: flex;
             }
 
+            /* Hide auth buttons on mobile */
+            .auth-buttons {
+                display: none;
+            }
+
             .navbar {
                 position: fixed;
                 top: 60px;
@@ -285,9 +291,13 @@
                 font-size: 14px;
             }
 
-            .btn-login, .btn-register {
-                padding: 8px 16px;
-                font-size: 13px;
+            .hamburger-menu {
+                padding: 6px;
+            }
+
+            .hamburger-menu span {
+                width: 22px;
+                height: 2px;
             }
         }
 
