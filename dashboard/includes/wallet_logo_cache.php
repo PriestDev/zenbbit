@@ -1,20 +1,20 @@
 <?php
 /**
  * WALLET_LOGO_CACHE.PHP
- * Simple logo URL mapping - uses reliable CDN URLs
+ * Wallet logo URL mapping - uses official wallet logos
  */
 
 $walletLogos = [
-    'metamask' => 'https://cdn.jsdelivr.net/gh/MetaMask/brand-resources@master/SVG/metamask-fox.svg',
-    'trust-wallet' => 'https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/128/color/bnb.png',
+    'metamask' => 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg',
+    'trust-wallet' => 'https://avatars.githubusercontent.com/u/24244296?s=200&v=4',
     'coinbase' => 'https://avatars.githubusercontent.com/u/18732972?s=200&v=4',
-    'phantom' => 'https://cdn.jsdelivr.net/gh/phantom/brand-assets@main/png/Phantom%20Logo%20-%20Purple.png',
-    'ledger' => 'https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/128/color/btc.png',
-    'okx' => 'https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/128/color/okb.png',
-    'trezor' => 'https://cdn.jsdelivr.net/npm/@trezor/connect@9.0.0/build/images/logo.png',
-    'exodus' => 'https://img.icons8.com/?size=512&id=99955&format=png',
-    'argent' => 'https://cdn.jsdelivr.net/gh/argentlabs/argent-x@main/packages/extension/public/argent.svg',
-    'myetherwallet' => 'https://cdn.jsdelivr.net/npm/@myetherwallet/mewconnect-web-client@1.0.0/docs/mew-logo.png'
+    'phantom' => 'https://pbs.twimg.com/profile_images/1505143332707299332/_CVhNp6n_400x400.jpg',
+    'ledger' => 'https://avatars.githubusercontent.com/u/6879968?s=200&v=4',
+    'okx' => 'https://avatars.githubusercontent.com/u/67220159?s=200&v=4',
+    'trezor' => 'https://avatars.githubusercontent.com/u/4419015?s=200&v=4',
+    'exodus' => 'https://avatars.githubusercontent.com/u/20166188?s=200&v=4',
+    'argent' => 'https://avatars.githubusercontent.com/u/48281670?s=200&v=4',
+    'myetherwallet' => 'https://avatars.githubusercontent.com/u/16744597?s=200&v=4'
 ];
 
 /**
