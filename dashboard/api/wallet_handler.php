@@ -10,11 +10,21 @@ header('Content-Type: application/json');
 // Include auth and DB
 include '../includes/dashboard_init.php';
 
+// Ensure session is properly started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 try {
     // Check if request method is POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception('Invalid request method. POST required.');
     }
+
+    // Debug: Log session info
+    error_log('Session ID: ' . session_id());
+    error_log('Session user_id: ' . (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NOT SET'));
+    error_log('POST data: ' . json_encode($_POST));
 
     // Check if user is authenticated
     if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
