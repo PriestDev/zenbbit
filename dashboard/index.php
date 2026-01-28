@@ -43,7 +43,7 @@ include 'includes/head.php';
                     </div>
                     <div class="dashboard-stat-item">
                         <p class="dashboard-stat-label">Status</p>
-                        <p class="dashboard-stat-value"><?php echo (isset($acct_stat) && $acct_stat == 1) ? '✅ Verified' : '⏳ Pending'; ?></p>
+                        <p class="dashboard-stat-value"><?php echo (isset($status) && $status == 1) ? '✅ Verified' : '⏳ Pending'; ?></p>
                     </div>
                     <div class="dashboard-stat-item">
                         <p class="dashboard-stat-label">Member Since</p>

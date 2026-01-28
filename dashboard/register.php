@@ -89,12 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     mysqli_stmt_close($stmt);
                     
                     // Send welcome email
-                    $subject = "Welcome to SafeWallet!";
+                    $subject = "Welcome to ".NAME."!";
                     $welcome_message = "
                         <div style='background-color: rgb(175, 175, 175); padding: 30px;'>
                             <div style='text-align: center; max-width: 600px; margin: auto; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); padding: 40px; border-radius: 12px;'>
                                 <div style='margin-bottom: 30px;'>
-                                    <h2 style='color: #622faa; margin: 0 0 10px 0; font-size: 32px;'>Welcome to SafeWallet!</h2>
+                                    <h2 style='color: #622faa; margin: 0 0 10px 0; font-size: 32px;'>Welcome to ".NAME."!</h2>
                                     <p style='color: #666; margin: 0; font-size: 14px;'>Your secure cryptocurrency wallet</p>
                                 </div>
                                 
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 
                                 <div style='text-align: center;'>
                                     <p style='color: #999; font-size: 11px; margin: 15px 0 0 0;'>Questions? Visit our <a href='https://" . $_SERVER['HTTP_HOST'] . "' style='color: #622faa; text-decoration: none;'>Help Center</a></p>
-                                    <p style='color: #999; font-size: 10px; margin: 10px 0 0 0;'>&copy; SafeWallet, " . date('Y') . ". All rights reserved.</p>
+                                    <p style='color: #999; font-size: 10px; margin: 10px 0 0 0;'>&copy; ".NAME.", " . date('Y') . ". All rights reserved.</p>
                                 </div>
                             </div>
                         </div>
@@ -483,6 +483,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="auth-container">
         <div class="auth-box">
+            <a href="../en" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #622faa; text-decoration: none; font-weight: 600; margin-bottom: 1.5rem; transition: all 0.3s ease;" onmouseover="this.style.color='#7d3fb5'; this.style.transform='translateX(-4px)'" onmouseout="this.style.color='#622faa'; this.style.transform='translateX(0)'" title="Back to homepage">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Homepage</span>
+            </a>
             <div class="auth-header">
                 <h1>Create Account</h1>
                 <p>Join us and start your journey</p>

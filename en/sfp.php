@@ -18,7 +18,7 @@
         <div class="container d-flex justify-content-start align-items-center flex-column flex-lg-row hero">
             <div class="position-relative safepay-token" data-aos="fade-right">
                 <div class="sub-title">
-                    <h3>SFP TOKEN</h3>
+                    <h3>ZBT TOKEN</h3>
                 </div>
                 <div class="title">
                     <h3>The Growth Engine of the <?= NAME ?> Ecosystem</h3>
@@ -26,20 +26,20 @@
                 <div class="d-none d-lg-block" style="z-index: auto;">
                     <div class="d-flex justify-content-start align-items-center btn-sfp-view">
                         <!-- <a href="https://bscscan.com/token/0xd41fdb03ba84762dd66a0af1a6c8540ff1ba5dfb" target="_blank">
-                            <button class="btn-common btn-view transparent-light-green">View SFP On BscScan</button>
+                            <button class="btn-common btn-view transparent-light-green">View ZBT On BscScan</button>
                         </a> -->
                         <!-- <a href="https://my.safepal.com/pub/SFP_Whitepaper.pdf" target="_blank">
-                            <button class="btn-common btn-view transparent-light-green">SFP Whitepaper</button>
+                            <button class="btn-common btn-view transparent-light-green">ZBT Whitepaper</button>
                         </a> -->
                         <a href="https://www.safepal.com/pub/SFP_Whitepaper.pdf" target="_blank">
-                            <button class="btn-common btn-view transparent-light-green">SFP Whitepaper</button>
+                            <button class="btn-common btn-view transparent-light-green">ZBT Whitepaper</button>
                         </a>
                     </div>
                 </div>
                 <div class="d-lg-none" style="z-index: auto;margin-bottom: 30px">
                     <div class="d-flex justify-content-center align-items-center btn-sfp-view">
                         <a href="https://www.safepal.com/pub/SFP_Whitepaper.pdf" target="_blank">
-                            <button class="btn-common btn-view transparent-light-green">SFP Whitepaper</button>
+                            <button class="btn-common btn-view transparent-light-green">ZBT Whitepaper</button>
                         </a>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
             </div>
         </div>
     </section>
-    <!-- ----------------- what is sfp ----------------- -->
+    <!-- ----------------- what is ZBT ----------------- -->
     <section id="what-is-sfp">
         <div class="container what-is-sfp">
             <div class="position-relative pc-star title" data-aos="fade-up">
@@ -101,17 +101,17 @@
                 <!-- pc- star - end -->
             </div>
             <div class="describe">
-                <p>SFP is short for <?= NAME ?> Token, a utility token that fuels the entire <?= NAME ?> ecosystem. It is a decentralized digital asset issued on the Binance Smart Chain and Ethereum, with a limited total supply of 500,000,000.</p>
-                <!-- <p>SFP is short for <?= NAME ?> Token, a utility token that fuels the entire <?= NAME ?> ecosystem. It is a decentralized digital asset issued on the Binance Smart Chain and Ethereum, with a limited total supply of 500,000,000.</p> -->
+                <p>ZBT is short for <?= NAME ?> Token, a utility token that fuels the entire <?= NAME ?> ecosystem. It is a decentralized digital asset issued on the Binance Smart Chain and Ethereum, with a limited total supply of 500,000,000.</p>
+                <!-- <p>ZBT is short for <?= NAME ?> Token, a utility token that fuels the entire <?= NAME ?> ecosystem. It is a decentralized digital asset issued on the Binance Smart Chain and Ethereum, with a limited total supply of 500,000,000.</p> -->
             </div>
             <div class="btn-box">
                 <a class="a-bscscan" href="https://bscscan.com/token/0xd41fdb03ba84762dd66a0af1a6c8540ff1ba5dfb" target="_blank">
-                    <button class="btn-common btn-view transparent-light-green">View SFP On BscScan</button>
-                    <!-- <button class="btn-common btn-view transparent-light-green">View SFP On BscScan</button> -->
+                    <button class="btn-common btn-view transparent-light-green">View ZBT On BscScan</button>
+                    <!-- <button class="btn-common btn-view transparent-light-green">View ZBT On BscScan</button> -->
                 </a>
                 <a class="a-" href="https://etherscan.io/token/0x12e2b8033420270db2f3b328e32370cb5b2ca134" target="_blank">
-                    <!-- <button class="btn-common btn-view transparent-light-green">View SFP On EtherScan</button> -->
-                    <button class="btn-common btn-view transparent-light-green">View SFP On EtherScan</button>
+                    <!-- <button class="btn-common btn-view transparent-light-green">View ZBT On EtherScan</button> -->
+                    <button class="btn-common btn-view transparent-light-green">View ZBT On EtherScan</button>
                 </a>
             </div>
         </div>
@@ -120,7 +120,7 @@
     <section id="use-cases" class="position-relative">
         <div class="container use-cases">
             <div class="position-relative pc-star title" data-aos="fade-up">
-                <h3>SFP Use Cases</h3>
+                <h3>ZBT Use Cases</h3>
                 <!-- pc- star - start -->
                 <div class="absolute d-none d-lg-block start-1">
                     <div class="start1-point">
@@ -146,13 +146,13 @@
                             <img src="https://www.safepal.com/assets/img/sfp-token/icon-use-cases-1.svg" alt="" srcset="">
                         </div>
                         <h3 class="item-title">Rewards & Incentives</h3>
-                        <p class="describe">SFP token holders have the privilege to enjoy incentives such as token airdrops from ecological partners, staking rewards, or limited <?= NAME ?> NFTs. By staking SFP, users can also unlock additional benefits from the <?= NAME ?> banking gateway.</p>
+                        <p class="describe">ZBT token holders have the privilege to enjoy incentives such as token airdrops from ecological partners, staking rewards, or limited <?= NAME ?> NFTs. By staking SFP, users can also unlock additional benefits from the <?= NAME ?> banking gateway.</p>
                     </div>
                     <div class="d-flex justify-content-center align-items-center flex-column item-box" data-aos="fade-left">
                         <div class="icon"><img src="https://www.safepal.com/assets/img/sfp-token/icon-use-cases-2.svg" alt="" srcset="">
                         </div>
                         <h3 class="item-title">Yield Boosting</h3>
-                        <p class="describe">SFP holders enjoy higher APY from <?= NAME ?> Earn by staking SFP tokens into the pools.</p>
+                        <p class="describe">ZBT holders enjoy higher APY from <?= NAME ?> Earn by staking ZBT tokens into the pools.</p>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center align-items-start flex-lg-row flex-column content-item">
@@ -160,13 +160,13 @@
                         <div class="icon"><img src="https://www.safepal.com/assets/img/sfp-token/icon-use-cases-3.svg" alt="" srcset="">
                         </div>
                         <h3 class="item-title">Gas Station</h3>
-                        <p class="describe">Users may use the ‘Gas Station’ DApp within the wallet to exchange for gas fee tokens from different chains using SFP tokens.</p>
+                        <p class="describe">Users may use the ‘Gas Station’ DApp within the wallet to exchange for gas fee tokens from different chains using ZBT tokens.</p>
                     </div>
                     <div class="d-flex justify-content-center align-items-center flex-column item-box" data-aos="fade-left">
                         <div class="icon"><img src="https://www.safepal.com/assets/img/sfp-token/icon-use-cases-4.svg" alt="" srcset="">
                         </div>
                         <h3 class="item-title">List DApp/Token</h3>
-                        <p class="describe">Projects looking to list your token or DApp within the <?= NAME ?> wallet can submit the listing request using SFP token.</p>
+                        <p class="describe">Projects looking to list your token or DApp within the <?= NAME ?> wallet can submit the listing request using ZBT token.</p>
                     </div>
                 </div>
             </div>
@@ -176,7 +176,7 @@
         <img class="absolute d-none d-lg-block lattice-line2" data-aos="fade-left" style="top: 44%;right: 0;"
              src="https://www.safepal.com/assets/img/sfp-token/lattice_line_right.svg" alt="" srcset="">
     </section>
-    <!-- ---------------- get-sfp ---------------------- -->
+    <!-- ---------------- get-ZBT ---------------------- -->
     <section id="get-sfp">
         <div class="container get-sfp">
             <div class="position-relative pc-star title" data-aos="fade-up">
@@ -211,10 +211,10 @@
                             </div>
                             <div class="bottom">
                                 <div class="item-title">
-                                    <h3>View SFP on Marketplaces</h3>
+                                    <h3>View ZBT on Marketplaces</h3>
                                 </div>
                                 <div class="text">
-                                    <p>SFP is listed on the most popular exchanges including Binance.</p>
+                                    <p>ZBT is listed on the most popular exchanges including Binance.</p>
                                 </div>
                             </div>
                         </div>
@@ -228,10 +228,10 @@
                             </div>
                             <div class="bottom">
                                 <div class="item-title">
-                                    <h3>Buy SFP from PancakeSwap</h3>
+                                    <h3>Buy ZBT from PancakeSwap</h3>
                                 </div>
                                 <div class="text">
-                                    <p>You can easily get SFP from PancakeSwap, the largest DEX on the Binance Smart Chain.</p>
+                                    <p>You can easily get ZBT from PancakeSwap, the largest DEX on the Binance Smart Chain.</p>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +245,7 @@
                             </div>
                             <div class="bottom">
                                 <div class="item-title">
-                                    <h3>Win SFP from Community Airdrops</h3>
+                                    <h3>Win ZBT from Community Airdrops</h3>
                                 </div>
                                 <div class="text">
                                     <p>Use <?= NAME ?> products and join our community to participate in community airdrops and other incentives program.</p>

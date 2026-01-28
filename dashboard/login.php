@@ -221,6 +221,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="auth-container">
         <div class="auth-box">
+            <a href="../en" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #622faa; text-decoration: none; font-weight: 600; margin-bottom: 1.5rem; transition: all 0.3s ease;" onmouseover="this.style.color='#7d3fb5'; this.style.transform='translateX(-4px)'" onmouseout="this.style.color='#622faa'; this.style.transform='translateX(0)'" title="Back to homepage">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Homepage</span>
+            </a>
             <div class="auth-header">
                 <h1>Welcome Back</h1>
                 <p>Sign in to your account to continue</p>

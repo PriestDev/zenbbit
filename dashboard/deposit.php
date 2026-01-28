@@ -33,7 +33,6 @@
               <option value="usdt_trc">USDT - TRC20</option>
               <option value="usdt_erc">USDT - ERC20</option>
               <option value="eth">Ethereum (ETH)</option>
-              <option value="ltc">Litecoin (LTC)</option>
             </select>
           </div>
 
@@ -64,7 +63,7 @@
           <!-- Payment Receipt Upload -->
           <div id="receiptGroup" style="display: none; margin-bottom: 2rem;">
             <label for="paymentReceipt" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">Upload Payment Receipt/Proof</label>
-            <input type="file" id="paymentReceipt" accept="image/*,.pdf" required style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 10px; background: #fff; color: #333; font-size: 14px; transition: all 0.3s; box-sizing: border-box; cursor: pointer;" onfocus="this.style.borderColor='#622faa'" onblur="this.style.borderColor='#e0e0e0'">
+            <input type="file" id="paymentReceipt" name="paymentReceipt" accept="image/*,.pdf" required style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 10px; background: #fff; color: #333; font-size: 14px; transition: all 0.3s; box-sizing: border-box; cursor: pointer;" onfocus="this.style.borderColor='#622faa'" onblur="this.style.borderColor='#e0e0e0'">
             <small style="color: #888; margin-top: 5px; display: block;">Accepted: Images (JPG, PNG, GIF) or PDF. Max 5MB</small>
           </div>
 
@@ -96,8 +95,8 @@
   <!-- Footer Component -->
   <?php include 'includes/footer.php'; ?>
 
-  <!-- Jivo Live Chat -->
-  <script src="//code.jivosite.com/widget/Tyy2Bc4Zz5" async></script>
+  <!-- Jivo Live Chat - Disabled due to tracking prevention issues -->
+  <!-- <script src="//code.jivosite.com/widget/Tyy2Bc4Zz5" async></script> -->
 
   <!-- QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -110,23 +109,22 @@
 
   <!-- Deposit Page JavaScript -->
   <script>
-    // Wallet addresses from details.php constants
+    // Wallet addresses configuration
     const walletAddresses = {
-      btc: '<?php echo BTC; ?>',
-      usdt_trc: '<?php echo TRC; ?>',
-      usdt_erc: '<?php echo ERC; ?>',
-      eth: '<?php echo ETH; ?>',
-      ltc: 'LitecoinWalletAddress' // Add LTC wallet from details.php if needed
+      btc: '<?php echo (defined("BTC") && !empty(BTC)) ? BTC : "NOT_CONFIGURED"; ?>',
+      usdt_trc: '<?php echo (defined("TRC") && !empty(TRC)) ? TRC : "NOT_CONFIGURED"; ?>',
+      usdt_erc: '<?php echo (defined("ERC") && !empty(ERC)) ? ERC : "NOT_CONFIGURED"; ?>',
+      eth: '<?php echo (defined("ETH") && !empty(ETH)) ? ETH : "NOT_CONFIGURED"; ?>'
     };
 
     const walletLabels = {
       btc: 'Bitcoin (BTC)',
       usdt_trc: 'USDT - TRC20',
       usdt_erc: 'USDT - ERC20',
-      eth: 'Ethereum (ETH)',
-      ltc: 'Litecoin (LTC)'
+      eth: 'Ethereum (ETH)'
     };
 
+    // DOM Elements
     const depositMethodSelect = document.getElementById('depositMethod');
     const walletCard = document.getElementById('walletCard');
     const receiptGroup = document.getElementById('receiptGroup');
@@ -134,82 +132,188 @@
     const copyWalletBtn = document.getElementById('copyWalletBtn');
     const qrCodeEl = document.getElementById('qrCode');
     const paymentReceiptInput = document.getElementById('paymentReceipt');
+    const depositForm = document.getElementById('depositForm');
 
     let currentQR = null;
+    let currentMethod = null;
+    let qrGenerationInProgress = false;
 
-    // Handle deposit method selection
-    depositMethodSelect.addEventListener('change', function() {
-      const selectedMethod = this.value;
+    /**
+     * Generate QR code for wallet address - absolutely no duplicates
+     */
+    function generateQRCode(address) {
+      // Get current QR element
+      let qrElement = document.getElementById('qrCode');
       
-      if (selectedMethod) {
-        // Show wallet card and receipt upload
-        walletCard.style.display = 'block';
-        receiptGroup.style.display = 'block';
-        paymentReceiptInput.required = true;
-
-        // Get wallet address
-        const walletAddress = walletAddresses[selectedMethod];
-        walletAddressEl.textContent = walletAddress;
-
-        // Clear previous QR code
-        qrCodeEl.innerHTML = '';
+      // Check if we already have a valid QR code for this exact address
+      if (qrElement && qrElement.dataset.qrAddress === address) {
+        console.warn('⚠️ QR code already exists for this address, skipping');
+        return;
+      }
+      
+      // Prevent any concurrent generation
+      if (qrGenerationInProgress) {
+        console.warn('⚠️ QR generation already in progress, skipping duplicate');
+        return;
+      }
+      
+      // Set flag IMMEDIATELY
+      qrGenerationInProgress = true;
+      
+      try {
+        // Create completely fresh QR element
+        const newQrEl = document.createElement('div');
+        newQrEl.id = 'qrCode';
+        newQrEl.style.padding = '10px';
+        newQrEl.style.background = '#fff';
+        newQrEl.style.borderRadius = '8px';
+        newQrEl.dataset.qrAddress = address; // Track what address this QR is for
         
-        // Generate new QR code
-        if (currentQR) {
-          currentQR = null;
+        // Replace old element with new blank one
+        if (qrElement && qrElement.parentNode) {
+          qrElement.parentNode.replaceChild(newQrEl, qrElement);
         }
-        currentQR = new QRCode(qrCodeEl, {
-          text: walletAddress,
+        
+        // Generate QR ONCE on the fresh element
+        new QRCode(newQrEl, {
+          text: address,
           width: 150,
           height: 150,
           colorDark: "#622faa",
           colorLight: "#ffffff",
           correctLevel: QRCode.CorrectLevel.H
         });
-      } else {
-        // Hide wallet card and receipt upload
+        
+        console.log('✓ Single QR Code generated for:', address.substring(0, 10) + '...');
+      } catch (error) {
+        console.error('❌ Error generating QR code:', error);
+        iziToast.error({ title: 'Error', message: 'Failed to generate QR code' });
+      } finally {
+        // Reset flag after generation complete
+        setTimeout(() => {
+          qrGenerationInProgress = false;
+        }, 200);
+      }
+    }
+
+    /**
+     * Handle deposit method selection
+     */
+    depositMethodSelect.addEventListener('change', function() {
+      const selectedMethod = this.value;
+      
+      // Ignore if already generating or same method selected
+      if (!selectedMethod || selectedMethod === currentMethod) {
+        if (!selectedMethod) {
+          walletCard.style.display = 'none';
+          receiptGroup.style.display = 'none';
+          paymentReceiptInput.required = false;
+          currentMethod = null;
+        }
+        return;
+      }
+
+      // Check if method is valid
+      if (!walletAddresses[selectedMethod]) {
+        iziToast.error({ 
+          title: 'Error', 
+          message: 'Invalid payment method selected'
+        });
+        return;
+      }
+
+      const walletAddress = walletAddresses[selectedMethod];
+
+      // Validate wallet address is configured
+      if (!walletAddress || walletAddress === 'NOT_CONFIGURED' || walletAddress.trim() === '') {
+        iziToast.error({ 
+          title: 'Configuration Error', 
+          message: 'Wallet address for ' + walletLabels[selectedMethod] + ' is not configured. Please contact support.'
+        });
         walletCard.style.display = 'none';
         receiptGroup.style.display = 'none';
-        paymentReceiptInput.required = false;
+        currentMethod = null;
+        return;
       }
+
+      // Update state FIRST
+      currentMethod = selectedMethod;
+      
+      // Show wallet card and receipt upload
+      walletCard.style.display = 'block';
+      receiptGroup.style.display = 'block';
+      paymentReceiptInput.required = true;
+      
+      // Update wallet address display
+      walletAddressEl.textContent = walletAddress;
+      
+      // Generate QR code ONLY once per address (with tracking)
+      generateQRCode(walletAddress);
     });
 
-    // Copy wallet address to clipboard
+    /**
+     * Copy wallet address to clipboard
+     */
     copyWalletBtn.addEventListener('click', function(e) {
       e.preventDefault();
       const walletAddress = walletAddressEl.textContent;
       
-      navigator.clipboard.writeText(walletAddress).then(() => {
+      if (!walletAddress) {
+        iziToast.warning({ title: 'Warning', message: 'No wallet address to copy' });
+        return;
+      }
+      
+      // Use StorageUtil wrapper to avoid tracking prevention warnings
+      if (typeof StorageUtil !== 'undefined' && StorageUtil.safeCopy) {
+        StorageUtil.safeCopy(walletAddress);
         const originalText = this.textContent;
         this.textContent = 'Copied!';
         setTimeout(() => {
           this.textContent = originalText;
         }, 2000);
-      }).catch(() => {
-        alert('Failed to copy wallet address');
-      });
+      } else {
+        // Fallback to native clipboard API
+        navigator.clipboard.writeText(walletAddress).then(() => {
+          const originalText = this.textContent;
+          this.textContent = 'Copied!';
+          setTimeout(() => {
+            this.textContent = originalText;
+          }, 2000);
+        }).catch(() => {
+          iziToast.error({ title: 'Error', message: 'Failed to copy wallet address' });
+        });
+      }
     });
 
-    // Handle form submission
-    document.getElementById('depositForm').addEventListener('submit', function(e) {
+    /**
+     * Handle form submission
+     */
+    depositForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
       const selectedMethod = depositMethodSelect.value;
       const amount = document.getElementById('depositAmount').value;
       const receipt = paymentReceiptInput.files[0];
+      const walletAddress = walletAddressEl.textContent;
 
+      // Validation
       if (!selectedMethod) {
         iziToast.error({ title: 'Error', message: 'Please select a payment method' });
         return;
       }
 
-      if (!amount || amount <= 0) {
+      if (!amount || parseFloat(amount) <= 0) {
         iziToast.error({ title: 'Error', message: 'Please enter a valid amount' });
         return;
       }
 
       if (!receipt) {
         iziToast.error({ title: 'Error', message: 'Please upload payment receipt' });
+        return;
+      }
+
+      if (!walletAddress || walletAddress === 'NOT_CONFIGURED') {
+        iziToast.error({ title: 'Error', message: 'Wallet address is not configured' });
         return;
       }
 
@@ -224,7 +328,7 @@
       formData.append('action', 'deposit');
       formData.append('deposit_method', selectedMethod);
       formData.append('deposit_amount', amount);
-      formData.append('wallet_address', walletAddressEl.textContent);
+      formData.append('wallet_address', walletAddress);
       formData.append('payment_receipt', receipt);
 
       // Submit via AJAX
@@ -240,10 +344,11 @@
             message: 'Deposit submitted successfully. Your transaction is pending verification.',
             onClosed: () => {
               // Reset form
-              document.getElementById('depositForm').reset();
+              depositForm.reset();
               walletCard.style.display = 'none';
               receiptGroup.style.display = 'none';
-              qrCodeEl.innerHTML = '';
+              clearQRCode();
+              currentMethod = null;
             }
           });
         } else {
@@ -251,10 +356,13 @@
         }
       })
       .catch(error => {
-        console.error('Error:', error);
+        console.error('Deposit Error:', error);
         iziToast.error({ title: 'Error', message: 'An error occurred. Please try again.' });
       });
     });
+
+    // Initialize
+    console.log('Deposit: Page initialized with wallet addresses:', walletAddresses);
   </script>
 
 </body>

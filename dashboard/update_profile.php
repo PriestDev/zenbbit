@@ -206,6 +206,74 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
 
+                    <!-- KYC Documents Section -->
+                    <div class="settings-section">
+                        <h5 class="settings-section-title">KYC Documentation</h5>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1.5rem;">
+                            <i class="fas fa-info-circle" style="margin-right: 5px;"></i>
+                            Upload your identity documents to verify your account
+                        </p>
+
+                        <div style="background: linear-gradient(135deg, rgba(98, 47, 170, 0.05) 0%, rgba(98, 47, 170, 0.02) 100%); border: 2px dashed #622faa; border-radius: 12px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s ease; margin-bottom: 20px;" id="kycDropZone" onmouseover="this.style.borderColor='#7d3fb5'; this.style.background='linear-gradient(135deg, rgba(98, 47, 170, 0.1) 0%, rgba(98, 47, 170, 0.05) 100%)'" onmouseout="this.style.borderColor='#622faa'; this.style.background='linear-gradient(135deg, rgba(98, 47, 170, 0.05) 0%, rgba(98, 47, 170, 0.02) 100%)'">
+                            <input type="file" id="kycFile" multiple accept=".pdf,.jpg,.jpeg,.png,.docx,.doc" style="display: none;">
+                            <div onclick="document.getElementById('kycFile').click();" style="cursor: pointer;">
+                                <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #622faa; margin-bottom: 1rem; display: block;"></i>
+                                <p style="margin: 0.5rem 0; font-weight: 600; color: #333;">
+                                    Click to upload or drag and drop
+                                </p>
+                                <p style="margin: 0; color: #999; font-size: 0.85rem;">
+                                    PDF, JPG, PNG, DOC, DOCX (Max 10MB each)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="kycFileList" style="margin-bottom: 1.5rem;">
+                            <!-- Uploaded files will appear here -->
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                            <div class="form-group">
+                                <label for="kyc_type">Document Type</label>
+                                <select id="kyc_type" name="kyc_type" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem;">
+                                    <option value="">Select Document Type</option>
+                                    <option value="passport">Passport</option>
+                                    <option value="drivers_license">Driver's License</option>
+                                    <option value="national_id">National ID Card</option>
+                                    <option value="utility_bill">Utility Bill</option>
+                                    <option value="bank_statement">Bank Statement</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="kyc_issue_date">Issue Date</label>
+                                <input 
+                                    type="date" 
+                                    id="kyc_issue_date" 
+                                    name="kyc_issue_date"
+                                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem;"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kyc_notes">Additional Notes</label>
+                            <textarea 
+                                id="kyc_notes" 
+                                name="kyc_notes" 
+                                rows="3"
+                                placeholder="Add any additional information about your documents..."
+                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; font-family: inherit; resize: vertical;"
+                            ></textarea>
+                        </div>
+
+                        <div style="background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 15px; display: flex; gap: 10px; align-items: flex-start;">
+                            <i class="fas fa-shield-alt" style="color: #FFC107; margin-top: 2px;"></i>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                Your documents are securely stored and will be reviewed by our verification team within 24-48 hours.
+                            </p>
+                        </div>
+                    </div>
+
                     <!-- Action Buttons -->
                     <div style="display: flex; gap: 12px; margin-top: 2rem;">
                         <button type="submit" class="btn-primary" style="flex: 1;">
@@ -226,5 +294,126 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- External Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script.js"></script>
+
+    <script>
+        // KYC Document Upload Handler
+        const kycDropZone = document.getElementById('kycDropZone');
+        const kycFile = document.getElementById('kycFile');
+        const kycFileList = document.getElementById('kycFileList');
+        const uploadedFiles = [];
+
+        // Handle file input change
+        kycFile.addEventListener('change', function(e) {
+            handleFiles(e.target.files);
+        });
+
+        // Handle drag and drop
+        kycDropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.style.borderColor = '#7d3fb5';
+            this.style.background = 'linear-gradient(135deg, rgba(98, 47, 170, 0.15) 0%, rgba(98, 47, 170, 0.1) 100%)';
+        });
+
+        kycDropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.style.borderColor = '#622faa';
+            this.style.background = 'linear-gradient(135deg, rgba(98, 47, 170, 0.05) 0%, rgba(98, 47, 170, 0.02) 100%)';
+        });
+
+        kycDropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.style.borderColor = '#622faa';
+            this.style.background = 'linear-gradient(135deg, rgba(98, 47, 170, 0.05) 0%, rgba(98, 47, 170, 0.02) 100%)';
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFiles(files) {
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
+            for (let file of files) {
+                // Validate file size
+                if (file.size > maxSize) {
+                    alert(`File "${file.name}" is too large (max 10MB)`);
+                    continue;
+                }
+
+                // Validate file type
+                if (!allowedTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|doc|docx)$/i)) {
+                    alert(`File "${file.name}" has an invalid type`);
+                    continue;
+                }
+
+                uploadedFiles.push(file);
+            }
+
+            displayFiles();
+        }
+
+        function displayFiles() {
+            kycFileList.innerHTML = '';
+
+            if (uploadedFiles.length === 0) {
+                return;
+            }
+
+            const fileListHTML = uploadedFiles.map((file, index) => `
+                <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                        <i class="fas fa-file" style="color: #622faa; font-size: 1.5rem;"></i>
+                        <div style="flex: 1;">
+                            <p style="margin: 0; font-weight: 500; color: #333;">${file.name}</p>
+                            <p style="margin: 0; color: #999; font-size: 0.85rem;">${(file.size / 1024).toFixed(2)} KB</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="removeFile(${index})" style="background: #ff6b6b; color: white; border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 0.9rem; transition: background 0.3s ease;" onmouseover="this.style.background='#ff5252'" onmouseout="this.style.background='#ff6b6b'">
+                        <i class="fas fa-trash-alt"></i> Remove
+                    </button>
+                </div>
+            `).join('');
+
+            kycFileList.innerHTML = fileListHTML;
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            displayFiles();
+        }
+
+        // Handle form submission for KYC
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (uploadedFiles.length > 0) {
+                // Prevent default form submission to handle file upload
+                e.preventDefault();
+                uploadKYCDocuments();
+            }
+        });
+
+        function uploadKYCDocuments() {
+            if (uploadedFiles.length === 0) {
+                // If no files, submit regular form
+                document.querySelector('form').submit();
+                return;
+            }
+
+            const formData = new FormData();
+            uploadedFiles.forEach(file => {
+                formData.append('kyc_files[]', file);
+            });
+            formData.append('kyc_type', document.getElementById('kyc_type').value);
+            formData.append('kyc_issue_date', document.getElementById('kyc_issue_date').value);
+            formData.append('kyc_notes', document.getElementById('kyc_notes').value);
+
+            // You can add AJAX upload here later
+            console.log('Files ready for upload:', uploadedFiles);
+            console.log('KYC Type:', document.getElementById('kyc_type').value);
+            
+            // For now, just log the files and submit the regular form
+            document.querySelector('form').submit();
+        }
+    </script>
 </body>
 </html>

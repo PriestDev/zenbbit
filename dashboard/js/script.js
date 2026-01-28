@@ -5,20 +5,25 @@ if (typeof window.__dashboardScriptsLoaded === 'undefined') {
 // ================= STORAGE UTILITY (Safe localStorage wrapper) =======================
 // Provides safe access to localStorage without triggering Tracking Prevention errors
 window.StorageUtil = {
-    isAvailable: (() => {
-        try {
-            const test = '__test__';
-            localStorage.setItem(test, test);
-            localStorage.removeItem(test);
-            return true;
-        } catch (e) {
-            // Silently return false if storage is blocked - don't log the error
-            return false;
+    isAvailable: null, // Lazy initialization - will be checked on first use, not on page load
+    
+    _checkAvailable: function() {
+        if (this.isAvailable === null) {
+            try {
+                const test = '__test__';
+                localStorage.setItem(test, test);
+                localStorage.removeItem(test);
+                this.isAvailable = true;
+            } catch (e) {
+                // Silently mark storage as unavailable
+                this.isAvailable = false;
+            }
         }
-    })(),
+        return this.isAvailable;
+    },
     
     getItem: function(key, defaultValue = null) {
-        if (!this.isAvailable) return defaultValue;
+        if (!this._checkAvailable()) return defaultValue;
         try {
             return localStorage.getItem(key) || defaultValue;
         } catch (e) {
@@ -28,7 +33,7 @@ window.StorageUtil = {
     },
     
     setItem: function(key, value) {
-        if (!this.isAvailable) return false;
+        if (!this._checkAvailable()) return false;
         try {
             localStorage.setItem(key, value);
             return true;
@@ -39,7 +44,7 @@ window.StorageUtil = {
     },
     
     removeItem: function(key) {
-        if (!this.isAvailable) return false;
+        if (!this._checkAvailable()) return false;
         try {
             localStorage.removeItem(key);
             return true;
@@ -1443,431 +1448,41 @@ if (document.readyState === 'loading') {
 // The global functions below are wrappers that delegate to wallet-modal.js
 
 // ================= DEPOSIT FORM MODULE ======================= 
+// DEPRECATED: This module has been replaced with inline JavaScript in deposit.php
+// The deposit.php inline script properly loads wallet addresses from PHP constants
+// (BTC, TRC, ERC, ETH) and handles form submission without conflicts.
+// DO NOT USE - See dashboard/deposit.php for the new implementation
 const DepositFormModule = {
     /**
-     * Initialize deposit form module
+     * DEPRECATED - Initialize deposit form module
+     * This function is no longer called. Use deposit.php inline code instead.
      */
     init: function() {
-        const self = this;
-        this.setupBaseUrl();
-        this.loadWalletAddresses();
-        this.attachEventListeners();
-        
-        // Load deposits immediately if DOM is ready
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            console.log('Deposit: Loading deposits immediately...');
-            this.loadDeposits();
-        } else {
-            // Otherwise wait for DOM ready
-            document.addEventListener('DOMContentLoaded', () => {
-                console.log('Deposit: DOM loaded, loading deposits...');
-                self.loadDeposits();
-            });
-        }
-    },
-
-    /**
-     * Get base URL for API calls
-     */
-    setupBaseUrl: function() {
-        const pathArray = window.location.pathname.split('/');
-        const dashboardIndex = pathArray.indexOf('dashboard');
-        if (dashboardIndex !== -1) {
-            this.BASE_URL = '/' + pathArray.slice(1, dashboardIndex + 1).join('/') + '/';
-        } else {
-            this.BASE_URL = '/';
-        }
-        console.log('Deposit: BASE_URL =', this.BASE_URL);
-    },
-
-    /**
-     * Load wallet addresses from meta tags
-     */
-    loadWalletAddresses: function() {
-        // Get wallet addresses from form data attributes
-        const depositForm = document.getElementById('depositForm');
-        const btcAddr = depositForm?.getAttribute('data-btc') || '';
-        const ethAddr = depositForm?.getAttribute('data-eth') || '';
-        const trcAddr = depositForm?.getAttribute('data-trc') || '';
-        const ercAddr = depositForm?.getAttribute('data-erc') || '';
-        
-        // Fallback to meta tags if form attributes are empty
-        const btcMeta = document.querySelector('meta[data-btc-wallet]')?.getAttribute('data-btc-wallet') || '';
-        const ethMeta = document.querySelector('meta[data-eth-wallet]')?.getAttribute('data-eth-wallet') || '';
-        const trcMeta = document.querySelector('meta[data-trc-wallet]')?.getAttribute('data-trc-wallet') || '';
-        const ercMeta = document.querySelector('meta[data-erc-wallet]')?.getAttribute('data-erc-wallet') || '';
-        
-        this.walletAddresses = {
-            btc: btcAddr || btcMeta || '',
-            usdt_trc: trcAddr || trcMeta || '',
-            usdt_erc: ercAddr || ercMeta || '',
-            eth: ethAddr || ethMeta || '',
-            ltc: '' // Not provided in details.php
-        };
-        console.log('Deposit: Wallet addresses loaded from form:', this.walletAddresses);
-    },
-
-    /**
-     * Generate QR code for wallet address
-     */
-    generateQRCode: function(walletAddress, qrCodeEl) {
-        if (typeof QRCode === 'undefined') {
-            console.warn('Deposit: QRCode library not available');
-            if (typeof iziToast !== 'undefined') {
-                iziToast.warning({
-                    title: 'Warning',
-                    message: 'QR code not available, but you can copy the address manually'
-                });
-            }
-            return null;
-        }
-
-        try {
-            // Clear previous QR code
-            qrCodeEl.innerHTML = '';
-            
-            const qrCode = new QRCode(qrCodeEl, {
-                text: walletAddress,
-                width: 180,
-                height: 180,
-                colorDark: "#622faa",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-            console.log('Deposit: QR code generated successfully for:', walletAddress.substring(0, 10) + '...');
-            return qrCode;
-        } catch (error) {
-            console.error('Deposit: Error generating QR code:', error);
-            if (typeof iziToast !== 'undefined') {
-                iziToast.warning({
-                    title: 'Warning',
-                    message: 'Could not generate QR code'
-                });
-            }
-            return null;
-        }
-    },
-
-    /**
-     * Attach event listeners to form
-     */
-    attachEventListeners: function() {
-        const self = this;
-        
-        const depositMethodSelect = document.getElementById('depositMethod');
-        const walletCard = document.getElementById('walletCard');
-        const receiptGroup = document.getElementById('receiptGroup');
-        const walletAddressEl = document.getElementById('walletAddress');
-        const copyWalletBtn = document.getElementById('copyWalletBtn');
-        const qrCodeEl = document.getElementById('qrCode');
-        const paymentReceiptInput = document.getElementById('paymentReceipt');
-        const depositForm = document.getElementById('depositForm');
-        
-        // Handle deposit method selection
-        if (depositMethodSelect) {
-            console.log('Deposit: depositMethodSelect found, attaching listener');
-            depositMethodSelect.addEventListener('change', function() {
-                const selectedMethod = this.value;
-                console.log('Deposit: Selected method:', selectedMethod);
-                console.log('Deposit: Available wallets:', self.walletAddresses);
-
-                if (selectedMethod) {
-                    // Show wallet card and receipt upload
-                    console.log('Deposit: Showing wallet card...');
-                    if (walletCard) {
-                        walletCard.classList.add('active');
-                        console.log('Deposit: Wallet card active class added');
-                    } else {
-                        console.warn('Deposit: walletCard element not found!');
-                    }
-                    
-                    if (receiptGroup) receiptGroup.classList.add('active');
-                    if (paymentReceiptInput) paymentReceiptInput.required = true;
-
-                    // Get wallet address
-                    const walletAddress = self.walletAddresses[selectedMethod];
-                    console.log('Deposit: Wallet address for', selectedMethod, ':', walletAddress);
-
-                    if (!walletAddress) {
-                        console.error('Deposit: No wallet address found for', selectedMethod);
-                        if (typeof iziToast !== 'undefined') {
-                            iziToast.error({
-                                title: 'Error',
-                                message: 'Wallet address not configured for this method'
-                            });
-                        }
-                        if (walletCard) walletCard.classList.remove('active');
-                        return;
-                    }
-
-                    // Set wallet address text
-                    if (walletAddressEl) {
-                        walletAddressEl.textContent = walletAddress;
-                        walletAddressEl.style.display = 'block';
-                        console.log('Deposit: Wallet address set to:', walletAddress);
-                    } else {
-                        console.warn('Deposit: walletAddressEl not found!');
-                    }
-
-                    // Clear previous QR code
-                    if (qrCodeEl) qrCodeEl.innerHTML = '';
-
-                    // Generate new QR code
-                    self.generateQRCode(walletAddress, qrCodeEl);
-                } else {
-                    // Hide wallet card and receipt upload
-                    if (walletCard) walletCard.classList.remove('active');
-                    if (receiptGroup) receiptGroup.classList.remove('active');
-                    if (paymentReceiptInput) paymentReceiptInput.required = false;
-                }
-            });
-        }
-
-        // Handle copy wallet button
-        if (copyWalletBtn && walletAddressEl) {
-            copyWalletBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const walletAddress = walletAddressEl.textContent.trim();
-
-                if (!walletAddress) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({ title: 'Error', message: 'No wallet address to copy' });
-                    }
-                    return;
-                }
-
-                navigator.clipboard.writeText(walletAddress)
-                    .then(() => {
-                        const originalText = this.textContent;
-                        const originalBg = this.style.background;
-                        this.textContent = 'Copied!';
-                        this.style.background = '#00c985';
-                        
-                        setTimeout(() => {
-                            this.textContent = originalText;
-                            this.style.background = originalBg || '#622faa';
-                        }, 2000);
-                    })
-                    .catch(() => {
-                        if (typeof iziToast !== 'undefined') {
-                            iziToast.error({ title: 'Error', message: 'Failed to copy wallet address' });
-                        }
-                    });
-            });
-        }
-
-        // Handle deposit form submission
-        if (depositForm) {
-            depositForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const selectedMethod = depositMethodSelect ? depositMethodSelect.value : '';
-                const amountInput = document.getElementById('depositAmount');
-                const amount = amountInput ? amountInput.value : '';
-                const receipt = paymentReceiptInput ? paymentReceiptInput.files[0] : null;
-
-                // Validation checks
-                if (!selectedMethod) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({ title: 'Error', message: 'Please select a payment method' });
-                    }
-                    return;
-                }
-
-                if (!amount || amount <= 0) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({ title: 'Error', message: 'Please enter a valid amount' });
-                    }
-                    return;
-                }
-
-                const numAmount = parseFloat(amount);
-                if (numAmount < 10) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({ title: 'Error', message: 'Minimum deposit amount is $10' });
-                    }
-                    return;
-                }
-
-                if (numAmount > 100000) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({ title: 'Error', message: 'Maximum deposit amount is $100,000' });
-                    }
-                    return;
-                }
-
-                if (!receipt) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({ title: 'Error', message: 'Please upload payment receipt/proof' });
-                    }
-                    return;
-                }
-
-                // Validate file size (5MB max)
-                if (receipt.size > 5 * 1024 * 1024) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({ title: 'Error', message: 'Receipt file must be less than 5MB' });
-                    }
-                    return;
-                }
-
-                // Validate file type
-                const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
-                if (!validTypes.includes(receipt.type)) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({ title: 'Error', message: 'Only images (JPG, PNG, GIF) and PDF are allowed' });
-                    }
-                    return;
-                }
-
-                // Create FormData for file upload
-                const formData = new FormData();
-                formData.append('deposit_method', selectedMethod);
-                formData.append('deposit_amount', amount);
-                formData.append('payment_receipt', receipt);
-
-                // Show loading state
-                const submitBtn = depositForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Processing...';
-
-                // Build API endpoint URL
-                const apiUrl = self.BASE_URL + 'api/deposit_handler.php';
-                console.log('Deposit: Submitting form to', apiUrl);
-
-                // Submit via AJAX
-                fetch(apiUrl, {
-                    method: 'POST',
-                    body: formData,
-                    credentials: 'same-origin'
-                })
-                    .then(response => {
-                        console.log('Deposit: Response status:', response.status);
-                        
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Deposit: Response data:', data);
-
-                        if (data.status === 'success') {
-                            if (typeof iziToast !== 'undefined') {
-                                iziToast.success({
-                                    title: 'Success',
-                                    message: data.message || 'Deposit submitted successfully. Your transaction is pending verification.',
-                                    onClosed: () => {
-                                        // Reset form
-                                        depositForm.reset();
-                                        if (walletCard) walletCard.classList.remove('active');
-                                        if (receiptGroup) receiptGroup.classList.remove('active');
-                                        if (qrCodeEl) qrCodeEl.innerHTML = '';
-
-                                        // Reload deposits table
-                                        self.loadDeposits();
-                                    }
-                                });
-                            }
-                        } else {
-                            if (typeof iziToast !== 'undefined') {
-                                iziToast.error({
-                                    title: 'Error',
-                                    message: data.message || 'Failed to submit deposit. Please try again.'
-                                });
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Deposit: Error:', error);
-                        if (typeof iziToast !== 'undefined') {
-                            iziToast.error({
-                                title: 'Error',
-                                message: 'Network error: ' + error.message + '. Please check your connection and try again.'
-                            });
-                        }
-                    })
-                    .finally(() => {
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = originalText;
-                    });
-            });
-        }
-    },
-
-    /**
-     * Load deposits and populate history table
-     */
-    loadDeposits: async function() {
-        try {
-            const apiUrl = this.BASE_URL + 'api/get_deposits.php';
-            console.log('Deposit: Loading deposits from', apiUrl);
-            
-            const response = await fetch(apiUrl, { 
-                credentials: 'same-origin',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            console.log('Deposit: Deposits data:', data);
-
-            const tbody = document.getElementById('depositsTableBody');
-            if (!tbody) {
-                console.warn('Deposit: depositsTableBody element not found');
-                return;
-            }
-
-            if (!data.deposits || data.deposits.length === 0) {
-                tbody.innerHTML = '<tr style="border-bottom: 1px solid #e0e0e0;"><td colspan="6" class="deposit-table-empty">No deposits yet</td></tr>';
-                return;
-            }
-
-            const approvalBadgeHtml = {
-                0: '<span class="deposit-approval-badge deposit-approval-pending">⏳ Pending</span>',
-                1: '<span class="deposit-approval-badge deposit-approval-approved">✓ Approved</span>',
-                2: '<span class="deposit-approval-badge deposit-approval-declined">✗ Declined</span>'
-            };
-
-            tbody.innerHTML = data.deposits.map((deposit, index) => {
-                const date = new Date(deposit.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-
-                return `
-                    <tr style="border-bottom: 1px solid #e0e0e0; ${index % 2 === 0 ? 'background: #fafafa;' : ''}">
-                        <td class="deposit-table-trx">${deposit.trx_id}</td>
-                        <td class="deposit-table-currency">${deposit.currency}</td>
-                        <td class="deposit-table-amount">$${parseFloat(deposit.amount).toFixed(2)}</td>
-                        <td>
-                            <span class="deposit-status-badge ${deposit.status}">${deposit.status.charAt(0).toUpperCase() + deposit.status.slice(1)}</span>
-                        </td>
-                        <td>${approvalBadgeHtml[deposit.approval] || 'Unknown'}</td>
-                        <td class="deposit-table-date">${date}</td>
-                    </tr>
-                `;
-            }).join('');
-        } catch (error) {
-            console.error('Deposit: Error loading deposits:', error);
-            const tbody = document.getElementById('depositsTableBody');
-            if (tbody) {
-                tbody.innerHTML = '<tr style="border-bottom: 1px solid #e0e0e0;"><td colspan="6" class="deposit-table-empty" style="color: #f44336;">Error loading deposits</td></tr>';
-            }
-        }
+        // Deprecated - do nothing
+        return;
     }
 };
 
-// Initialize DepositFormModule on DOM ready
+// ============================================================================
+// NOTE: All deposit form handling code has been moved to deposit.php inline
+// The deposit.php file now contains all JavaScript needed for:
+// - Loading wallet addresses from PHP constants (BTC, TRC, ERC, ETH)
+// - QR code generation
+// - Form submission
+// - Wallet address copy functionality  
+// 
+// DepositFormModule is deprecated and no longer used.
+// If you need to update deposit form logic, edit dashboard/deposit.php
+// ============================================================================
+
+
+
+// DEPRECATED: DepositFormModule initialization disabled
+// deposit.php now has its own inline JavaScript handler that properly loads wallet
+// addresses from PHP constants. This module was causing conflicts with duplicate
+// event listeners and loading empty wallet addresses from form attributes.
+// See deposit.php for the current deposit form handler.
+/*
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         if (document.getElementById('depositForm')) {
@@ -1881,5 +1496,6 @@ if (document.readyState === 'loading') {
         DepositFormModule.init();
     }
 }
+*/
 
 } // End guard for multiple inclusions

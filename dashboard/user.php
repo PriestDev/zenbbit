@@ -49,6 +49,7 @@ $user = $_SESSION['user_id'];
 		$wth_amt = $val['wth_amt'];
 		$wth_amt_status = $val['wth_amt_status'];
 		$kyc = $val['kyc'];
+		$status = $val['status'];
  		$curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://blockchain.info/tobtc?currency=USD&value=".$bal,
@@ -124,6 +125,7 @@ $user = $_SESSION['user_id'];
 		defined('s_card') or define('s_card', $s_card);
 		defined('card_stat') or define('card_stat', $card_stat);
 		defined('kyc') or define('kyc', $kyc);
+		defined('status') or define('status', $status);
 
 
 	}

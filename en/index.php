@@ -191,6 +191,37 @@ include 'assets/header.php';
                 font-size: 13px !important;
             }
         }
+
+        /* SafePal Logo Styling */
+        .sfp-logo {
+            margin-bottom: 2rem;
+        }
+
+        .logo-box {
+            max-width: 120px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-box img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .logo-box {
+                max-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-box {
+                max-width: 80px;
+            }
+        }
     </style>
 </header>
 <main id="main" class="home">
@@ -215,7 +246,7 @@ include 'assets/header.php';
                 </div>
                 <div class="position-relative text-center imgae-box">
                     <img class="absolute img-fluid move-animation-Y hero-ntf" data-aos="fade-down" src="https://www.safepal.com/assets/img/hero-ntf.svg" alt="">
-                    <img class="absolute img-fluid move-animation-Y hero-hardware-x1" data-aos="fade-right" src="https://www.safepal.com/assets/img/hero-hardware-x1.svg" alt="">
+                    <img class="absolute img-fluid move-animation-Y hero-hardware-x1" data-aos="fade-right" src="../assets/img/hero-hardware-x1.png" alt="">
                     <img class="absolute img-fluid move-animation-Y hero-hardware" data-aos="fade-right" src="https://www.safepal.com/assets/img/hero-hardware-wallet.svg" alt="">
                     <img class="absolute img-fluid move-animation-Y hero-extension" data-aos="fade-left" src="https://www.safepal.com/assets/img/hero-extension.svg" alt="">
                     <img class="absolute img-fluid move-animation-Y hero-safe-extension" data-aos="fade-left" src="https://www.safepal.com/assets/img/safePal-uni-icon.svg" alt="">
@@ -1022,7 +1053,7 @@ include 'assets/header.php';
             <div class="one-wallet d-flex justify-content-center align-items-center flex-column">
                 <div class="sfp-logo d-flex justify-content-center align-items-center">
                     <div class="logo-box move-animation-Y">
-                        <img class="img-fluid" src="../assets/img/safePal-extension-icon.svg" alt="">
+                        <img class="img-fluid" src="../assets/img/safePal-extension-icon.png" alt="">
                     </div>
                 </div>
                 <div class="title animate__animated animate__fadeInDown">
