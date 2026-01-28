@@ -205,7 +205,7 @@
                 flex-direction: column;
                 width: 100%;
                 gap: 0;
-                padding: 0 0 20px 0;
+                padding: 0 0 20px 15px;
                 margin: 0;
             }
 
