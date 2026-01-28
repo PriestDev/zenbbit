@@ -620,6 +620,43 @@
             'trc_price' => 0
         ];
 
+        // Fetch live prices from CoinGecko API
+        try {
+            $crypto_ids = 'bitcoin,ethereum,binancecoin,tron,solana,ripple,avalanche-2,tether';
+            $price_url = "https://api.coingecko.com/api/v3/simple/price?ids=" . urlencode($crypto_ids) . "&vs_currencies=usd&include_market_cap=false";
+            
+            // Use file_get_contents with stream context for timeout
+            $context = stream_context_create([
+                'http' => [
+                    'timeout' => 5,
+                    'method' => 'GET',
+                    'header' => "User-Agent: Mozilla/5.0\r\n"
+                ]
+            ]);
+            
+            $response = @file_get_contents($price_url, false, $context);
+            
+            if ($response !== false) {
+                $price_data = json_decode($response, true);
+                
+                if ($price_data && is_array($price_data)) {
+                    // Map CoinGecko IDs to our price keys
+                    $prices['btc_price'] = (float)($price_data['bitcoin']['usd'] ?? 0);
+                    $prices['eth_price'] = (float)($price_data['ethereum']['usd'] ?? 0);
+                    $prices['bnb_price'] = (float)($price_data['binancecoin']['usd'] ?? 0);
+                    $prices['trx_price'] = (float)($price_data['tron']['usd'] ?? 0);
+                    $prices['sol_price'] = (float)($price_data['solana']['usd'] ?? 0);
+                    $prices['xrp_price'] = (float)($price_data['ripple']['usd'] ?? 0);
+                    $prices['avax_price'] = (float)($price_data['avalanche-2']['usd'] ?? 0);
+                    // USDT price is always approximately $1
+                    $prices['erc_price'] = (float)($price_data['tether']['usd'] ?? 1);
+                    $prices['trc_price'] = (float)($price_data['tether']['usd'] ?? 1);
+                }
+            }
+        } catch (Exception $e) {
+            error_log("CoinGecko API error: " . $e->getMessage());
+        }
+
         // Fetch balances from database if user is logged in
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             $user_acct_id = $_SESSION['user_id'];
@@ -660,7 +697,7 @@
             $balances[$key] = floatval($balances[$key] ?? 0);
         }
         
-        // TODO: Fetch prices from external API (CoinGecko, etc.) or implement price storage in database
+        // Ensure all price values are numeric
         foreach ($prices as $key => $value) {
             $prices[$key] = floatval($prices[$key] ?? 0);
         }
