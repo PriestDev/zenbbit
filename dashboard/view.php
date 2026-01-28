@@ -97,22 +97,72 @@ $current = isset($coinInfo[$coinType]) ? $coinInfo[$coinType] : $coinInfo['btc']
 
 // Fetch user's balance for this specific coin from database
 $userBalance = 0;
-if (isset($_SESSION['acct_id']) && !empty($_SESSION['acct_id'])) {
-    $user_acct_id = $_SESSION['acct_id'];
+if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+    $user_acct_id = $_SESSION['user_id'];
     $db_column = $current['db_column'];
     
-    $stmt = $conn->prepare("SELECT $db_column FROM user WHERE acct_id = ?");
+    // Use prepared statement to safely query balance
+    $stmt = $conn->prepare("SELECT ? FROM user WHERE acct_id = ?");
     if ($stmt) {
-        $stmt->bind_param("s", $user_acct_id);
+        // Bind column name and user ID
+        $stmt->bind_param("ss", $db_column, $user_acct_id);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
-            if ($row && isset($row[$db_column])) {
-                $userBalance = floatval($row[$db_column]);
+            if ($row) {
+                // Get the balance value using the dynamic column name
+                $userBalance = floatval($row[$db_column] ?? 0);
             }
+        } else {
+            error_log("Balance fetch error for {$db_column}: " . $stmt->error);
         }
         $stmt->close();
+    } else {
+        error_log("Statement prepare error: " . $conn->error);
     }
+}
+
+// Fetch live price for current coin from CoinGecko API
+$currentPrice = 0;
+$priceChangePercent = 0;
+try {
+    // Map coin types to CoinGecko IDs
+    $coinToCoinGeckoMap = [
+        'btc' => 'bitcoin',
+        'eth' => 'ethereum',
+        'bnb' => 'binancecoin',
+        'trx' => 'tron',
+        'sol' => 'solana',
+        'xrp' => 'ripple',
+        'avax' => 'avalanche-2',
+        'erc' => 'tether',
+        'trc' => 'tether'
+    ];
+    
+    $coingecko_id = $coinToCoinGeckoMap[$coinType] ?? 'bitcoin';
+    $price_url = "https://api.coingecko.com/api/v3/simple/price?ids=" . urlencode($coingecko_id) . "&vs_currencies=usd&include_market_cap=false&include_24hr_change=true";
+    
+    // Fetch with timeout
+    $context = stream_context_create([
+        'http' => [
+            'timeout' => 5,
+            'method' => 'GET',
+            'header' => "User-Agent: Mozilla/5.0\r\n"
+        ]
+    ]);
+    
+    $response = @file_get_contents($price_url, false, $context);
+    
+    if ($response !== false) {
+        $price_data = json_decode($response, true);
+        
+        if ($price_data && isset($price_data[$coingecko_id])) {
+            $currentPrice = floatval($price_data[$coingecko_id]['usd'] ?? 0);
+            $priceChangePercent = floatval($price_data[$coingecko_id]['usd_24h_change'] ?? 0);
+        }
+    }
+} catch (Exception $e) {
+    error_log("CoinGecko API error for {$coinType}: " . $e->getMessage());
 }
 ?>
 
@@ -157,14 +207,19 @@ if (isset($_SESSION['acct_id']) && !empty($_SESSION['acct_id'])) {
             Balance: <strong><?php echo number_format($userBalance, 8); ?> <?php echo substr($current['symbol'], 0, 3); ?></strong>
           </p>
 
+          <!-- Portfolio Value in USD -->
+          <p class="view-coin-usd-value" style="margin-top: 10px; color: #622faa; font-size: 18px; font-weight: 700;">
+            Portfolio Value: <strong>$<?php echo number_format(($userBalance * $currentPrice), 2); ?></strong>
+          </p>
+
           <!-- Live Price Display (Blended) -->
           <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);">
             <p style="color: #888; margin: 0 0 12px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Current Price</p>
             <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px;">
-              <h3 id="livePrice" style="margin: 0; color: #622faa; font-size: 28px; font-weight: 700;">$0.00</h3>
-              <div id="priceChange" style="display: flex; align-items: center; gap: 6px; padding: 6px 10px; background: #e8f5e9; border-radius: 6px;">
-                <i id="changeIcon" class="fas fa-arrow-up" style="color: #4caf50; font-size: 12px;"></i>
-                <span id="changePercent" style="color: #4caf50; font-weight: 600; font-size: 12px;">+0.00%</span>
+              <h3 id="livePrice" style="margin: 0; color: #622faa; font-size: 28px; font-weight: 700;">$<?php echo number_format($currentPrice, 2); ?></h3>
+              <div id="priceChange" style="display: flex; align-items: center; gap: 6px; padding: 6px 10px; background: <?php echo ($priceChangePercent >= 0) ? '#e8f5e9' : '#ffebee'; ?>; border-radius: 6px;">
+                <i id="changeIcon" class="fas fa-arrow-<?php echo ($priceChangePercent >= 0) ? 'up' : 'down'; ?>" style="color: <?php echo ($priceChangePercent >= 0) ? '#4caf50' : '#f44336'; ?>; font-size: 12px;"></i>
+                <span id="changePercent" style="color: <?php echo ($priceChangePercent >= 0) ? '#4caf50' : '#f44336'; ?>; font-weight: 600; font-size: 12px;"><?php echo ($priceChangePercent >= 0 ? '+' : '') . number_format($priceChangePercent, 2); ?>%</span>
               </div>
             </div>
             <p style="color: #999; margin: 0; font-size: 11px;">24h Change</p>
