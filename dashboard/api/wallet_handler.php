@@ -120,7 +120,27 @@ try {
     error_log('Affected rows: ' . $stmt->affected_rows);
     
     if ($stmt->affected_rows === 0) {
+        error_log('UPDATE query affected 0 rows!');
+        error_log('Attempting to verify if user exists...');
+        
+        // Debug: Check if user exists
+        $check_sql = "SELECT id, acct_id FROM user WHERE id = ? LIMIT 1";
+        $check_stmt = $conn->prepare($check_sql);
+        if ($check_stmt) {
+            $check_stmt->bind_param('i', $user_id);
+            $check_stmt->execute();
+            $check_result = $check_stmt->get_result();
+            if ($check_result->num_rows > 0) {
+                error_log('User EXISTS in database with id: ' . $user_id);
+                error_log('UPDATE failed for another reason - possible column issue');
+            } else {
+                error_log('User NOT FOUND in database with id: ' . $user_id);
+            }
+            $check_stmt->close();
+        }
+        
         throw new Exception('User not found or no update made.');
+    }
     }
 
     $stmt->close();
@@ -137,16 +157,23 @@ try {
 
 } catch (Exception $e) {
     http_response_code(400);
+    
+    // Additional debugging
+    $debug_info = [
+        'session_id' => session_id(),
+        'has_user_id' => isset($_SESSION['user_id']),
+        'user_id' => isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null,
+        'has_wallet_token' => isset($_SESSION['wallet_token']),
+        'post_keys' => array_keys($_POST),
+        'error_message' => $e->getMessage(),
+        'error_line' => $e->getLine()
+    ];
+    
     echo json_encode([
         'success' => false,
         'message' => $e->getMessage(),
         'error_code' => 'WALLET_ERROR',
-        'debug' => [
-            'session_id' => session_id(),
-            'has_user_id' => isset($_SESSION['user_id']),
-            'user_id' => isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null,
-            'post_keys' => array_keys($_POST)
-        ]
+        'debug' => $debug_info
     ]);
     exit;
 }
