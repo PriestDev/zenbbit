@@ -594,31 +594,49 @@
         <h2>Holding</h2>
 
         <?php
-        // Get user's crypto balances
-        if (isset($_SESSION['acct_id'])) {
+        // Get user's crypto balances from database
+        $balances = [
+            'btc_balance' => 0,
+            'eth_balance' => 0,
+            'bnb_balance' => 0,
+            'trx_balance' => 0,
+            'sol_balance' => 0,
+            'xrp_balance' => 0,
+            'avax_balance' => 0,
+            'erc_balance' => 0,
+            'trc_balance' => 0
+        ];
+
+        // Fetch from database if user is logged in
+        if (isset($_SESSION['acct_id']) && !empty($_SESSION['acct_id'])) {
             $user_acct_id = $_SESSION['acct_id'];
+            
             $stmt = $conn->prepare(
                 "SELECT btc_balance, eth_balance, bnb_balance, trx_balance, sol_balance, xrp_balance, avax_balance, erc_balance, trc_balance 
                  FROM user WHERE acct_id = ?"
             );
-            $stmt->bind_param("s", $user_acct_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $balances = $result->fetch_assoc();
-            $stmt->close();
-        } else {
-            // Default balances if not logged in
-            $balances = [
-                'btc_balance' => 0,
-                'eth_balance' => 0,
-                'bnb_balance' => 0,
-                'trx_balance' => 0,
-                'sol_balance' => 0,
-                'xrp_balance' => 0,
-                'avax_balance' => 0,
-                'erc_balance' => 0,
-                'trc_balance' => 0
-            ];
+            
+            if ($stmt) {
+                $stmt->bind_param("s", $user_acct_id);
+                
+                if ($stmt->execute()) {
+                    $result = $stmt->get_result();
+                    $db_balances = $result->fetch_assoc();
+                    
+                    // Merge database balances with defaults (replacing 0s with actual values)
+                    if ($db_balances) {
+                        $balances = array_merge($balances, array_filter($db_balances, function($val) {
+                            return $val !== null;
+                        }));
+                    }
+                }
+                $stmt->close();
+            }
+        }
+        
+        // Ensure all values are numeric and properly formatted
+        foreach ($balances as $key => $value) {
+            $balances[$key] = floatval($value);
         }
         ?>
 

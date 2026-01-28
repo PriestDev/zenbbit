@@ -31,60 +31,89 @@ $coinInfo = [
         'label' => 'Bitcoin',
         'symbol' => 'BTC',
         'address' => BTC,
-        'icon' => 'uploads/1758392283_Bitcoin.png'
+        'icon' => 'uploads/1758392283_Bitcoin.png',
+        'db_column' => 'btc_balance'
     ],
     'bnb' => [
         'label' => 'Binance Coin',
         'symbol' => 'BNB',
         'address' => 'Binance wallet address not configured',
-        'icon' => 'uploads/1758392904_bnb-binance.PNG'
+        'icon' => 'uploads/1758392904_bnb-binance.PNG',
+        'db_column' => 'bnb_balance'
     ],
     'eth' => [
         'label' => 'Ethereum',
         'symbol' => 'ETH',
         'address' => ETH,
-        'icon' => 'uploads/1758393392_eth.png'
+        'icon' => 'uploads/1758393392_eth.png',
+        'db_column' => 'eth_balance'
     ],
     'trx' => [
         'label' => 'TRON',
         'symbol' => 'TRX',
         'address' => TRC,
-        'icon' => 'uploads/1758393351_trx2.png'
+        'icon' => 'uploads/1758393351_trx2.png',
+        'db_column' => 'trx_balance'
     ],
     'erc' => [
         'label' => 'USDT (ERC20)',
         'symbol' => 'USDT-ERC20',
         'address' => ERC,
-        'icon' => 'uploads/1759140395_tether.png'
+        'icon' => 'uploads/1759140395_tether.png',
+        'db_column' => 'erc_balance'
     ],
     'sol' => [
         'label' => 'Solana',
         'symbol' => 'SOL',
         'address' => 'Solana wallet address not configured',
-        'icon' => 'uploads/1759140771_Solana.png'
+        'icon' => 'uploads/1759140771_Solana.png',
+        'db_column' => 'sol_balance'
     ],
     'xrp' => [
         'label' => 'Ripple',
         'symbol' => 'XRP',
         'address' => 'Ripple wallet address not configured',
-        'icon' => 'uploads/1759141201_xrp.png'
+        'icon' => 'uploads/1759141201_xrp.png',
+        'db_column' => 'xrp_balance'
     ],
     'avax' => [
         'label' => 'Avalanche',
         'symbol' => 'AVAX',
         'address' => 'Avalanche wallet address not configured',
-        'icon' => 'uploads/1759141105_av.jpeg'
+        'icon' => 'uploads/1759141105_av.jpeg',
+        'db_column' => 'avax_balance'
     ],
     'trc' => [
         'label' => 'USDT (TRC20)',
         'symbol' => 'USDT-TRC20',
         'address' => TRC,
-        'icon' => 'uploads/1759331218_tether.png'
+        'icon' => 'uploads/1759331218_tether.png',
+        'db_column' => 'trc_balance'
     ]
 ];
 
 // Get current coin data or default to BTC
 $current = isset($coinInfo[$coinType]) ? $coinInfo[$coinType] : $coinInfo['btc'];
+
+// Fetch user's balance for this specific coin from database
+$userBalance = 0;
+if (isset($_SESSION['acct_id']) && !empty($_SESSION['acct_id'])) {
+    $user_acct_id = $_SESSION['acct_id'];
+    $db_column = $current['db_column'];
+    
+    $stmt = $conn->prepare("SELECT $db_column FROM user WHERE acct_id = ?");
+    if ($stmt) {
+        $stmt->bind_param("s", $user_acct_id);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            if ($row && isset($row[$db_column])) {
+                $userBalance = floatval($row[$db_column]);
+            }
+        }
+        $stmt->close();
+    }
+}
 ?>
 
 <body class="light-mode dashboard-body" data-coin-type="<?php echo $coinType; ?>">
@@ -125,7 +154,7 @@ $current = isset($coinInfo[$coinType]) ? $coinInfo[$coinType] : $coinInfo['btc']
           <p class="view-coin-symbol"><?php echo $current['symbol']; ?></p>
           
           <p class="view-coin-balance">
-            Balance: <strong>0.000 <?php echo substr($current['symbol'], 0, 3); ?></strong>
+            Balance: <strong><?php echo number_format($userBalance, 8); ?> <?php echo substr($current['symbol'], 0, 3); ?></strong>
           </p>
 
           <!-- Live Price Display (Blended) -->
