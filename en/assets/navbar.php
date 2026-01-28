@@ -252,29 +252,30 @@
             }
 
             .mobile-auth-item a {
-                color: #622faa !important;
-                font-weight: 600 !important;
-                padding: 14px 20px !important;
+                color: #e0e0e0 !important;
+                font-weight: 500 !important;
+                padding: 16px 20px !important;
                 transition: all 0.3s ease !important;
-                display: flex !important;
-                align-items: center !important;
-                gap: 10px !important;
+                display: block !important;
+                font-size: 15px !important;
             }
 
             .mobile-auth-item a i {
-                font-size: 16px;
-                width: 20px;
-                text-align: center;
+                font-size: 14px;
+                width: auto;
+                margin-right: 8px;
+                text-align: left;
             }
 
             .mobile-auth-item a:active {
                 background: rgba(98, 47, 170, 0.15) !important;
-                transform: translateX(5px);
+                transform: none;
             }
 
             .mobile-auth-item a:hover {
-                color: #8c3fca !important;
-                padding-left: 25px !important;
+                color: #622faa !important;
+                background: rgba(98, 47, 170, 0.1) !important;
+                padding-left: 20px !important;
             }
         }
 
