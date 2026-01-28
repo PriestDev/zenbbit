@@ -97,16 +97,5 @@ try {
     ]);
     exit;
 }
-    ]);
-
-} catch (Exception $e) {
-    http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'message' => $e->getMessage(),
-        'error_code' => 'WALLET_ERROR'
-    ]);
-    error_log('Wallet Handler Error: ' . $e->getMessage());
-}
 ?>
 
