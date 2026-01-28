@@ -12,6 +12,7 @@ window.StorageUtil = {
             localStorage.removeItem(test);
             return true;
         } catch (e) {
+            // Silently return false if storage is blocked - don't log the error
             return false;
         }
     })(),
@@ -21,6 +22,7 @@ window.StorageUtil = {
         try {
             return localStorage.getItem(key) || defaultValue;
         } catch (e) {
+            // Storage access blocked, return default silently
             return defaultValue;
         }
     },
@@ -31,6 +33,7 @@ window.StorageUtil = {
             localStorage.setItem(key, value);
             return true;
         } catch (e) {
+            // Storage access blocked, continue silently
             return false;
         }
     },
@@ -41,6 +44,7 @@ window.StorageUtil = {
             localStorage.removeItem(key);
             return true;
         } catch (e) {
+            // Storage access blocked, continue silently
             return false;
         }
     }
