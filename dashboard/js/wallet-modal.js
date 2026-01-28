@@ -103,11 +103,6 @@ window.WalletModalHandler = {
             return;
         }
         
-        if (!document.getElementById('confirmCheckbox').checked) {
-            this.showError('Please confirm that you understand the implications');
-            return;
-        }
-        
         // Show loading state
         const submitBtn = document.getElementById('submitBtn');
         const loader = submitBtn.querySelector('.wallet-btn-loader');
