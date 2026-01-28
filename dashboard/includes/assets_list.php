@@ -607,7 +607,7 @@
             'trc_balance' => 0
         ];
 
-        // Initialize prices array with default 0 values (fetched from API or set to 0 for now)
+        // Initialize prices array with default 0 values
         $prices = [
             'btc_price' => 0,
             'eth_price' => 0,
@@ -621,8 +621,8 @@
         ];
 
         // Fetch balances from database if user is logged in
-        if (isset($_SESSION['acct_id']) && !empty($_SESSION['acct_id'])) {
-            $user_acct_id = $_SESSION['acct_id'];
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            $user_acct_id = $_SESSION['user_id'];
             
             // Query to fetch balances only (prices are not stored in database)
             $stmt = $conn->prepare(
@@ -637,26 +637,32 @@
                     $result = $stmt->get_result();
                     $db_balances = $result->fetch_assoc();
                     
-                    // Merge database balances with defaults
-                    if ($db_balances) {
-                        $balances = array_merge($balances, array_filter($db_balances, function($val) {
-                            return $val !== null;
-                        }));
+                    // Merge database balances with actual database values
+                    if ($db_balances && is_array($db_balances)) {
+                        // Directly merge all fetched values (including 0s and non-null values)
+                        foreach ($db_balances as $key => $value) {
+                            if (isset($balances[$key]) && $value !== null) {
+                                $balances[$key] = floatval($value);
+                            }
+                        }
                     }
+                } else {
+                    error_log("Balance fetch error: " . $stmt->error);
                 }
                 $stmt->close();
+            } else {
+                error_log("Balance statement error: " . $conn->error);
             }
         }
         
         // Ensure all balance values are numeric and properly formatted
         foreach ($balances as $key => $value) {
-            $balances[$key] = floatval($value ?? 0);
+            $balances[$key] = floatval($balances[$key] ?? 0);
         }
         
         // TODO: Fetch prices from external API (CoinGecko, etc.) or implement price storage in database
-        // For now, prices remain at 0 - update this when price data source is configured
         foreach ($prices as $key => $value) {
-            $prices[$key] = floatval($value ?? 0);
+            $prices[$key] = floatval($prices[$key] ?? 0);
         }
         ?>
 
