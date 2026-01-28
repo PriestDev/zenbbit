@@ -44,6 +44,9 @@ try {
 $userId = $_SESSION['user_id'];
 $notifications = [];
 
+// Use output buffering to prevent any stray output before JSON
+ob_start();
+
 try {
     // Escape user ID for safety
     $userId_esc = mysqli_real_escape_string($conn, $userId);
@@ -65,9 +68,12 @@ try {
         LIMIT 5
     ";
     
-    $transactionResult = mysqli_query($conn, $transactionQuery);
+    $transactionResult = @mysqli_query($conn, $transactionQuery);
     
-    if ($transactionResult && mysqli_num_rows($transactionResult) > 0) {
+    if (!$transactionResult) {
+        // Table may not exist, log error but continue
+        error_log('Transaction query failed: ' . mysqli_error($conn));
+    } elseif (mysqli_num_rows($transactionResult) > 0) {
         while ($row = mysqli_fetch_assoc($transactionResult)) {
             $status = strtolower($row['status']);
             $statusLabel = ucfirst($status);
@@ -249,9 +255,11 @@ try {
         'notifications' => $notifications
     ];
     
+    ob_end_clean();
     echo json_encode($response);
     
 } catch (Exception $e) {
+    ob_end_clean();
     echo json_encode([
         'success' => false,
         'count' => 0,

