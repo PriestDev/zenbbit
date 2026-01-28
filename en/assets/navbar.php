@@ -115,12 +115,23 @@
             border-bottom: 2px solid transparent;
         }
 
+        .navbar ul li a:not(.btn-common):not(.btn-view):not([class*="btn"]) {
+            color: #ffffff;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+        }
+
         .navbar ul li a:hover {
             color: #622faa;
             background: rgba(98, 47, 170, 0.1);
             border-radius: 5px;
             border-bottom: 2px solid #622faa;
             padding-bottom: 10px;
+        }
+
+        /* Override for non-navbar links */
+        main a, .content a, .container a {
+            color: inherit;
         }
 
         /* Hide mobile auth items on desktop */
