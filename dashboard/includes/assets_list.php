@@ -1,5 +1,224 @@
 <!-- Holdings/Assets List Component -->
 <section style="padding-bottom: 4rem;">
+    <style>
+        /* Assets List Container */
+        .list {
+            width: 100%;
+        }
+
+        .list h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        /* Asset Items Container */
+        .list .asset {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .list .asset:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+            border-color: #622faa;
+            box-shadow: 0 4px 16px rgba(98, 47, 170, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Asset Icon */
+        .list .asset .icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+        }
+
+        .list .asset .icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Asset Meta (Name and Details) */
+        .list .asset .meta {
+            flex: 1;
+        }
+
+        .list .asset .meta .name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .list .asset .meta .small {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .list .asset .meta .small .crypto-price {
+            color: #622faa;
+            font-weight: 600;
+        }
+
+        /* Asset Right (Price and Change) */
+        .list .asset .asset-right {
+            flex-shrink: 0;
+            text-align: right;
+            min-width: 100px;
+        }
+
+        .list .asset .asset-right .price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .list .asset .asset-right .crypto-change {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .list .asset .asset-right .crypto-change.positive {
+            color: #00c985;
+            background: rgba(0, 201, 133, 0.1);
+        }
+
+        .list .asset .asset-right .crypto-change.negative {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .list h2 {
+                font-size: 20px;
+                margin-bottom: 16px;
+            }
+
+            .list .asset {
+                padding: 14px;
+                margin-bottom: 10px;
+                gap: 12px;
+            }
+
+            .list .asset .icon {
+                width: 45px;
+                height: 45px;
+            }
+
+            .list .asset .meta .name {
+                font-size: 14px;
+            }
+
+            .list .asset .meta .small {
+                font-size: 12px;
+            }
+
+            .list .asset .asset-right {
+                min-width: 90px;
+            }
+
+            .list .asset .asset-right .price {
+                font-size: 14px;
+            }
+
+            .list .asset .asset-right .crypto-change {
+                font-size: 11px;
+                padding: 3px 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .list h2 {
+                font-size: 18px;
+                margin-bottom: 14px;
+            }
+
+            .list .asset {
+                padding: 12px;
+                margin-bottom: 8px;
+                gap: 10px;
+            }
+
+            .list .asset .icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .list .asset .meta .name {
+                font-size: 13px;
+            }
+
+            .list .asset .meta .small {
+                font-size: 11px;
+            }
+
+            .list .asset .asset-right {
+                min-width: 80px;
+            }
+
+            .list .asset .asset-right .price {
+                font-size: 13px;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .list h2 {
+                color: #fff;
+            }
+
+            .list .asset {
+                background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+                border-color: #333;
+            }
+
+            .list .asset:hover {
+                background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
+                border-color: #622faa;
+            }
+
+            .list .asset .icon {
+                background: #333;
+                border-color: #444;
+            }
+
+            .list .asset .meta .name {
+                color: #fff;
+            }
+
+            .list .asset .meta .small {
+                color: #aaa;
+            }
+
+            .list .asset .asset-right .price {
+                color: #fff;
+            }
+        }
+    </style>
     <div class="list">
         <h2>Holding</h2>
 

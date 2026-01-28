@@ -192,7 +192,7 @@
             .navbar-wrapper {
                 padding: 10px 15px;
                 gap: 10px;
-                justify-content: flex-start;
+                justify-content: space-between;
             }
 
             .hamburger-menu {
