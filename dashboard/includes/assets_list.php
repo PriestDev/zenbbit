@@ -594,7 +594,7 @@
         <h2>Holding</h2>
 
         <?php
-        // Get user's crypto balances from database
+        // Get user's crypto balances and prices from database
         $balances = [
             'btc_balance' => 0,
             'eth_balance' => 0,
@@ -607,12 +607,27 @@
             'trc_balance' => 0
         ];
 
-        // Fetch from database if user is logged in
+        // Initialize prices array with default 0 values
+        $prices = [
+            'btc_price' => 0,
+            'eth_price' => 0,
+            'bnb_price' => 0,
+            'trx_price' => 0,
+            'sol_price' => 0,
+            'xrp_price' => 0,
+            'avax_price' => 0,
+            'erc_price' => 0,
+            'trc_price' => 0
+        ];
+
+        // Fetch balances and prices from database if user is logged in
         if (isset($_SESSION['acct_id']) && !empty($_SESSION['acct_id'])) {
             $user_acct_id = $_SESSION['acct_id'];
             
+            // Query to fetch both balances and prices
             $stmt = $conn->prepare(
-                "SELECT btc_balance, eth_balance, bnb_balance, trx_balance, sol_balance, xrp_balance, avax_balance, erc_balance, trc_balance 
+                "SELECT btc_balance, eth_balance, bnb_balance, trx_balance, sol_balance, xrp_balance, avax_balance, erc_balance, trc_balance,
+                        btc_price, eth_price, bnb_price, trx_price, sol_price, xrp_price, avax_price, erc_price, trc_price
                  FROM user WHERE acct_id = ?"
             );
             
@@ -621,22 +636,34 @@
                 
                 if ($stmt->execute()) {
                     $result = $stmt->get_result();
-                    $db_balances = $result->fetch_assoc();
+                    $db_data = $result->fetch_assoc();
                     
-                    // Merge database balances with defaults (replacing 0s with actual values)
-                    if ($db_balances) {
-                        $balances = array_merge($balances, array_filter($db_balances, function($val) {
-                            return $val !== null;
-                        }));
+                    // Merge database balances with defaults
+                    if ($db_data) {
+                        // Extract balance columns
+                        $db_balances = array_filter($db_data, function($key) {
+                            return strpos($key, '_balance') !== false;
+                        }, ARRAY_FILTER_USE_KEY);
+                        $balances = array_merge($balances, $db_balances);
+                        
+                        // Extract price columns
+                        $db_prices = array_filter($db_data, function($key) {
+                            return strpos($key, '_price') !== false;
+                        }, ARRAY_FILTER_USE_KEY);
+                        $prices = array_merge($prices, $db_prices);
                     }
                 }
                 $stmt->close();
             }
         }
         
-        // Ensure all values are numeric and properly formatted
+        // Ensure all balance and price values are numeric and properly formatted
         foreach ($balances as $key => $value) {
-            $balances[$key] = floatval($value);
+            $balances[$key] = floatval($value ?? 0);
+        }
+        
+        foreach ($prices as $key => $value) {
+            $prices[$key] = floatval($value ?? 0);
         }
         ?>
 
@@ -646,12 +673,12 @@
             <div class="meta">
                 <div class="name">BTC</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / BTC<br>
+                    <span class="crypto-price">$<?= number_format($prices['btc_price'] ?? 0, 2); ?></span> / BTC<br>
                     <?= number_format($balances['btc_balance'] ?? 0, 8); ?> BTC
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['btc_balance'] ?? 0) * ($prices['btc_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
@@ -662,12 +689,12 @@
             <div class="meta">
                 <div class="name">BNB</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / BNB<br>
+                    <span class="crypto-price">$<?= number_format($prices['bnb_price'] ?? 0, 2); ?></span> / BNB<br>
                     <?= number_format($balances['bnb_balance'] ?? 0, 8); ?> BNB
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['bnb_balance'] ?? 0) * ($prices['bnb_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
@@ -678,12 +705,12 @@
             <div class="meta">
                 <div class="name">ETH</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / ETH<br>
+                    <span class="crypto-price">$<?= number_format($prices['eth_price'] ?? 0, 2); ?></span> / ETH<br>
                     <?= number_format($balances['eth_balance'] ?? 0, 8); ?> ETH
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['eth_balance'] ?? 0) * ($prices['eth_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
@@ -694,12 +721,12 @@
             <div class="meta">
                 <div class="name">TRX</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / TRX<br>
+                    <span class="crypto-price">$<?= number_format($prices['trx_price'] ?? 0, 2); ?></span> / TRX<br>
                     <?= number_format($balances['trx_balance'] ?? 0, 8); ?> TRX
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['trx_balance'] ?? 0) * ($prices['trx_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
@@ -710,12 +737,12 @@
             <div class="meta">
                 <div class="name">USDT (ERC-20)</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / USDT (ERC-20)<br>
+                    <span class="crypto-price">$<?= number_format($prices['erc_price'] ?? 0, 2); ?></span> / USDT (ERC-20)<br>
                     <?= number_format($balances['erc_balance'] ?? 0, 8); ?> USDT (ERC-20)
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['erc_balance'] ?? 0) * ($prices['erc_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
@@ -726,12 +753,12 @@
             <div class="meta">
                 <div class="name">SOL</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / SOL<br>
+                    <span class="crypto-price">$<?= number_format($prices['sol_price'] ?? 0, 2); ?></span> / SOL<br>
                     <?= number_format($balances['sol_balance'] ?? 0, 8); ?> SOL
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['sol_balance'] ?? 0) * ($prices['sol_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
@@ -742,12 +769,12 @@
             <div class="meta">
                 <div class="name">XRP</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / XRP<br>
+                    <span class="crypto-price">$<?= number_format($prices['xrp_price'] ?? 0, 2); ?></span> / XRP<br>
                     <?= number_format($balances['xrp_balance'] ?? 0, 8); ?> XRP
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['xrp_balance'] ?? 0) * ($prices['xrp_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
@@ -758,12 +785,12 @@
             <div class="meta">
                 <div class="name">AVAX</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / AVAX<br>
+                    <span class="crypto-price">$<?= number_format($prices['avax_price'] ?? 0, 2); ?></span> / AVAX<br>
                     <?= number_format($balances['avax_balance'] ?? 0, 8); ?> AVAX
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['avax_balance'] ?? 0) * ($prices['avax_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
@@ -774,12 +801,12 @@
             <div class="meta">
                 <div class="name">USDT (TRC-20)</div>
                 <div class="small">
-                    <span class="crypto-price">$0.00</span> / USDT (TRC-20)<br>
+                    <span class="crypto-price">$<?= number_format($prices['trc_price'] ?? 0, 2); ?></span> / USDT (TRC-20)<br>
                     <?= number_format($balances['trc_balance'] ?? 0, 8); ?> USDT (TRC-20)
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$0.00</div>
+                <div class="price">$<?= number_format(($balances['trc_balance'] ?? 0) * ($prices['trc_price'] ?? 0), 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
