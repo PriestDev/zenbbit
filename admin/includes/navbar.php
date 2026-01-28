@@ -2,7 +2,7 @@
      NAVBAR & SIDEBAR CONTAINER
      ======================================== -->
 <!-- Load external CSS for navbar/sidebar -->
-<link rel="stylesheet" href="../css/navbar-custom.css">
+<link rel="stylesheet" href="css/navbar-custom.css">
 
 <!-- Navbar HTML Structure -->
 <div class="header">
@@ -236,4 +236,4 @@
      NAVBAR & SIDEBAR INTERACTIVE SCRIPTS
      ======================================== -->
 <!-- Load external JavaScript for navbar/sidebar functionality -->
-<script src="../js/navbar-custom.js"></script>
+<script src="js/navbar-custom.js"></script>

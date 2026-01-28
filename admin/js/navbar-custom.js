@@ -165,25 +165,32 @@
         var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
         var notificationMenu = document.querySelector('.notification-dropdown-menu');
         
-        if (!notificationBtn || !notificationWrapper || !notificationMenu) return;
+        if (!notificationBtn || !notificationWrapper || !notificationMenu) {
+            console.warn('[Navbar] Notification dropdown elements not found');
+            return;
+        }
+        
+        console.log('[Navbar] Notification dropdown initialized');
         
         notificationBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             
-            // Close profile dropdown
+            // Close profile dropdown first
             var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
-            if (profileWrapper) {
+            if (profileWrapper && profileWrapper.classList.contains('show')) {
                 profileWrapper.classList.remove('show');
             }
             
-            // Toggle notification dropdown
+            // Toggle this dropdown
             var isOpen = notificationWrapper.classList.contains('show');
-            notificationWrapper.classList.toggle('show');
-            
-            // Position dropdown correctly
             if (!isOpen) {
-                positionDropdown(notificationBtn, notificationMenu);
+                notificationWrapper.classList.add('show');
+                positionMenu(notificationBtn, notificationMenu);
+                console.log('[Navbar] Notification dropdown opened');
+            } else {
+                notificationWrapper.classList.remove('show');
+                console.log('[Navbar] Notification dropdown closed');
             }
         });
     }
@@ -196,27 +203,60 @@
         var profileWrapper = document.querySelector('.profile-dropdown-wrapper');
         var profileMenu = document.querySelector('.profile-dropdown-menu');
         
-        if (!profileBtn || !profileWrapper || !profileMenu) return;
+        if (!profileBtn || !profileWrapper || !profileMenu) {
+            console.warn('[Navbar] Profile dropdown elements not found');
+            return;
+        }
+        
+        console.log('[Navbar] Profile dropdown initialized');
         
         profileBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             
-            // Close notification dropdown
+            // Close notification dropdown first
             var notificationWrapper = document.querySelector('.notification-dropdown-wrapper');
-            if (notificationWrapper) {
+            if (notificationWrapper && notificationWrapper.classList.contains('show')) {
                 notificationWrapper.classList.remove('show');
             }
             
-            // Toggle profile dropdown
+            // Toggle this dropdown
             var isOpen = profileWrapper.classList.contains('show');
-            profileWrapper.classList.toggle('show');
-            
-            // Position dropdown correctly
             if (!isOpen) {
-                positionDropdown(profileBtn, profileMenu);
+                profileWrapper.classList.add('show');
+                positionMenu(profileBtn, profileMenu);
+                console.log('[Navbar] Profile dropdown opened');
+            } else {
+                profileWrapper.classList.remove('show');
+                console.log('[Navbar] Profile dropdown closed');
             }
         });
+    }
+    
+    // Helper function to position menus
+    function positionMenu(triggerBtn, menu) {
+        if (!triggerBtn || !menu) return;
+        
+        var btnRect = triggerBtn.getBoundingClientRect();
+        var menuWidth = menu.offsetWidth || 300;
+        var windowWidth = window.innerWidth;
+        var windowHeight = window.innerHeight;
+        
+        var top = btnRect.bottom + 8; // 8px below button
+        var right = windowWidth - btnRect.right;
+        
+        // Adjust if menu goes off right edge
+        if (right + menuWidth > windowWidth - 10) {
+            right = 10; // 10px from right edge
+        }
+        
+        // Adjust if menu goes off bottom
+        if (top + 400 > windowHeight) {
+            top = btnRect.top - 400 - 8; // Show above instead
+        }
+        
+        menu.style.top = top + 'px';
+        menu.style.right = right + 'px';
     }
     
     // ===========================================
@@ -237,32 +277,6 @@
                 profileWrapper.classList.remove('show');
             }
         });
-    }
-    
-    // ===========================================
-    // DROPDOWN POSITIONING HELPER
-    // ===========================================
-    function positionDropdown(triggerBtn, dropdownMenu) {
-        var triggerRect = triggerBtn.getBoundingClientRect();
-        var dropdownRect = dropdownMenu.getBoundingClientRect();
-        var gap = 8; // pixels
-        
-        // Position below button
-        var top = triggerRect.bottom + gap;
-        var right = window.innerWidth - triggerRect.right;
-        
-        // Adjust if dropdown goes off-screen
-        if (top + dropdownRect.height > window.innerHeight) {
-            top = triggerRect.top - dropdownRect.height - gap;
-        }
-        
-        // Ensure dropdown doesn't go off right edge
-        if (right - dropdownRect.width < 0) {
-            right = 10; // 10px margin from right
-        }
-        
-        dropdownMenu.style.top = top + 'px';
-        dropdownMenu.style.right = right + 'px';
     }
     
     // ===========================================

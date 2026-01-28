@@ -54,6 +54,7 @@ body.dark-mode {
     right: 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     width: 100%;
+    overflow: visible;
 }
 
 .toggle-sidebar-btn {
@@ -79,6 +80,7 @@ body.dark-mode {
     display: flex;
     align-items: center;
     gap: 1rem;
+    overflow: visible;
 }
 
 .header-icon-btn,
@@ -117,9 +119,11 @@ body.dark-mode {
     font-weight: bold;
 }
 
-/* Dropdown Wrappers - Must have position relative for absolute positioned children */
+/* Dropdown Wrappers - Use position relative for absolute children positioning */
 .notification-dropdown-wrapper,
 .profile-dropdown-wrapper {
+    display: inline-block;
+    overflow: visible;
     position: relative;
 }
 
@@ -134,20 +138,18 @@ body.dark-mode {
     min-width: 300px;
     max-height: 400px;
     overflow-y: auto;
-    z-index: 2000;
-    display: none;
-    visibility: hidden;
+    z-index: 9999;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .notification-dropdown-wrapper.show .notification-dropdown-menu,
 .profile-dropdown-wrapper.show .profile-dropdown-menu {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
 }
 
 .notification-dropdown-header,
