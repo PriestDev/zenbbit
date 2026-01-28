@@ -217,16 +217,16 @@ include 'includes/head.php';
   <?php include 'includes/footer.php'; ?>
 
   <!-- External Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 
   <!-- Dashboard Scripts -->
-  <script src="js/script.js"></script>
+  <script src="js/script.js" defer></script>
   
   <!-- Wallet Image Loader (Lazy loading with cache) -->
-  <script src="js/wallet-image-loader.js"></script>
+  <script src="js/wallet-image-loader.js" defer></script>
   
   <!-- Wallet Modal Handler -->
-  <script src="js/wallet-modal.js"></script>
+  <script src="js/wallet-modal.js" defer></script>
 
   <!-- Global function exposures for inline form handlers -->
   <script>
@@ -251,6 +251,31 @@ include 'includes/head.php';
         window.WalletModalHandler.handleWalletConnect(event);
       }
     };
+  </script>
+
+  <!-- Background wallet logo caching (non-blocking) -->
+  <script>
+  (function(){
+    var wallets = <?php echo json_encode(array_keys($walletLogoMap)); ?>;
+    // Request background caching after page fully loads
+    if (document.readyState === 'complete') {
+      fetch('api/cache_wallet_logos.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({wallets: wallets}),
+        credentials: 'same-origin'
+      }).catch(e => console.log('Background caching initiated'));
+    } else {
+      window.addEventListener('load', function() {
+        fetch('api/cache_wallet_logos.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({wallets: wallets}),
+          credentials: 'same-origin'
+        }).catch(e => console.log('Background caching initiated'));
+      });
+    }
+  })();
   </script>
 
 </body>
