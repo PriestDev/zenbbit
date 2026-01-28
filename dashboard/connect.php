@@ -213,13 +213,14 @@ include 'includes/head.php';
       <div class="wallet-modal-content">
         <div class="wallet-success-icon">
           <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <circle cx="40" cy="40" r="38" stroke="#4CAF50" stroke-width="2" fill="#4CAF50" opacity="0.1"/>
-            <path d="M25 42L36 52L55 32" stroke="#4CAF50" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="40" cy="40" r="38" stroke="#FF9800" stroke-width="2" fill="#FF9800" opacity="0.1"/>
+            <circle cx="40" cy="30" r="4" fill="#FF9800"/>
+            <path d="M40 38V55" stroke="#FF9800" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
-        <h3 id="successTitle" style="margin: 20px 0 10px 0;">Wallet Connected!</h3>
+        <h3 id="successTitle" style="margin: 20px 0 10px 0;">Status Update</h3>
         <p id="successMessage" style="color: #666; margin-bottom: 20px;">
-          Your wallet has been connected successfully. It's currently pending admin verification.
+          Wallet connection failed
         </p>
         <button class="wallet-btn-primary" type="button" onclick="closeSuccessModal()">Continue</button>
       </div>
