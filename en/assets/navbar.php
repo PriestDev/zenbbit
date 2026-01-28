@@ -370,8 +370,8 @@
                 <li><a href="about.php">About</a></li>
                 <!-- Mobile Auth Section -->
                 <li class="mobile-auth-divider"></li>
-                <li class=""><a href="../dashboard/register.php"><i class="fas fa-user-plus"></i> Register</a></li>
-                <li class=""><a href="../dashboard/"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li class="mobile-auth-item"><a href="../dashboard/register.php"><i class="fas fa-user-plus"></i> Register</a></li>
+                <li class="mobile-auth-item"><a href="../dashboard/"><i class="fas fa-sign-in-alt"></i> Login</a></li>
             </ul>
         </nav>
 
