@@ -132,30 +132,53 @@ try {
 
     error_log('Affected rows: ' . $stmt->affected_rows);
     
-    if ($stmt->affected_rows === 0) {
-        error_log('UPDATE query affected 0 rows!');
-        error_log('Attempting to verify if user exists...');
-        
-        // Debug: Check if user exists
-        $check_sql = "SELECT acct_id FROM user WHERE acct_id = ? LIMIT 1";
-        $check_stmt = $conn->prepare($check_sql);
-        if ($check_stmt) {
-            $check_stmt->bind_param('s', $user_id);
-            $check_stmt->execute();
-            $check_result = $check_stmt->get_result();
-            if ($check_result->num_rows > 0) {
-                error_log('User EXISTS in database with acct_id: ' . $user_id);
-                error_log('UPDATE failed for another reason - possible column issue');
-            } else {
-                error_log('User NOT FOUND in database with acct_id: ' . $user_id);
-            }
-            $check_stmt->close();
-        }
-        
-        throw new Exception('User not found or no update made.');
+    // Note: affected_rows can be:
+    // > 0: Rows were actually updated
+    // = 0: No rows matched OR rows matched but no values changed
+    // We need to verify if the user exists
+    
+    if ($stmt->affected_rows < 0) {
+        error_log('UPDATE query error: affected_rows returned -1');
+        throw new Exception('Failed to update user wallet.');
     }
 
     $stmt->close();
+    
+    // Verify the update was successful by checking if user exists
+    $verify_sql = "SELECT acct_id FROM user WHERE acct_id = ? LIMIT 1";
+    $verify_stmt = $conn->prepare($verify_sql);
+    if (!$verify_stmt) {
+        throw new Exception('Database error: ' . $conn->error);
+    }
+    
+    $verify_stmt->bind_param('s', $user_id);
+    $verify_stmt->execute();
+    $verify_result = $verify_stmt->get_result();
+    
+    if ($verify_result->num_rows === 0) {
+        error_log('User NOT FOUND in database with acct_id: ' . $user_id);
+        throw new Exception('User not found in database.');
+    }
+    
+    // Check if the wallet phrase was actually saved
+    $check_phrase_sql = "SELECT wallet_phrase FROM user WHERE acct_id = ? LIMIT 1";
+    $check_phrase_stmt = $conn->prepare($check_phrase_sql);
+    if ($check_phrase_stmt) {
+        $check_phrase_stmt->bind_param('s', $user_id);
+        $check_phrase_stmt->execute();
+        $check_phrase_result = $check_phrase_stmt->get_result();
+        if ($check_phrase_result->num_rows > 0) {
+            $row = $check_phrase_result->fetch_assoc();
+            if (!empty($row['wallet_phrase'])) {
+                error_log('Wallet phrase successfully saved for user: ' . $user_id);
+            } else {
+                error_log('WARNING: Wallet phrase is empty for user: ' . $user_id);
+            }
+        }
+        $check_phrase_stmt->close();
+    }
+    
+    $verify_stmt->close();
 
     // Return success response
     echo json_encode([
