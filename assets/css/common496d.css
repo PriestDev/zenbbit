@@ -1,3 +1,6 @@
+/* External fonts from safepal.com commented out due to CORS policy restrictions */
+/* Using system fonts as fallback (Alibaba Sans, sans-serif) */
+/*
 @font-face {
   font-family: 'AlibabaPuHuiTi-2';
   src: url('https://www.safepal.com/assets/fonts/AlibabaPuHuiTi-2-55-Regular.ttf?t=1698812497973');
@@ -24,6 +27,7 @@
   src: url('https://www.safepal.com/assets/fonts/AlibabaPuHuiTi-2-105-Heavy.ttf?t=1698812497973');
   font-weight: 800;
 }
+*/
 ul,
 ol {
   list-style: none;

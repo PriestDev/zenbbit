@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="../assets/css/footer496d.css?v=202601151767855013676">
 
     <!-- <link href="/assets/css/style.css?v=202601151767855013676" rel="stylesheet"> -->
+    <!-- Jivosite tracking script removed to prevent tracking prevention errors -->
 
     <script>
         var email_can_not_be_empty = "Email can not be empty!";
@@ -61,28 +62,8 @@
         }
     </script>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DW1PZY4LZ8"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-        gtag('config', 'G-DW1PZY4LZ8');
-    </script>
-    <!-- Twitter conversion tracking base code -->
-    <script>
-        !function (e, t, n, s, u, a) {
-            e.twq || (s = e.twq = function () {
-                s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
-            }, s.version = '1.1', s.queue = [], u = t.createElement(n), u.async = !0, u.src = '../../static.ads-twitter.com/uwt.js',
-                a = t.getElementsByTagName(n)[0], a.parentNode.insertBefore(u, a))
-        }(window, document, 'script');
-        twq('config', 'o201i');
-    </script>
-    <!-- End Twitter conversion tracking base code -->
+    <!-- Google Analytics removed to prevent tracking prevention errors -->
+    <!-- Twitter conversion tracking removed to prevent tracking prevention errors -->
 </head>
 
 <body>
