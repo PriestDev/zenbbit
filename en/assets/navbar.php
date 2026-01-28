@@ -117,6 +117,12 @@
             border-radius: 5px;
         }
 
+        /* Hide mobile auth items on desktop */
+        .mobile-auth-divider,
+        .mobile-auth-item {
+            display: none;
+        }
+
         /* Auth Buttons */
         .auth-buttons {
             display: flex;
@@ -233,6 +239,7 @@
 
             /* Mobile Auth Divider */
             .mobile-auth-divider {
+                display: list-item !important;
                 border-bottom: 2px solid #333 !important;
                 margin: 10px 0 !important;
                 padding: 0 !important;
@@ -240,6 +247,10 @@
             }
 
             /* Mobile Auth Items */
+            .mobile-auth-item {
+                display: list-item !important;
+            }
+
             .mobile-auth-item a {
                 color: #622faa !important;
                 font-weight: 600 !important;
