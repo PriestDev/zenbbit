@@ -1,3 +1,7 @@
+// Guard against multiple inclusions
+if (typeof window.__dashboardScriptsLoaded === 'undefined') {
+    window.__dashboardScriptsLoaded = true;
+
 // ================= NOTIFICATIONS ======================= 
 (() => {
     const POLL_INTERVAL = 5000; // ms
@@ -2179,3 +2183,4 @@ if (document.readyState === 'loading') {
     }
 }
 
+} // End guard for multiple inclusions

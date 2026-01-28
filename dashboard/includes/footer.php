@@ -29,5 +29,4 @@
     </a>
 </section>
 
-<!-- Dashboard JavaScript -->
-<script src="js/script.js"></script>
+<!-- Dashboard JavaScript loaded in individual pages to avoid duplicate declarations -->

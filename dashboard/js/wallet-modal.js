@@ -4,6 +4,8 @@
  * Unique namespace to avoid conflicts
  */
 
+// Guard against multiple inclusions
+if (typeof WalletModalHandler === 'undefined') {
 const WalletModalHandler = {
     /**
      * Initialize modal handler
@@ -248,3 +250,4 @@ if (document.readyState === 'loading') {
 } else {
     WalletModalHandler.init();
 }
+} // End guard
