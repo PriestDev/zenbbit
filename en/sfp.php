@@ -305,7 +305,7 @@
         <div class="start-soar d-flex justify-content-center align-items-center flex-column">
             <div class="sfp-logo d-flex justify-content-center align-items-center">
                 <div class="logo-box move-animation-Y">
-                    <img src="https://www.safepal.com/assets/img/safePal-extension-icon.svg" alt="">
+                    <img src="../assets/img/safePal-extension-icon.png" alt="SafePal Extension Icon" style="width: 80px; height: auto; display: block;">
                 </div>
             </div>
             <div class="d-none d-lg-block title animate__animated animate__fadeInDown">

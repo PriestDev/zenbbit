@@ -1,0 +1,328 @@
+/* ================= DEPOSIT PAGE STYLES ======================= */
+
+/* Main container and layout */
+.deposit-main {
+    padding-bottom: 6rem;
+}
+
+.deposit-section {
+    margin-top: 6rem;
+    margin-bottom: 8rem;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.deposit-card {
+    padding: 40px 30px;
+    border-radius: 16px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Section */
+.deposit-header {
+    margin-bottom: 3rem;
+}
+
+.deposit-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #622faa 0%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.deposit-subtitle {
+    color: var(--text-secondary);
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+/* Info Box */
+.deposit-info-box {
+    background: linear-gradient(135deg, rgba(98, 47, 170, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 3px solid #622faa;
+    margin-bottom: 3rem;
+}
+
+.deposit-info-label {
+    color: var(--text-secondary);
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.deposit-info-text {
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Form Styles */
+.deposit-form {
+    /* Default form styles inherited */
+}
+
+.deposit-form-group {
+    margin-bottom: 2rem;
+}
+
+.deposit-form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.deposit-form-select,
+.deposit-form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--form-border);
+    border-radius: 10px;
+    background: var(--form-bg);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+.deposit-form-select:focus,
+.deposit-form-input:focus {
+    border-color: #622faa;
+    outline: none;
+}
+
+.deposit-form-select {
+    cursor: pointer;
+}
+
+.deposit-form-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.deposit-form-help {
+    color: var(--text-secondary);
+    margin-top: 5px;
+    display: block;
+    font-size: 12px;
+}
+
+/* Wallet Card */
+.deposit-wallet-card {
+    display: none;
+    margin-bottom: 2rem;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(98, 47, 170, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
+    border: 2px solid var(--card-border);
+    border-radius: 12px;
+}
+
+.deposit-wallet-card.visible {
+    display: block;
+}
+
+.deposit-wallet-title {
+    color: var(--text-primary);
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* QR Code Container */
+.deposit-qr-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#qrCode {
+    padding: 10px;
+    background: var(--card-bg);
+    border-radius: 8px;
+}
+
+/* Wallet Address Display */
+.deposit-address-display {
+    background: var(--card-bg);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deposit-address-code {
+    color: #622faa;
+    font-size: 12px;
+    word-break: break-all;
+    flex: 1;
+    font-family: 'Courier New', monospace;
+}
+
+.deposit-address-help {
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin: 0;
+}
+
+/* Copy Button */
+.deposit-copy-btn {
+    background: #622faa;
+    color: var(--text-light);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 10px;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.deposit-copy-btn:hover {
+    background: #8b4cc4;
+    transform: translateY(-1px);
+}
+
+.deposit-copy-btn:active {
+    transform: translateY(0);
+}
+
+/* Receipt Upload Group */
+.deposit-receipt-group {
+    display: none;
+    margin-bottom: 2rem;
+}
+
+.deposit-receipt-group.visible {
+    display: block;
+}
+
+/* Submit Button */
+.deposit-submit-btn {
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #622faa 0%, #ff6b6b 100%);
+    color: var(--text-light);
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 1rem;
+}
+
+.deposit-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(98, 47, 170, 0.3);
+}
+
+.deposit-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Additional Info Section */
+.deposit-additional-info {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--card-border);
+}
+
+.deposit-additional-title {
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+}
+
+.deposit-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.deposit-feature-card {
+    padding: 15px;
+    background: var(--background-light);
+    border-radius: 10px;
+    border-left: 3px solid;
+}
+
+.deposit-feature-card.secure {
+    border-left-color: #00c985;
+}
+
+.deposit-feature-card.fast {
+    border-left-color: #ff6b6b;
+}
+
+.deposit-feature-card.fees {
+    border-left-color: #622faa;
+}
+
+.deposit-feature-icon {
+    margin: 0 0 8px 0;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 13px;
+}
+
+.deposit-feature-text {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .deposit-card {
+        padding: 25px 20px;
+    }
+
+    .deposit-title {
+        font-size: 24px;
+    }
+
+    .deposit-section {
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+    }
+
+    .deposit-features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .deposit-address-display {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .deposit-copy-btn {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* Dark mode support */
+body.dark-mode {
+    --card-bg: #1e1e1e;
+    --card-border: #333;
+    --form-bg: #2a2a2a;
+    --form-border: #444;
+}
