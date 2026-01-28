@@ -101,17 +101,22 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
     $user_acct_id = $_SESSION['user_id'];
     $db_column = $current['db_column'];
     
-    // Use prepared statement to safely query balance
-    $stmt = $conn->prepare("SELECT ? FROM user WHERE acct_id = ?");
+    // Query to fetch specific balance column (safe because db_column comes from controlled array)
+    $stmt = $conn->prepare(
+        "SELECT btc_balance, eth_balance, bnb_balance, trx_balance, sol_balance, xrp_balance, avax_balance, erc_balance, trc_balance
+         FROM user WHERE acct_id = ?"
+    );
+    
     if ($stmt) {
-        // Bind column name and user ID
-        $stmt->bind_param("ss", $db_column, $user_acct_id);
+        $stmt->bind_param("s", $user_acct_id);
+        
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
-            if ($row) {
-                // Get the balance value using the dynamic column name
-                $userBalance = floatval($row[$db_column] ?? 0);
+            
+            // Get the balance value using the dynamic column name
+            if ($row && isset($row[$db_column])) {
+                $userBalance = floatval($row[$db_column]);
             }
         } else {
             error_log("Balance fetch error for {$db_column}: " . $stmt->error);
