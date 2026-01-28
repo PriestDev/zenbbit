@@ -88,6 +88,8 @@
             align-items: center;
             gap: 0;
             flex: 1;
+            margin-left: 30px;
+            padding-left: 20px;
         }
 
         .navbar ul {
@@ -109,6 +111,7 @@
             transition: all 0.3s ease;
             display: inline-block;
             position: relative;
+            font-size: 15px;
         }
 
         .navbar ul li a:hover {
@@ -195,6 +198,8 @@
                 background: linear-gradient(135deg, rgba(20, 20, 20, 0.99) 0%, rgba(30, 30, 30, 0.99) 100%);
                 flex-direction: column;
                 padding: 20px 0;
+                margin-left: 0;
+                padding-left: 0;
                 overflow-y: auto;
                 transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 z-index: 1000;
@@ -226,10 +231,10 @@
 
             .navbar ul li a {
                 display: block;
-                padding: 16px 20px;
+                padding: 18px 20px;
                 border-bottom: none;
-                color: #e0e0e0;
-                font-size: 15px;
+                color: #ffffff;
+                font-size: 16px;
                 font-weight: 500;
             }
 
