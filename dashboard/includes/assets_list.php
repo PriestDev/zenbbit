@@ -1,13 +1,14 @@
 <!-- Holdings/Assets List Component -->
-<section style="padding-bottom: 4rem;">
+<section style="padding: 0 0 4rem 0; margin-top: 0;">
     <style>
         /* ============================================================
            ASSETS LIST - RESPONSIVE STYLING WITH DAY/NIGHT SUPPORT
            ============================================================ */
 
         /* CSS Variables for Theme Support */
-        /* DEFAULT: LIGHT MODE (when body.light-mode is set or system prefers light) */
-        :root {
+        /* DEFAULT: LIGHT MODE */
+        :root,
+        body.light-mode {
             /* Background Gradients */
             --asset-bg: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             --asset-hover-bg: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
@@ -36,34 +37,17 @@
 
         /* DARK MODE: Override when body doesn't have light-mode class */
         body:not(.light-mode) {
-            --asset-bg: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-            --asset-hover-bg: linear-gradient(135deg, #374151 0%, #1f2937 100%);
-            --text-primary: #f3f4f6;
-            --text-secondary: #d1d5db;
-            --border-color: #374151;
-            --icon-bg: #374151;
-            --icon-border: #4b5563;
-            --brand-light: rgba(98, 47, 170, 0.2);
-            --brand-dark: rgba(98, 47, 170, 0.3);
-            --success-light: rgba(16, 185, 129, 0.2);
-            --error-light: rgba(239, 68, 68, 0.2);
-        }
-
-        /* Fallback for system preference if no class is present */
-        @media (prefers-color-scheme: dark) {
-            :root:not(.light-mode) {
-                --asset-bg: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-                --asset-hover-bg: linear-gradient(135deg, #374151 0%, #1f2937 100%);
-                --text-primary: #f3f4f6;
-                --text-secondary: #d1d5db;
-                --border-color: #374151;
-                --icon-bg: #374151;
-                --icon-border: #4b5563;
-                --brand-light: rgba(98, 47, 170, 0.2);
-                --brand-dark: rgba(98, 47, 170, 0.3);
-                --success-light: rgba(16, 185, 129, 0.2);
-                --error-light: rgba(239, 68, 68, 0.2);
-            }
+            --asset-bg: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+            --asset-hover-bg: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+            --text-primary: #f3f4f6 !important;
+            --text-secondary: #d1d5db !important;
+            --border-color: #374151 !important;
+            --icon-bg: #374151 !important;
+            --icon-border: #4b5563 !important;
+            --brand-light: rgba(98, 47, 170, 0.2) !important;
+            --brand-dark: rgba(98, 47, 170, 0.3) !important;
+            --success-light: rgba(16, 185, 129, 0.2) !important;
+            --error-light: rgba(239, 68, 68, 0.2) !important;
         }
 
         /* ========== CONTAINER & HEADER ========== */
@@ -71,7 +55,8 @@
             width: 100%;
             max-width: 100%;
             margin: 0 auto;
-            padding: 0;
+            padding: 20px 16px 0 16px;
+            transition: all 0.3s ease;
         }
 
         .list h2 {
@@ -80,7 +65,7 @@
             letter-spacing: -0.5px;
             color: var(--text-primary);
             margin: 0 0 24px 0;
-            padding: 0 16px;
+            padding: 0 0;
             transition: color 0.3s ease;
             display: flex;
             align-items: center;
