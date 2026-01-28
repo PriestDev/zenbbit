@@ -49,73 +49,14 @@
 
     // ================= QR CODE GENERATION ======================
     /**
-     * Generate QR code for wallet address - prevents duplicates
-     * @param {string} address - Wallet address to encode
+     * Generate QR code for wallet address - DISABLED
+     * Canvas QR code generation disabled per user request
+     * @param {string} address - Wallet address (not used)
      */
     function generateQRCode(address) {
-        const qrElement = document.getElementById('qrCode');
-
-        // Skip if QR already exists for this address
-        if (qrElement && qrElement.dataset.qrAddress === address) {
-            console.log('✓ QR code already exists for this address');
-            return;
-        }
-
-        // Prevent concurrent generation
-        if (qrGenerationInProgress) {
-            console.warn('⚠️ QR generation in progress, skipping duplicate');
-            return;
-        }
-
-        qrGenerationInProgress = true;
-
-        try {
-            // Create fresh QR element
-            const newQrEl = document.createElement('div');
-            newQrEl.id = 'qrCode';
-            newQrEl.className = 'deposit-qr-element';
-            newQrEl.style.padding = '10px';
-            newQrEl.style.background = '#fff';
-            newQrEl.style.borderRadius = '8px';
-            newQrEl.dataset.qrAddress = address; // Track address for deduplication
-
-            // Replace old element
-            const qrContainer = document.querySelector('.deposit-qr-container');
-            if (qrElement && qrElement.parentNode) {
-                qrElement.parentNode.replaceChild(newQrEl, qrElement);
-            } else if (qrContainer) {
-                qrContainer.innerHTML = '';
-                qrContainer.appendChild(newQrEl);
-            }
-
-            // Generate QR code
-            if (typeof QRCode !== 'undefined') {
-                new QRCode(newQrEl, {
-                    text: address,
-                    width: 150,
-                    height: 150,
-                    colorDark: '#622faa',
-                    colorLight: '#ffffff',
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-                console.log('✓ QR code generated for:', address.substring(0, 10) + '...');
-            } else {
-                console.error('❌ QRCode library not loaded');
-                if (typeof iziToast !== 'undefined') {
-                    iziToast.error({ title: 'Error', message: 'QR code library not available' });
-                }
-            }
-        } catch (error) {
-            console.error('❌ QR generation error:', error);
-            if (typeof iziToast !== 'undefined') {
-                iziToast.error({ title: 'Error', message: 'Failed to generate QR code' });
-            }
-        } finally {
-            // Reset flag after generation completes
-            setTimeout(() => {
-                qrGenerationInProgress = false;
-            }, 200);
-        }
+        // QR code generation disabled
+        console.log('ℹ️ QR code generation disabled');
+        return;
     }
 
     /**
