@@ -1,6 +1,48 @@
 <!-- Holdings/Assets List Component -->
 <section style="padding-bottom: 4rem;">
     <style>
+        /* CSS Variables for Theme Support */
+        :root {
+            --asset-bg-light: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            --asset-bg-dark: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            --asset-hover-light: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+            --asset-hover-dark: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            --text-primary-light: #1f2937;
+            --text-primary-dark: #f3f4f6;
+            --text-secondary-light: #6b7280;
+            --text-secondary-dark: #d1d5db;
+            --border-light: #e5e7eb;
+            --border-dark: #374151;
+            --icon-bg-light: #f3f4f6;
+            --icon-bg-dark: #374151;
+            --icon-border-light: #d1d5db;
+            --icon-border-dark: #4b5563;
+            --brand-color: #622faa;
+            --brand-light: rgba(98, 47, 170, 0.1);
+            --brand-dark: rgba(98, 47, 170, 0.2);
+            --success-color: #10b981;
+            --success-light: rgba(16, 185, 129, 0.1);
+            --success-dark: rgba(16, 185, 129, 0.2);
+            --error-color: #ef4444;
+            --error-light: rgba(239, 68, 68, 0.1);
+            --error-dark: rgba(239, 68, 68, 0.2);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --asset-bg-light: var(--asset-bg-dark);
+                --asset-hover-light: var(--asset-hover-dark);
+                --text-primary-light: var(--text-primary-dark);
+                --text-secondary-light: var(--text-secondary-dark);
+                --border-light: var(--border-dark);
+                --icon-bg-light: var(--icon-bg-dark);
+                --icon-border-light: var(--icon-border-dark);
+                --brand-light: var(--brand-dark);
+                --success-light: var(--success-dark);
+                --error-light: var(--error-dark);
+            }
+        }
+
         /* Assets List Container */
         .list {
             width: 100%;
@@ -9,9 +51,10 @@
         .list h2 {
             font-size: 24px;
             font-weight: 700;
-            color: #333;
+            color: var(--text-primary-light);
             margin-bottom: 20px;
             padding: 0 10px;
+            transition: color 0.3s ease;
         }
 
         /* Asset Items Container */
@@ -21,18 +64,18 @@
             gap: 15px;
             padding: 16px;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-            border: 1px solid #e0e0e0;
+            background: var(--asset-bg-light);
+            border: 2px solid var(--border-light);
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .list .asset:hover {
-            background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
-            border-color: #622faa;
-            box-shadow: 0 4px 16px rgba(98, 47, 170, 0.12);
+            background: var(--asset-hover-light);
+            border-color: var(--brand-color);
+            box-shadow: 0 8px 16px rgba(98, 47, 170, 0.15);
             transform: translateY(-2px);
         }
 
@@ -41,13 +84,18 @@
             flex-shrink: 0;
             width: 50px;
             height: 50px;
-            background: #f5f5f5;
+            background: var(--icon-bg-light);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--icon-border-light);
+            transition: all 0.3s ease;
+        }
+
+        .list .asset:hover .icon {
+            box-shadow: 0 4px 12px rgba(98, 47, 170, 0.2);
         }
 
         .list .asset .icon img {
@@ -64,18 +112,20 @@
         .list .asset .meta .name {
             font-size: 15px;
             font-weight: 700;
-            color: #333;
+            color: var(--text-primary-light);
             margin-bottom: 4px;
+            transition: color 0.3s ease;
         }
 
         .list .asset .meta .small {
             font-size: 13px;
-            color: #888;
+            color: var(--text-secondary-light);
             line-height: 1.4;
+            transition: color 0.3s ease;
         }
 
         .list .asset .meta .small .crypto-price {
-            color: #622faa;
+            color: var(--brand-color);
             font-weight: 600;
         }
 
@@ -89,26 +139,28 @@
         .list .asset .asset-right .price {
             font-size: 15px;
             font-weight: 700;
-            color: #333;
+            color: var(--text-primary-light);
             margin-bottom: 6px;
+            transition: color 0.3s ease;
         }
 
         .list .asset .asset-right .crypto-change {
             font-size: 12px;
             font-weight: 600;
-            padding: 4px 8px;
+            padding: 6px 10px;
             border-radius: 6px;
             display: inline-block;
+            transition: all 0.3s ease;
         }
 
         .list .asset .asset-right .crypto-change.positive {
-            color: #00c985;
-            background: rgba(0, 201, 133, 0.1);
+            color: var(--success-color);
+            background: var(--success-light);
         }
 
         .list .asset .asset-right .crypto-change.negative {
-            color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.1);
+            color: var(--error-color);
+            background: var(--error-light);
         }
 
         /* Responsive Design */
@@ -116,12 +168,14 @@
             .list h2 {
                 font-size: 20px;
                 margin-bottom: 16px;
+                padding: 0 8px;
             }
 
             .list .asset {
                 padding: 14px;
                 margin-bottom: 10px;
                 gap: 12px;
+                border-radius: 10px;
             }
 
             .list .asset .icon {
@@ -147,7 +201,7 @@
 
             .list .asset .asset-right .crypto-change {
                 font-size: 11px;
-                padding: 3px 6px;
+                padding: 5px 8px;
             }
         }
 
@@ -155,17 +209,20 @@
             .list h2 {
                 font-size: 18px;
                 margin-bottom: 14px;
+                padding: 0 6px;
             }
 
             .list .asset {
                 padding: 12px;
                 margin-bottom: 8px;
                 gap: 10px;
+                border-radius: 8px;
             }
 
             .list .asset .icon {
                 width: 40px;
                 height: 40px;
+                min-width: 40px;
             }
 
             .list .asset .meta .name {
@@ -177,45 +234,34 @@
             }
 
             .list .asset .asset-right {
-                min-width: 80px;
+                min-width: 70px;
             }
 
             .list .asset .asset-right .price {
                 font-size: 13px;
             }
+
+            .list .asset .asset-right .crypto-change {
+                font-size: 10px;
+                padding: 4px 6px;
+            }
         }
 
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            .list h2 {
-                color: #fff;
-            }
-
+        /* Smooth transitions and animations */
+        @media (prefers-reduced-motion: no-preference) {
             .list .asset {
-                background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
-                border-color: #333;
+                animation: fadeInUp 0.4s ease-out;
             }
 
-            .list .asset:hover {
-                background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
-                border-color: #622faa;
-            }
-
-            .list .asset .icon {
-                background: #333;
-                border-color: #444;
-            }
-
-            .list .asset .meta .name {
-                color: #fff;
-            }
-
-            .list .asset .meta .small {
-                color: #aaa;
-            }
-
-            .list .asset .asset-right .price {
-                color: #fff;
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
         }
     </style>
