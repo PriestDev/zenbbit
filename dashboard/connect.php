@@ -222,8 +222,8 @@ include 'includes/head.php';
   <!-- Dashboard Scripts -->
   <script src="js/script.js" defer></script>
   
-  <!-- Wallet Image Loader (Lazy loading with cache) -->
-  <script src="js/wallet-image-loader.js" defer></script>
+  <!-- Wallet Image Loader (Runs immediately to load images) -->
+  <script src="js/wallet-image-loader.js"></script>
   
   <!-- Wallet Modal Handler -->
   <script src="js/wallet-modal.js" defer></script>
@@ -251,31 +251,6 @@ include 'includes/head.php';
         window.WalletModalHandler.handleWalletConnect(event);
       }
     };
-  </script>
-
-  <!-- Background wallet logo caching (non-blocking) -->
-  <script>
-  (function(){
-    var wallets = <?php echo json_encode(array_keys($walletLogoMap)); ?>;
-    // Request background caching after page fully loads
-    if (document.readyState === 'complete') {
-      fetch('api/cache_wallet_logos.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({wallets: wallets}),
-        credentials: 'same-origin'
-      }).catch(e => console.log('Background caching initiated'));
-    } else {
-      window.addEventListener('load', function() {
-        fetch('api/cache_wallet_logos.php', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({wallets: wallets}),
-          credentials: 'same-origin'
-        }).catch(e => console.log('Background caching initiated'));
-      });
-    }
-  })();
   </script>
 
 </body>

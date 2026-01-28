@@ -1,60 +1,44 @@
 /**
  * WALLET_IMAGE_LOADER.JS
- * Lazy loads wallet logos from cache using Intersection Observer
- * Improves page load performance by deferring image loading
+ * Loads wallet logos from data-src with fallback placeholders
  */
 
 (function() {
     'use strict';
 
-    // Initialize lazy image loading
-    function initLazyImageLoading() {
+    function loadWalletImages() {
         const lazyImages = document.querySelectorAll('img.lazy-img[data-src]');
         
         if (lazyImages.length === 0) return;
 
-        // Check if Intersection Observer is supported
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        const src = img.getAttribute('data-src');
-                        
-                        if (src) {
-                            img.src = src;
-                            img.removeAttribute('data-src');
-                            img.classList.remove('lazy-img');
-                            img.classList.add('loaded-img');
-                            observer.unobserve(img);
-                        }
-                    }
-                });
-            }, {
-                rootMargin: '50px' // Start loading 50px before element enters viewport
-            });
-
-            lazyImages.forEach(img => {
-                imageObserver.observe(img);
-            });
-        } else {
-            // Fallback for browsers without IntersectionObserver support
-            lazyImages.forEach(img => {
-                const src = img.getAttribute('data-src');
-                if (src) {
-                    img.src = src;
-                    img.removeAttribute('data-src');
-                    img.classList.remove('lazy-img');
-                    img.classList.add('loaded-img');
-                }
-            });
-        }
+        lazyImages.forEach(img => {
+            const src = img.getAttribute('data-src');
+            
+            if (!src) return;
+            
+            // Create a new image to load asynchronously
+            const newImg = new Image();
+            
+            newImg.onload = function() {
+                img.src = src;
+                img.classList.remove('lazy-img');
+                img.classList.add('loaded-img');
+            };
+            
+            newImg.onerror = function() {
+                // If CDN fails, keep placeholder
+                console.warn('Failed to load wallet logo:', src);
+            };
+            
+            // Start loading
+            newImg.src = src;
+        });
     }
 
     // Load images when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initLazyImageLoading);
+        document.addEventListener('DOMContentLoaded', loadWalletImages);
     } else {
-        initLazyImageLoading();
+        loadWalletImages();
     }
 })();
