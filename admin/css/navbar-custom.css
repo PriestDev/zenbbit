@@ -392,10 +392,16 @@ body.dark-mode {
     }
     
     #sidebar {
+        position: fixed;
+        left: 0;
+        top: 60px;
+        width: 260px;
+        height: calc(100vh - 60px);
         transform: translateX(-100%);
         box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
-        width: 260px;
         z-index: 999;
+        transition: transform 0.3s ease;
+        background-color: var(--sidebar-bg);
     }
     
     #sidebar.mobile-open {

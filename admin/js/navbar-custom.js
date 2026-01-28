@@ -20,22 +20,32 @@
         var sidebar = document.getElementById('sidebar');
         var body = document.body;
         
-        if (!toggleBtn || !sidebar) {
-            console.warn('[Navbar] Mobile toggle elements not found');
+        if (!toggleBtn) {
+            console.error('[Navbar] Toggle button not found: .toggle-sidebar-btn');
             return;
         }
+        if (!sidebar) {
+            console.error('[Navbar] Sidebar not found: #sidebar');
+            return;
+        }
+        
+        console.log('[Navbar] Mobile sidebar toggle initialized');
         
         // Open/Close sidebar on toggle button click
         toggleBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             
+            console.log('[Navbar] Toggle button clicked, current state:', navbarState.sidebarOpen);
+            
             navbarState.sidebarOpen = !navbarState.sidebarOpen;
             
             if (navbarState.sidebarOpen) {
+                console.log('[Navbar] Opening sidebar');
                 sidebar.classList.add('mobile-open');
                 body.classList.add('sidebar-open');
             } else {
+                console.log('[Navbar] Closing sidebar');
                 sidebar.classList.remove('mobile-open');
                 body.classList.remove('sidebar-open');
             }
