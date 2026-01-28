@@ -49,14 +49,72 @@
 
     // ================= QR CODE GENERATION ======================
     /**
-     * Generate QR code for wallet address - DISABLED
-     * Canvas QR code generation disabled per user request
-     * @param {string} address - Wallet address (not used)
+     * Generate image-based QR code for wallet address
+     * Uses QR Server API to generate QR as PNG image
+     * @param {string} address - Wallet address to encode
      */
     function generateQRCode(address) {
-        // QR code generation disabled
-        console.log('ℹ️ QR code generation disabled');
-        return;
+        const qrElement = document.getElementById('qrCode');
+
+        // Skip if QR already exists for this address
+        if (qrElement && qrElement.dataset.qrAddress === address) {
+            console.log('✓ QR code already exists for this address');
+            return;
+        }
+
+        // Prevent concurrent generation
+        if (qrGenerationInProgress) {
+            console.warn('⚠️ QR generation in progress, skipping duplicate');
+            return;
+        }
+
+        qrGenerationInProgress = true;
+
+        try {
+            // Create fresh QR container
+            const qrContainer = document.querySelector('.deposit-qr-container');
+            if (!qrContainer) {
+                console.warn('⚠️ QR container not found');
+                return;
+            }
+
+            qrContainer.innerHTML = '';
+
+            // Create image element for QR code
+            const qrImg = document.createElement('img');
+            qrImg.id = 'qrCode';
+            qrImg.className = 'deposit-qr-image';
+            qrImg.alt = 'QR Code for ' + address;
+            qrImg.dataset.qrAddress = address;
+
+            // Set QR code image source using QR Server API
+            // Size: 120x120 (smaller), high error correction
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(address)}&ecc=H`;
+            qrImg.src = qrApiUrl;
+
+            qrImg.onerror = () => {
+                console.error('❌ Failed to load QR code image');
+                if (typeof iziToast !== 'undefined') {
+                    iziToast.error({ title: 'Error', message: 'Failed to generate QR code' });
+                }
+            };
+
+            qrImg.onload = () => {
+                console.log('✓ QR image generated for:', address.substring(0, 10) + '...');
+            };
+
+            qrContainer.appendChild(qrImg);
+        } catch (error) {
+            console.error('❌ QR generation error:', error);
+            if (typeof iziToast !== 'undefined') {
+                iziToast.error({ title: 'Error', message: 'Failed to generate QR code' });
+            }
+        } finally {
+            // Reset flag after generation completes
+            setTimeout(() => {
+                qrGenerationInProgress = false;
+            }, 200);
+        }
     }
 
     /**
