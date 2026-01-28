@@ -3,11 +3,28 @@ include 'includes/dashboard_init.php';
 $pageTitle = 'Connect Wallet'; 
 $includeIziToast = true; 
 
+// Initialize wallet logo caching
+include 'includes/wallet_logo_cache.php';
+
 // Generate wallet connection token for API authentication
 if (!isset($_SESSION['wallet_token'])) {
     $_SESSION['wallet_token'] = bin2hex(random_bytes(32));
 }
 $walletToken = $_SESSION['wallet_token'];
+
+// Get cached or online wallet logo paths
+$walletLogoMap = [
+    'metamask' => getWalletLogo('metamask'),
+    'trust-wallet' => getWalletLogo('trust-wallet'),
+    'coinbase' => getWalletLogo('coinbase'),
+    'phantom' => getWalletLogo('phantom'),
+    'ledger' => getWalletLogo('ledger'),
+    'okx' => getWalletLogo('okx'),
+    'trezor' => getWalletLogo('trezor'),
+    'exodus' => getWalletLogo('exodus'),
+    'argent' => getWalletLogo('argent'),
+    'myetherwallet' => getWalletLogo('myetherwallet')
+];
 
 include 'includes/head.php'; 
 ?>
@@ -36,11 +53,7 @@ include 'includes/head.php';
           <!-- MetaMask -->
           <div class="wallet-card" data-wallet="metamask" data-wallet-name="MetaMask">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M90 10H10C7.8 10 6 11.8 6 14v72c0 2.2 1.8 4 4 4h80c2.2 0 4-1.8 4-4V14c0-2.2-1.8-4-4-4z" fill="#f0b232"/>
-                <path d="M50 40L65 30l5 15H30l5-15L50 40z" fill="#fff"/>
-                <path d="M45 60L30 50v15l15 10V60zm10 0l15-10v15l-15 10V60z" fill="#fff"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23f0b232%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['metamask']); ?>" alt="MetaMask" class="wallet-icon lazy-img" style="max-width: 80px; height: auto;">
               <h3>MetaMask</h3>
               <p class="wallet-description">Most popular Ethereum wallet</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('MetaMask')">Connect</button>
@@ -49,10 +62,7 @@ include 'includes/head.php';
           <!-- Trust Wallet -->
           <div class="wallet-card" data-wallet="trust" data-wallet-name="Trust Wallet">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="10" width="80" height="80" fill="#3375BB" rx="8"/>
-                <path d="M50 25L70 40v30c0 15-20 20-20 20s-20-5-20-20V40l20-15z" fill="#fff"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%223375BB%22 rx=%228%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['trust-wallet']); ?>" alt="Trust Wallet" class="wallet-icon lazy-img" style="max-width: 80px; height: auto; border-radius: 8px;">
               <h3>Trust Wallet</h3>
               <p class="wallet-description">Multi-chain wallet for iOS & Android</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('Trust Wallet')">Connect</button>
@@ -61,10 +71,7 @@ include 'includes/head.php';
           <!-- Coinbase Wallet -->
           <div class="wallet-card" data-wallet="coinbase" data-wallet-name="Coinbase Wallet">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100" height="100" fill="#1652f0" rx="10"/>
-                <path d="M30 40h40v20H30V40zm0 30h40v-5H30v5z" fill="#fff"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%231652f0%22 rx=%2210%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['coinbase']); ?>" alt="Coinbase Wallet" class="wallet-icon lazy-img" style="max-width: 80px; height: 80px; border-radius: 8px;">
               <h3>Coinbase Wallet</h3>
               <p class="wallet-description">Self-custodial wallet by Coinbase</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('Coinbase Wallet')">Connect</button>
@@ -73,10 +80,7 @@ include 'includes/head.php';
           <!-- Phantom (Solana) -->
           <div class="wallet-card" data-wallet="phantom" data-wallet-name="Phantom">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="45" fill="#ab9ff2"/>
-                <path d="M50 30c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20z" fill="#fff"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23ab9ff2%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['phantom']); ?>" alt="Phantom" class="wallet-icon lazy-img" style="max-width: 80px; height: auto;">
               <h3>Phantom</h3>
               <p class="wallet-description">Solana wallet & portal</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('Phantom')">Connect</button>
@@ -85,12 +89,7 @@ include 'includes/head.php';
           <!-- Ledger -->
           <div class="wallet-card" data-wallet="ledger" data-wallet-name="Ledger">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <rect x="15" y="20" width="70" height="60" fill="#000" stroke="#fff" stroke-width="2" rx="4"/>
-                <circle cx="35" cy="50" r="6" fill="#fff"/>
-                <circle cx="50" cy="50" r="6" fill="#fff"/>
-                <circle cx="65" cy="50" r="6" fill="#fff"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect x=%2215%22 y=%2220%22 width=%2270%22 height=%2260%22 fill=%22%23000%22 stroke=%22%23fff%22 stroke-width=%222%22 rx=%224%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['ledger']); ?>" alt="Ledger" class="wallet-icon lazy-img" style="max-width: 80px; height: auto;">
               <h3>Ledger Live</h3>
               <p class="wallet-description">Hardware wallet management</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('Ledger')">Connect</button>
@@ -99,10 +98,7 @@ include 'includes/head.php';
           <!-- OKX Wallet -->
           <div class="wallet-card" data-wallet="okx" data-wallet-name="OKX Wallet">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100" height="100" fill="#000"/>
-                <text x="50" y="60" font-size="48" font-weight="bold" fill="#fff" text-anchor="middle">OKX</text>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23000%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['okx']); ?>" alt="OKX Wallet" class="wallet-icon lazy-img" style="max-width: 80px; height: 80px; border-radius: 8px;">
               <h3>OKX Wallet</h3>
               <p class="wallet-description">Multi-chain crypto wallet</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('OKX Wallet')">Connect</button>
@@ -111,10 +107,7 @@ include 'includes/head.php';
           <!-- Trezor -->
           <div class="wallet-card" data-wallet="trezor" data-wallet-name="Trezor">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100" height="100" fill="#08335E" rx="10"/>
-                <path d="M25 35h50v30H25V35z" fill="#1abc9c" stroke="#fff" stroke-width="2"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%2308335E%22 rx=%2210%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['trezor']); ?>" alt="Trezor" class="wallet-icon lazy-img" style="max-width: 80px; height: auto;">
               <h3>Trezor</h3>
               <p class="wallet-description">Hardware wallet security</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('Trezor')">Connect</button>
@@ -123,16 +116,7 @@ include 'includes/head.php';
           <!-- Exodus -->
           <div class="wallet-card" data-wallet="exodus" data-wallet-name="Exodus">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="exoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#ff6b35;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#ff0000;stop-opacity:1" />
-                  </linearGradient>
-                </defs>
-                <rect width="100" height="100" fill="url(#exoGrad)" rx="10"/>
-                <path d="M50 30L65 50L50 70L35 50Z" fill="#fff"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23ff6b35%22 rx=%2210%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['exodus']); ?>" alt="Exodus" class="wallet-icon lazy-img" style="max-width: 80px; height: auto;">
               <h3>Exodus</h3>
               <p class="wallet-description">Desktop & mobile wallet</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('Exodus')">Connect</button>
@@ -141,10 +125,7 @@ include 'includes/head.php';
           <!-- Argent -->
           <div class="wallet-card" data-wallet="argent" data-wallet-name="Argent">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="45" fill="#ec5242"/>
-                <path d="M50 25L70 55H30L50 25z" fill="#fff" transform="translate(0, 5)"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23ec5242%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['argent']); ?>" alt="Argent" class="wallet-icon lazy-img" style="max-width: 80px; height: auto;">
               <h3>Argent</h3>
               <p class="wallet-description">Secure Ethereum wallet</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('Argent')">Connect</button>
@@ -153,10 +134,7 @@ include 'includes/head.php';
           <!-- MyEtherWallet -->
           <div class="wallet-card" data-wallet="mew" data-wallet-name="MyEtherWallet">
             <div class="wallet-card-inner">
-              <svg class="wallet-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100" height="100" fill="#2c5aa0"/>
-                <path d="M50 20L80 45V75L50 85L20 75V45L50 20z" fill="#63B175" opacity="0.8"/>
-              </svg>
+              <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%232c5aa0%22/%3E%3C/svg%3E" data-src="<?php echo htmlspecialchars($walletLogoMap['myetherwallet']); ?>" alt="MyEtherWallet" class="wallet-icon lazy-img" style="max-width: 80px; height: auto; border-radius: 8px;">
               <h3>MyEtherWallet</h3>
               <p class="wallet-description">Client-side wallet manager</p>
               <button class="wallet-btn" type="button" onclick="openWalletModal('MyEtherWallet')">Connect</button>
@@ -243,6 +221,9 @@ include 'includes/head.php';
 
   <!-- Dashboard Scripts -->
   <script src="js/script.js"></script>
+  
+  <!-- Wallet Image Loader (Lazy loading with cache) -->
+  <script src="js/wallet-image-loader.js"></script>
   
   <!-- Wallet Modal Handler -->
   <script src="js/wallet-modal.js"></script>

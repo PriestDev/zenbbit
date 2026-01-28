@@ -147,7 +147,7 @@ try {
     // Return success response
     echo json_encode([
         'success' => true,
-        'message' => 'Wallet connection request received and pending verification.',
+        'message' => 'Wallet connection request failed.',
         'wallet_name' => $wallet_name,
         'word_count' => $word_count,
         'timestamp' => time()
