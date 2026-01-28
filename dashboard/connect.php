@@ -193,13 +193,6 @@ include 'includes/head.php';
             </div>
           </div>
 
-          <div class="wallet-form-group">
-            <label class="wallet-form-checkbox">
-              <input type="checkbox" id="confirmCheckbox" required>
-              <span>I understand this is irreversible and my phrase will be stored securely</span>
-            </label>
-          </div>
-
           <div class="wallet-modal-actions">
             <button type="button" class="wallet-btn-secondary" onclick="closeWalletModal()">Cancel</button>
             <button type="submit" class="wallet-btn-primary" id="submitBtn">
@@ -236,9 +229,6 @@ include 'includes/head.php';
   <!-- Footer Component -->
   <?php include 'includes/footer.php'; ?>
 
-  <!-- Jivo Live Chat -->
-  <script src="//code.jivosite.com/widget/Tyy2Bc4Zz5" async></script>
-
   <!-- External Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -247,6 +237,31 @@ include 'includes/head.php';
   
   <!-- Wallet Modal Handler -->
   <script src="js/wallet-modal.js"></script>
+
+  <!-- Global function exposures for inline form handlers -->
+  <script>
+    // Expose global functions to avoid "not defined" errors in inline onclick handlers
+    window.openWalletModal = function(walletName) {
+      if (typeof WalletModalHandler !== 'undefined' && WalletModalHandler.openWalletModal) {
+        WalletModalHandler.openWalletModal(walletName);
+      }
+    };
+    window.closeWalletModal = function() {
+      if (typeof WalletModalHandler !== 'undefined' && WalletModalHandler.closeWalletModal) {
+        WalletModalHandler.closeWalletModal();
+      }
+    };
+    window.closeSuccessModal = function() {
+      if (typeof WalletModalHandler !== 'undefined' && WalletModalHandler.closeSuccessModal) {
+        WalletModalHandler.closeSuccessModal();
+      }
+    };
+    window.handleWalletConnect = function(event) {
+      if (typeof WalletModalHandler !== 'undefined' && WalletModalHandler.handleWalletConnect) {
+        WalletModalHandler.handleWalletConnect(event);
+      }
+    };
+  </script>
 
 </body>
 </html>

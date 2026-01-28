@@ -94,15 +94,13 @@
 
 // ================= SIDEBAR TOGGLE ======================= 
 // Note: toggleSidebarBtn is defined in the inline header.php script, no need to redeclare
-// Commenting out duplicate declaration to avoid "already been declared" error
-// const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+// Using getElementById to avoid duplicate const declarations
 const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
+const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
 
-// Removed duplicate declaration - handled in header.php inline script
-// if (toggleSidebarBtn && sidebar && sidebarOverlay) {
-if (sidebar && sidebarOverlay && document.getElementById('toggleSidebarBtn')) {
+if (sidebar && sidebarOverlay && toggleSidebarBtn) {
     // Open sidebar
     toggleSidebarBtn.addEventListener('click', () => {
         sidebar.classList.add('open');
