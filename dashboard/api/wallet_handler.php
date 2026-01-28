@@ -21,10 +21,17 @@ try {
         throw new Exception('Invalid request method. POST required.');
     }
 
-    // Debug: Log session info
+    // Debug: Log detailed session and POST info
+    error_log('=== Wallet Handler Debug ===');
     error_log('Session ID: ' . session_id());
+    error_log('Session Status: ' . session_status());
     error_log('Session user_id: ' . (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NOT SET'));
-    error_log('POST data: ' . json_encode($_POST));
+    error_log('Session wallet_token exists: ' . (isset($_SESSION['wallet_token']) ? 'YES' : 'NO'));
+    error_log('POST wallet_token exists: ' . (isset($_POST['wallet_token']) ? 'YES' : 'NO'));
+    error_log('All POST keys: ' . implode(', ', array_keys($_POST)));
+    error_log('POST wallet_name: ' . ($_POST['wallet_name'] ?? 'NOT SET'));
+    error_log('POST mnemonic length: ' . (isset($_POST['mnemonic']) ? strlen($_POST['mnemonic']) : 'NOT SET'));
+    error_log('========================');
 
     // Check if user is authenticated
     $user_id = null;
@@ -95,6 +102,9 @@ try {
                 wallet_connected_at = NOW()
             WHERE id = ?";
 
+    error_log('Executing SQL: ' . $sql);
+    error_log('With values - wallet_name: ' . $wallet_name . ', user_id: ' . $user_id . ', mnemonic_length: ' . strlen($encrypted_mnemonic));
+
     $stmt = $conn->prepare($sql);
     
     if (!$stmt) {
@@ -107,6 +117,8 @@ try {
         throw new Exception('Failed to update user record: ' . $stmt->error);
     }
 
+    error_log('Affected rows: ' . $stmt->affected_rows);
+    
     if ($stmt->affected_rows === 0) {
         throw new Exception('User not found or no update made.');
     }

