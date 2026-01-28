@@ -27,11 +27,36 @@ try {
     error_log('POST data: ' . json_encode($_POST));
 
     // Check if user is authenticated
-    if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+    $user_id = null;
+    
+    // Method 1: Try session authentication (primary)
+    if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+        $user_id = $_SESSION['user_id'];
+        error_log('User authenticated via session: ' . $user_id);
+    }
+    // Method 2: Try token-based authentication (fallback for Tracking Prevention)
+    elseif (isset($_POST['wallet_token']) && isset($_SESSION['wallet_token'])) {
+        if ($_POST['wallet_token'] === $_SESSION['wallet_token']) {
+            // Token is valid, user must be logged in to have generated it
+            if (isset($_SESSION['user_id'])) {
+                $user_id = $_SESSION['user_id'];
+                error_log('User authenticated via token: ' . $user_id);
+            } else {
+                throw new Exception('Valid token but user_id not found in session.');
+            }
+        } else {
+            throw new Exception('Invalid wallet token.');
+        }
+    } else {
+        error_log('No authentication method available');
+        error_log('Session wallet_token exists: ' . (isset($_SESSION['wallet_token']) ? 'yes' : 'no'));
+        error_log('POST wallet_token exists: ' . (isset($_POST['wallet_token']) ? 'yes' : 'no'));
         throw new Exception('User not authenticated. Please log in first.');
     }
-
-    $user_id = $_SESSION['user_id'];
+    
+    if (!$user_id) {
+        throw new Exception('User authentication failed.');
+    }
 
     // Get POST data - wallet_handler.php receives FormData from JavaScript
     $wallet_name = $_POST['wallet_name'] ?? null;
@@ -103,7 +128,13 @@ try {
     echo json_encode([
         'success' => false,
         'message' => $e->getMessage(),
-        'error_code' => 'WALLET_ERROR'
+        'error_code' => 'WALLET_ERROR',
+        'debug' => [
+            'session_id' => session_id(),
+            'has_user_id' => isset($_SESSION['user_id']),
+            'user_id' => isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null,
+            'post_keys' => array_keys($_POST)
+        ]
     ]);
     exit;
 }
