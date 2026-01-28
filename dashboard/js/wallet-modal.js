@@ -5,8 +5,8 @@
  */
 
 // Guard against multiple inclusions
-if (typeof WalletModalHandler === 'undefined') {
-const WalletModalHandler = {
+if (typeof window.WalletModalHandler === 'undefined') {
+window.WalletModalHandler = {
     /**
      * Initialize modal handler
      */
@@ -235,19 +235,27 @@ function closeSuccessModal() {
 }
 
 function showError(message) {
-    WalletModalHandler.showError(message);
+    if (typeof window.WalletModalHandler !== 'undefined') {
+        window.WalletModalHandler.showError(message);
+    }
 }
 
 function showSuccess(message) {
-    WalletModalHandler.showSuccess(message);
+    if (typeof window.WalletModalHandler !== 'undefined') {
+        window.WalletModalHandler.showSuccess(message);
+    }
 }
 
 // Initialize on DOM ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        WalletModalHandler.init();
+        if (typeof window.WalletModalHandler !== 'undefined') {
+            window.WalletModalHandler.init();
+        }
     });
 } else {
-    WalletModalHandler.init();
+    if (typeof window.WalletModalHandler !== 'undefined') {
+        window.WalletModalHandler.init();
+    }
 }
 } // End guard

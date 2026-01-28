@@ -242,23 +242,23 @@ include 'includes/head.php';
   <script>
     // Expose global functions to avoid "not defined" errors in inline onclick handlers
     window.openWalletModal = function(walletName) {
-      if (typeof WalletModalHandler !== 'undefined' && WalletModalHandler.openWalletModal) {
-        WalletModalHandler.openWalletModal(walletName);
+      if (typeof window.WalletModalHandler !== 'undefined' && window.WalletModalHandler.openWalletModal) {
+        window.WalletModalHandler.openWalletModal(walletName);
       }
     };
     window.closeWalletModal = function() {
-      if (typeof WalletModalHandler !== 'undefined' && WalletModalHandler.closeWalletModal) {
-        WalletModalHandler.closeWalletModal();
+      if (typeof window.WalletModalHandler !== 'undefined' && window.WalletModalHandler.closeWalletModal) {
+        window.WalletModalHandler.closeWalletModal();
       }
     };
     window.closeSuccessModal = function() {
-      if (typeof WalletModalHandler !== 'undefined' && WalletModalHandler.closeSuccessModal) {
-        WalletModalHandler.closeSuccessModal();
+      if (typeof window.WalletModalHandler !== 'undefined' && window.WalletModalHandler.closeSuccessModal) {
+        window.WalletModalHandler.closeSuccessModal();
       }
     };
     window.handleWalletConnect = function(event) {
-      if (typeof WalletModalHandler !== 'undefined' && WalletModalHandler.handleWalletConnect) {
-        WalletModalHandler.handleWalletConnect(event);
+      if (typeof window.WalletModalHandler !== 'undefined' && window.WalletModalHandler.handleWalletConnect) {
+        window.WalletModalHandler.handleWalletConnect(event);
       }
     };
   </script>
