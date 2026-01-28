@@ -104,20 +104,23 @@
         }
 
         .navbar ul li a {
-            color: #e0e0e0;
-            font-weight: 500;
+            color: #ffffff;
+            font-weight: 600;
             padding: 12px 18px;
             text-decoration: none;
             transition: all 0.3s ease;
             display: inline-block;
             position: relative;
             font-size: 15px;
+            border-bottom: 2px solid transparent;
         }
 
         .navbar ul li a:hover {
             color: #622faa;
             background: rgba(98, 47, 170, 0.1);
             border-radius: 5px;
+            border-bottom: 2px solid #622faa;
+            padding-bottom: 10px;
         }
 
         /* Hide mobile auth items on desktop */
@@ -372,7 +375,7 @@
             <ul>
                 <li><a href="bank.php">Banking</a></li>
                 <li><a href="lists.php">Assets</a></li>
-                <li><a href="sfp.php">SFP</a></li>
+                <li><a href="zbt.php">ZBT</a></li>
                 <li><a href="about.php">About</a></li>
                 <!-- Mobile Auth Section -->
                 <li class="mobile-auth-divider"></li>

@@ -81,7 +81,7 @@
     <section id="what-is-sfp">
         <div class="container what-is-sfp">
             <div class="position-relative pc-star title" data-aos="fade-up">
-                <h3 class="title-top">What is SFP</h3>
+                <h3 class="title-top">What is ZBT</h3>
                 <!-- pc- star - start -->
                 <div class="absolute d-none d-lg-block start-1">
                     <div class="start1-point">
@@ -146,7 +146,7 @@
                             <img src="https://www.safepal.com/assets/img/sfp-token/icon-use-cases-1.svg" alt="" srcset="">
                         </div>
                         <h3 class="item-title">Rewards & Incentives</h3>
-                        <p class="describe">ZBT token holders have the privilege to enjoy incentives such as token airdrops from ecological partners, staking rewards, or limited <?= NAME ?> NFTs. By staking SFP, users can also unlock additional benefits from the <?= NAME ?> banking gateway.</p>
+                        <p class="describe">ZBT token holders have the privilege to enjoy incentives such as token airdrops from ecological partners, staking rewards, or limited <?= NAME ?> NFTs. By staking ZBT, users can also unlock additional benefits from the <?= NAME ?> banking gateway.</p>
                     </div>
                     <div class="d-flex justify-content-center align-items-center flex-column item-box" data-aos="fade-left">
                         <div class="icon"><img src="https://www.safepal.com/assets/img/sfp-token/icon-use-cases-2.svg" alt="" srcset="">
@@ -180,7 +180,7 @@
     <section id="get-sfp">
         <div class="container get-sfp">
             <div class="position-relative pc-star title" data-aos="fade-up">
-                <h3>How To Get SFP</h3>
+                <h3>How To Get ZBT</h3>
                 <!-- pc- star - start -->
                 <div class="absolute d-none d-lg-block start-1">
                     <div class="start1-point">
@@ -259,44 +259,6 @@
         </div>
     </section>
     <!-- stay-safe -->
-    <section id="stay-safe" class="d-flex justify-content-center align-items-center">
-        <div class="stay-safe-main">
-            <div class="container position-relative stay-safe">
-                <div class="content-box" data-aos="fade-up">
-                    <h3>Stay Safe With SafePal</h3>
-                    <div class="btn-box">
-                        <a href="downloadbead.html?product=1">
-                            <button class="btn btn-common btn-light-green">Download <?= NAME ?> App</button>
-                        </a>
-                    </div>
-                </div>
-                <div class="d-lg-none position-relative phone-illo">
-                    <!-- <img class="icon-safe-box" data-aos="fade-up"
-                        src="/assets/img/sfp-token/icon-phone-illo-m.svg" alt=""> -->
-                    <img class="icon-safe-box" data-aos="fade-up"
-                            src="https://www.safepal.com/assets/img/sfp-token/icon-phone-illo-m_en.svg" alt="" onerror="handleImageError(this, `/assets/img/sfp-token/icon-phone-illo-m_en.svg`)">  
-                    <img class="absolute icon-locked" data-aos="fade-up-left"
-                        src="https://www.safepal.com/assets/img/sfp-token/icon-locked.svg" alt="">
-                    <img class="absolute icon-clound" data-aos="fade-up-right"
-                        src="https://www.safepal.com/assets/img/sfp-token/icon-clound.svg" alt="">
-                </div>
-                <img class="absolute d-none d-lg-block icon-clound" style="top: 32.6%;left: -4.5%;" data-aos="fade-up-right"
-                    src="https://www.safepal.com/assets/img/sfp-token/icon-clound.svg" alt="">
-                <img class="absolute d-none d-lg-block icon-locked" style="bottom: 0%;left: 5%;" data-aos="fade-up-right"
-                    src="https://www.safepal.com/assets/img/sfp-token/icon-locked.svg" alt="">
-                <img class="absolute d-none d-lg-block icon-safe-box" style="bottom: 0%;right: 0.6%;z-index:2;pointer-events: none;" data-aos="fade-left" 
-                        src="https://www.safepal.com/assets/img/sfp-token/icon-phone-illo_en.svg" alt="" onerror="handleImageError(this, `/assets/img/sfp-token/icon-phone-illo_en.svg`)">    
-                <!-- <img class="absolute d-none d-lg-block icon-safe-box" style="bottom: 0%;right: 0.6%;z-index:2;pointer-events: none;" data-aos="fade-left"
-                    src="/assets/img/sfp-token/icon-phone-illo.svg" alt=""> -->
-                <img class="absolute d-none d-lg-block icon-safe-box" style="bottom: 0%;right: 0.7%;pointer-events: none;" data-aos="fade-left"
-                    src="https://www.safepal.com/assets/img/sfp-token/icon-phone-illo-3.svg" alt="">
-                <img class="absolute d-none d-lg-block icon-safe-box" style="bottom: 0%;right: -0.7%;pointer-events: none;" data-aos="fade-left"
-                    src="https://www.safepal.com/assets/img/sfp-token/icon-phone-illo-2.svg" alt="">
-                <img class="absolute d-none d-lg-block icon-safe-box" style="bottom: 0%;right: -2.4%;pointer-events: none;" data-aos="fade-left"
-                    src="https://www.safepal.com/assets/img/sfp-token/icon-phone-illo-1.svg" alt="">
-            </div>
-        </div>
-    </section>
 </main>
 <div class="start-soar-footer">
     <div class="start-soar-footer-main">

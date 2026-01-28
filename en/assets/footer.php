@@ -187,7 +187,7 @@
                         <ul>
                             <li><a href="about.php">The Company</a></li>
                             <!--                    <li><a href="">Careers</a></li>-->
-                            <li><a href="sfp.php">ZBT Token</a></li>
+                            <li><a href="zbt.php">ZBT Token</a></li>
                             <li><a href="#">Blog</a></li>
                             <li><a href="#">Brand Resource Center</a></li>
                             <li><a href="#">Site Map</a></li>
