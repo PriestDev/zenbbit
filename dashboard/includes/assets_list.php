@@ -594,7 +594,7 @@
         <h2>Holding</h2>
 
         <?php
-        // Get user's crypto balances and prices from database
+        // Get user's crypto balances from database
         $balances = [
             'btc_balance' => 0,
             'eth_balance' => 0,
@@ -607,7 +607,7 @@
             'trc_balance' => 0
         ];
 
-        // Initialize prices array with default 0 values
+        // Initialize prices array with default 0 values (fetched from API or set to 0 for now)
         $prices = [
             'btc_price' => 0,
             'eth_price' => 0,
@@ -620,14 +620,13 @@
             'trc_price' => 0
         ];
 
-        // Fetch balances and prices from database if user is logged in
+        // Fetch balances from database if user is logged in
         if (isset($_SESSION['acct_id']) && !empty($_SESSION['acct_id'])) {
             $user_acct_id = $_SESSION['acct_id'];
             
-            // Query to fetch both balances and prices
+            // Query to fetch balances only (prices are not stored in database)
             $stmt = $conn->prepare(
-                "SELECT btc_balance, eth_balance, bnb_balance, trx_balance, sol_balance, xrp_balance, avax_balance, erc_balance, trc_balance,
-                        btc_price, eth_price, bnb_price, trx_price, sol_price, xrp_price, avax_price, erc_price, trc_price
+                "SELECT btc_balance, eth_balance, bnb_balance, trx_balance, sol_balance, xrp_balance, avax_balance, erc_balance, trc_balance
                  FROM user WHERE acct_id = ?"
             );
             
@@ -636,32 +635,26 @@
                 
                 if ($stmt->execute()) {
                     $result = $stmt->get_result();
-                    $db_data = $result->fetch_assoc();
+                    $db_balances = $result->fetch_assoc();
                     
                     // Merge database balances with defaults
-                    if ($db_data) {
-                        // Extract balance columns
-                        $db_balances = array_filter($db_data, function($key) {
-                            return strpos($key, '_balance') !== false;
-                        }, ARRAY_FILTER_USE_KEY);
-                        $balances = array_merge($balances, $db_balances);
-                        
-                        // Extract price columns
-                        $db_prices = array_filter($db_data, function($key) {
-                            return strpos($key, '_price') !== false;
-                        }, ARRAY_FILTER_USE_KEY);
-                        $prices = array_merge($prices, $db_prices);
+                    if ($db_balances) {
+                        $balances = array_merge($balances, array_filter($db_balances, function($val) {
+                            return $val !== null;
+                        }));
                     }
                 }
                 $stmt->close();
             }
         }
         
-        // Ensure all balance and price values are numeric and properly formatted
+        // Ensure all balance values are numeric and properly formatted
         foreach ($balances as $key => $value) {
             $balances[$key] = floatval($value ?? 0);
         }
         
+        // TODO: Fetch prices from external API (CoinGecko, etc.) or implement price storage in database
+        // For now, prices remain at 0 - update this when price data source is configured
         foreach ($prices as $key => $value) {
             $prices[$key] = floatval($value ?? 0);
         }
