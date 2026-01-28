@@ -6,26 +6,20 @@
            ============================================================ */
 
         /* CSS Variables for Theme Support */
+        /* DEFAULT: LIGHT MODE (when body.light-mode is set or system prefers light) */
         :root {
             /* Background Gradients */
-            --asset-bg-light: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            --asset-bg-dark: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-            --asset-hover-light: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
-            --asset-hover-dark: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            --asset-bg: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            --asset-hover-bg: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
             
             /* Text Colors */
-            --text-primary-light: #1f2937;
-            --text-primary-dark: #f3f4f6;
-            --text-secondary-light: #6b7280;
-            --text-secondary-dark: #d1d5db;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
             
             /* Borders & Backgrounds */
-            --border-light: #e5e7eb;
-            --border-dark: #374151;
-            --icon-bg-light: #f3f4f6;
-            --icon-bg-dark: #374151;
-            --icon-border-light: #d1d5db;
-            --icon-border-dark: #4b5563;
+            --border-color: #e5e7eb;
+            --icon-bg: #f3f4f6;
+            --icon-border: #d1d5db;
             
             /* Brand Colors */
             --brand-color: #622faa;
@@ -36,24 +30,39 @@
             /* Status Colors */
             --success-color: #10b981;
             --success-light: rgba(16, 185, 129, 0.1);
-            --success-dark: rgba(16, 185, 129, 0.2);
             --error-color: #ef4444;
             --error-light: rgba(239, 68, 68, 0.1);
-            --error-dark: rgba(239, 68, 68, 0.2);
         }
 
+        /* DARK MODE: Override when body doesn't have light-mode class */
+        body:not(.light-mode) {
+            --asset-bg: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            --asset-hover-bg: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --icon-bg: #374151;
+            --icon-border: #4b5563;
+            --brand-light: rgba(98, 47, 170, 0.2);
+            --brand-dark: rgba(98, 47, 170, 0.3);
+            --success-light: rgba(16, 185, 129, 0.2);
+            --error-light: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Fallback for system preference if no class is present */
         @media (prefers-color-scheme: dark) {
-            :root {
-                --asset-bg-light: var(--asset-bg-dark);
-                --asset-hover-light: var(--asset-hover-dark);
-                --text-primary-light: var(--text-primary-dark);
-                --text-secondary-light: var(--text-secondary-dark);
-                --border-light: var(--border-dark);
-                --icon-bg-light: var(--icon-bg-dark);
-                --icon-border-light: var(--icon-border-dark);
-                --brand-light: var(--brand-dark);
-                --success-light: var(--success-dark);
-                --error-light: var(--error-dark);
+            :root:not(.light-mode) {
+                --asset-bg: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+                --asset-hover-bg: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+                --text-primary: #f3f4f6;
+                --text-secondary: #d1d5db;
+                --border-color: #374151;
+                --icon-bg: #374151;
+                --icon-border: #4b5563;
+                --brand-light: rgba(98, 47, 170, 0.2);
+                --brand-dark: rgba(98, 47, 170, 0.3);
+                --success-light: rgba(16, 185, 129, 0.2);
+                --error-light: rgba(239, 68, 68, 0.2);
             }
         }
 
@@ -69,7 +78,7 @@
             font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            color: var(--text-primary-light);
+            color: var(--text-primary);
             margin: 0 0 24px 0;
             padding: 0 16px;
             transition: color 0.3s ease;
@@ -98,8 +107,8 @@
             gap: 16px;
             padding: 18px 20px;
             margin-bottom: 14px;
-            background: var(--asset-bg-light);
-            border: 2px solid var(--border-light);
+            background: var(--asset-bg);
+            border: 2px solid var(--border-color);
             border-radius: 14px;
             cursor: pointer;
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -126,7 +135,7 @@
         }
 
         .list .asset:hover {
-            background: var(--asset-hover-light);
+            background: var(--asset-hover-bg);
             border-color: var(--brand-color);
             box-shadow: 0 12px 24px var(--brand-shadow),
                         inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -144,13 +153,13 @@
             flex-shrink: 0;
             width: 56px;
             height: 56px;
-            background: var(--icon-bg-light);
+            background: var(--icon-bg);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 2px solid var(--icon-border-light);
+            border: 2px solid var(--icon-border);
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
             position: relative;
@@ -198,7 +207,7 @@
             font-size: 16px;
             font-weight: 800;
             letter-spacing: -0.3px;
-            color: var(--text-primary-light);
+            color: var(--text-primary);
             margin: 0 0 6px 0;
             transition: all 0.3s ease;
         }
@@ -209,7 +218,7 @@
 
         .list .asset .meta .small {
             font-size: 13px;
-            color: var(--text-secondary-light);
+            color: var(--text-secondary);
             line-height: 1.5;
             transition: color 0.3s ease;
             display: flex;
@@ -238,7 +247,7 @@
             font-size: 16px;
             font-weight: 800;
             letter-spacing: -0.3px;
-            color: var(--text-primary-light);
+            color: var(--text-primary);
             transition: all 0.3s ease;
             line-height: 1;
         }
