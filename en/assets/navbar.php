@@ -193,6 +193,7 @@
                 transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 z-index: 1000;
                 border-right: 1px solid #333;
+                display: flex;
             }
 
             .navbar.active {
@@ -234,7 +235,7 @@
             .mobile-auth {
                 width: 100%;
                 border-top: 2px solid #333;
-                margin-top: 10px;
+                margin-top: auto;
                 padding: 15px 0;
                 display: flex;
                 flex-direction: column;
@@ -267,6 +268,12 @@
             .mobile-auth a:hover {
                 color: #8c3fca;
                 padding-left: 25px;
+            }
+
+            .mobile-auth a i {
+                font-size: 16px;
+                width: 20px;
+                text-align: center;
             }
         }
 
@@ -363,10 +370,10 @@
             </ul>
             
             <!-- Mobile Auth Section -->
-            <!-- <div class="mobile-auth">
-                <a href="../dashboard/register.php">📝 Register</a>
-                <a href="../dashboard/">🔐 Login</a>
-            </div> -->
+            <div class="mobile-auth">
+                <a href="../dashboard/register.php"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="../dashboard/"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
         </nav>
 
         <!-- Hamburger Menu Toggle -->
