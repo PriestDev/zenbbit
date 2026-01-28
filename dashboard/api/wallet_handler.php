@@ -20,7 +20,8 @@ define('WALLET_HANDLER_API', true);
 
 // Include database config directly to avoid the redirect
 if (!defined('DB_HOST')) {
-    $dbConfigPath = dirname(dirname(__FILE__)) . '/database/db_config.php';
+    // From dashboard/api/ go up to root: dirname(dirname(dirname(__FILE__))) = zenbbit-v1
+    $dbConfigPath = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'db_config.php';
     if (!file_exists($dbConfigPath)) {
         die(json_encode(['success' => false, 'message' => 'Database config not found at: ' . $dbConfigPath]));
     }
@@ -38,7 +39,7 @@ try {
     error_log('Session ID: ' . session_id());
     error_log('Session Status: ' . session_status());
     error_log('All Session Keys: ' . implode(', ', array_keys($_SESSION)));
-    error_log('Session Contents: ' . json_encode($_SESSION, JSON_SAFE_RECURSION | JSON_UNESCAPED_SLASHES));
+    error_log('Session Contents: ' . json_encode($_SESSION, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES));
     error_log('Session user_id: ' . (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'NOT SET'));
     error_log('Session wallet_token exists: ' . (isset($_SESSION['wallet_token']) ? 'YES' : 'NO'));
     error_log('POST wallet_token exists: ' . (isset($_POST['wallet_token']) ? 'YES' : 'NO'));
