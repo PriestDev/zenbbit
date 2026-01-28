@@ -40,7 +40,7 @@ include 'includes/head.php';
             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px;"
             width="560" 
             height="315" 
-            src="https://www.youtube.com/embed/phOs-phSTh4?si=EAz9OCPYRAMUqewN" 
+            src="https://www.youtube.com/embed/Gxz0k1iybXc?si=ft7QAnoeVdbmMUGL" 
             title="YouTube video player" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 

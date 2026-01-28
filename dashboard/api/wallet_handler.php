@@ -141,7 +141,6 @@ try {
         
         throw new Exception('User not found or no update made.');
     }
-    }
 
     $stmt->close();
 
