@@ -205,7 +205,7 @@
                 flex-direction: column;
                 width: 100%;
                 gap: 0;
-                padding: 0;
+                padding: 0 0 20px 0;
                 margin: 0;
             }
 
@@ -215,7 +215,7 @@
             }
 
             .navbar ul li:last-child {
-                border-bottom: 1px solid #333;
+                border-bottom: none;
             }
 
             .navbar ul li a {
@@ -231,49 +231,39 @@
                 background: rgba(98, 47, 170, 0.15);
             }
 
-            /* Mobile Auth Section */
-            .mobile-auth {
-                width: 100%;
-                border-top: 2px solid #333;
-                margin-top: auto;
-                padding: 15px 0;
-                display: flex;
-                flex-direction: column;
-                gap: 0;
+            /* Mobile Auth Divider */
+            .mobile-auth-divider {
+                border-bottom: 2px solid #333 !important;
+                margin: 10px 0 !important;
+                padding: 0 !important;
+                min-height: 0 !important;
             }
 
-            .mobile-auth a {
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                padding: 14px 20px;
-                color: #622faa;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 15px;
-                transition: all 0.3s ease;
-                border-bottom: 1px solid rgba(51, 51, 51, 0.5);
-                gap: 10px;
+            /* Mobile Auth Items */
+            .mobile-auth-item a {
+                color: #622faa !important;
+                font-weight: 600 !important;
+                padding: 14px 20px !important;
+                transition: all 0.3s ease !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 10px !important;
             }
 
-            .mobile-auth a:last-child {
-                border-bottom: none;
-            }
-
-            .mobile-auth a:active {
-                background: rgba(98, 47, 170, 0.15);
-                transform: translateX(5px);
-            }
-
-            .mobile-auth a:hover {
-                color: #8c3fca;
-                padding-left: 25px;
-            }
-
-            .mobile-auth a i {
+            .mobile-auth-item a i {
                 font-size: 16px;
                 width: 20px;
                 text-align: center;
+            }
+
+            .mobile-auth-item a:active {
+                background: rgba(98, 47, 170, 0.15) !important;
+                transform: translateX(5px);
+            }
+
+            .mobile-auth-item a:hover {
+                color: #8c3fca !important;
+                padding-left: 25px !important;
             }
         }
 
@@ -367,13 +357,11 @@
                 <li><a href="lists.php">Assets</a></li>
                 <li><a href="sfp.php">SFP</a></li>
                 <li><a href="about.php">About</a></li>
+                <!-- Mobile Auth Section -->
+                <li class="mobile-auth-divider"></li>
+                <li class="mobile-auth-item"><a href="../dashboard/register.php"><i class="fas fa-user-plus"></i> Register</a></li>
+                <li class="mobile-auth-item"><a href="../dashboard/"><i class="fas fa-sign-in-alt"></i> Login</a></li>
             </ul>
-            
-            <!-- Mobile Auth Section -->
-            <div class="mobile-auth">
-                <a href="../dashboard/register.php"><i class="fas fa-user-plus"></i> Register</a>
-                <a href="../dashboard/"><i class="fas fa-sign-in-alt"></i> Login</a>
-            </div>
         </nav>
 
         <!-- Hamburger Menu Toggle -->
