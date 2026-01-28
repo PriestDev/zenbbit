@@ -1,20 +1,20 @@
 <?php
 /**
  * WALLET_LOGO_CACHE.PHP
- * Wallet logo URL mapping - uses official wallet logos
+ * Wallet logo URL mapping - uses verified official wallet logos
  */
 
 $walletLogos = [
     'metamask' => 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg',
-    'trust-wallet' => 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x0000000000085d4780B73119b8B580991DEe8d52/logo.png',
-    'coinbase' => 'https://images.ctfassets.net/c5bd0wqwc5v0/5mRJMxJWqKgQE9Y0QJJVi/cf5a7f0b82e1dd62a8c006f9c3f2d4d3/coinbase-logo.png',
-    'phantom' => 'https://raw.githubusercontent.com/phantom/brand-assets/main/png/Phantom%20Logo%20-%20Purple.png',
-    'ledger' => 'https://raw.githubusercontent.com/ledgerhq/ledger-live/develop/apps/ledger-live-desktop/public/icon.png',
-    'okx' => 'https://www.okx.com/cdn/assets/imgs/202305/logo.png',
-    'trezor' => 'https://trezor.io/static/images/trezor-logo.png',
-    'exodus' => 'https://raw.githubusercontent.com/ExodusMovement/exodus-desktop/master/public/assets/icon.png',
+    'trust-wallet' => 'https://trustwallet.com/assets/images/media/logos/trust-logo-4.svg',
+    'coinbase' => 'https://dynamic.brandcrowd.com/asset/logo/4bec9e64-4a70-4b49-bff9-208d0ffa6782/logo?v=637933600000000000',
+    'phantom' => 'https://phantombrand.s3.amazonaws.com/Phantom%20Logo%20-%20Purple.png',
+    'ledger' => 'https://ledger.com/wp-content/uploads/2023/11/ledger-logo.png',
+    'okx' => 'https://static.okx.com/cdn/assets/imgs/221/A08D7B316FB84D14',
+    'trezor' => 'https://wiki.trezor.io/images/thumb/e/ef/Logo_T.png/200px-Logo_T.png',
+    'exodus' => 'https://www.exodus.com/assets/images/exodus-logo-light.svg',
     'argent' => 'https://raw.githubusercontent.com/argentlabs/argent-x/main/packages/extension/public/argent.svg',
-    'myetherwallet' => 'https://raw.githubusercontent.com/MyEtherWallet/MyEtherWallet/master/public/images/logo.png'
+    'myetherwallet' => 'https://www.myetherwallet.com/img/logo-mew.png'
 ];
 
 /**
