@@ -41,8 +41,10 @@ try {
     exit;
 }
 
-$userId = $_SESSION['user_id'];
-$notifications = [];
+    $userId = $_SESSION['user_id'];
+    $notifications = [];
+    // Respect client-side "mark all read" by using a session-stored cutoff timestamp.
+    $read_cutoff = isset($_SESSION['notifications_read_at']) ? (int)$_SESSION['notifications_read_at'] : 0;
 
 // Use output buffering to prevent any stray output before JSON
 ob_start();
@@ -90,7 +92,13 @@ try {
             }
             
             $amount = number_format($row['amt'], 2);
-            
+
+            // Skip notifications older than the read cutoff
+            $row_ts = strtotime($row['create_date']);
+            if ($read_cutoff && $row_ts <= $read_cutoff) {
+                continue;
+            }
+
             // Create user-friendly message based on transaction type
             $icon = '';
             $title = '';
@@ -222,6 +230,11 @@ try {
     if ($tradeResult && mysqli_num_rows($tradeResult) > 0) {
         while ($row = mysqli_fetch_assoc($tradeResult)) {
             $amount = number_format($row['amount'], 2);
+            // Skip trade notifications older than read cutoff
+            $trade_ts = strtotime($row['create_date']);
+            if ($read_cutoff && $trade_ts <= $read_cutoff) {
+                continue;
+            }
             $profit = number_format($row['profit'], 2);
             $pair = $row['pair'];
             

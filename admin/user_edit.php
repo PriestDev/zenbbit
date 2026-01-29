@@ -114,18 +114,6 @@
                             <h5 style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">
                                 <i class="fas fa-wallet"></i> Financial Information
                             </h5>
-                            
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label"><i class="fas fa-dollar-sign" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Deposited Balance ($) *</label>
-                                        <input type="number" name="user_bal" value="<?= htmlspecialchars($row['balance']); ?>" class="form-control" step="0.01" required>
-                                        <small class="text-muted">Total amount deposited by user</small>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
 
                         <!-- Cryptocurrency Balances Section -->
                         <div style="margin-bottom: 1.5rem;">
@@ -517,7 +505,51 @@
                     </div>
                     <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 0.5rem;">
                         <p style="margin: 0; color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Document Type</p>
-                        <p style="margin: 0; font-weight: 600; color: var(--text-primary); font-size: 1rem;">N/A</p>
+                        <?php
+                        // Fetch latest KYC entry for this user (if any)
+                        $kyc_doc_type = 'N/A';
+                        $kyc_rows = [];
+                        $stmtK = mysqli_prepare($conn, "SELECT id, file_name, file_path, doc_type, issue_date, notes, status, create_date FROM kyc WHERE user_id = ? ORDER BY create_date DESC LIMIT 50");
+                        if ($stmtK) {
+                            mysqli_stmt_bind_param($stmtK, "i", $row['id']);
+                            mysqli_stmt_execute($stmtK);
+                            $resK = mysqli_stmt_get_result($stmtK);
+                            while ($r = mysqli_fetch_assoc($resK)) {
+                                $kyc_rows[] = $r;
+                            }
+                            mysqli_stmt_close($stmtK);
+                        }
+
+                        if (count($kyc_rows) > 0) {
+                            $kyc_doc_type = htmlspecialchars($kyc_rows[0]['doc_type'] ?? 'N/A');
+                        }
+                        ?>
+                        <p style="margin: 0; font-weight: 600; color: var(--text-primary); font-size: 1rem;"><?= $kyc_doc_type ?></p>
+
+                        <?php if (count($kyc_rows) > 0): ?>
+                            <div style="margin-top:0.75rem;">
+                                <?php foreach ($kyc_rows as $k): ?>
+                                    <?php
+                                        $statusBadge = '<span style="color:#6b7280;">Pending</span>';
+                                        if ($k['status'] == 1) $statusBadge = '<span style="color:#10b981;">Verified</span>';
+                                        if ($k['status'] == 2) $statusBadge = '<span style="color:#ef4444;">Rejected</span>';
+                                        $fileUrl = '../' . ltrim($k['file_path'], '/');
+                                    ?>
+                                    <div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--border-color);">
+                                        <div>
+                                            <strong style="display:block"><?= htmlspecialchars($k['file_name']) ?></strong>
+                                            <small style="color:var(--text-secondary);">Type: <?= htmlspecialchars($k['doc_type'] ?? 'N/A') ?> • Uploaded: <?= date('M d, Y', strtotime($k['create_date'])) ?></small>
+                                        </div>
+                                        <div style="text-align:right;">
+                                            <?= $statusBadge ?><br>
+                                            <a href="<?= $fileUrl ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="margin-top:6px;">View</a>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else: ?>
+                            <div style="margin-top:0.5rem; color: var(--text-secondary); font-size:0.9rem;">No KYC documents uploaded.</div>
+                        <?php endif; ?>
                     </div>
                 </div>
 

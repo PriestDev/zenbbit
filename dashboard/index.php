@@ -54,40 +54,43 @@ include 'includes/head.php';
                 <!-- Balance Section -->
                 <div class="dashboard-balance-section">
                     <p class="dashboard-balance-label">Total Balance (USD)</p>
-                    <div class="dashboard-balance-amount">$<?php echo number_format($total_bal, 2); ?></div>
-                    <p class="dashboard-balance-crypto">≈ <?php echo number_format($total_btc, 8); ?> BTC</p>
+                    <?php
+                    require_once 'includes/crypto_prices.php';
                     
-                    <!-- Individual Asset Balances -->
-                    <div class="dashboard-assets-breakdown">
-                        <?php
-                        // Define all available assets with their properties
-                        $assets = [
-                            'btc_balance' => ['name' => 'Bitcoin', 'symbol' => 'BTC', 'decimals' => 8],
-                            'eth_balance' => ['name' => 'Ethereum', 'symbol' => 'ETH', 'decimals' => 8],
-                            'bnb_balance' => ['name' => 'Binance Coin', 'symbol' => 'BNB', 'decimals' => 8],
-                            'trx_balance' => ['name' => 'TRON', 'symbol' => 'TRX', 'decimals' => 8],
-                            'sol_balance' => ['name' => 'Solana', 'symbol' => 'SOL', 'decimals' => 8],
-                            'xrp_balance' => ['name' => 'Ripple', 'symbol' => 'XRP', 'decimals' => 8],
-                            'avax_balance' => ['name' => 'Avalanche', 'symbol' => 'AVAX', 'decimals' => 8],
-                            'erc_balance' => ['name' => 'ERC Token', 'symbol' => 'ERC', 'decimals' => 8],
-                            'trc_balance' => ['name' => 'TRC Token', 'symbol' => 'TRC', 'decimals' => 8]
-                        ];
-                        
-                        // Display each asset if balance > 0
-                        foreach ($assets as $column => $asset_info) {
-                            if (isset($$column) && $$column > 0) {
-                                $balance = $$column;
-                                $formatted_balance = number_format($balance, $asset_info['decimals']);
-                                $symbol = $asset_info['symbol'];
-                                $name = $asset_info['name'];
-                                echo '<div class="asset-balance-item">';
-                                echo '<span class="asset-name">' . htmlspecialchars($name) . ':</span>';
-                                echo '<span class="asset-balance">' . $formatted_balance . ' ' . htmlspecialchars($symbol) . '</span>';
-                                echo '</div>';
-                            }
+                    // Asset balances mapped to asset codes
+                    $assets = [
+                        'btc' => $btc_balance ?? 0,
+                        'eth' => $eth_balance ?? 0,
+                        'bnb' => $bnb_balance ?? 0,
+                        'trx' => $trx_balance ?? 0,
+                        'sol' => $sol_balance ?? 0,
+                        'xrp' => $xrp_balance ?? 0,
+                        'avax' => $avax_balance ?? 0,
+                        'erc' => $erc_balance ?? 0,
+                        'trc' => $trc_balance ?? 0
+                    ];
+                    
+                    // Fetch current prices
+                    $prices = get_crypto_prices();
+                    
+                    // Calculate total USD value
+                    $total_usd = 0;
+                    foreach ($assets as $asset_code => $amount) {
+                        $amount = floatval($amount);
+                        if ($amount > 0) {
+                            $total_usd += get_asset_usd_value($asset_code, $amount, $prices);
                         }
-                        ?>
-                    </div>
+                    }
+                    
+                    // Convert total USD to BTC
+                    $total_btc_equiv = 0;
+                    if (isset($prices['bitcoin']['usd']) && $prices['bitcoin']['usd'] > 0) {
+                        $btc_price = floatval($prices['bitcoin']['usd']);
+                        $total_btc_equiv = $total_usd / $btc_price;
+                    }
+                    ?>
+                    <div class="dashboard-balance-amount">$<?php echo number_format($total_usd, 2); ?></div>
+                    <p class="dashboard-balance-crypto">≈ <?php echo number_format($total_btc_equiv, 8); ?> BTC</p>
                 </div>
 
                 <!-- Actions Section -->

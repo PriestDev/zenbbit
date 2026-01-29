@@ -41,10 +41,30 @@ function safe_input($str) {
  * Send email notification
  */
 function send_email($to, $subject, $message) {
+    if (empty($to) || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    $wrapped = '
+    <div style="background-color: rgb(175, 175, 175); padding: 30px;">
+        <div style="max-width: 500px; margin:auto; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); padding: 30px;">
+            <h6 style="text-align: center; background-color: rgb(175, 175, 175); padding: 15px; margin: 6px -12px;">Notification</h6>
+            <center>
+                <img src="https://' . DOMAIN . '/uploads/' . LOGO . '" style="filter: invert(100%);" width="100%" height="180" alt="LOGO">
+            </center>
+            <br>
+            <p style="text-align: center; padding: 10px;">' . $message . '</p>
+            <br>
+            <p style="text-align: center; font-size: 10px;">&copy; ' . NAME . ', ' . date('Y') . '</p>
+        </div>
+    </div>
+    ';
+
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= 'From:' . NAME . ' <' . EMAIL . '>' . "\r\n";
-    mail($to, $subject, $message, $headers);
+    $headers .= 'From: ' . NAME . ' <' . EMAIL . '>' . "\r\n";
+
+    return mail($to, $subject, $wrapped, $headers);
 }
 
 /**

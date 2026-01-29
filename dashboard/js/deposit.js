@@ -28,6 +28,8 @@
     // ================= STATE MANAGEMENT ======================
     let currentMethod = null;
     let qrGenerationInProgress = false;
+    let priceCache = {};  // Cache for asset prices
+    let lastPriceFetchTime = 0;
 
     // ================= DOM ELEMENTS ======================
     const depositMethodSelect = document.getElementById('depositMethod');
@@ -37,11 +39,83 @@
     const copyWalletBtn = document.getElementById('copyWalletBtn');
     const paymentReceiptInput = document.getElementById('paymentReceipt');
     const depositForm = document.getElementById('depositForm');
+    const depositAmountInput = document.getElementById('depositAmount');
+    const assetValueDisplay = document.getElementById('assetValueDisplay');
+    const assetPriceEl = document.getElementById('assetPrice');
+    const cryptoValueDisplayEl = document.getElementById('cryptoValueDisplay');
+    const assetSymbolEl = document.getElementById('assetSymbol');
+    const cryptoAmountInput = document.getElementById('cryptoAmount');
 
     // Guard against missing DOM elements
     if (!depositMethodSelect || !depositForm) {
         console.warn('⚠️ Deposit form elements not found');
         return;
+    }
+
+    // ================= PRICE FETCHING AND CONVERSION ======================
+    /**
+     * Fetch current prices for crypto assets
+     */
+    async function fetchAssetPrices() {
+        const now = Date.now();
+        // Cache prices for 1 minute
+        if (lastPriceFetchTime && (now - lastPriceFetchTime) < 60000 && Object.keys(priceCache).length > 0) {
+            return priceCache;
+        }
+
+        try {
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd');
+            const prices = await response.json();
+            priceCache = prices;
+            lastPriceFetchTime = now;
+            return prices;
+        } catch (err) {
+            console.error('Failed to fetch prices:', err);
+            return priceCache; // Return cached if available
+        }
+    }
+
+    /**
+     * Update asset value display with current price and conversion
+     */
+    async function updateAssetValueDisplay() {
+        const method = depositMethodSelect.value;
+        const amount = parseFloat(depositAmountInput?.value || 0);
+
+        if (!method || amount <= 0) {
+            assetValueDisplay.style.display = 'none';
+            return;
+        }
+
+        const priceMap = {
+            'btc': { id: 'bitcoin', symbol: 'BTC', decimals: 8 },
+            'eth': { id: 'ethereum', symbol: 'ETH', decimals: 8 },
+            'usdt_trc': { id: 'tether', symbol: 'USDT', decimals: 6 },
+            'usdt_erc': { id: 'tether', symbol: 'USDT', decimals: 6 }
+        };
+
+        const assetInfo = priceMap[method];
+        if (!assetInfo) return;
+
+        const prices = await fetchAssetPrices();
+        const price = prices[assetInfo.id]?.usd;
+
+        if (!price) {
+            assetValueDisplay.style.display = 'none';
+            return;
+        }
+
+        const cryptoAmount = amount / price;
+        
+        // Update display elements
+        assetPriceEl.textContent = price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        cryptoValueDisplayEl.textContent = cryptoAmount.toLocaleString('en-US', { minimumFractionDigits: assetInfo.decimals, maximumFractionDigits: assetInfo.decimals });
+        assetSymbolEl.textContent = assetInfo.symbol;
+
+        // Update hidden field
+        cryptoAmountInput.value = cryptoAmount.toFixed(assetInfo.decimals);
+
+        assetValueDisplay.style.display = 'block';
     }
 
     // ================= QR CODE GENERATION ======================
@@ -189,6 +263,18 @@
 
             // Generate QR code (once per address)
             generateQRCode(walletAddress);
+
+            // Update asset value display
+            updateAssetValueDisplay();
+        });
+    }
+
+    /**
+     * Update asset value when amount changes
+     */
+    if (depositAmountInput) {
+        depositAmountInput.addEventListener('input', function() {
+            updateAssetValueDisplay();
         });
     }
 
@@ -247,14 +333,12 @@
     }
 
     /**
-     * Handle form submission - let form submit naturally via POST
+     * Handle form submission - convert USD to crypto amount before submit
      */
     if (depositForm) {
-        depositForm.addEventListener('submit', function(e) {
-            // Allow traditional form submission
-            // Just validate that wallet and receipt are selected
+        depositForm.addEventListener('submit', async function(e) {
             const selectedMethod = depositMethodSelect.value;
-            const amount = document.getElementById('depositAmount')?.value;
+            const usdAmount = document.getElementById('depositAmount')?.value;
             const receipt = paymentReceiptInput?.files[0];
 
             // Validation
@@ -264,7 +348,7 @@
                 return;
             }
 
-            if (!amount || parseFloat(amount) <= 0) {
+            if (!usdAmount || parseFloat(usdAmount) <= 0) {
                 e.preventDefault();
                 alert('Please enter a valid amount');
                 return;
@@ -282,7 +366,41 @@
                 return;
             }
 
-            // Allow form to submit naturally
+            // Convert USD to crypto amount before submitting
+            e.preventDefault();
+            
+            try {
+                // Fetch current prices
+                const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd`;
+                const response = await fetch(priceUrl);
+                const prices = await response.json();
+                
+                // Map methods to price keys
+                const priceMap = {
+                    'btc': 'bitcoin',
+                    'eth': 'ethereum',
+                    'usdt_trc': 'tether',
+                    'usdt_erc': 'tether'
+                };
+                
+                const priceKey = priceMap[selectedMethod];
+                if (!prices[priceKey] || !prices[priceKey].usd) {
+                    throw new Error('Unable to fetch current price for ' + selectedMethod);
+                }
+                
+                const cryptoPrice = prices[priceKey].usd;
+                const cryptoAmount = parseFloat(usdAmount) / cryptoPrice;
+                
+                // Set the hidden crypto amount field
+                document.getElementById('cryptoAmount').value = cryptoAmount.toFixed(8);
+                
+                // Now submit the form
+                depositForm.submit();
+                
+            } catch (err) {
+                console.error('Price conversion error:', err);
+                alert('Failed to fetch current prices. Please try again.');
+            }
         });
     }
 

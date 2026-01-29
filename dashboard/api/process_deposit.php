@@ -33,11 +33,15 @@ require_once '../includes/dashboard_init.php';
 // Get POST data
 $deposit_method = $_POST['deposit_method'] ?? '';
 $deposit_amount = floatval($_POST['deposit_amount'] ?? 0);
+$crypto_amount = floatval($_POST['crypto_amount'] ?? 0);  // Converted crypto amount from frontend
 $wallet_address = $_POST['wallet_address'] ?? 'N/A'; // Not required for traditional form
 $payment_receipt = $_FILES['payment_receipt'] ?? null;
 
+// Use crypto amount if available, fallback to deposit_amount
+$final_amount = ($crypto_amount > 0) ? $crypto_amount : $deposit_amount;
+
 // Validate inputs
-if (empty($deposit_method) || $deposit_amount <= 0) {
+if (empty($deposit_method) || $final_amount <= 0) {
     $_SESSION['deposit_error'] = 'All fields are required and amount must be greater than 0';
     header('Location: ../deposit.php');
     exit;
@@ -70,8 +74,8 @@ if (!in_array($file_extension, $allowed_extensions)) {
 }
 
 try {
-    // Create uploads directory if needed
-    $uploads_dir = dirname(__DIR__) . '/uploads/proofs/';
+    // Create uploads directory if needed (project root uploads/proofs)
+    $uploads_dir = dirname(__DIR__, 2) . '/uploads/proofs/';
     if (!is_dir($uploads_dir)) {
         @mkdir($uploads_dir, 0755, true);
     }
@@ -80,12 +84,30 @@ try {
     $filename = time() . '_' . bin2hex(random_bytes(4)) . '.' . $file_extension;
     $file_path = $uploads_dir . $filename;
 
+    // Ensure this is a valid uploaded file
+    if (!is_uploaded_file($payment_receipt['tmp_name'])) {
+        $_SESSION['deposit_error'] = 'Invalid uploaded file';
+        header('Location: ../deposit.php');
+        exit;
+    }
+
     // Move uploaded file
     if (!move_uploaded_file($payment_receipt['tmp_name'], $file_path)) {
         $_SESSION['deposit_error'] = 'Failed to upload receipt file';
         header('Location: ../deposit.php');
         exit;
     }
+
+    // Verify file exists and is readable, set secure permissions
+    if (!file_exists($file_path) || !is_readable($file_path)) {
+        @unlink($file_path);
+        $_SESSION['deposit_error'] = 'Uploaded file not accessible after upload';
+        header('Location: ../deposit.php');
+        exit;
+    }
+
+    // Attempt to set file permissions to 0644 (owner read/write, group/other read)
+    @chmod($file_path, 0644);
 
     // Map deposit methods to transaction table format
     $method_map = [
@@ -141,7 +163,7 @@ try {
         $asset_name,
         $type,
         $status,
-        $deposit_amount,
+        $final_amount,
         $asset,
         $details,
         $filename,

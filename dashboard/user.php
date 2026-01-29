@@ -15,6 +15,18 @@ $user = $_SESSION['user_id'];
     
     $sql = " SELECT * FROM user WHERE acct_id = '$user' ";
     $run = mysqli_query($conn, $sql);
+    
+    // Initialize asset balances with default values
+    $btc_balance = 0;
+    $eth_balance = 0;
+    $bnb_balance = 0;
+    $trx_balance = 0;
+    $sol_balance = 0;
+    $xrp_balance = 0;
+    $avax_balance = 0;
+    $erc_balance = 0;
+    $trc_balance = 0;
+    
  	foreach ($run as $val) {
  	    $id = $val['id'];
  		$fname = $val['first_name'];
@@ -50,7 +62,16 @@ $user = $_SESSION['user_id'];
 		$wth_amt_status = $val['wth_amt_status'];
 		$kyc = $val['kyc'];
 		$status = $val['status'];
- 		$curl = curl_init();
+		// Extract individual asset balances
+		$btc_balance = floatval($val['btc_balance'] ?? 0);
+		$eth_balance = floatval($val['eth_balance'] ?? 0);
+		$bnb_balance = floatval($val['bnb_balance'] ?? 0);
+		$trx_balance = floatval($val['trx_balance'] ?? 0);
+		$sol_balance = floatval($val['sol_balance'] ?? 0);
+		$xrp_balance = floatval($val['xrp_balance'] ?? 0);
+		$avax_balance = floatval($val['avax_balance'] ?? 0);
+		$erc_balance = floatval($val['erc_balance'] ?? 0);
+		$trc_balance = floatval($val['trc_balance'] ?? 0); 		$curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://blockchain.info/tobtc?currency=USD&value=".$bal,
             CURLOPT_RETURNTRANSFER => true,

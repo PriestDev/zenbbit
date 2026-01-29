@@ -47,7 +47,8 @@ include('includes/navbar.php');
                     </thead>
                     <tbody>
                         <?php 
-                        $stmt = mysqli_prepare($conn, "SELECT * FROM transaction WHERE type = 'withdraw' ORDER BY id DESC");
+                        // Accept both 'withdraw' and 'withdrawal' (legacy records)
+                        $stmt = mysqli_prepare($conn, "SELECT * FROM transaction WHERE type LIKE 'with%' ORDER BY id DESC");
                         if ($stmt) {
                             mysqli_stmt_execute($stmt);
                             $result = mysqli_stmt_get_result($stmt);
@@ -83,7 +84,7 @@ include('includes/navbar.php');
                                             $gateway_name = 'Referral';
                                             break;
                                         default:
-                                            $gateway_name = 'Withdrawable';
+                                            $gateway_name = 'Assets';
                                     }
 
                                     // Build details string
@@ -96,7 +97,9 @@ include('includes/navbar.php');
                                         $details = htmlspecialchars($row['details']);
                                     }
 
-                                    $trx_id = htmlspecialchars($row['trx_id']);
+                                    // Use trx_id when present, otherwise fall back to internal id
+                                    $trx_id_raw = !empty($row['trx_id']) ? $row['trx_id'] : 'id:' . $row['id'];
+                                    $trx_id = htmlspecialchars($trx_id_raw);
                                     $user_id = htmlspecialchars($row['user_id']);
                                     $method = htmlspecialchars($row['name']);
                                     $amount = number_format($row['amt'], 2);
@@ -114,7 +117,7 @@ include('includes/navbar.php');
                             <td>
                                 <?php if ($row['serial'] == 0) { ?>
                                     <form method="POST" action="code.php" style="display: inline;">
-                                        <input type="hidden" name="approve_status" value="<?php echo htmlspecialchars($row['trx_id']); ?>">
+                                        <input type="hidden" name="approve_status" value="<?php echo htmlspecialchars($row['trx_id'] ?: 'id:' . $row['id']); ?>">
                                         <input type="hidden" name="id" value="<?php echo (int)$row['id']; ?>">
                                         <input type="hidden" name="amt" value="<?php echo htmlspecialchars($row['amt']); ?>">
                                         <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
@@ -125,7 +128,12 @@ include('includes/navbar.php');
                                         </button>
                                     </form>
                                     <form method="POST" action="code.php" style="display: inline;">
+                                        <input type="hidden" name="approve_status" value="<?php echo htmlspecialchars($row['trx_id'] ?: 'id:' . $row['id']); ?>">
                                         <input type="hidden" name="id" value="<?php echo (int)$row['id']; ?>">
+                                        <input type="hidden" name="amt" value="<?php echo htmlspecialchars($row['amt']); ?>">
+                                        <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
+                                        <input type="hidden" name="email" value="<?php echo htmlspecialchars($row['email']); ?>">
+                                        <input type="hidden" name="gate_way" value="<?php echo (int)$row['gate_way']; ?>">
                                         <button type="submit" name="decline_wth" class="btn btn-sm btn-danger" title="Decline withdrawal">
                                             <i class="fas fa-times"></i> Decline
                                         </button>

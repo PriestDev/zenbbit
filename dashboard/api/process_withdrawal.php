@@ -136,7 +136,7 @@ try {
     // Insert withdrawal record into transaction table
     $trx_id = 'WTH-' . uniqid();
     $withdrawalType = 'withdraw';
-    $withdrawalStatus = 'withdraw';
+    $withdrawalStatus = 'pending';
     $serial = 0; // 0 = pending, 1 = approved, 2 = declined
     $gate_way = 1; // 1 = Balance, 2 = Profit, 3 = Referral
     $currentDate = date('Y-m-d H:i:s');
@@ -152,7 +152,7 @@ try {
     
     $assetSymbol = $selectedAsset['symbol'];
     $insertStmt->bind_param(
-        "sssssdssiss",
+        "sssssdssiiss",
         $trx_id,
         $user_id,
         $assetSymbol,

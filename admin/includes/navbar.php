@@ -184,7 +184,7 @@
             <div id="manageMenu" class="collapse" data-parent="#sidebar">
                 <a href="register.php" class="collapse-item"><i class="fas fa-shield-alt"></i> Admin List</a>
                 <a href="users.php" class="collapse-item"><i class="fas fa-user-circle"></i> Users List</a>
-                <a href="plan.php" class="collapse-item"><i class="fas fa-chart-line"></i> Trading Plans</a>
+                <!-- <a href="plan.php" class="collapse-item"><i class="fas fa-chart-line"></i> Trading Plans</a> -->
             </div>
         </li>
 
@@ -197,7 +197,7 @@
             <div id="transMenu" class="collapse" data-parent="#sidebar">
                 <a href="deposit.php" class="collapse-item"><i class="fas fa-plus-circle"></i> Deposits</a>
                 <a href="withdraw.php" class="collapse-item"><i class="fas fa-minus-circle"></i> Withdrawals</a>
-                <a href="other.php" class="collapse-item"><i class="fas fa-exchange-alt"></i> Other</a>
+                <!-- <a href="other.php" class="collapse-item"><i class="fas fa-exchange-alt"></i> Other</a> -->
             </div>
         </li>
 

@@ -1,5 +1,6 @@
 <?php include 'includes/dashboard_init.php'; $pageTitle = 'Deposit'; $includeIziToast = true; include 'includes/head.php'; ?>
 <link rel="stylesheet" href="css/deposit.css">
+<link rel="stylesheet" href="css/deposit-asset-value.css">
 <body class="light-mode dashboard-body deposit-body">
   <!-- Sidebar Component -->
   <?php include 'includes/sidebar.php'; ?>
@@ -54,6 +55,23 @@
             <label for="depositAmount" class="deposit-form-label">Amount (USD)</label>
             <input type="number" id="depositAmount" name="deposit_amount" class="deposit-form-input" placeholder="Enter amount" step="0.01" min="0" required>
           </div>
+
+          <!-- Asset Value Display -->
+          <div id="assetValueDisplay" class="deposit-asset-value" style="display: none;">
+            <div class="asset-value-card">
+              <div class="asset-value-row">
+                <span class="asset-value-label">Market Price:</span>
+                <span class="asset-value-price">$<span id="assetPrice">0.00</span></span>
+              </div>
+              <div class="asset-value-row">
+                <span class="asset-value-label">You will receive:</span>
+                <span class="asset-value-amount"><span id="cryptoValueDisplay">0</span> <span id="assetSymbol">BTC</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hidden field to store converted crypto amount -->
+          <input type="hidden" id="cryptoAmount" name="crypto_amount" value="0">
 
           <!-- Wallet Info Card (Hidden by default) -->
           <div id="walletCard" class="deposit-wallet-card" style="display: none;">

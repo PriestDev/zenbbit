@@ -106,7 +106,7 @@ function deposit_crypto_asset($conn, $user_id, $acct_id, $crypto_type, $amount, 
         return ['success' => false, 'message' => 'Transaction logging error', 'transaction_id' => null];
     }
     
-    $trans_stmt->bind_param("issddsds", $user_id, $acct_id, $crypto_type, $amount, $current_balance, $new_balance, $admin_id, $description);
+    $trans_stmt->bind_param("issdddis", $user_id, $acct_id, $crypto_type, $amount, $current_balance, $new_balance, $admin_id, $description);
     
     if (!$trans_stmt->execute()) {
         error_log("Error logging transaction: " . $trans_stmt->error);
@@ -192,7 +192,7 @@ function withdraw_crypto_asset($conn, $user_id, $acct_id, $crypto_type, $amount,
         return ['success' => false, 'message' => 'Transaction logging error', 'transaction_id' => null];
     }
     
-    $trans_stmt->bind_param("issddsds", $user_id, $acct_id, $crypto_type, $amount, $current_balance, $new_balance, $admin_id, $description);
+    $trans_stmt->bind_param("issdddis", $user_id, $acct_id, $crypto_type, $amount, $current_balance, $new_balance, $admin_id, $description);
     
     if (!$trans_stmt->execute()) {
         error_log("Error logging transaction: " . $trans_stmt->error);

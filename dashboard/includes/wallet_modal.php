@@ -20,7 +20,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('btc', 5)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg btc-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4C9 4 7 6 7 9C7 12 9 13 11 13H14C15 13 16 12 16 11V10C16 9 15 8 14 8H11M9 13V18C9 19 10 20 11 20H14C16 20 17 19 17 17V16C17 15 16 14 14 14H11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="11" stroke="white" stroke-width="2"/></svg>
+                            <img class="crypto-icon" src="uploads/1758392283_Bitcoin.png" alt="Bitcoin">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="btc-small">0.00000 BTC</div>
@@ -30,7 +30,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('eth', 8)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg eth-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 22,13 12,18 2,13" fill="white" stroke="white" stroke-width="1.5"/><polygon points="12,18 22,13 12,24 2,13" fill="white" stroke="white" stroke-width="1.5" opacity="0.7"/></svg>
+                            <img class="crypto-icon" src="uploads/1758393392_eth.png" alt="Ethereum">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="eth-small">0.00000 ETH</div>
@@ -40,7 +40,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('bnb', 6)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg bnb-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="3" fill="white"/><rect x="6" y="6" width="12" height="12" rx="2" fill="white" opacity="0.8"/><circle cx="12" cy="12" r="3" fill="white" opacity="0.6"/></svg>
+                            <img class="crypto-icon" src="uploads/1758392904_bnb-binance.PNG" alt="BNB">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="bnb-small">0.00000 BNB</div>
@@ -50,7 +50,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('trx', 9)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg trx-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 20,8 20,16 12,21 4,16 4,8" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/><line x1="12" y1="3" x2="12" y2="21" stroke="white" stroke-width="1.5"/></svg>
+                            <img class="crypto-icon" src="uploads/1758393351_trx2.png" alt="TRON">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="trx-small">0.00000 TRX</div>
@@ -60,7 +60,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('sol', 15)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg sol-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M5 8L8 5M16 19L19 16M5 16L8 19M19 8L16 5M12 2L20 12L12 22L4 12Z" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            <img class="crypto-icon" src="uploads/1759140771_Solana.png" alt="Solana">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="sol-small">0.00000 SOL</div>
@@ -70,7 +70,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('xrp', 16)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg xrp-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="12" r="2.5" fill="white"/><circle cx="12" cy="7" r="2.5" fill="white"/><circle cx="17" cy="12" r="2.5" fill="white"/><circle cx="12" cy="17" r="2.5" fill="white"/><path d="M8.5 11L10.5 8.5M13.5 8.5L15.5 11M15.5 13L13.5 15.5M10.5 15.5L8.5 13" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <img class="crypto-icon" src="uploads/1759141201_xrp.png" alt="XRP">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="xrp-small">0.00000 XRP</div>
@@ -80,7 +80,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('avax', 17)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg avax-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 20,14 14,14 14,22 10,22 10,14 4,14"/></svg>
+                            <img class="crypto-icon" src="uploads/1759141105_av.jpeg" alt="AVAX">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="avax-small">0.00000 AVAX</div>
@@ -90,7 +90,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('erc', 13)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg usdt-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="white" opacity="0.3" stroke="white" stroke-width="1.5"/><path d="M11 8H13L15 10V14L13 16H11L9 14V10L11 8Z" fill="white" stroke="white" stroke-width="0.5"/><line x1="12" y1="10" x2="12" y2="14" stroke="white" stroke-width="1.5"/></svg>
+                            <img class="crypto-icon" src="uploads/1759140395_tether.png" alt="USDT">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="erc-small">0.00000 USDT</div>
@@ -100,7 +100,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('trc', 18)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg usdt-gradient">
-                            <svg class="crypto-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="white" opacity="0.3" stroke="white" stroke-width="1.5"/><path d="M11 8H13L15 10V14L13 16H11L9 14V10L11 8Z" fill="white" stroke="white" stroke-width="0.5"/><line x1="12" y1="10" x2="12" y2="14" stroke="white" stroke-width="1.5"/></svg>
+                            <img class="crypto-icon" src="uploads/1759331218_tether.png" alt="USDT">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="trc-small">0.00000 USDT</div>

@@ -219,6 +219,53 @@ function upload_file($file_field, $upload_dir = '../uploads/') {
     return null;
 }
 
+/**
+ * Get current asset price in USD using CoinGecko simple API
+ * @param string $asset Asset code (e.g., 'btc', 'eth', 'usdt_erc')
+ * @return float Price in USD or 0 on failure
+ */
+function get_asset_price_usd($asset) {
+    $a = strtolower($asset);
+    // Map internal asset codes to CoinGecko ids
+    $map = [
+        'btc' => 'bitcoin',
+        'eth' => 'ethereum',
+        'bnb' => 'binancecoin',
+        'trx' => 'tron',
+        'sol' => 'solana',
+        'xrp' => 'ripple',
+        'avax' => 'avalanche-2',
+        'usdt_erc' => 'tether',
+        'usdt_trc' => 'tether',
+        'erc' => 'tether',
+        'trc' => 'tether'
+    ];
+
+    // Stablecoins treat as $1
+    if (in_array($a, ['usdt_erc','usdt_trc','erc','trc'])) {
+        return 1.0;
+    }
+
+    if (!isset($map[$a])) {
+        return 0.0;
+    }
+
+    $id = $map[$a];
+    $url = "https://api.coingecko.com/api/v3/simple/price?ids=" . urlencode($id) . "&vs_currencies=usd";
+    $opts = [
+        'http' => [
+            'method' => 'GET',
+            'timeout' => 5
+        ]
+    ];
+    $context = stream_context_create($opts);
+    $resp = @file_get_contents($url, false, $context);
+    if (!$resp) return 0.0;
+    $data = json_decode($resp, true);
+    if (!$data || !isset($data[$id]['usd'])) return 0.0;
+    return floatval($data[$id]['usd']);
+}
+
 // =====================================================================
 // ADMIN MANAGEMENT
 // =====================================================================
@@ -523,7 +570,7 @@ if (isset($_POST['plan_edit'])) {
     $status = (int)($_POST['status'] ?? 0);
     
     $stmt = $conn->prepare("UPDATE plan SET name=?, min=?, max=?, per=?, status=?, duration=? WHERE id=?");
-    $stmt->bind_param("sdddiiii", $pair, $min, $max, $prof, $status, $duration, $id);
+    $stmt->bind_param("sdddiii", $pair, $min, $max, $prof, $status, $duration, $id);
     
     if ($stmt->execute()) {
         set_alert('success', 'Plan Updated', 'plan.php');
@@ -682,28 +729,100 @@ if (isset($_POST['approve_deposit'])) {
     $pair = sanitize_input($_POST['pair'] ?? '');
     $status = 1;
     
-    $stmt = $conn->prepare("UPDATE transaction SET serial=?, amt=?, name=? WHERE trx_id=?");
-    $stmt->bind_param("idss", $status, $amt, $pair, $id);
-    
+    // Only update the serial status to 'approved' (1).
+    $stmt = $conn->prepare("UPDATE transaction SET serial=? WHERE trx_id=?");
+    $stmt->bind_param("is", $status, $id);
+
     if ($stmt->execute()) {
-        $user_data = get_user_by_acct_id($conn, $user);
-        
-        if ($user_data && $user_data['balance'] !== null) {
-            $new_balance = $user_data['balance'] + $amt;
-            $stmt2 = $conn->prepare("UPDATE user SET balance=? WHERE acct_id=?");
-            $stmt2->bind_param("ds", $new_balance, $user);
-            
-            if ($stmt2->execute()) {
-                $message = "This is to inform you that your deposit of $" . number_format($amt, 2) . " has been received and confirmed.";
-                send_email($email, "Deposit Processed", $message);
-                set_alert('success', 'Deposit Approved', 'deposit.php');
-            } else {
-                set_alert('status', 'Balance update failed', 'deposit.php');
+        // Fetch transaction details to notify user (amount, user acct, email, asset)
+        $txn_stmt = $conn->prepare("SELECT amt, user_id, email, asset FROM transaction WHERE trx_id=? LIMIT 1");
+        if ($txn_stmt) {
+            $txn_stmt->bind_param("s", $id);
+            $txn_stmt->execute();
+            $txn_res = $txn_stmt->get_result();
+            $txn = $txn_res->fetch_assoc();
+            $txn_stmt->close();
+
+            $notify_amt = isset($txn['amt']) ? (float)$txn['amt'] : $amt;
+            $notify_user_acct = $txn['user_id'] ?? $user;
+            $notify_email = $txn['email'] ?? $email;
+            $txn_asset = isset($txn['asset']) ? strtolower($txn['asset']) : '';
+
+            // Update user's crypto balance based on asset code in transaction.asset
+            $asset_map = [
+                'btc' => 'btc_balance',
+                'eth' => 'eth_balance',
+                'bnb' => 'bnb_balance',
+                'trx' => 'trx_balance',
+                'sol' => 'sol_balance',
+                'xrp' => 'xrp_balance',
+                'avax' => 'avax_balance',
+                'usdt_erc' => 'erc_balance',
+                'usdt_trc' => 'trc_balance',
+                'erc' => 'erc_balance',
+                'trc' => 'trc_balance'
+            ];
+
+            if (!empty($txn_asset) && isset($asset_map[$txn_asset]) && !empty($notify_user_acct)) {
+                $balance_col = $asset_map[$txn_asset];
+
+                // Read current balance
+                $bal_stmt = $conn->prepare("SELECT $balance_col FROM user WHERE acct_id = ? LIMIT 1");
+                if ($bal_stmt) {
+                    $bal_stmt->bind_param("s", $notify_user_acct);
+                    $bal_stmt->execute();
+                    $bal_res = $bal_stmt->get_result();
+                    $bal_row = $bal_res->fetch_assoc();
+                    $bal_stmt->close();
+
+                    $current_bal = isset($bal_row[$balance_col]) ? (float)$bal_row[$balance_col] : 0.0;
+
+                    // Convert USD amount to crypto units using current price
+                    $price_usd = get_asset_price_usd($txn_asset);
+                    if ($price_usd <= 0) {
+                        // fallback: treat stored amount as crypto units if price unavailable
+                        $crypto_amount = $notify_amt;
+                    } else {
+                        // If notify_amt is USD value, crypto units = USD / price
+                        $crypto_amount = $notify_amt / $price_usd;
+                    }
+
+                    // For stablecoins (mapped to tether) keep 1:1
+                    if (in_array($txn_asset, ['usdt_erc','usdt_trc','erc','trc'])) {
+                        $crypto_amount = $notify_amt;
+                    }
+
+                    // Round to 8 decimal places for balances
+                    $crypto_amount = round($crypto_amount, 8);
+                    $new_bal = $current_bal + $crypto_amount;
+
+                    // Update user balance
+                    $upd_sql = "UPDATE user SET $balance_col = ? WHERE acct_id = ?";
+                    $upd_stmt = $conn->prepare($upd_sql);
+                    if ($upd_stmt) {
+                        $upd_stmt->bind_param("ds", $new_bal, $notify_user_acct);
+                        $upd_stmt->execute();
+                        $upd_stmt->close();
+                    }
+                }
             }
-            $stmt2->close();
-        } else {
-            set_alert('status', 'User not found', 'deposit.php');
+
+            // If email not present on transaction, try fetching from user record
+            if (empty($notify_email) && !empty($notify_user_acct)) {
+                $u = get_user_by_acct_id($conn, $notify_user_acct);
+                if ($u && !empty($u['email'])) {
+                    $notify_email = $u['email'];
+                }
+            }
+
+            if (!empty($notify_email)) {
+                $message = '<strong>Your deposit of $' . number_format($notify_amt, 2) . ' has been received and approved.</strong><br>' .
+                           '<span style="font-size:0.95rem;color:#555;">Transaction ID: ' . htmlspecialchars($id) . '</span>';
+                send_email($notify_email, "Deposit Approved", $message);
+            }
         }
+
+        set_alert('success', 'Deposit Approved', 'deposit.php');
     } else {
         set_alert('status', 'Approval failed', 'deposit.php');
     }
@@ -753,23 +872,69 @@ if (isset($_POST['delete_deposit'])) {
  * Approve withdrawal
  */
 if (isset($_POST['approve_wth'])) {
-    $email = sanitize_input($_POST['email'] ?? '');
-    $trx_id = sanitize_input($_POST['approve_status'] ?? '');
-    $user = sanitize_input($_POST['user_id'] ?? '');
-    $amt = (float)($_POST['amt'] ?? 0);
+    $identifier = sanitize_input($_POST['approve_status'] ?? $_POST['trx_id'] ?? '');
     $status = 1;
-    
-    $stmt = $conn->prepare("UPDATE transaction SET serial=? WHERE trx_id=?");
-    $stmt->bind_param("is", $status, $trx_id);
-    
-    if ($stmt->execute()) {
-        $message = "This is to inform you that your withdrawal request of $" . number_format($amt, 2) . " from your account has been confirmed and you will receive it shortly.";
-        send_email($email, "Withdrawal Processed", $message);
+
+    if (empty($identifier)) {
+        set_alert('status', 'Invalid transaction identifier', 'withdraw.php');
+    }
+
+    // Resolve transaction by trx_id or id:NN fallback
+    $tx = null;
+    if (strpos($identifier, 'id:') === 0) {
+        $tx_id = (int)substr($identifier, 3);
+        $sel = $conn->prepare("SELECT * FROM transaction WHERE id=? LIMIT 1");
+        if ($sel) {
+            $sel->bind_param("i", $tx_id);
+            $sel->execute();
+            $tx = $sel->get_result()->fetch_assoc();
+            $sel->close();
+        }
+    } else {
+        $sel = $conn->prepare("SELECT * FROM transaction WHERE trx_id=? LIMIT 1");
+        if ($sel) {
+            $sel->bind_param("s", $identifier);
+            $sel->execute();
+            $tx = $sel->get_result()->fetch_assoc();
+            $sel->close();
+        }
+    }
+
+    if (!$tx) {
+        set_alert('status', 'Transaction not found', 'withdraw.php');
+    }
+
+    // Update serial using id when available to avoid ambiguity
+    if (!empty($tx['id'])) {
+        $up = $conn->prepare("UPDATE transaction SET serial=? WHERE id=?");
+        $up->bind_param("ii", $status, $tx['id']);
+    } else {
+        $up = $conn->prepare("UPDATE transaction SET serial=? WHERE trx_id=?");
+        $up->bind_param("is", $status, $tx['trx_id']);
+    }
+
+    if ($up && $up->execute()) {
+        $amt = (float)($tx['amt'] ?? 0);
+        $notify_email = $tx['email'] ?? '';
+        // Fallback: attempt to get user email from user record if transaction missing it
+        if (empty($notify_email) && !empty($tx['user_id'])) {
+            if (ctype_digit($tx['user_id'])) {
+                $u = get_user_by_id($conn, (int)$tx['user_id']);
+            } else {
+                $u = get_user_by_acct_id($conn, $tx['user_id']);
+            }
+            if ($u && !empty($u['email'])) $notify_email = $u['email'];
+        }
+
+        if (!empty($notify_email)) {
+            $message = "This is to inform you that your withdrawal request of $" . number_format($amt, 2) . " from your account has been confirmed and you will receive it shortly.";
+            send_email($notify_email, "Withdrawal Processed", $message);
+        }
         set_alert('success', 'Withdrawal Approved', 'withdraw.php');
     } else {
         set_alert('status', 'Approval failed', 'withdraw.php');
     }
-    $stmt->close();
+    if (isset($up) && $up) $up->close();
 }
 
 /**
@@ -778,37 +943,88 @@ if (isset($_POST['approve_wth'])) {
 if (isset($_POST['decline_wth'])) {
     $file = sanitize_input($_POST['file'] ?? 'withdraw.php');
     $email = sanitize_input($_POST['email'] ?? '');
-    $trx_id = sanitize_input($_POST['status'] ?? '');
+    // Accept trx id via approve_status (consistent with approve form) or fallback to status/trx_id
+    $trx_id = sanitize_input($_POST['approve_status'] ?? $_POST['trx_id'] ?? $_POST['status'] ?? '');
     $user = sanitize_input($_POST['user_id'] ?? '');
     $amt = (float)($_POST['amt'] ?? 0);
     $gateway = (int)($_POST['gate_way'] ?? 1);
     $status = 2;
-    
-    $stmt = $conn->prepare("UPDATE transaction SET serial=? WHERE trx_id=?");
-    $stmt->bind_param("is", $status, $trx_id);
-    
+
+    if (empty($trx_id)) {
+        set_alert('status', 'Invalid transaction identifier', $file);
+    }
+
+    // Resolve transaction similar to approve flow
+    $tx = null;
+    if (strpos($trx_id, 'id:') === 0) {
+        $tx_id = (int)substr($trx_id, 3);
+        $sel = $conn->prepare("SELECT * FROM transaction WHERE id=? LIMIT 1");
+        if ($sel) {
+            $sel->bind_param("i", $tx_id);
+            $sel->execute();
+            $tx = $sel->get_result()->fetch_assoc();
+            $sel->close();
+        }
+    } else {
+        $sel = $conn->prepare("SELECT * FROM transaction WHERE trx_id=? LIMIT 1");
+        if ($sel) {
+            $sel->bind_param("s", $trx_id);
+            $sel->execute();
+            $tx = $sel->get_result()->fetch_assoc();
+            $sel->close();
+        }
+    }
+
+    if (!$tx) {
+        set_alert('status', 'Transaction not found', $file);
+    }
+
+    if (!empty($tx['id'])) {
+        $stmt = $conn->prepare("UPDATE transaction SET serial=? WHERE id=?");
+        $stmt->bind_param("ii", $status, $tx['id']);
+    } else {
+        $stmt = $conn->prepare("UPDATE transaction SET serial=? WHERE trx_id=?");
+        $stmt->bind_param("is", $status, $trx_id);
+    }
+
     if ($stmt->execute()) {
-        $user_data = get_user_by_acct_id($conn, $user);
-        
-        if ($user_data) {
-            if ($gateway == 1) {
-                $new_balance = $user_data['balance'] + $amt;
-                $stmt2 = $conn->prepare("UPDATE user SET balance=? WHERE acct_id=?");
-                $stmt2->bind_param("ds", $new_balance, $user);
+        // Refund logic: use values from transaction when possible
+        $tx_user = $tx['user_id'] ?? $user;
+        $tx_amt = (float)($tx['amt'] ?? $amt);
+        $tx_gateway = (int)($tx['gate_way'] ?? $gateway);
+
+        $user_data = null;
+        if (!empty($tx_user)) {
+            if (ctype_digit($tx_user)) {
+                $user_data = get_user_by_id($conn, (int)$tx_user);
             } else {
-                $new_profit = $user_data['profit'] + $amt;
-                $stmt2 = $conn->prepare("UPDATE user SET profit=? WHERE acct_id=?");
-                $stmt2->bind_param("ds", $new_profit, $user);
+                $user_data = get_user_by_acct_id($conn, $tx_user);
             }
-            
-            if ($stmt2->execute()) {
+        }
+
+        if ($user_data) {
+            if ($tx_gateway == 1) {
+                $new_balance = (float)$user_data['balance'] + $tx_amt;
+                $stmt2 = $conn->prepare("UPDATE user SET balance=? WHERE id=?");
+                if ($stmt2) {
+                    $stmt2->bind_param("di", $new_balance, $user_data['id']);
+                }
+            } else {
+                $new_profit = (float)$user_data['profit'] + $tx_amt;
+                $stmt2 = $conn->prepare("UPDATE user SET profit=? WHERE id=?");
+                if ($stmt2) {
+                    $stmt2->bind_param("di", $new_profit, $user_data['id']);
+                }
+            }
+
+            if (isset($stmt2) && $stmt2 && $stmt2->execute()) {
                 $message = "This is to inform you that your withdrawal request of $" . number_format($amt, 2) . " from your account has been declined.";
                 send_email($email, "Withdrawal Declined", $message);
                 set_alert('success', 'Withdrawal Declined', $file);
             } else {
                 set_alert('status', 'Update failed', $file);
             }
-            $stmt2->close();
+            if (isset($stmt2) && $stmt2) $stmt2->close();
         } else {
             set_alert('status', 'User not found', $file);
         }
@@ -822,10 +1038,15 @@ if (isset($_POST['decline_wth'])) {
  * Delete withdrawal
  */
 if (isset($_POST['delete_withdraw'])) {
-    $id = sanitize_input($_POST['delete_wth'] ?? '');
-    
-    $stmt = $conn->prepare("DELETE FROM transaction WHERE trx_id=?");
-    $stmt->bind_param("s", $id);
+    $identifier = sanitize_input($_POST['delete_wth'] ?? '');
+    if (strpos($identifier, 'id:') === 0) {
+        $del_id = (int)substr($identifier, 3);
+        $stmt = $conn->prepare("DELETE FROM transaction WHERE id=?");
+        $stmt->bind_param("i", $del_id);
+    } else {
+        $stmt = $conn->prepare("DELETE FROM transaction WHERE trx_id=?");
+        $stmt->bind_param("s", $identifier);
+    }
     
     if ($stmt->execute()) {
         set_alert('success', 'Withdrawal Deleted', 'withdraw.php');
@@ -847,9 +1068,7 @@ if (isset($_POST['updatebtn'])) {
     $id = (int)$_POST['edit_id'];
     $fname = sanitize_input($_POST['edit_fname'] ?? '');
     $lname = sanitize_input($_POST['edit_lname'] ?? '');
-    $user_bal = (float)($_POST['user_bal'] ?? 0);
     $ip_address = sanitize_input($_POST['ip_address'] ?? '');
-    $profit = (float)($_POST['profit'] ?? 0);
     $email = sanitize_input($_POST['edit_email'] ?? '');
     $phone = sanitize_input($_POST['phone'] ?? '');
     $t_btn = (int)($_POST['t_btn'] ?? 0);
@@ -911,13 +1130,13 @@ if (isset($_POST['updatebtn'])) {
         }
     }
     
-    // Update user - now includes crypto balances
+    // Update user - now includes crypto balances (removed balance and profit updates)
     $stmt = $conn->prepare(
-        "UPDATE user SET first_name=?, last_name=?, balance=?, profit=?, phone=?, email=?, password=?, status=?, trade_btn=?, trade_per=?, acct_stat=?, kyc=?, btc_balance=?, eth_balance=?, bnb_balance=?, trx_balance=?, sol_balance=?, xrp_balance=?, avax_balance=?, erc_balance=?, trc_balance=? WHERE id=?"
+        "UPDATE user SET first_name=?, last_name=?, phone=?, email=?, password=?, status=?, trade_btn=?, trade_per=?, acct_stat=?, kyc=?, btc_balance=?, eth_balance=?, bnb_balance=?, trx_balance=?, sol_balance=?, xrp_balance=?, avax_balance=?, erc_balance=?, trc_balance=? WHERE id=?"
     );
     $stmt->bind_param(
-        "ssddsssiidiiiddddddddi",
-        $fname, $lname, $user_bal, $profit, $phone, $email, $pass, $status, $t_btn, $trade_per, $acct_stat, $kyc, 
+        "ssssiidiiidddddddddi",
+        $fname, $lname, $phone, $email, $pass, $status, $t_btn, $trade_per, $acct_stat, $kyc, 
         $btc_balance, $eth_balance, $bnb_balance, $trx_balance, $sol_balance, $xrp_balance, $avax_balance, $erc_balance, $trc_balance, $id
     );
     
@@ -1121,16 +1340,69 @@ if (isset($_POST['update_phrase'])) {
 }
 
 /**
- * Delete KYC (Not currently used - KYC columns not in database schema)
- * TODO: Add card, s_card, card_stat columns to user table if KYC feature is enabled
+ * KYC Management - Approve / Reject / Reset
  */
-if (isset($_POST['delete_kyc'])) {
+if (isset($_POST['verify_kyc']) || isset($_POST['reject_kyc']) || isset($_POST['reset_kyc'])) {
     $file = sanitize_input($_POST['file'] ?? 'users.php');
-    $id = (int)$_POST['kyc_id'];
-    
-    // KYC columns don't exist in current database schema
-    // This handler is disabled until KYC table is properly configured
-    set_alert('status', 'KYC feature not yet configured', $file);
+    $id = (int)($_POST['edit_id'] ?? 0);
+
+    if ($id <= 0) {
+        set_alert('status', 'Invalid user ID', $file);
+    }
+
+    // Fetch user
+    $user = get_user_by_id($conn, $id);
+    if (!$user) {
+        set_alert('status', 'User not found', $file);
+    }
+
+    // Decide action
+    if (isset($_POST['verify_kyc'])) {
+        $new_status = 1; // verified
+        $kyc_tbl_status = 1;
+        $alert_msg = 'KYC Verified';
+        $email_subject = 'KYC Verified';
+        $email_message = '<strong>Your identity documents have been verified.</strong><br><span style="font-size:0.95rem;color:#555;">You may now access all platform features.</span>';
+    } elseif (isset($_POST['reject_kyc'])) {
+        $new_status = 0; // not verified / rejected
+        $kyc_tbl_status = 2; // rejected in kyc table
+        $alert_msg = 'KYC Rejected';
+        $email_subject = 'KYC Verification Rejected';
+        $email_message = '<strong>Your KYC submission has been rejected.</strong><br><span style="font-size:0.95rem;color:#555;">Please review and resubmit valid documents.</span>';
+    } else {
+        // reset
+        $new_status = 0; // not verified
+        $kyc_tbl_status = 0; // pending/none
+        $alert_msg = 'KYC Status Reset';
+        $email_subject = 'KYC Status Reset';
+        $email_message = '<strong>Your KYC status has been reset.</strong><br><span style="font-size:0.95rem;color:#555;">Please re-upload documents if required.</span>';
+    }
+
+    // Update user table kyc column if exists
+    $stmt = $conn->prepare("UPDATE user SET kyc=? WHERE id=?");
+    $stmt->bind_param("ii", $new_status, $id);
+    $ok = $stmt->execute();
+    $stmt->close();
+
+    // Update kyc table entries for this user if present
+    $stmt2 = $conn->prepare("UPDATE kyc SET status=? WHERE user_id=?");
+    if ($stmt2) {
+        $stmt2->bind_param("ii", $kyc_tbl_status, $id);
+        $stmt2->execute();
+        $stmt2->close();
+    }
+
+    // Send email notification to user (best-effort)
+    $notify_email = $user['email'] ?? '';
+    if (!empty($notify_email) && is_valid_email($notify_email)) {
+        send_email($notify_email, $email_subject, $email_message);
+    }
+
+    if ($ok) {
+        set_alert('success', $alert_msg, 'user_edit.php?id=' . $id);
+    } else {
+        set_alert('status', 'KYC update failed', 'user_edit.php?id=' . $id);
+    }
 }
 
 // =====================================================================
@@ -1161,7 +1433,7 @@ if (isset($_POST['bonus'])) {
     $stmt = $conn->prepare(
         "INSERT INTO transaction (trx_id, user_id, amt, name, status, email, serial) VALUES (?, ?, ?, 'Bonus', ?, ?, ?)"
     );
-    $stmt->bind_param("sidsis", $trx_id, $user_data['acct_id'], $amount, $status, $user_data['email'], $serial);
+    $stmt->bind_param("ssdssi", $trx_id, $user_data['acct_id'], $amount, $status, $user_data['email'], $serial);
     
     if ($stmt->execute()) {
         $new_profit = $user_data['profit'] + $amount;
