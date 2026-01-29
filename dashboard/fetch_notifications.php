@@ -60,6 +60,7 @@ try {
             name,
             amt,
             status,
+            serial,
             create_date,
             'transaction' as type
         FROM transaction
@@ -74,37 +75,54 @@ try {
         error_log('Transaction query failed: ' . mysqli_error($conn));
     } elseif (mysqli_num_rows($transactionResult) > 0) {
         while ($row = mysqli_fetch_assoc($transactionResult)) {
-            $status = strtolower($row['status']);
-            $statusLabel = ucfirst($status);
+            $txn_status = strtolower($row['status']); // deposit, withdraw, etc
+            $serial = (int)$row['serial']; // 0 = pending, 1 = approved, 2 = declined
+            
+            // Determine status label based on serial
+            $statusLabel = 'Pending';
+            $statusColor = '#ffa500';
+            if ($serial === 1) {
+                $statusLabel = 'Approved';
+                $statusColor = '#4caf50';
+            } elseif ($serial === 2) {
+                $statusLabel = 'Declined';
+                $statusColor = '#f44336';
+            }
+            
             $amount = number_format($row['amt'], 2);
             
             // Create user-friendly message based on transaction type
             $icon = '';
+            $title = '';
             $message = '';
             
-            if ($status === 'deposit') {
+            if ($txn_status === 'deposit') {
                 $icon = '💰';
-                $message = "Deposit of \${$amount} ({$row['name']}) - <span style='color: #ffa500;'>{$statusLabel}</span>";
-            } elseif ($status === 'withdraw') {
+                $title = 'Deposit Received';
+                $message = "Deposit of \${$amount} ({$row['name']}) - <span style='color: {$statusColor};'>{$statusLabel}</span>";
+            } elseif ($txn_status === 'withdraw') {
                 $icon = '🏦';
-                $message = "Withdrawal of \${$amount} ({$row['name']}) - <span style='color: #ffa500;'>{$statusLabel}</span>";
-            } elseif ($status === 'transfer') {
+                $title = 'Withdrawal Request';
+                $message = "Withdrawal of \${$amount} ({$row['name']}) - <span style='color: {$statusColor};'>{$statusLabel}</span>";
+            } elseif ($txn_status === 'transfer') {
                 $icon = '🔄';
-                $message = "Transfer of \${$amount} - <span style='color: #4caf50;'>{$statusLabel}</span>";
+                $title = 'Transfer Processed';
+                $message = "Transfer of \${$amount} - <span style='color: {$statusColor};'>{$statusLabel}</span>";
             } else {
                 $icon = '📊';
-                $message = "{$row['name']}: \${$amount} - <span style='color: #ffa500;'>{$statusLabel}</span>";
+                $title = ucfirst($txn_status) . ' Update';
+                $message = "{$row['name']}: \${$amount} - <span style='color: {$statusColor};'>{$statusLabel}</span>";
             }
             
             $notifications[] = [
                 'id' => 'trx_' . $row['trx_id'],
                 'type' => 'transaction',
                 'icon' => $icon,
-                'title' => ucfirst($status) . ' Update',
+                'title' => $title,
                 'message' => $message,
-                'time' => $row['create_date'],
+                'time' => date('c', strtotime($row['create_date'])), // ISO 8601 format for JS
                 'timestamp' => strtotime($row['create_date']),
-                'status' => $status
+                'status' => $statusLabel
             ];
         }
     }
@@ -137,7 +155,7 @@ try {
                 'icon' => '⏳',
                 'title' => 'Wallet Verification',
                 'message' => 'Your wallet connection is pending admin verification',
-                'time' => date('Y-m-d H:i:s'),
+                'time' => date('c'),
                 'timestamp' => time(),
                 'status' => 'pending'
             ];
@@ -148,7 +166,7 @@ try {
                 'icon' => '✅',
                 'title' => 'Wallet Connected',
                 'message' => 'Your wallet has been successfully verified and connected',
-                'time' => date('Y-m-d H:i:s'),
+                'time' => date('c'),
                 'timestamp' => time(),
                 'status' => 'completed'
             ];
@@ -162,7 +180,7 @@ try {
                 'icon' => '📋',
                 'title' => 'KYC Verification',
                 'message' => 'Your KYC verification is pending admin review',
-                'time' => date('Y-m-d H:i:s'),
+                'time' => date('c'),
                 'timestamp' => time(),
                 'status' => 'pending'
             ];
@@ -173,7 +191,7 @@ try {
                 'icon' => '✅',
                 'title' => 'KYC Verified',
                 'message' => 'Your identity has been successfully verified',
-                'time' => date('Y-m-d H:i:s'),
+                'time' => date('c'),
                 'timestamp' => time(),
                 'status' => 'completed'
             ];
@@ -227,7 +245,7 @@ try {
                 'icon' => '📈',
                 'title' => 'Trading Plan: ' . $pair,
                 'message' => "Amount: \${$amount} | Profit: \${$profit} | Status: <span style='color: {$statusColor};'>{$statusText}</span>",
-                'time' => $row['create_date'],
+                'time' => date('c', strtotime($row['create_date'])), // ISO 8601 format for JS
                 'timestamp' => strtotime($row['create_date']),
                 'status' => strtolower($statusText),
                 'endDate' => $row['end_date']
