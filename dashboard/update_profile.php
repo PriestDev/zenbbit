@@ -12,6 +12,81 @@ $user_data = mysqli_fetch_assoc($run);
 $message = '';
 $messageType = '';
 
+// --- KYC Upload Handler (AJAX-capable) ---
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST['kyc_only']) || isset($_FILES['kyc_files']))) {
+    // Prepare response for AJAX
+    $response = ['success' => false, 'message' => ''];
+
+    $doc_type = mysqli_real_escape_string($conn, $_POST['kyc_type'] ?? '');
+    $issue_date = mysqli_real_escape_string($conn, $_POST['kyc_issue_date'] ?? '');
+    $notes = mysqli_real_escape_string($conn, $_POST['kyc_notes'] ?? '');
+
+    // Ensure user exists
+    $db_user_id = (int)($user_data['id'] ?? 0);
+    if ($db_user_id <= 0) {
+        $response['message'] = 'User not found.';
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    }
+
+    if (!isset($_FILES['kyc_files'])) {
+        $response['message'] = 'No files uploaded.';
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    }
+
+    $allowed_ext = ['pdf','jpg','jpeg','png','doc','docx'];
+    $maxSize = 10 * 1024 * 1024; // 10MB
+    $uploadDir = __DIR__ . '/../uploads/kyc/';
+
+    if (!is_dir($uploadDir)) {
+        @mkdir($uploadDir, 0755, true);
+    }
+
+    $uploaded = [];
+    foreach ($_FILES['kyc_files']['name'] as $i => $name) {
+        if (empty($name)) continue;
+        $tmp = $_FILES['kyc_files']['tmp_name'][$i];
+        $size = $_FILES['kyc_files']['size'][$i];
+        $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+        if ($size > $maxSize) {
+            continue;
+        }
+        if (!in_array($ext, $allowed_ext)) {
+            continue;
+        }
+
+        $safeName = time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
+        $target = $uploadDir . $safeName;
+        if (move_uploaded_file($tmp, $target)) {
+            $relPath = 'uploads/kyc/' . $safeName;
+            // Insert record into kyc table (best-effort - common columns)
+            $status = 0; // pending
+            $stmt = mysqli_prepare($conn, "INSERT INTO kyc (user_id, file_name, file_path, doc_type, issue_date, notes, status, create_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+            if ($stmt) {
+                mysqli_stmt_bind_param($stmt, "isssssi", $db_user_id, $name, $relPath, $doc_type, $issue_date, $notes, $status);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
+            }
+            $uploaded[] = $relPath;
+        }
+    }
+
+    if (count($uploaded) > 0) {
+        $response['success'] = true;
+        $response['message'] = 'KYC documents uploaded successfully.';
+    } else {
+        $response['message'] = 'No valid files were uploaded. Ensure files are PDF/JPG/PNG/DOC and under 10MB.';
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fname = mysqli_real_escape_string($conn, $_POST['first_name']);
@@ -215,7 +290,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </p>
 
                         <div style="background: linear-gradient(135deg, rgba(98, 47, 170, 0.05) 0%, rgba(98, 47, 170, 0.02) 100%); border: 2px dashed #622faa; border-radius: 12px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s ease; margin-bottom: 20px;" id="kycDropZone" onmouseover="this.style.borderColor='#7d3fb5'; this.style.background='linear-gradient(135deg, rgba(98, 47, 170, 0.1) 0%, rgba(98, 47, 170, 0.05) 100%)'" onmouseout="this.style.borderColor='#622faa'; this.style.background='linear-gradient(135deg, rgba(98, 47, 170, 0.05) 0%, rgba(98, 47, 170, 0.02) 100%)'">
-                            <input type="file" id="kycFile" multiple accept=".pdf,.jpg,.jpeg,.png,.docx,.doc" style="display: none;">
+                            <input type="file" id="kycFile" name="kyc_files[]" multiple accept=".pdf,.jpg,.jpeg,.png,.docx,.doc" style="display: none;">
                             <div onclick="document.getElementById('kycFile').click();" style="cursor: pointer;">
                                 <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #622faa; margin-bottom: 1rem; display: block;"></i>
                                 <p style="margin: 0.5rem 0; font-weight: 600; color: #333;">
@@ -386,7 +461,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Handle form submission for KYC
         document.querySelector('form').addEventListener('submit', function(e) {
             if (uploadedFiles.length > 0) {
-                // Prevent default form submission to handle file upload
+                // Prevent default form submission to handle file upload via AJAX
                 e.preventDefault();
                 uploadKYCDocuments();
             }
@@ -406,13 +481,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             formData.append('kyc_type', document.getElementById('kyc_type').value);
             formData.append('kyc_issue_date', document.getElementById('kyc_issue_date').value);
             formData.append('kyc_notes', document.getElementById('kyc_notes').value);
+            formData.append('kyc_only', '1');
 
-            // You can add AJAX upload here later
-            console.log('Files ready for upload:', uploadedFiles);
-            console.log('KYC Type:', document.getElementById('kyc_type').value);
-            
-            // For now, just log the files and submit the regular form
-            document.querySelector('form').submit();
+            // Send files via fetch to the same endpoint
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message || 'KYC uploaded successfully');
+                    window.location.reload();
+                } else {
+                    alert(data.message || 'KYC upload failed');
+                }
+            })
+            .catch(err => {
+                console.error('KYC upload error', err);
+                alert('An error occurred while uploading KYC documents.');
+            });
         }
     </script>
 </body>
