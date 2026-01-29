@@ -102,7 +102,8 @@ include('includes/navbar.php');
                                     $trx_id = htmlspecialchars($trx_id_raw);
                                     $user_id = htmlspecialchars($row['user_id']);
                                     $method = htmlspecialchars($row['name']);
-                                    $amount = number_format($row['amt'], 2);
+                                    $asset = strtoupper(htmlspecialchars($row['asset'] ?? 'USD'));
+                                    $amount = number_format($row['amt'], 8);
                                     $created = date('Y-m-d H:i', strtotime($row['create_date']));
                         ?>
                         <tr>
@@ -110,7 +111,7 @@ include('includes/navbar.php');
                             <td><?php echo $user_id; ?></td>
                             <td><?php echo $method; ?></td>
                             <td><?php echo $gateway_name; ?></td>
-                            <td>$<?php echo $amount; ?></td>
+                            <td><?php echo $amount; ?> <?php echo $asset; ?></td>
                             <td><?php echo $details; ?></td>
                             <td><?php echo $status_badge; ?></td>
                             <td><?php echo $created; ?></td>

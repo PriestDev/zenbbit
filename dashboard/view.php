@@ -377,13 +377,14 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                         $typeIcon = $isDeposit ? 'fa-plus-circle text-success' : 'fa-minus-circle text-danger';
                         $typeLabel = $isDeposit ? 'Deposit' : 'Withdrawal';
                         $amount = number_format($transaction['amount'], 8);
+                        $txn_asset = strtoupper($transaction['asset'] ?? 'USD');
                         $status = htmlspecialchars($transaction['status']);
                         $date = date('M d, Y H:i', strtotime($transaction['date']));
                         
                         echo '
                         <tr>
                             <td><i class="fas '.$typeIcon.'"></i> '.$typeLabel.'</td>
-                            <td><strong>'.$amount.' '.$current['symbol'].'</strong></td>
+                            <td><strong>'.$amount.' '.$txn_asset.'</strong></td>
                             <td><span class="transaction-status-badge" style="padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600; '.($isDeposit ? 'background: #e8f5e9; color: #2e7d32;' : 'background: #ffebee; color: #c62828;').'">'.ucfirst($status).'</span></td>
                             <td><small>'.$date.'</small></td>
                         </tr>';
@@ -411,6 +412,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                     $typeColor = $isDeposit ? '#4caf50' : '#f44336';
                     $typeLabel = $isDeposit ? 'Deposit' : 'Withdrawal';
                     $amount = number_format($transaction['amount'], 8);
+                    $txn_asset = strtoupper($transaction['asset'] ?? 'USD');
                     $status = htmlspecialchars($transaction['status']);
                     $date = date('M d, Y H:i', strtotime($transaction['date']));
                     
@@ -423,7 +425,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                             </div>
                             <div class="transaction-card-amount">
                                 <strong style="color: '.$typeColor.'; font-size: 16px;">'.$amount.'</strong>
-                                <small style="display: block; color: #999;">'.$current['symbol'].'</small>
+                                <small style="display: block; color: #999;">'.$txn_asset.'</small>
                             </div>
                         </div>
                         <div class="transaction-card-footer">

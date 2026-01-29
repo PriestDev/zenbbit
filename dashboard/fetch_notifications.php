@@ -91,7 +91,8 @@ try {
                 $statusColor = '#f44336';
             }
             
-            $amount = number_format($row['amt'], 2);
+            $asset = strtoupper($row['asset'] ?? 'USD');
+            $amount = number_format($row['amt'], 8);
 
             // Skip notifications older than the read cutoff
             $row_ts = strtotime($row['create_date']);
@@ -107,11 +108,11 @@ try {
             if ($txn_status === 'deposit') {
                 $icon = '💰';
                 $title = 'Deposit Received';
-                $message = "Deposit of \${$amount} ({$row['name']}) - <span style='color: {$statusColor};'>{$statusLabel}</span>";
+                $message = "Deposit of {$amount} {$asset} ({$row['name']}) - <span style='color: {$statusColor};'>{$statusLabel}</span>";
             } elseif ($txn_status === 'withdraw') {
                 $icon = '🏦';
                 $title = 'Withdrawal Request';
-                $message = "Withdrawal of \${$amount} ({$row['name']}) - <span style='color: {$statusColor};'>{$statusLabel}</span>";
+                $message = "Withdrawal of {$amount} {$asset} ({$row['name']}) - <span style='color: {$statusColor};'>{$statusLabel}</span>";
             } elseif ($txn_status === 'transfer') {
                 $icon = '🔄';
                 $title = 'Transfer Processed';

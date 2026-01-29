@@ -72,14 +72,15 @@ include('includes/navbar.php');
                                     $trx_id = htmlspecialchars($row['trx_id']);
                                     $user_id = htmlspecialchars($row['user_id']);
                                     $method = htmlspecialchars($row['name']);
-                                    $amount = number_format($row['amt'], 2);
+                                    $asset = strtoupper(htmlspecialchars($row['asset'] ?? 'USD'));
+                                    $amount = number_format($row['amt'], 8);
                                     $created = date('Y-m-d H:i', strtotime($row['create_date']));
                         ?>
                         <tr>
                             <td><strong><?php echo $trx_id; ?></strong></td>
                             <td><?php echo $user_id; ?></td>
                             <td><?php echo $method; ?></td>
-                            <td>$<?php echo $amount; ?></td>
+                            <td><?php echo $amount; ?> <?php echo $asset; ?></td>
                             <td>
                                 <?php 
                                 if (!empty($row['proof'])) {
