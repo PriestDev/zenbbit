@@ -1,13 +1,10 @@
 /**
- * =============================================
- * DEPOSIT PAGE MODULE
- * =============================================
+ * DEPOSIT PAGE MODULE - SIMPLIFIED
  * Handles:
- * - Wallet address configuration and display
- * - QR code generation (single per address, no duplicates)
- * - Payment method selection and validation
- * - Form submission and receipt upload
- * - Copy to clipboard functionality
+ * - Wallet address display
+ * - QR code generation for each method
+ * - Copy to clipboard
+ * - Form displays wallet info and receipt upload
  */
 
 (function() {
@@ -250,107 +247,43 @@
     }
 
     /**
-     * Handle form submission
+     * Handle form submission - let form submit naturally via POST
      */
     if (depositForm) {
         depositForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
+            // Allow traditional form submission
+            // Just validate that wallet and receipt are selected
             const selectedMethod = depositMethodSelect.value;
             const amount = document.getElementById('depositAmount')?.value;
             const receipt = paymentReceiptInput?.files[0];
-            const walletAddress = walletAddressEl.textContent;
 
             // Validation
             if (!selectedMethod) {
-                if (typeof iziToast !== 'undefined') {
-                    iziToast.error({ title: 'Error', message: 'Please select a payment method' });
-                }
+                e.preventDefault();
+                alert('Please select a payment method');
                 return;
             }
 
             if (!amount || parseFloat(amount) <= 0) {
-                if (typeof iziToast !== 'undefined') {
-                    iziToast.error({ title: 'Error', message: 'Please enter a valid amount' });
-                }
+                e.preventDefault();
+                alert('Please enter a valid amount');
                 return;
             }
 
             if (!receipt) {
-                if (typeof iziToast !== 'undefined') {
-                    iziToast.error({ title: 'Error', message: 'Please upload payment receipt' });
-                }
+                e.preventDefault();
+                alert('Please upload payment receipt');
                 return;
             }
 
-            if (!walletAddress || walletAddress === 'NOT_CONFIGURED') {
-                if (typeof iziToast !== 'undefined') {
-                    iziToast.error({ title: 'Error', message: 'Wallet address is not configured' });
-                }
-                return;
-            }
-
-            // Validate file size (max 5MB)
             if (receipt.size > 5 * 1024 * 1024) {
-                if (typeof iziToast !== 'undefined') {
-                    iziToast.error({ title: 'Error', message: 'Receipt file must be less than 5MB' });
-                }
+                e.preventDefault();
+                alert('Receipt file must be less than 5MB');
                 return;
             }
 
-            // Submit deposit
-            submitDeposit(selectedMethod, amount, receipt, walletAddress);
+            // Allow form to submit naturally
         });
-    }
-
-    /**
-     * Submit deposit via AJAX
-     */
-    function submitDeposit(method, amount, receipt, address) {
-        const formData = new FormData();
-        formData.append('deposit_method', method);
-        formData.append('deposit_amount', amount);
-        formData.append('wallet_address', address);
-        formData.append('payment_receipt', receipt);
-
-        fetch('./api/process_deposit.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.success({
-                            title: 'Success',
-                            message: 'Deposit submitted successfully. Your transaction is pending verification.',
-                            onClosed: () => {
-                                depositForm.reset();
-                                walletCard.style.display = 'none';
-                                receiptGroup.style.display = 'none';
-                                clearQRCode();
-                                currentMethod = null;
-                            }
-                        });
-                    }
-                } else {
-                    if (typeof iziToast !== 'undefined') {
-                        iziToast.error({
-                            title: 'Error',
-                            message: data.message || 'Failed to submit deposit'
-                        });
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('❌ Deposit submission error:', error);
-                if (typeof iziToast !== 'undefined') {
-                    iziToast.error({
-                        title: 'Error',
-                        message: 'An error occurred. Please try again.'
-                    });
-                }
-            });
     }
 
     // ================= INITIALIZATION ======================

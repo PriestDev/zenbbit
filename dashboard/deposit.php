@@ -9,6 +9,18 @@
   <!-- Main Deposit Content -->
   <main class="deposit-main">
     <section class="deposit-section hom mb-5">
+      <!-- Status Messages -->
+      <?php 
+        if (isset($_SESSION['deposit_success']) && $_SESSION['deposit_success']) {
+            echo '<div class="alert alert-success" style="margin: 20px;">' . htmlspecialchars($_SESSION['deposit_success']) . '</div>';
+            unset($_SESSION['deposit_success']);
+        }
+        if (isset($_SESSION['deposit_error']) && $_SESSION['deposit_error']) {
+            echo '<div class="alert alert-danger" style="margin: 20px;">' . htmlspecialchars($_SESSION['deposit_error']) . '</div>';
+            unset($_SESSION['deposit_error']);
+        }
+      ?>
+      
       <div class="card deposit-card">
         <!-- Header Section with Gradient -->
         <div class="wallet-inf deposit-header">
@@ -24,11 +36,11 @@
           <p class="deposit-info-text">Choose your preferred deposit method and enter the amount to proceed with your deposit.</p>
         </div>
 
-        <form id="depositForm" class="deposit-form">
+        <form id="depositForm" class="deposit-form" method="POST" action="api/process_deposit.php" enctype="multipart/form-data">
           <!-- Deposit Method Group -->
           <div class="form-group deposit-form-group">
             <label for="depositMethod" class="deposit-form-label">Select Payment Method</label>
-            <select id="depositMethod" required class="deposit-form-select">
+            <select id="depositMethod" name="deposit_method" required class="deposit-form-select">
               <option value="">-- Select Payment Method --</option>
               <option value="btc">Bitcoin (BTC)</option>
               <option value="usdt_trc">USDT - TRC20</option>
@@ -40,11 +52,11 @@
           <!-- Amount Group -->
           <div class="form-group deposit-form-group">
             <label for="depositAmount" class="deposit-form-label">Amount (USD)</label>
-            <input type="number" id="depositAmount" class="deposit-form-input" placeholder="Enter amount" step="0.01" min="0" required>
+            <input type="number" id="depositAmount" name="deposit_amount" class="deposit-form-input" placeholder="Enter amount" step="0.01" min="0" required>
           </div>
 
           <!-- Wallet Info Card (Hidden by default) -->
-          <div id="walletCard" class="deposit-wallet-card">
+          <div id="walletCard" class="deposit-wallet-card" style="display: none;">
             <h3 class="deposit-wallet-title">Wallet Address</h3>
             
             <!-- QR Code -->
@@ -62,9 +74,9 @@
           </div>
 
           <!-- Payment Receipt Upload -->
-          <div id="receiptGroup" class="deposit-receipt-group">
+          <div id="receiptGroup" class="deposit-receipt-group" style="display: none;">
             <label for="paymentReceipt" class="deposit-form-label">Upload Payment Receipt/Proof</label>
-            <input type="file" id="paymentReceipt" name="paymentReceipt" class="deposit-form-input" accept="image/*,.pdf" required>
+            <input type="file" id="paymentReceipt" name="payment_receipt" class="deposit-form-input" accept="image/*,.pdf" required>
             <small class="deposit-form-help">Accepted: Images (JPG, PNG, GIF) or PDF. Max 5MB</small>
           </div>
 
