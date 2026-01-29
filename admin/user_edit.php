@@ -123,13 +123,7 @@
                                         <small class="text-muted">Total amount deposited by user</small>
                                     </div>
                                 </div>
-                                <!-- <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label"><i class="fas fa-chart-line" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Profit Balance ($) *</label>
-                                        <input type="number" name="profit" value="<?= htmlspecialchars($row['profit']); ?>" class="form-control" step="0.01" required>
-                                        <small class="text-muted">Generated profit from trades</small>
-                                    </div>
-                                </div> -->
+                                
                             </div>
                         </div>
 
@@ -588,7 +582,63 @@
         </div>
     </div>
     <?php endif; ?>
+
+    <!-- Delete User Section -->
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+        <div class="card shadow-sm" style="border-color: #fee2e2; background: rgba(254, 242, 242, 0.5);">
+            <div class="card-header bg-danger text-white" style="display: flex; align-items: center; gap: 0.75rem;">
+                <i class="fas fa-fw fa-trash-alt" style="font-size: 1.25rem;"></i>
+                <div>
+                    <h3 class="m-0">Delete User Account</h3>
+                    <small>Permanently remove this user and all their data</small>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 1.25rem; margin-top: 0.25rem; flex-shrink: 0;"></i>
+                    <div>
+                        <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #991b1b;">
+                            Warning: This action cannot be undone
+                        </p>
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;">
+                            Deleting this user will permanently remove their account, transactions, and all associated data from the system. This operation is irreversible.
+                        </p>
+                    </div>
+                </div>
+                
+                <form method="POST" action="code.php" style="display: inline;">
+                    <input type="hidden" name="delete_user" value="<?= htmlspecialchars($row['id'] ?? ''); ?>">
+                    <input type="hidden" name="user_email" value="<?= htmlspecialchars($row['email'] ?? ''); ?>">
+                    <button type="button" class="btn btn-danger" onclick="confirmDeleteUser(<?= htmlspecialchars($row['id'] ?? ''); ?>, '<?= htmlspecialchars($row['email'] ?? 'Unknown'); ?>', '<?= htmlspecialchars($row['acct_id'] ?? 'N/A'); ?>')">
+                        <i class="fas fa-trash-alt" style="margin-right: 0.5rem;"></i>
+                        Delete User Permanently
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
+
+<script>
+function confirmDeleteUser(userId, userEmail, acctId) {
+    if (confirm(`Are you absolutely sure you want to delete this user?\n\nEmail: ${userEmail}\nAccount ID: ${acctId}\n\nThis action CANNOT be undone.`)) {
+        const finalConfirm = prompt(`Type "DELETE" to confirm permanent deletion of this user account:`);
+        if (finalConfirm === "DELETE") {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'code.php';
+            form.innerHTML = `
+                <input type="hidden" name="delete_user" value="${userId}">
+                <input type="hidden" name="user_email" value="${userEmail}">
+            `;
+            document.body.appendChild(form);
+            form.submit();
+        } else {
+            alert('Deletion cancelled. User account was not deleted.');
+        }
+    }
+}
+</script>
 
 <?php 
 include('includes/script.php');

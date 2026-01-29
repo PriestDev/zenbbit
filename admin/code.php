@@ -979,6 +979,72 @@ if (isset($_POST['delete'])) {
     $stmt->close();
 }
 
+/**
+ * Delete user from user edit page
+ */
+if (isset($_POST['delete_user'])) {
+    $id = (int)$_POST['delete_user'];
+    $user_email = sanitize_input($_POST['user_email'] ?? '');
+    
+    // Begin transaction to delete user and all related data
+    $conn->begin_transaction();
+    
+    try {
+        // Delete user transactions
+        $stmt = $conn->prepare("DELETE FROM transaction WHERE user_id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+        
+        // Delete user deposits
+        $stmt = $conn->prepare("DELETE FROM deposits WHERE user_id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+        
+        // Delete user KYC data
+        $stmt = $conn->prepare("DELETE FROM kyc WHERE user_id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+        
+        // Delete user asset transactions
+        $stmt = $conn->prepare("DELETE FROM asset_transaction WHERE user_id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+        
+        // Delete main user record
+        $stmt = $conn->prepare("DELETE FROM user WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+        
+        // Commit transaction
+        $conn->commit();
+        
+        // Send notification email to admin
+        $subject = "User Account Deleted";
+        $message = "
+            <h2>User Account Deletion Notification</h2>
+            <p><strong>Email:</strong> {$user_email}</p>
+            <p><strong>User ID:</strong> {$id}</p>
+            <p><strong>Deleted At:</strong> " . date('Y-m-d H:i:s') . "</p>
+            <p><strong>Deleted By:</strong> Admin</p>
+            <hr>
+            <p>The user account and all associated data (transactions, KYC, etc.) have been permanently deleted from the system.</p>
+        ";
+        send_email(Admin_Email, $subject, $message);
+        
+        set_alert('success', 'User Account Permanently Deleted', 'users.php');
+    } catch (Exception $e) {
+        // Rollback on error
+        $conn->rollback();
+        error_log("User deletion error for ID {$id}: " . $e->getMessage());
+        set_alert('status', 'Failed to Delete User: ' . $e->getMessage(), 'user_edit.php?id=' . $id);
+    }
+}
+
 // =====================================================================
 // WALLET & KYC VERIFICATION
 // =====================================================================
