@@ -56,6 +56,38 @@ include 'includes/head.php';
                     <p class="dashboard-balance-label">Total Balance (USD)</p>
                     <div class="dashboard-balance-amount">$<?php echo number_format($total_bal, 2); ?></div>
                     <p class="dashboard-balance-crypto">≈ <?php echo number_format($total_btc, 8); ?> BTC</p>
+                    
+                    <!-- Individual Asset Balances -->
+                    <div class="dashboard-assets-breakdown">
+                        <?php
+                        // Define all available assets with their properties
+                        $assets = [
+                            'btc_balance' => ['name' => 'Bitcoin', 'symbol' => 'BTC', 'decimals' => 8],
+                            'eth_balance' => ['name' => 'Ethereum', 'symbol' => 'ETH', 'decimals' => 8],
+                            'bnb_balance' => ['name' => 'Binance Coin', 'symbol' => 'BNB', 'decimals' => 8],
+                            'trx_balance' => ['name' => 'TRON', 'symbol' => 'TRX', 'decimals' => 8],
+                            'sol_balance' => ['name' => 'Solana', 'symbol' => 'SOL', 'decimals' => 8],
+                            'xrp_balance' => ['name' => 'Ripple', 'symbol' => 'XRP', 'decimals' => 8],
+                            'avax_balance' => ['name' => 'Avalanche', 'symbol' => 'AVAX', 'decimals' => 8],
+                            'erc_balance' => ['name' => 'ERC Token', 'symbol' => 'ERC', 'decimals' => 8],
+                            'trc_balance' => ['name' => 'TRC Token', 'symbol' => 'TRC', 'decimals' => 8]
+                        ];
+                        
+                        // Display each asset if balance > 0
+                        foreach ($assets as $column => $asset_info) {
+                            if (isset($$column) && $$column > 0) {
+                                $balance = $$column;
+                                $formatted_balance = number_format($balance, $asset_info['decimals']);
+                                $symbol = $asset_info['symbol'];
+                                $name = $asset_info['name'];
+                                echo '<div class="asset-balance-item">';
+                                echo '<span class="asset-name">' . htmlspecialchars($name) . ':</span>';
+                                echo '<span class="asset-balance">' . $formatted_balance . ' ' . htmlspecialchars($symbol) . '</span>';
+                                echo '</div>';
+                            }
+                        }
+                        ?>
+                    </div>
                 </div>
 
                 <!-- Actions Section -->

@@ -2869,6 +2869,58 @@ body.light-mode .dashboard-balance-profit {
     background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 107, 107, 0.05) 100%);
 }
 
+/* Asset Balance Breakdown Styles */
+.dashboard-assets-breakdown {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.asset-balance-item {
+    background: rgba(98, 47, 170, 0.1);
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-left: 3px solid #622faa;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.asset-name {
+    font-size: 12px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.asset-balance {
+    font-size: 14px;
+    font-weight: 700;
+    color: #00c985;
+}
+
+body.light-mode .dashboard-assets-breakdown {
+    border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .asset-balance-item {
+    background: rgba(98, 47, 170, 0.08);
+    border-left-color: #622faa;
+}
+
+body.light-mode .asset-name {
+    color: #666;
+}
+
+body.light-mode .asset-balance {
+    color: #00c985;
+}
+
 body.light-mode .dashboard-balance-title {
     color: #666;
 }

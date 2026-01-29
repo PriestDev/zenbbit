@@ -715,17 +715,12 @@ if (isset($_POST['approve_deposit'])) {
  */
 if (isset($_POST['decline_deposit'])) {
     $id = sanitize_input($_POST['serial'] ?? '');
-    $email = sanitize_input($_POST['email'] ?? '');
-    $amt = (float)($_POST['amt'] ?? 0);
-    $pair = sanitize_input($_POST['pair'] ?? '');
-    $status = 2;
+    $status = 2; // 2 = declined
     
-    $stmt = $conn->prepare("UPDATE transaction SET serial=?, amt=?, name=? WHERE trx_id=?");
-    $stmt->bind_param("idss", $status, $amt, $pair, $id);
+    $stmt = $conn->prepare("UPDATE transaction SET serial=? WHERE trx_id=?");
+    $stmt->bind_param("is", $status, $id);
     
     if ($stmt->execute()) {
-        $message = "This is to inform you that your deposit of $" . number_format($amt, 2) . " was declined.";
-        send_email($email, "Deposit Declined", $message);
         set_alert('success', 'Deposit Declined', 'deposit.php');
     } else {
         set_alert('status', 'Decline failed', 'deposit.php');

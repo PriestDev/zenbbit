@@ -47,7 +47,7 @@ include('includes/navbar.php');
                     </thead>
                     <tbody>
                         <?php 
-                        $stmt = mysqli_prepare($conn, "SELECT * FROM transaction WHERE status = 'withdraw' ORDER BY id DESC");
+                        $stmt = mysqli_prepare($conn, "SELECT * FROM transaction WHERE type = 'withdraw' ORDER BY id DESC");
                         if ($stmt) {
                             mysqli_stmt_execute($stmt);
                             $result = mysqli_stmt_get_result($stmt);

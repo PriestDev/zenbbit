@@ -134,27 +134,36 @@ try {
     $updateStmt->close();
     
     // Insert withdrawal record into transaction table
-    $withdrawalType = 'withdrawal';
-    $status = 'pending';
+    $trx_id = 'WTH-' . uniqid();
+    $withdrawalType = 'withdraw';
+    $withdrawalStatus = 'withdraw';
+    $serial = 0; // 0 = pending, 1 = approved, 2 = declined
+    $gate_way = 1; // 1 = Balance, 2 = Profit, 3 = Referral
     $currentDate = date('Y-m-d H:i:s');
     
     $insertStmt = $conn->prepare(
-        "INSERT INTO transaction (name, type, status, amt, asset, wallet_address, create_date) 
-         VALUES (?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO transaction (trx_id, user_id, name, type, status, amt, asset, wallet_address, serial, gate_way, email, create_date) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
     
     if (!$insertStmt) {
         throw new Exception("Prepare failed: " . $conn->error);
     }
     
+    $assetSymbol = $selectedAsset['symbol'];
     $insertStmt->bind_param(
-        "sssdsss",
+        "sssssdssiss",
+        $trx_id,
         $user_id,
+        $assetSymbol,
         $withdrawalType,
-        $status,
+        $withdrawalStatus,
         $amount,
         $asset,
         $address,
+        $serial,
+        $gate_way,
+        $user['email'],
         $currentDate
     );
     

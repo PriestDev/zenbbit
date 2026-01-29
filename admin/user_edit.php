@@ -116,20 +116,20 @@
                             </h5>
                             
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group mb-3">
                                         <label class="form-label"><i class="fas fa-dollar-sign" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Deposited Balance ($) *</label>
                                         <input type="number" name="user_bal" value="<?= htmlspecialchars($row['balance']); ?>" class="form-control" step="0.01" required>
                                         <small class="text-muted">Total amount deposited by user</small>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="form-label"><i class="fas fa-chart-line" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Profit Balance ($) *</label>
                                         <input type="number" name="profit" value="<?= htmlspecialchars($row['profit']); ?>" class="form-control" step="0.01" required>
                                         <small class="text-muted">Generated profit from trades</small>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
