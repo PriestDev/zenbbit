@@ -6,10 +6,20 @@
  * Uses traditional form submission (no AJAX) for cPanel compatibility
  */
 
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
 // Check if user is logged in
 if (!isset($_SESSION)) {
     session_start();
 }
+
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
     $_SESSION['deposit_error'] = 'Unauthorized. Please login first.';
@@ -125,7 +135,7 @@ try {
     }
 
     $insertStmt->bind_param(
-        "sssssdsssi ss",
+        "sssssdsssiiss",
         $trx_id,
         $user_id,
         $asset_name,
