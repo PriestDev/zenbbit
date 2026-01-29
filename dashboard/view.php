@@ -175,12 +175,12 @@ $userTransactions = [];
 if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
     $user_acct_id = $_SESSION['user_id'];
     
-    // Query transactions for this user
-    $trans_query = "SELECT id, name, status, amt, create_date FROM transaction WHERE name = ? ORDER BY create_date DESC LIMIT 20";
+    // Query transactions for this user filtered by current asset
+    $trans_query = "SELECT id, name, type, status, amt, asset, create_date FROM transaction WHERE name = ? AND asset = ? ORDER BY create_date DESC LIMIT 20";
     $stmt = $conn->prepare($trans_query);
     
     if ($stmt) {
-        $stmt->bind_param("s", $user_acct_id);
+        $stmt->bind_param("ss", $user_acct_id, $coinType);
         
         if ($stmt->execute()) {
             $result = $stmt->get_result();
@@ -188,10 +188,11 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             while ($row = $result->fetch_assoc()) {
                 $userTransactions[] = [
                     'id' => $row['id'],
-                    'type' => strtolower($row['status']),
+                    'type' => strtolower($row['type']),
                     'amount' => floatval($row['amt']),
                     'status' => $row['status'],
-                    'date' => $row['create_date']
+                    'date' => $row['create_date'],
+                    'asset' => htmlspecialchars($row['asset'])
                 ];
             }
         } else {
@@ -245,7 +246,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
 
           <!-- Portfolio Value in USD -->
           <p class="view-coin-usd-value" style="margin-top: 10px; color: #622faa; font-size: 18px; font-weight: 700;">
-            Portfolio Value: <strong>$<?php echo number_format(($userBalance * $currentPrice), 2); ?></strong>
+            Wallet Value: <strong>$<?php echo number_format(($userBalance * $currentPrice), 2); ?></strong>
           </p>
 
           <!-- Live Price Display (Blended) -->
@@ -269,13 +270,13 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
           <i class="fas fa-arrow-down"></i> Receive
         </a>
 
-        <button type="button" class="view-action-button" onclick="iziToast.info({title: 'Coming Soon', message: 'Send functionality coming soon'})">
+        <a href="withdraw.php" class="view-action-button" style="text-decoration: none;">
           <i class="fas fa-arrow-up"></i> Send
-        </button>
+        </a>
 
-        <button type="button" class="view-action-button" onclick="iziToast.info({title: 'Coming Soon', message: 'Buy functionality coming soon'})">
+        <a href="buy.php" class="view-action-button" style="text-decoration: none;">
           <i class="fas fa-credit-card"></i> Buy
-        </button>
+        </a>
       </div>
 
       <!-- Price Chart Section -->
@@ -354,10 +355,11 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
       <!-- Transactions Section -->
       <div class="card view-transactions-card">
         <h3 class="view-transactions-title">
-          <i class="fas fa-history"></i>Transaction History
+          <i class="fas fa-history"></i><?php echo $current['symbol']; ?> Transaction History
         </h3>
 
-        <div style="overflow-x: auto;">
+        <!-- Desktop Table View -->
+        <div class="view-transactions-desktop" style="overflow-x: auto;">
           <table class="view-transactions-table">
             <thead>
               <tr>
@@ -381,7 +383,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                         echo '
                         <tr>
                             <td><i class="fas '.$typeIcon.'"></i> '.$typeLabel.'</td>
-                            <td><strong>$'.$amount.'</strong></td>
+                            <td><strong>'.$amount.' '.$current['symbol'].'</strong></td>
                             <td><span class="transaction-status-badge" style="padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600; '.($isDeposit ? 'background: #e8f5e9; color: #2e7d32;' : 'background: #ffebee; color: #c62828;').'">'.ucfirst($status).'</span></td>
                             <td><small>'.$date.'</small></td>
                         </tr>';
@@ -390,13 +392,54 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                     echo '
                     <tr>
                         <td colspan="4" class="view-transactions-empty">
-                            <i class="fas fa-inbox"></i> No transactions yet
+                            <i class="fas fa-inbox"></i> No '.$current['symbol'].' transactions yet
                         </td>
                     </tr>';
                 }
               ?>
             </tbody>
           </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="view-transactions-mobile">
+          <?php
+            if (!empty($userTransactions)) {
+                foreach ($userTransactions as $transaction) {
+                    $isDeposit = $transaction['type'] === 'deposit';
+                    $typeIcon = $isDeposit ? 'fa-plus-circle' : 'fa-minus-circle';
+                    $typeColor = $isDeposit ? '#4caf50' : '#f44336';
+                    $typeLabel = $isDeposit ? 'Deposit' : 'Withdrawal';
+                    $amount = number_format($transaction['amount'], 8);
+                    $status = htmlspecialchars($transaction['status']);
+                    $date = date('M d, Y H:i', strtotime($transaction['date']));
+                    
+                    echo '
+                    <div class="transaction-card-mobile">
+                        <div class="transaction-card-header">
+                            <div class="transaction-card-type">
+                                <i class="fas '.$typeIcon.'" style="color: '.$typeColor.'; font-size: 18px;"></i>
+                                <span class="transaction-label">'.$typeLabel.'</span>
+                            </div>
+                            <div class="transaction-card-amount">
+                                <strong style="color: '.$typeColor.'; font-size: 16px;">'.$amount.'</strong>
+                                <small style="display: block; color: #999;">'.$current['symbol'].'</small>
+                            </div>
+                        </div>
+                        <div class="transaction-card-footer">
+                            <span class="transaction-status-badge-mobile" style="background: '.($isDeposit ? '#e8f5e9' : '#ffebee').'; color: '.($isDeposit ? '#2e7d32' : '#c62828').';">'.ucfirst($status).'</span>
+                            <small style="color: #999;">'.$date.'</small>
+                        </div>
+                    </div>';
+                }
+            } else {
+                echo '
+                <div style="text-align: center; padding: 30px 20px; color: #999;">
+                    <i class="fas fa-inbox" style="font-size: 32px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                    <p>No '.$current['symbol'].' transactions yet</p>
+                </div>';
+            }
+          ?>
         </div>
       </div>
 

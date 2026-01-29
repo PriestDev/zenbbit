@@ -1,0 +1,432 @@
+/* ================= WITHDRAW PAGE STYLES ======================= */
+
+/* Main Content Area */
+main {
+    padding-bottom: 8rem;
+    min-height: calc(100vh - 120px);
+}
+
+/* Withdraw Form Container */
+.withdraw-main-section {
+    margin-top: 7rem;
+    margin-bottom: 10rem;
+    width: 100%;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 16px;
+}
+
+.withdraw-card {
+    background: var(--card-bg);
+    padding: 50px 40px;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--card-border);
+    transition: all 0.3s ease;
+}
+
+.withdraw-card:hover {
+    box-shadow: 0 8px 32px rgba(98, 47, 170, 0.12);
+    transform: translateY(-2px);
+}
+
+.withdraw-header {
+    margin-bottom: 3.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.settings-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 10px 0;
+    letter-spacing: -0.5px;
+}
+
+.settings-subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* Form Styles - Override Bootstrap Defaults */
+#withdrawForm .form-group {
+    margin-bottom: 24px;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+#withdrawForm .form-group label {
+    display: block !important;
+    margin-bottom: 10px !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    font-size: 14px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    line-height: 1.4 !important;
+}
+
+#withdrawForm .form-group input,
+#withdrawForm .form-group select {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 13px 15px !important;
+    border: 1.5px solid var(--form-border) !important;
+    border-radius: 8px !important;
+    background: var(--form-bg) !important;
+    color: var(--text-primary) !important;
+    font-size: 15px !important;
+    font-family: inherit !important;
+    transition: all 0.3s ease !important;
+    box-shadow: none !important;
+    display: block !important;
+}
+
+#withdrawForm .form-group input::placeholder {
+    color: var(--text-secondary) !important;
+    opacity: 0.6 !important;
+}
+
+/* Amount helper text */
+#withdrawForm .amount-helper {
+    display: block !important;
+    font-size: 12px !important;
+    color: var(--text-secondary) !important;
+    margin-top: 5px !important;
+    font-style: italic !important;
+    line-height: 1.4 !important;
+}
+
+/* Conversion info display */
+#withdrawForm .conversion-info {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--form-border) !important;
+    border-radius: 8px !important;
+    padding: 12px 15px !important;
+    margin-top: 8px !important;
+    font-size: 13px !important;
+    color: var(--text-primary) !important;
+}
+
+#withdrawForm .conversion-info p {
+    margin: 5px 0 !important;
+    padding: 0 !important;
+}
+
+#withdrawForm .conversion-info strong {
+    color: var(--primary-color) !important;
+    font-weight: 700 !important;
+}
+
+#withdrawForm .conversion-info .price-info {
+    font-size: 12px !important;
+    color: var(--text-secondary) !important;
+}
+
+#withdrawForm .form-group input:hover,
+#withdrawForm .form-group select:hover {
+    border-color: var(--primary-color) !important;
+    background: var(--form-bg) !important;
+}
+
+#withdrawForm .form-group input:focus,
+#withdrawForm .form-group select:focus {
+    outline: none !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 4px rgba(98, 47, 170, 0.15) !important;
+    background: var(--form-bg) !important;
+}
+
+/* Submit Button - Override Bootstrap */
+#withdrawForm .btn-primary {
+    width: 100% !important;
+    padding: 15px 20px !important;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #8c3fca 100%) !important;
+    color: var(--text-light) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.4px !important;
+    transition: all 0.3s ease !important;
+    margin-top: 8px !important;
+    box-shadow: 0 4px 14px rgba(98, 47, 170, 0.25) !important;
+}
+
+#withdrawForm .btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(98, 47, 170, 0.4) !important;
+    background: linear-gradient(135deg, #7a3fa5 0%, #9d54d4 100%) !important;
+}
+
+#withdrawForm .btn-primary:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(98, 47, 170, 0.25) !important;
+}
+
+#withdrawForm .btn-primary:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(98, 47, 170, 0.15) !important;
+}
+
+/* Footer Navigation */
+.footer-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: black;
+    padding: 1rem 0.5rem;
+    z-index: 100;
+    gap: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-nav a {
+    text-decoration: none;
+    color: var(--primary-color);
+    flex: 1;
+}
+
+.footer-nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.footer-nav-item:hover {
+    background: rgba(98, 47, 170, 0.1);
+}
+
+.footer-nav-item i {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    transition: all 0.2s ease;
+}
+
+.footer-nav-item:hover i {
+    transform: scale(1.1);
+}
+
+.footer-nav-item span {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Light Mode Specific */
+body.light-mode #withdrawForm .form-group input,
+body.light-mode #withdrawForm .form-group select {
+    background: #fafafa !important;
+    border-color: #ddd !important;
+    color: #333 !important;
+}
+
+body.light-mode #withdrawForm .form-group input:hover,
+body.light-mode #withdrawForm .form-group select:hover {
+    background: #f5f5f5 !important;
+    border-color: var(--primary-color) !important;
+}
+
+body.light-mode #withdrawForm .form-group input:focus,
+body.light-mode #withdrawForm .form-group select:focus {
+    border-color: var(--primary-color) !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 4px rgba(98, 47, 170, 0.12) !important;
+}
+
+body.light-mode #withdrawForm .form-group label {
+    color: #333 !important;
+}
+
+/* Dark Mode Specific */
+body.dark-mode #withdrawForm .form-group input,
+body.dark-mode #withdrawForm .form-group select {
+    background: #0d1117 !important;
+    border-color: #333 !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode #withdrawForm .form-group input:hover,
+body.dark-mode #withdrawForm .form-group select:hover {
+    background: #151b22 !important;
+    border-color: var(--primary-color) !important;
+}
+
+body.dark-mode #withdrawForm .form-group input:focus,
+body.dark-mode #withdrawForm .form-group select:focus {
+    border-color: var(--primary-color) !important;
+    background: #161b22 !important;
+    box-shadow: 0 0 0 4px rgba(98, 47, 170, 0.2) !important;
+}
+
+body.dark-mode #withdrawForm .form-group label {
+    color: #e0e0e0 !important;
+}
+
+/* ================= TABLET RESPONSIVE ======================= */
+@media (max-width: 768px) {
+    .withdraw-main-section {
+        margin-top: 6rem;
+        margin-bottom: 9rem;
+        padding: 0 12px;
+    }
+
+    .withdraw-card {
+        padding: 40px 30px;
+        border-radius: 12px;
+    }
+
+    .withdraw-header {
+        margin-bottom: 3rem;
+    }
+
+    .settings-title {
+        font-size: 26px;
+        margin-bottom: 8px;
+    }
+
+    .settings-subtitle {
+        font-size: 14px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 12px 13px;
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+
+    .btn-primary {
+        padding: 13px 18px;
+        font-size: 15px;
+        margin-top: 6px;
+    }
+}
+
+/* ================= MOBILE RESPONSIVE ======================= */
+@media (max-width: 600px) {
+    main {
+        padding-bottom: 7rem;
+    }
+
+    .withdraw-main-section {
+        margin-top: 5.5rem;
+        margin-bottom: 8rem;
+        padding: 0 12px;
+        max-width: 100%;
+    }
+
+    .withdraw-card {
+        padding: 35px 22px;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .withdraw-header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.2rem;
+    }
+
+    .settings-title {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .settings-subtitle {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 11px 12px;
+        font-size: 14px;
+        border-radius: 6px;
+    }
+
+    .btn-primary {
+        padding: 12px 16px;
+        font-size: 14px;
+        margin-top: 6px;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+
+    .footer-nav {
+        padding: 0.75rem 0.25rem;
+        gap: 2px;
+    }
+
+    .footer-nav-item {
+        padding: 0.4rem;
+    }
+
+    .footer-nav-item i {
+        font-size: 1rem;
+        margin-bottom: 4px;
+    }
+
+    .footer-nav-item span {
+        font-size: 10px;
+    }
+}
+
+/* ================= EXTRA SMALL PHONES ======================= */
+@media (max-width: 360px) {
+    .withdraw-main-section {
+        padding: 0 8px;
+    }
+
+    .withdraw-card {
+        padding: 28px 16px;
+    }
+
+    .settings-title {
+        font-size: 22px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px 10px;
+        font-size: 13px;
+    }
+
+    .btn-primary {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}

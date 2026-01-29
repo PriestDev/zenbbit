@@ -65,7 +65,6 @@ try {
         FROM transaction
         WHERE user_id = '$userId_esc'
         ORDER BY create_date DESC
-        LIMIT 5
     ";
     
     $transactionResult = @mysqli_query($conn, $transactionQuery);
@@ -243,8 +242,8 @@ try {
         return $b['timestamp'] - $a['timestamp'];
     });
     
-    // Limit to 10 most recent notifications
-    $notifications = array_slice($notifications, 0, 10);
+    // Return all collected notifications (already ordered by timestamp)
+    // Note: large result sets may affect payload size; consider server-side limits or pagination if needed.
     
     // ========================================
     // 5. RETURN RESPONSE

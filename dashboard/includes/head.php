@@ -27,5 +27,11 @@
   <?php endif; ?>
   <!-- Merged Dashboard Styles -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- Additional Page-Specific Styles -->
+  <?php if (isset($additionalCSS) && is_array($additionalCSS)): ?>
+    <?php foreach ($additionalCSS as $css): ?>
+      <link rel="stylesheet" href="<?= htmlspecialchars($css); ?>">
+    <?php endforeach; ?>
+  <?php endif; ?>
 </head>
 
