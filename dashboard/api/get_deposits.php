@@ -27,43 +27,55 @@ if (!isset($_SESSION['user_id'])) {
 try {
     $user_id = $_SESSION['user_id'];
     
-    // Query for user's deposits (if deposits table exists)
-    // For now, return empty array as deposits table may not be set up
+    // Query user's deposits from transaction table
+    $sql = "SELECT id, trx_id, user_id, amt, name, serial, email, create_date 
+            FROM transaction 
+            WHERE status = 'deposit' AND user_id = ?
+            ORDER BY create_date DESC";
+    
+    $stmt = mysqli_prepare($conn, $sql);
+    if (!$stmt) {
+        throw new Exception("Prepare failed: " . mysqli_error($conn));
+    }
+    
+    mysqli_stmt_bind_param($stmt, "s", $user_id);
+    
+    if (!mysqli_stmt_execute($stmt)) {
+        throw new Exception("Execute failed: " . mysqli_stmt_error($stmt));
+    }
+    
+    $result = mysqli_stmt_get_result($stmt);
     $deposits = [];
     
-    // Try to query deposits if the table exists
-    $check_table = "SELECT COUNT(*) FROM information_schema.TABLES 
-                   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'deposits' LIMIT 1";
-    $result = mysqli_query($conn, $check_table);
-    $table_exists = mysqli_fetch_row($result)[0] > 0;
-    
-    if ($table_exists) {
-        $sql = "SELECT id, user_id, amount, currency, status, approval, trx_id, date 
-                FROM deposits 
-                WHERE user_id = ? OR acct_id = ?
-                ORDER BY date DESC 
-                LIMIT 50";
-        
-        $stmt = mysqli_prepare($conn, $sql);
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ss", $user_id, $user_id);
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-            
-            while ($row = mysqli_fetch_assoc($result)) {
-                $deposits[] = [
-                    'id' => $row['id'],
-                    'amount' => $row['amount'],
-                    'currency' => strtoupper($row['currency']),
-                    'status' => $row['status'] ?? 'pending',
-                    'approval' => $row['approval'] ?? 0,
-                    'trx_id' => $row['trx_id'] ?? 'N/A',
-                    'date' => $row['date']
-                ];
-            }
-            mysqli_stmt_close($stmt);
+    while ($row = mysqli_fetch_assoc($result)) {
+        // Map serial to status label
+        $statusLabel = 'Pending';
+        switch ($row['serial']) {
+            case 0:
+                $statusLabel = 'Pending';
+                break;
+            case 1:
+                $statusLabel = 'Approved';
+                break;
+            case 2:
+                $statusLabel = 'Declined';
+                break;
         }
+        
+        $deposits[] = [
+            'id' => $row['id'],
+            'trx_id' => $row['trx_id'],
+            'amount' => (float)$row['amt'],
+            'currency' => htmlspecialchars($row['name']),
+            'status' => 'deposit',
+            'approval' => (int)$row['serial'],
+            'approval_status' => $statusLabel,
+            'email' => $row['email'],
+            'date' => $row['create_date']
+        ];
     }
+    
+    mysqli_stmt_close($stmt);
     
     // Return success response
     echo json_encode([
