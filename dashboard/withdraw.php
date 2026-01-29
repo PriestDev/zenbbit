@@ -1,7 +1,6 @@
 <?php 
 include 'includes/dashboard_init.php'; 
 $pageTitle = 'Withdraw'; 
-$includeIziToast = true; 
 
 // Include external CSS
 $additionalCSS = ['css/withdraw.css'];
@@ -111,6 +110,9 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
 
   <!-- External Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Toast Notification System -->
+  <script src="js/toast.js"></script>
 
   <!-- Dashboard Scripts -->
   <script src="js/script.js"></script>

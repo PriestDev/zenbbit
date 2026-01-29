@@ -308,13 +308,12 @@
      */
     function submitDeposit(method, amount, receipt, address) {
         const formData = new FormData();
-        formData.append('action', 'deposit');
         formData.append('deposit_method', method);
         formData.append('deposit_amount', amount);
         formData.append('wallet_address', address);
         formData.append('payment_receipt', receipt);
 
-        fetch('code.php', {
+        fetch('./api/process_deposit.php', {
             method: 'POST',
             body: formData
         })
