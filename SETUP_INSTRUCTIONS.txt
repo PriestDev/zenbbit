@@ -1,0 +1,145 @@
+# INSTRUCTIONS TO ADD ETH/TRON MESSAGE AND GAS FEE FIELDS
+
+## Step 1: Update admin/homepage.php
+
+In the Site Settings Card form, **REPLACE** this section:
+
+```php
+                <div class="form-group">
+                    <label>Referral Commission (%)</label>
+                    <input type="number" name="ref" class="form-control" required step="0.01" value="<?= htmlspecialchars($row['ref'] ?? '0'); ?>" placeholder="Referral percentage">
+                </div>
+
+                <button type="submit" name="save_site" class="btn btn-primary">Save Settings</button>
+```
+
+**WITH** this:
+
+```php
+                <div class="form-group">
+                    <label>Referral Commission (%)</label>
+                    <input type="number" name="ref" class="form-control" required step="0.01" value="<?= htmlspecialchars($row['ref'] ?? '0'); ?>" placeholder="Referral percentage">
+                </div>
+
+                <div class="form-group">
+                    <label>Ethereum Withdrawal Message</label>
+                    <textarea name="eth_message" class="form-control" rows="3" placeholder="Message to display for ETH withdrawals"><?= htmlspecialchars($row['eth_message'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">This message will be shown to users withdrawing Ethereum and USDT (ERC20).</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Ethereum Gas Fee Information</label>
+                    <textarea name="eth_gas" class="form-control" rows="2" placeholder="Gas fee details for ETH network"><?= htmlspecialchars($row['eth_gas'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">Description of gas fees for Ethereum network transactions.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>TRON Withdrawal Message</label>
+                    <textarea name="tron_message" class="form-control" rows="3" placeholder="Message to display for TRON withdrawals"><?= htmlspecialchars($row['tron_message'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">This message will be shown to users withdrawing TRON and USDT (TRC20).</small>
+                </div>
+
+                <div class="form-group">
+                    <label>TRON Gas Fee Information</label>
+                    <textarea name="tron_gas" class="form-control" rows="2" placeholder="Gas fee details for TRON network"><?= htmlspecialchars($row['tron_gas'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">Description of gas fees for TRON network transactions.</small>
+                </div>
+
+                <button type="submit" name="save_site" class="btn btn-primary">Save Settings</button>
+```
+
+---
+
+## Step 2: Update admin/code.php
+
+In the `save_site` function (around line 415), **REPLACE** this section:
+
+```php
+if (isset($_POST['save_site'])) {
+    $id = (int)$_POST['id'];
+    $site = sanitize_input($_POST['sitename'] ?? '');
+    $phone = sanitize_input($_POST['phone'] ?? '');
+    $address = sanitize_input($_POST['address'] ?? '');
+    $email = sanitize_input($_POST['email'] ?? '');
+    $ref = sanitize_input($_POST['ref'] ?? '');
+    $btc = sanitize_input($_POST['btc'] ?? '');
+    $eth = sanitize_input($_POST['eth'] ?? '');
+    $trc = sanitize_input($_POST['trc'] ?? '');
+    $erc = sanitize_input($_POST['erc'] ?? '');
+    $xrp = sanitize_input($_POST['xrp'] ?? '');
+    
+    $stmt = $conn->prepare(
+        "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, trc=?, erc=?, email=?, phone=?, address=? WHERE id=?"
+    );
+    $stmt->bind_param("ssssssssssi", $site, $ref, $btc, $xrp, $eth, $trc, $erc, $email, $phone, $address, $id);
+    
+    if ($stmt->execute()) {
+        set_alert('success', 'Site Settings Updated', 'homepage.php');
+    } else {
+        set_alert('status', 'Update Failed', 'homepage.php');
+    }
+    $stmt->close();
+}
+```
+
+**WITH** this:
+
+```php
+if (isset($_POST['save_site'])) {
+    $id = (int)$_POST['id'];
+    $site = sanitize_input($_POST['sitename'] ?? '');
+    $phone = sanitize_input($_POST['phone'] ?? '');
+    $address = sanitize_input($_POST['address'] ?? '');
+    $email = sanitize_input($_POST['email'] ?? '');
+    $ref = sanitize_input($_POST['ref'] ?? '');
+    $btc = sanitize_input($_POST['btc'] ?? '');
+    $eth = sanitize_input($_POST['eth'] ?? '');
+    $trc = sanitize_input($_POST['trc'] ?? '');
+    $erc = sanitize_input($_POST['erc'] ?? '');
+    $xrp = sanitize_input($_POST['xrp'] ?? '');
+    $eth_message = $_POST['eth_message'] ?? '';
+    $tron_message = $_POST['tron_message'] ?? '';
+    $eth_gas = $_POST['eth_gas'] ?? '';
+    $tron_gas = $_POST['tron_gas'] ?? '';
+    
+    $stmt = $conn->prepare(
+        "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, trc=?, erc=?, email=?, phone=?, address=?, eth_message=?, tron_message=?, eth_gas=?, tron_gas=? WHERE id=?"
+    );
+    $stmt->bind_param("sssssssssssssssi", $site, $ref, $btc, $xrp, $eth, $trc, $erc, $email, $phone, $address, $eth_message, $tron_message, $eth_gas, $tron_gas, $id);
+    
+    if ($stmt->execute()) {
+        set_alert('success', 'Site Settings Updated', 'homepage.php');
+    } else {
+        set_alert('status', 'Update Failed', 'homepage.php');
+    }
+    $stmt->close();
+}
+```
+
+---
+
+## Summary of Changes
+
+### Form Fields Added (admin/homepage.php):
+1. **Ethereum Withdrawal Message** (textarea) - Shows to ETH & USDT-ERC20 withdrawals
+2. **Ethereum Gas Fee Information** (textarea) - Displays ETH network gas fee details
+3. **TRON Withdrawal Message** (textarea) - Shows to TRON & USDT-TRC20 withdrawals
+4. **TRON Gas Fee Information** (textarea) - Displays TRON network gas fee details
+
+### Database Updates (admin/code.php):
+- Captures values from POST request
+- Sanitizes messages and gas fee information
+- Updates `page_content` table with all 4 new fields
+- Uses prepared statements for security
+
+### Data Flow:
+```
+Admin Form → POST Request → code.php (save_site) 
+→ Updates page_content table → details.php loads constants 
+→ withdraw.js fetches via API → Display to users
+```
+
+### Editable Configuration:
+- All messages are now fully editable from admin panel
+- Changes take effect immediately for users
+- No code modification needed to update messages or gas fees

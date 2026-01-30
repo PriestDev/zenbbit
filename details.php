@@ -17,6 +17,10 @@
 		$eth = $val['eth'];
 		$trc = $val['trc'];
 		$erc = $val['erc'];
+		$eth_message = $val['eth_message'];
+		$tron_message = $val['tron_message'];
+		$eth_gas = $val['eth_gas'];
+		$tron_gas = $val['tron_gas'];
 
 
 		defined('LOGO') or define('LOGO', $logo);
@@ -32,6 +36,10 @@
 		defined('ETH') or define('ETH', $eth);
 		defined('TRC') or define('TRC', $trc);
 		defined('ERC') or define('ERC', $erc);
+		defined('ETH_MESSAGE') or define('ETH_MESSAGE', $eth_message);
+		defined('TRON_MESSAGE') or define('TRON_MESSAGE', $tron_message);
+		defined('ETH_GAS') or define('ETH_GAS', $eth_gas);
+		defined('TRON_GAS') or define('TRON_GAS', $tron_gas);
 
 	}
 

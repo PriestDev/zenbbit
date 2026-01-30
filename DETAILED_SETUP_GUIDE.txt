@@ -1,0 +1,179 @@
+# STEP-BY-STEP SETUP GUIDE WITH LINE NUMBERS
+
+## FILE 1: admin/homepage.php
+
+### Location: Lines 75-78 (Referral Commission section)
+
+**Current Code:**
+```php
+75:                <div class="form-group">
+76:                    <label>Referral Commission (%)</label>
+77:                    <input type="number" name="ref" class="form-control" required step="0.01" value="<?= htmlspecialchars($row['ref'] ?? '0'); ?>" placeholder="Referral percentage">
+78:                </div>
+79:
+80:                <button type="submit" name="save_site" class="btn btn-primary">Save Settings</button>
+```
+
+**Action:** Delete lines 79-80 (blank line and button)
+
+**Add these lines before the button:**
+```php
+                <div class="form-group">
+                    <label>Ethereum Withdrawal Message</label>
+                    <textarea name="eth_message" class="form-control" rows="3" placeholder="Message to display for ETH withdrawals"><?= htmlspecialchars($row['eth_message'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">This message will be shown to users withdrawing Ethereum and USDT (ERC20).</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Ethereum Gas Fee Information</label>
+                    <textarea name="eth_gas" class="form-control" rows="2" placeholder="Gas fee details for ETH network"><?= htmlspecialchars($row['eth_gas'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">Description of gas fees for Ethereum network transactions.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>TRON Withdrawal Message</label>
+                    <textarea name="tron_message" class="form-control" rows="3" placeholder="Message to display for TRON withdrawals"><?= htmlspecialchars($row['tron_message'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">This message will be shown to users withdrawing TRON and USDT (TRC20).</small>
+                </div>
+
+                <div class="form-group">
+                    <label>TRON Gas Fee Information</label>
+                    <textarea name="tron_gas" class="form-control" rows="2" placeholder="Gas fee details for TRON network"><?= htmlspecialchars($row['tron_gas'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">Description of gas fees for TRON network transactions.</small>
+                </div>
+
+                <button type="submit" name="save_site" class="btn btn-primary">Save Settings</button>
+```
+
+---
+
+## FILE 2: admin/code.php
+
+### Location: Lines 415-435 (save_site function)
+
+**Current Code (Lines 415-426):**
+```php
+415: if (isset($_POST['save_site'])) {
+416:     $id = (int)$_POST['id'];
+417:     $site = sanitize_input($_POST['sitename'] ?? '');
+418:     $phone = sanitize_input($_POST['phone'] ?? '');
+419:     $address = sanitize_input($_POST['address'] ?? '');
+420:     $email = sanitize_input($_POST['email'] ?? '');
+421:     $ref = sanitize_input($_POST['ref'] ?? '');
+422:     $btc = sanitize_input($_POST['btc'] ?? '');
+423:     $eth = sanitize_input($_POST['eth'] ?? '');
+424:     $trc = sanitize_input($_POST['trc'] ?? '');
+425:     $erc = sanitize_input($_POST['erc'] ?? '');
+426:     $xrp = sanitize_input($_POST['xrp'] ?? '');
+```
+
+**Action:** After line 426, ADD these 4 lines:
+```php
+427:     $eth_message = $_POST['eth_message'] ?? '';
+428:     $tron_message = $_POST['tron_message'] ?? '';
+429:     $eth_gas = $_POST['eth_gas'] ?? '';
+430:     $tron_gas = $_POST['tron_gas'] ?? '';
+```
+
+**Current Code (Lines 428-431):**
+```php
+428:     $stmt = $conn->prepare(
+429:         "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, trc=?, erc=?, email=?, phone=?, address=? WHERE id=?"
+430:     );
+431:     $stmt->bind_param("ssssssssssi", $site, $ref, $btc, $xrp, $eth, $trc, $erc, $email, $phone, $address, $id);
+```
+
+**Action:** REPLACE with:
+```php
+432:     $stmt = $conn->prepare(
+433:         "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, trc=?, erc=?, email=?, phone=?, address=?, eth_message=?, tron_message=?, eth_gas=?, tron_gas=? WHERE id=?"
+434:     );
+435:     $stmt->bind_param("sssssssssssssssi", $site, $ref, $btc, $xrp, $eth, $trc, $erc, $email, $phone, $address, $eth_message, $tron_message, $eth_gas, $tron_gas, $id);
+```
+
+---
+
+## Verification Checklist
+
+After making changes, verify:
+
+- [ ] admin/homepage.php has 4 new textarea fields
+- [ ] Form displays: eth_message, eth_gas, tron_message, tron_gas
+- [ ] admin/code.php reads all 4 POST variables
+- [ ] SQL UPDATE query includes all 4 new columns
+- [ ] bind_param has 15 parameters total (14 s's + 1 i)
+- [ ] Admin can save settings without errors
+
+## Testing the Implementation
+
+1. **Go to Admin Panel** → Homepage Settings
+2. **Fill in the new fields:**
+   - Ethereum Withdrawal Message: "Your ETH withdrawal is being processed..."
+   - Ethereum Gas Fee: "Current ETH gas fees may apply"
+   - TRON Withdrawal Message: "Your TRON withdrawal is being processed..."
+   - TRON Gas Fee: "TRON network charges minimal gas fees"
+3. **Click Save Settings**
+4. **Go to Dashboard** → Withdraw Page
+5. **Select ETH** → Gas fee notice should appear
+6. **Select TRON** → Different gas fee notice should appear
+7. **Select BTC** → No gas fee notice should appear
+
+## Data Flow Diagram
+
+```
+┌─────────────────────────────────────────────┐
+│ Admin Panel (homepage.php)                  │
+│ - Ethereum Withdrawal Message (textarea)    │
+│ - Ethereum Gas Fee (textarea)               │
+│ - TRON Withdrawal Message (textarea)        │
+│ - TRON Gas Fee (textarea)                   │
+└──────────────────┬──────────────────────────┘
+                   │ POST save_site
+                   ▼
+┌─────────────────────────────────────────────┐
+│ code.php - save_site() function             │
+│ - Reads all 4 POST variables                │
+│ - Prepares SQL UPDATE                       │
+│ - Updates page_content table                │
+└──────────────────┬──────────────────────────┘
+                   │ Database Update
+                   ▼
+┌─────────────────────────────────────────────┐
+│ page_content table                          │
+│ - eth_message column updated                │
+│ - eth_gas column updated                    │
+│ - tron_message column updated               │
+│ - tron_gas column updated                   │
+└──────────────────┬──────────────────────────┘
+                   │ include details.php
+                   ▼
+┌─────────────────────────────────────────────┐
+│ details.php - Load Constants                │
+│ define('ETH_MESSAGE', $eth_message)         │
+│ define('ETH_GAS', $eth_gas)                 │
+│ define('TRON_MESSAGE', $tron_message)       │
+│ define('TRON_GAS', $tron_gas)               │
+└──────────────────┬──────────────────────────┘
+                   │ API Fetch
+                   ▼
+┌─────────────────────────────────────────────┐
+│ api/get_withdrawal_messages.php             │
+│ Returns: eth_message, eth_gas,              │
+│          tron_message, tron_gas             │
+└──────────────────┬──────────────────────────┘
+                   │ JavaScript Fetch
+                   ▼
+┌─────────────────────────────────────────────┐
+│ js/withdraw.js                              │
+│ - Stores gas fees in gasFeeConfig           │
+│ - Shows/hides gas fee notice on change      │
+└──────────────────┬──────────────────────────┘
+                   │ DOM Update
+                   ▼
+┌─────────────────────────────────────────────┐
+│ User Dashboard (withdraw.php)               │
+│ - Selects ETH → Gas fee notice appears      │
+│ - Selects TRON → Different notice appears   │
+│ - Selects BTC → No notice                   │
+└─────────────────────────────────────────────┘
+```

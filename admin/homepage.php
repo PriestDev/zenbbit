@@ -85,6 +85,30 @@ include('includes/navbar.php');
                     <input type="number" name="ref" class="form-control" required step="0.01" value="<?= htmlspecialchars($row['ref'] ?? '0'); ?>" placeholder="Referral percentage">
                 </div>
 
+                <div class="form-group">
+                    <label>Ethereum Withdrawal Message</label>
+                    <textarea name="eth_message" class="form-control" rows="3" placeholder="Message to display for ETH withdrawals"><?= htmlspecialchars($row['eth_message'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">This message will be shown to users withdrawing Ethereum and USDT (ERC20).</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Ethereum Gas Fee Information</label>
+                    <textarea name="eth_gas" class="form-control" rows="2" placeholder="Gas fee details for ETH network"><?= htmlspecialchars($row['eth_gas'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">Description of gas fees for Ethereum network transactions.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>TRON Withdrawal Message</label>
+                    <textarea name="tron_message" class="form-control" rows="3" placeholder="Message to display for TRON withdrawals"><?= htmlspecialchars($row['tron_message'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">This message will be shown to users withdrawing TRON and USDT (TRC20).</small>
+                </div>
+
+                <div class="form-group">
+                    <label>TRON Gas Fee Information</label>
+                    <textarea name="tron_gas" class="form-control" rows="2" placeholder="Gas fee details for TRON network"><?= htmlspecialchars($row['tron_gas'] ?? ''); ?></textarea>
+                    <small class="form-text text-muted">Description of gas fees for TRON network transactions.</small>
+                </div>
+
                 <button type="submit" name="save_site" class="btn btn-primary">Save Settings</button>
             </form>
         </div>

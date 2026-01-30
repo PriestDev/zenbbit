@@ -3,7 +3,7 @@ include 'includes/dashboard_init.php';
 $pageTitle = 'Withdraw'; 
 
 // Include external CSS
-$additionalCSS = ['css/withdraw.css'];
+$additionalCSS = ['css/withdraw.css', 'css/gas-fee-notice.css'];
 
 include 'includes/head.php'; 
 
@@ -76,15 +76,26 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             <option value="">-- Choose Asset --</option>
             <?php
               if (!empty($userAssets)) {
-                  foreach ($userAssets as $asset) {
-                      $balance = number_format($asset['balance'], 8);
-                      echo '<option value="' . htmlspecialchars($asset['value']) . '">' . htmlspecialchars($asset['name']) . ' (' . htmlspecialchars($asset['symbol']) . ') - Balance: ' . $balance . '</option>';
-                  }
+                foreach ($userAssets as $asset) {
+                  $balance = number_format($asset['balance'], 8, '.', '');
+                  // Add data-balance attribute so JS can compare balances against gas fees
+                  echo '<option value="' . htmlspecialchars($asset['value']) . '" data-balance="' . htmlspecialchars($balance) . '">' . htmlspecialchars($asset['name']) . ' (' . htmlspecialchars($asset['symbol']) . ') - Balance: ' . $balance . '</option>';
+                }
               } else {
-                  echo '<option value="">No assets available</option>';
+                echo '<option value="">No assets available</option>';
               }
             ?>
           </select>
+        </div>
+
+        <!-- Gas Fee Notice for ETH and TRON -->
+        <div id="gasFeeNotice" class="gas-fee-notice" style="display: none;">
+          <div class="alert alert-info" role="alert">
+            <strong>⛽ Gas Fee Required</strong>
+            <p id="gasFeeText" style="margin-top: 8px; margin-bottom: 0;">
+              Network gas fees apply to this withdrawal.
+            </p>
+          </div>
         </div>
 
         <div class="form-group">
@@ -102,7 +113,8 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
           <input type="text" id="withdrawAddress" placeholder="Enter wallet address" required>
         </div>
 
-        <button type="submit" class="btn-primary">Request Withdrawal</button>
+        <button type="button" id="submitBtn" class="btn-primary">Request Withdrawal</button>
+        <button type="submit" id="realSubmitBtn" class="btn btn-success" style="display: none;">Submit Withdrawal</button>
       </form>
     </div>
   </section>

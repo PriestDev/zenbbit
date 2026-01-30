@@ -424,11 +424,15 @@ if (isset($_POST['save_site'])) {
     $trc = sanitize_input($_POST['trc'] ?? '');
     $erc = sanitize_input($_POST['erc'] ?? '');
     $xrp = sanitize_input($_POST['xrp'] ?? '');
+    $eth_message = sanitize_input($_POST['eth_message'] ?? '');
+    $tron_message = sanitize_input($_POST['tron_message'] ?? '');
+    $eth_gas = sanitize_input($_POST['eth_gas'] ?? '');
+    $tron_gas = sanitize_input($_POST['tron_gas'] ?? '');
     
     $stmt = $conn->prepare(
-        "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, trc=?, erc=?, email=?, phone=?, address=? WHERE id=?"
+        "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, trc=?, erc=?, email=?, phone=?, address=?, eth_message=?, tron_message=?, eth_gas=?, tron_gas=? WHERE id=?"
     );
-    $stmt->bind_param("ssssssssssi", $site, $ref, $btc, $xrp, $eth, $trc, $erc, $email, $phone, $address, $id);
+    $stmt->bind_param("ssssssssssssssi", $site, $ref, $btc, $xrp, $eth, $trc, $erc, $email, $phone, $address, $eth_message, $tron_message, $eth_gas, $tron_gas, $id);
     
     if ($stmt->execute()) {
         set_alert('success', 'Site Settings Updated', 'homepage.php');
@@ -916,6 +920,66 @@ if (isset($_POST['approve_wth'])) {
     if ($up && $up->execute()) {
         $amt = (float)($tx['amt'] ?? 0);
         $notify_email = $tx['email'] ?? '';
+        
+        // Deduct amount from user's crypto balance
+        $tx_asset = isset($tx['asset']) ? strtolower($tx['asset']) : '';
+        $tx_user = $tx['user_id'] ?? '';
+        
+        $asset_map = [
+            'btc' => 'btc_balance',
+            'eth' => 'eth_balance',
+            'bnb' => 'bnb_balance',
+            'trx' => 'trx_balance',
+            'sol' => 'sol_balance',
+            'xrp' => 'xrp_balance',
+            'avax' => 'avax_balance',
+            'usdt_erc' => 'erc_balance',
+            'usdt_trc' => 'trc_balance',
+            'erc' => 'erc_balance',
+            'trc' => 'trc_balance'
+        ];
+        
+        if (!empty($tx_asset) && isset($asset_map[$tx_asset]) && !empty($tx_user)) {
+            $balance_col = $asset_map[$tx_asset];
+            
+            // Read current balance
+            $bal_stmt = $conn->prepare("SELECT $balance_col FROM user WHERE acct_id = ? LIMIT 1");
+            if ($bal_stmt) {
+                $bal_stmt->bind_param("s", $tx_user);
+                $bal_stmt->execute();
+                $bal_res = $bal_stmt->get_result();
+                $bal_row = $bal_res->fetch_assoc();
+                $bal_stmt->close();
+                
+                $current_bal = isset($bal_row[$balance_col]) ? (float)$bal_row[$balance_col] : 0.0;
+                
+                // Convert USD amount to crypto units
+                $price_usd = get_asset_price_usd($tx_asset);
+                if ($price_usd <= 0) {
+                    $crypto_amount = $amt;
+                } else {
+                    $crypto_amount = $amt / $price_usd;
+                }
+                
+                // For stablecoins keep 1:1
+                if (in_array($tx_asset, ['usdt_erc','usdt_trc','erc','trc'])) {
+                    $crypto_amount = $amt;
+                }
+                
+                $crypto_amount = round($crypto_amount, 8);
+                $new_bal = max(0, $current_bal - $crypto_amount); // Ensure balance doesn't go negative
+                
+                // Deduct from user balance
+                $upd_sql = "UPDATE user SET $balance_col = ? WHERE acct_id = ?";
+                $upd_stmt = $conn->prepare($upd_sql);
+                if ($upd_stmt) {
+                    $upd_stmt->bind_param("ds", $new_bal, $tx_user);
+                    $upd_stmt->execute();
+                    $upd_stmt->close();
+                }
+            }
+        }
+        
         // Fallback: attempt to get user email from user record if transaction missing it
         if (empty($notify_email) && !empty($tx['user_id'])) {
             if (ctype_digit($tx['user_id'])) {
@@ -1003,15 +1067,57 @@ if (isset($_POST['decline_wth'])) {
         }
 
         if ($user_data) {
-            if ($tx_gateway == 1) {
+            $tx_asset = isset($tx['asset']) ? strtolower($tx['asset']) : '';
+            
+            $asset_map = [
+                'btc' => 'btc_balance',
+                'eth' => 'eth_balance',
+                'bnb' => 'bnb_balance',
+                'trx' => 'trx_balance',
+                'sol' => 'sol_balance',
+                'xrp' => 'xrp_balance',
+                'avax' => 'avax_balance',
+                'usdt_erc' => 'erc_balance',
+                'usdt_trc' => 'trc_balance',
+                'erc' => 'erc_balance',
+                'trc' => 'trc_balance'
+            ];
+            
+            $stmt2 = null;
+            if (!empty($tx_asset) && isset($asset_map[$tx_asset])) {
+                // Refund to crypto balance
+                $balance_col = $asset_map[$tx_asset];
+                $current_bal = isset($user_data[$balance_col]) ? (float)$user_data[$balance_col] : 0.0;
+                
+                $price_usd = get_asset_price_usd($tx_asset);
+                if ($price_usd <= 0) {
+                    $crypto_amount = $tx_amt;
+                } else {
+                    $crypto_amount = $tx_amt / $price_usd;
+                }
+                
+                if (in_array($tx_asset, ['usdt_erc','usdt_trc','erc','trc'])) {
+                    $crypto_amount = $tx_amt;
+                }
+                
+                $crypto_amount = round($crypto_amount, 8);
+                $new_bal = $current_bal + $crypto_amount;
+                
+                $stmt2 = $conn->prepare("UPDATE user SET $balance_col = ? WHERE id = ?");
+                if ($stmt2) {
+                    $stmt2->bind_param("di", $new_bal, $user_data['id']);
+                }
+            } elseif ($tx_gateway == 1) {
+                // Fallback to legacy balance for non-crypto transactions
                 $new_balance = (float)$user_data['balance'] + $tx_amt;
-                $stmt2 = $conn->prepare("UPDATE user SET balance=? WHERE id=?");
+                $stmt2 = $conn->prepare("UPDATE user SET balance = ? WHERE id = ?");
                 if ($stmt2) {
                     $stmt2->bind_param("di", $new_balance, $user_data['id']);
                 }
             } else {
+                // Fallback to legacy profit
                 $new_profit = (float)$user_data['profit'] + $tx_amt;
-                $stmt2 = $conn->prepare("UPDATE user SET profit=? WHERE id=?");
+                $stmt2 = $conn->prepare("UPDATE user SET profit = ? WHERE id = ?");
                 if ($stmt2) {
                     $stmt2->bind_param("di", $new_profit, $user_data['id']);
                 }
