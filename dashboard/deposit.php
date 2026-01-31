@@ -44,9 +44,14 @@
             <select id="depositMethod" name="deposit_method" required class="deposit-form-select">
               <option value="">-- Select Payment Method --</option>
               <option value="btc">Bitcoin (BTC)</option>
-              <option value="usdt_trc">USDT - TRC20</option>
-              <option value="usdt_erc">USDT - ERC20</option>
               <option value="eth">Ethereum (ETH)</option>
+              <option value="bnb">Binance Coin (BNB)</option>
+              <option value="trx">TRON (TRX)</option>
+              <option value="sol">Solana (SOL)</option>
+              <option value="xrp">Ripple (XRP)</option>
+              <option value="avax">Avalanche (AVAX)</option>
+              <option value="usdt_erc">USDT - ERC20</option>
+              <option value="usdt_trc">USDT - TRC20</option>
             </select>
           </div>
 
@@ -142,9 +147,14 @@
   <script 
     src="js/deposit.js" 
     data-btc-address="<?php echo (defined("BTC") && !empty(BTC)) ? BTC : "NOT_CONFIGURED"; ?>"
-    data-trc-address="<?php echo (defined("TRC") && !empty(TRC)) ? TRC : "NOT_CONFIGURED"; ?>"
-    data-erc-address="<?php echo (defined("ERC") && !empty(ERC)) ? ERC : "NOT_CONFIGURED"; ?>"
-    data-eth-address="<?php echo (defined("ETH") && !empty(ETH)) ? ETH : "NOT_CONFIGURED"; ?>">
+    data-eth-address="<?php echo (defined("ETH") && !empty(ETH)) ? ETH : "NOT_CONFIGURED"; ?>"
+    data-bnb-address="<?php echo (defined("BNB") && !empty(BNB)) ? BNB : "NOT_CONFIGURED"; ?>"
+    data-trx-address="<?php echo (defined("TRX") && !empty(TRX)) ? TRX : "NOT_CONFIGURED"; ?>"
+    data-sol-address="<?php echo (defined("SOL") && !empty(SOL)) ? SOL : "NOT_CONFIGURED"; ?>"
+    data-xrp-address="<?php echo (defined("XRP") && !empty(XRP)) ? XRP : "NOT_CONFIGURED"; ?>"
+    data-avax-address="<?php echo (defined("AVAX") && !empty(AVAX)) ? AVAX : "NOT_CONFIGURED"; ?>"
+    data-usdt-erc-address="<?php echo (defined("ERC") && !empty(ERC)) ? ERC : "NOT_CONFIGURED"; ?>"
+    data-usdt-trc-address="<?php echo (defined("TRC") && !empty(TRC)) ? TRC : "NOT_CONFIGURED"; ?>">
   </script>
 
 </body>

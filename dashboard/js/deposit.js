@@ -13,16 +13,26 @@
     // ================= WALLET CONFIGURATION ======================
     const walletAddresses = {
         btc: document.currentScript?.dataset?.btcAddress || 'NOT_CONFIGURED',
-        usdt_trc: document.currentScript?.dataset?.trcAddress || 'NOT_CONFIGURED',
-        usdt_erc: document.currentScript?.dataset?.ercAddress || 'NOT_CONFIGURED',
-        eth: document.currentScript?.dataset?.ethAddress || 'NOT_CONFIGURED'
+        eth: document.currentScript?.dataset?.ethAddress || 'NOT_CONFIGURED',
+        bnb: document.currentScript?.dataset?.bnbAddress || 'NOT_CONFIGURED',
+        trx: document.currentScript?.dataset?.trxAddress || 'NOT_CONFIGURED',
+        sol: document.currentScript?.dataset?.solAddress || 'NOT_CONFIGURED',
+        xrp: document.currentScript?.dataset?.xrpAddress || 'NOT_CONFIGURED',
+        avax: document.currentScript?.dataset?.avaxAddress || 'NOT_CONFIGURED',
+        usdt_erc: document.currentScript?.dataset?.usdtErcAddress || 'NOT_CONFIGURED',
+        usdt_trc: document.currentScript?.dataset?.usdtTrcAddress || 'NOT_CONFIGURED'
     };
 
     const walletLabels = {
         btc: 'Bitcoin (BTC)',
-        usdt_trc: 'USDT - TRC20',
+        eth: 'Ethereum (ETH)',
+        bnb: 'Binance Coin (BNB)',
+        trx: 'TRON (TRX)',
+        sol: 'Solana (SOL)',
+        xrp: 'Ripple (XRP)',
+        avax: 'Avalanche (AVAX)',
         usdt_erc: 'USDT - ERC20',
-        eth: 'Ethereum (ETH)'
+        usdt_trc: 'USDT - TRC20'
     };
 
     // ================= STATE MANAGEMENT ======================
@@ -64,7 +74,7 @@
         }
 
         try {
-            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd');
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,tron,solana,ripple,avalanche-2,tether&vs_currencies=usd');
             const prices = await response.json();
             priceCache = prices;
             lastPriceFetchTime = now;
@@ -89,9 +99,14 @@
 
         const priceMap = {
             'btc': { id: 'bitcoin', symbol: 'BTC', decimals: 8 },
-            'eth': { id: 'ethereum', symbol: 'ETH', decimals: 8 },
-            'usdt_trc': { id: 'tether', symbol: 'USDT', decimals: 6 },
-            'usdt_erc': { id: 'tether', symbol: 'USDT', decimals: 6 }
+            'eth': { id: 'ethereum', symbol: 'ETH', decimals: 18 },
+            'bnb': { id: 'binancecoin', symbol: 'BNB', decimals: 18 },
+            'trx': { id: 'tron', symbol: 'TRX', decimals: 6 },
+            'sol': { id: 'solana', symbol: 'SOL', decimals: 9 },
+            'xrp': { id: 'ripple', symbol: 'XRP', decimals: 6 },
+            'avax': { id: 'avalanche-2', symbol: 'AVAX', decimals: 18 },
+            'usdt_erc': { id: 'tether', symbol: 'USDT', decimals: 6 },
+            'usdt_trc': { id: 'tether', symbol: 'USDT', decimals: 6 }
         };
 
         const assetInfo = priceMap[method];
