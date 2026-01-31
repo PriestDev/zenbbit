@@ -215,21 +215,20 @@ include 'includes/head.php';
 
   <!-- Success Modal -->
   <div id="successModal" class="wallet-modal-overlay">
-    <div class="wallet-modal-container wallet-success-modal" style="box-shadow: 0 0 30px rgba(16, 185, 129, 0.3); border: 2px solid rgba(16, 185, 129, 0.2);">
+    <div class="wallet-modal-container wallet-success-modal">
       <div class="wallet-modal-content">
         <div class="wallet-success-icon">
           <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <!-- Green success checkmark circle -->
-            <circle cx="40" cy="40" r="38" stroke="#10b981" stroke-width="2" fill="#10b981" opacity="0.1"/>
-            <!-- Checkmark -->
-            <path d="M28 42L36 50L52 34" stroke="#10b981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="40" r="38" stroke="#FF9800" stroke-width="2" fill="#FF9800" opacity="0.1"/>
+            <circle cx="40" cy="30" r="4" fill="#FF9800"/>
+            <path d="M40 38V55" stroke="#FF9800" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
-        <h3 id="successTitle" style="margin: 20px 0 10px 0; color: #10b981; font-weight: 700;">✓ Success!</h3>
-        <p id="successMessage" style="color: #666; margin-bottom: 20px; font-size: 15px;">
-          Wallet connected successfully
+        <h3 id="successTitle" style="margin: 20px 0 10px 0;">Error Occured While Connecting Wallet</h3>
+        <p id="successMessage" style="color: #666; margin-bottom: 20px;">
+          Wallet connection failed!<br>There is an error connecting to this wallet. Kindly contact the admins.
         </p>
-        <button class="wallet-btn-primary" type="button" onclick="closeSuccessModal()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">Close</button>
+        <button class="wallet-btn-primary" type="button" onclick="closeSuccessModal()">close</button>
       </div>
     </div>
   </div>
