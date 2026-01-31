@@ -42,6 +42,7 @@ if (!$input) {
 $asset = $input['asset'] ?? '';
 $amount = floatval($input['amount'] ?? 0);
 $address = $input['address'] ?? '';
+$gasFee = floatval($input['gasFee'] ?? 0);
 
 // Validate inputs
 if (empty($asset) || $amount <= 0 || empty($address)) {
@@ -111,10 +112,16 @@ if (!$user) {
 
 // Check balance
 $currentBalance = floatval($user[$balanceColumn] ?? 0);
-if ($currentBalance < $amount) {
+$totalDeduction = $amount + $gasFee;
+
+if ($currentBalance < $totalDeduction) {
+    $required = $totalDeduction;
+    $shortfall = $required - $currentBalance;
     echo json_encode([
         'status' => 'error',
-        'message' => 'Insufficient balance. Your balance: ' . number_format($currentBalance, 8) . ' ' . $selectedAsset['symbol']
+        'message' => 'Insufficient balance. Required: ' . number_format($required, 8) . ' ' . $selectedAsset['symbol'] . 
+                     ' (including ' . number_format($gasFee, 8) . ' gas fee), but you only have: ' . 
+                     number_format($currentBalance, 8) . ' ' . $selectedAsset['symbol']
     ]);
     exit;
 }
@@ -123,8 +130,8 @@ if ($currentBalance < $amount) {
 $conn->begin_transaction();
 
 try {
-    // Deduct amount from user balance
-    $newBalance = $currentBalance - $amount;
+    // Deduct amount + gas fee from user balance
+    $newBalance = $currentBalance - $totalDeduction;
     $updateStmt = $conn->prepare("UPDATE user SET $balanceColumn = ? WHERE acct_id = ?");
     $updateStmt->bind_param("ds", $newBalance, $user_id);
     

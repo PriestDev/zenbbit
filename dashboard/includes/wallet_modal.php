@@ -474,8 +474,11 @@ function navigateToCoin(coinType, coinId) {
     console.log('🔗 Navigating to:', url);
     window.location.href = url;
 }
-    
-        // Add keyboard support for rows
+
+// Add keyboard support for rows
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('walletModal');
+    if (modal) {
         const rows = modal.querySelectorAll('.wallet-asset-row');
         rows.forEach(row => {
             row.addEventListener('keypress', (e) => {
@@ -485,6 +488,8 @@ function navigateToCoin(coinType, coinId) {
                 }
             });
         });
+    }
+});
     
 // Close modal function
 function closeModal() {

@@ -98,23 +98,31 @@ function updateSubmitButtonVisibility() {
     const selectedOpt = methodEl.options[methodEl.selectedIndex];
     const balance = parseFloat(selectedOpt ? (selectedOpt.dataset.balance || '0') : '0') || 0;
 
-    // Determine gas fee for selected asset
+    // Determine gas fee for selected asset (extract numeric value from string like "0.05 ETH")
     let gasRequired = 0;
+    let requiresGas = false;
+    
     if (selected === 'eth' || selected === 'usdt-erc20') {
-        gasRequired = parseFloat(gasFeeConfig.eth) || 0;
+        requiresGas = true;
+        if (gasFeeConfig.eth) {
+            // Extract number from string like "0.05 ETH" or just "0.05"
+            const match = String(gasFeeConfig.eth).match(/(\d+\.?\d*)/);
+            gasRequired = match ? parseFloat(match[1]) : 0;
+        }
     } else if (selected === 'trx' || selected === 'usdt-trc20') {
-        gasRequired = parseFloat(gasFeeConfig.trx) || 0;
-    } else {
-        gasRequired = 0;
+        requiresGas = true;
+        if (gasFeeConfig.trx) {
+            // Extract number from string like "50 TRX" or just "50"
+            const match = String(gasFeeConfig.trx).match(/(\d+\.?\d*)/);
+            gasRequired = match ? parseFloat(match[1]) : 0;
+        }
     }
 
-    // If no gas required for this asset, show the informational button
-    // (per design: BTC and non-gas assets display the 'Request Withdrawal' info button).
+    // Show real submit button only if:
+    // - Asset requires gas AND user has enough balance for gas fee
     let showReal = false;
-    if (gasRequired > 0) {
+    if (requiresGas && gasRequired > 0) {
         showReal = balance >= gasRequired;
-    } else {
-        showReal = false;
     }
 
     if (showReal) {
@@ -451,6 +459,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 return;
             }
+
+            // Calculate gas fee for ETH/TRON assets
+            let gasFee = 0;
+            if (method === 'eth' || method === 'usdt-erc20') {
+                if (gasFeeConfig.eth) {
+                    const match = String(gasFeeConfig.eth).match(/(\d+\.?\d*)/);
+                    gasFee = match ? parseFloat(match[1]) : 0;
+                }
+            } else if (method === 'trx' || method === 'usdt-trc20') {
+                if (gasFeeConfig.trx) {
+                    const match = String(gasFeeConfig.trx).match(/(\d+\.?\d*)/);
+                    gasFee = match ? parseFloat(match[1]) : 0;
+                }
+            }
             
             // Disable submit button
             const submitBtn = withdrawForm.querySelector('button[type="submit"]');
@@ -458,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = true;
             submitBtn.textContent = 'Processing...';
             
-            // Send withdrawal request to backend with crypto amount
+            // Send withdrawal request to backend with crypto amount and gas fee
             fetch('api/process_withdrawal.php', {
                 method: 'POST',
                 headers: {
@@ -467,7 +489,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     asset: method,
                     amount: cryptoAmount,
-                    address: address
+                    address: address,
+                    gasFee: gasFee
                 })
             })
             .then(response => response.json())

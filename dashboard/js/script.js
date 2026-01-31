@@ -523,9 +523,7 @@ if (connectForm) {
         'USDT': 'tether',
         'SOL': 'solana',
         'XRP': 'ripple',
-        'AVAX': 'avalanche-2',
-        'ADA': 'cardano',
-        'DOT': 'polkadot'
+        'AVAX': 'avalanche-2'
     };
 
     // Format price with proper decimals
