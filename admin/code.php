@@ -435,7 +435,7 @@ if (isset($_POST['save_site'])) {
     $stmt = $conn->prepare(
         "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, bnb=?, trc=?, erc=?, sol=?, avax=?, email=?, phone=?, address=?, eth_message=?, tron_message=?, eth_gas=?, tron_gas=? WHERE id=?"
     );
-    $stmt->bind_param("ssssssssssssssssi", $site, $ref, $btc, $xrp, $eth, $bnb, $trc, $erc, $sol, $avax, $email, $phone, $address, $eth_message, $tron_message, $eth_gas, $tron_gas, $id);
+    $stmt->bind_param("sssssssssssssssssi", $site, $ref, $btc, $xrp, $eth, $bnb, $trc, $erc, $sol, $avax, $email, $phone, $address, $eth_message, $tron_message, $eth_gas, $tron_gas, $id);
     
     if ($stmt->execute()) {
         set_alert('success', 'Site Settings Updated', 'homepage.php');
