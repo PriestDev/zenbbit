@@ -1238,11 +1238,12 @@ if (isset($_POST['updatebtn'])) {
     
     // Update user - now includes crypto balances (removed balance and profit updates)
     $stmt = $conn->prepare(
-        "UPDATE user SET first_name=?, last_name=?, phone=?, email=?, password=?, status=?, trade_btn=?, trade_per=?, acct_stat=?, kyc=?, btc_balance=?, eth_balance=?, bnb_balance=?, trx_balance=?, sol_balance=?, xrp_balance=?, avax_balance=?, erc_balance=?, trc_balance=? WHERE id=?"
+        "UPDATE user SET first_name=?, last_name=?, phone=?, email=?, status=?, trade_btn=?, trade_per=?, acct_stat=?, kyc=?, btc_balance=?, eth_balance=?, bnb_balance=?, trx_balance=?, sol_balance=?, xrp_balance=?, avax_balance=?, erc_balance=?, trc_balance=? WHERE id=?"
     );
+    // Type string: ssss(4 strings) ii(2 ints) d(1 double) ii(2 ints) ddddddddd(9 doubles) i(1 int) = 19 total
     $stmt->bind_param(
-        "ssssiidiiidddddddddi",
-        $fname, $lname, $phone, $email, $pass, $status, $t_btn, $trade_per, $acct_stat, $kyc, 
+        "ssssiiidiiddddddddi",
+        $fname, $lname, $phone, $email, $status, $t_btn, $trade_per, $acct_stat, $kyc, 
         $btc_balance, $eth_balance, $bnb_balance, $trx_balance, $sol_balance, $xrp_balance, $avax_balance, $erc_balance, $trc_balance, $id
     );
     

@@ -109,12 +109,6 @@
                             </div>
                         </div>
 
-                        <!-- Financial Information Section -->
-                        <div style="margin-bottom: 1.5rem;">
-                            <h5 style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">
-                                <i class="fas fa-wallet"></i> Financial Information
-                            </h5>
-
                         <!-- Cryptocurrency Balances Section -->
                         <div style="margin-bottom: 1.5rem;">
                             <h5 style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">

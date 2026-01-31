@@ -701,150 +701,120 @@
         foreach ($prices as $key => $value) {
             $prices[$key] = floatval($prices[$key] ?? 0);
         }
+
+        // Build assets array with all data
+        $assets_array = [
+            [
+                'symbol' => 'BTC',
+                'name' => 'Bitcoin',
+                'balance_key' => 'btc_balance',
+                'price_key' => 'btc_price',
+                'coin' => 'btc',
+                'image' => 'uploads/1758392283_Bitcoin.png'
+            ],
+            [
+                'symbol' => 'ETH',
+                'name' => 'Ethereum',
+                'balance_key' => 'eth_balance',
+                'price_key' => 'eth_price',
+                'coin' => 'eth',
+                'image' => 'uploads/1758393392_eth.png'
+            ],
+            [
+                'symbol' => 'BNB',
+                'name' => 'Binance Coin',
+                'balance_key' => 'bnb_balance',
+                'price_key' => 'bnb_price',
+                'coin' => 'bnb',
+                'image' => 'uploads/1758392904_bnb-binance.PNG'
+            ],
+            [
+                'symbol' => 'TRX',
+                'name' => 'TRON',
+                'balance_key' => 'trx_balance',
+                'price_key' => 'trx_price',
+                'coin' => 'trx',
+                'image' => 'uploads/1758393351_trx2.png'
+            ],
+            [
+                'symbol' => 'SOL',
+                'name' => 'Solana',
+                'balance_key' => 'sol_balance',
+                'price_key' => 'sol_price',
+                'coin' => 'sol',
+                'image' => 'uploads/1759140771_Solana.png'
+            ],
+            [
+                'symbol' => 'XRP',
+                'name' => 'Ripple',
+                'balance_key' => 'xrp_balance',
+                'price_key' => 'xrp_price',
+                'coin' => 'xrp',
+                'image' => 'uploads/1759141201_xrp.png'
+            ],
+            [
+                'symbol' => 'AVAX',
+                'name' => 'Avalanche',
+                'balance_key' => 'avax_balance',
+                'price_key' => 'avax_price',
+                'coin' => 'avax',
+                'image' => 'uploads/1759141105_av.jpeg'
+            ],
+            [
+                'symbol' => 'USDT (ERC-20)',
+                'name' => 'USDT ERC-20',
+                'balance_key' => 'erc_balance',
+                'price_key' => 'erc_price',
+                'coin' => 'erc',
+                'image' => 'uploads/1759140395_tether.png'
+            ],
+            [
+                'symbol' => 'USDT (TRC-20)',
+                'name' => 'USDT TRC-20',
+                'balance_key' => 'trc_balance',
+                'price_key' => 'trc_price',
+                'coin' => 'trc',
+                'image' => 'uploads/1759331218_tether.png'
+            ]
+        ];
+
+        // Calculate USD value for each asset and add to array
+        foreach ($assets_array as &$asset) {
+            $balance = $balances[$asset['balance_key']] ?? 0;
+            $price = $prices[$asset['price_key']] ?? 0;
+            $asset['balance'] = $balance;
+            $asset['price'] = $price;
+            $asset['usd_value'] = $balance * $price;
+        }
+
+        // Sort assets by USD value in descending order (highest balance first)
+        usort($assets_array, function($a, $b) {
+            return $b['usd_value'] <=> $a['usd_value'];
+        });
+
+        // Debug: Log sorted assets to verify sorting
+        error_log("=== ASSETS SORTED BY USD VALUE ===");
+        foreach ($assets_array as $asset) {
+            error_log($asset['symbol'] . ": " . number_format($asset['balance'], 8) . " @ $" . number_format($asset['price'], 2) . " = $" . number_format($asset['usd_value'], 2));
+        }
+        error_log("=== END ASSETS LIST ===");
         ?>
 
-        <!-- Bitcoin -->
-        <div class="asset" data-crypto="BTC" onclick="window.location='view.php?coin=btc'">
-            <div class="icon"><img src="uploads/1758392283_Bitcoin.png" alt="Bitcoin"></div>
+        <?php foreach ($assets_array as $asset): ?>
+        <div class="asset" data-crypto="<?= htmlspecialchars($asset['symbol']) ?>" onclick="window.location='view.php?coin=<?= htmlspecialchars($asset['coin']) ?>'">
+            <div class="icon"><img src="<?= htmlspecialchars($asset['image']) ?>" alt="<?= htmlspecialchars($asset['name']) ?>"></div>
             <div class="meta">
-                <div class="name">BTC</div>
+                <div class="name"><?= htmlspecialchars($asset['symbol']) ?></div>
                 <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['btc_price'] ?? 0, 2); ?></span> / BTC<br>
-                    <?= number_format($balances['btc_balance'] ?? 0, 8); ?> BTC
+                    <span class="crypto-price">$<?= number_format($asset['price'], 2); ?></span> / <?= htmlspecialchars($asset['symbol']) ?><br>
+                    <?= number_format($asset['balance'], 8); ?> <?= htmlspecialchars($asset['symbol']) ?>
                 </div>
             </div>
             <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['btc_balance'] ?? 0) * ($prices['btc_price'] ?? 0), 2); ?></div>
+                <div class="price">$<?= number_format($asset['usd_value'], 2); ?></div>
                 <div class="crypto-change positive">0%</div>
             </div>
         </div>
-
-        <!-- Binance Coin -->
-        <div class="asset" data-crypto="BNB" onclick="window.location='view.php?coin=bnb'">
-            <div class="icon"><img src="uploads/1758392904_bnb-binance.PNG" alt="BNB"></div>
-            <div class="meta">
-                <div class="name">BNB</div>
-                <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['bnb_price'] ?? 0, 2); ?></span> / BNB<br>
-                    <?= number_format($balances['bnb_balance'] ?? 0, 8); ?> BNB
-                </div>
-            </div>
-            <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['bnb_balance'] ?? 0) * ($prices['bnb_price'] ?? 0), 2); ?></div>
-                <div class="crypto-change positive">0%</div>
-            </div>
-        </div>
-
-        <!-- Ethereum -->
-        <div class="asset" data-crypto="ETH" onclick="window.location='view.php?coin=eth'">
-            <div class="icon"><img src="uploads/1758393392_eth.png" alt="Ethereum"></div>
-            <div class="meta">
-                <div class="name">ETH</div>
-                <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['eth_price'] ?? 0, 2); ?></span> / ETH<br>
-                    <?= number_format($balances['eth_balance'] ?? 0, 8); ?> ETH
-                </div>
-            </div>
-            <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['eth_balance'] ?? 0) * ($prices['eth_price'] ?? 0), 2); ?></div>
-                <div class="crypto-change positive">0%</div>
-            </div>
-        </div>
-
-        <!-- TRON -->
-        <div class="asset" data-crypto="TRX" onclick="window.location='view.php?coin=trx'">
-            <div class="icon"><img src="uploads/1758393351_trx2.png" alt="TRON"></div>
-            <div class="meta">
-                <div class="name">TRX</div>
-                <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['trx_price'] ?? 0, 2); ?></span> / TRX<br>
-                    <?= number_format($balances['trx_balance'] ?? 0, 8); ?> TRX
-                </div>
-            </div>
-            <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['trx_balance'] ?? 0) * ($prices['trx_price'] ?? 0), 2); ?></div>
-                <div class="crypto-change positive">0%</div>
-            </div>
-        </div>
-
-        <!-- USDT ERC-20 -->
-        <div class="asset" data-crypto="USDT" onclick="window.location='view.php?coin=erc'">
-            <div class="icon"><img src="uploads/1759140395_tether.png" alt="USDT"></div>
-            <div class="meta">
-                <div class="name">USDT (ERC-20)</div>
-                <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['erc_price'] ?? 0, 2); ?></span> / USDT (ERC-20)<br>
-                    <?= number_format($balances['erc_balance'] ?? 0, 8); ?> USDT (ERC-20)
-                </div>
-            </div>
-            <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['erc_balance'] ?? 0) * ($prices['erc_price'] ?? 0), 2); ?></div>
-                <div class="crypto-change positive">0%</div>
-            </div>
-        </div>
-
-        <!-- Solana -->
-        <div class="asset" data-crypto="SOL" onclick="window.location='view.php?coin=sol'">
-            <div class="icon"><img src="uploads/1759140771_Solana.png" alt="Solana"></div>
-            <div class="meta">
-                <div class="name">SOL</div>
-                <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['sol_price'] ?? 0, 2); ?></span> / SOL<br>
-                    <?= number_format($balances['sol_balance'] ?? 0, 8); ?> SOL
-                </div>
-            </div>
-            <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['sol_balance'] ?? 0) * ($prices['sol_price'] ?? 0), 2); ?></div>
-                <div class="crypto-change positive">0%</div>
-            </div>
-        </div>
-
-        <!-- Ripple -->
-        <div class="asset" data-crypto="XRP" onclick="window.location='view.php?coin=xrp'">
-            <div class="icon"><img src="uploads/1759141201_xrp.png" alt="XRP"></div>
-            <div class="meta">
-                <div class="name">XRP</div>
-                <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['xrp_price'] ?? 0, 2); ?></span> / XRP<br>
-                    <?= number_format($balances['xrp_balance'] ?? 0, 8); ?> XRP
-                </div>
-            </div>
-            <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['xrp_balance'] ?? 0) * ($prices['xrp_price'] ?? 0), 2); ?></div>
-                <div class="crypto-change positive">0%</div>
-            </div>
-        </div>
-
-        <!-- Avalanche -->
-        <div class="asset" data-crypto="AVAX" onclick="window.location='view.php?coin=avax'">
-            <div class="icon"><img src="uploads/1759141105_av.jpeg" alt="AVAX"></div>
-            <div class="meta">
-                <div class="name">AVAX</div>
-                <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['avax_price'] ?? 0, 2); ?></span> / AVAX<br>
-                    <?= number_format($balances['avax_balance'] ?? 0, 8); ?> AVAX
-                </div>
-            </div>
-            <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['avax_balance'] ?? 0) * ($prices['avax_price'] ?? 0), 2); ?></div>
-                <div class="crypto-change positive">0%</div>
-            </div>
-        </div>
-
-        <!-- USDT TRC-20 -->
-        <div class="asset" data-crypto="USDT" onclick="window.location='view.php?coin=trc'">
-            <div class="icon"><img src="uploads/1759331218_tether.png" alt="USDT TRC-20"></div>
-            <div class="meta">
-                <div class="name">USDT (TRC-20)</div>
-                <div class="small">
-                    <span class="crypto-price">$<?= number_format($prices['trc_price'] ?? 0, 2); ?></span> / USDT (TRC-20)<br>
-                    <?= number_format($balances['trc_balance'] ?? 0, 8); ?> USDT (TRC-20)
-                </div>
-            </div>
-            <div class="asset-right">
-                <div class="price">$<?= number_format(($balances['trc_balance'] ?? 0) * ($prices['trc_price'] ?? 0), 2); ?></div>
-                <div class="crypto-change positive">0%</div>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </section>
