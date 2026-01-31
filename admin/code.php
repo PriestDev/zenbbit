@@ -421,6 +421,9 @@ if (isset($_POST['save_site'])) {
     $ref = sanitize_input($_POST['ref'] ?? '');
     $btc = sanitize_input($_POST['btc'] ?? '');
     $eth = sanitize_input($_POST['eth'] ?? '');
+    $bnb = sanitize_input($_POST['bnb'] ?? '');
+    $sol = sanitize_input($_POST['sol'] ?? '');
+    $avax = sanitize_input($_POST['avax'] ?? '');
     $trc = sanitize_input($_POST['trc'] ?? '');
     $erc = sanitize_input($_POST['erc'] ?? '');
     $xrp = sanitize_input($_POST['xrp'] ?? '');
@@ -430,9 +433,9 @@ if (isset($_POST['save_site'])) {
     $tron_gas = sanitize_input($_POST['tron_gas'] ?? '');
     
     $stmt = $conn->prepare(
-        "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, trc=?, erc=?, email=?, phone=?, address=?, eth_message=?, tron_message=?, eth_gas=?, tron_gas=? WHERE id=?"
+        "UPDATE page_content SET site_name=?, ref=?, btc=?, xrp=?, eth=?, bnb=?, trc=?, erc=?, sol=?, avax=?, email=?, phone=?, address=?, eth_message=?, tron_message=?, eth_gas=?, tron_gas=? WHERE id=?"
     );
-    $stmt->bind_param("ssssssssssssssi", $site, $ref, $btc, $xrp, $eth, $trc, $erc, $email, $phone, $address, $eth_message, $tron_message, $eth_gas, $tron_gas, $id);
+    $stmt->bind_param("ssssssssssssssssi", $site, $ref, $btc, $xrp, $eth, $bnb, $trc, $erc, $sol, $avax, $email, $phone, $address, $eth_message, $tron_message, $eth_gas, $tron_gas, $id);
     
     if ($stmt->execute()) {
         set_alert('success', 'Site Settings Updated', 'homepage.php');

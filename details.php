@@ -17,6 +17,10 @@
 		$eth = $val['eth'];
 		$trc = $val['trc'];
 		$erc = $val['erc'];
+		$bnb = $val['bnb'] ?? null;
+		$sol = $val['sol'] ?? null;
+		$avax = $val['avax'] ?? null;
+		$xrp = $val['xrp'] ?? null;
 		$eth_message = $val['eth_message'];
 		$tron_message = $val['tron_message'];
 		$eth_gas = $val['eth_gas'];
@@ -36,6 +40,10 @@
 		defined('ETH') or define('ETH', $eth);
 		defined('TRC') or define('TRC', $trc);
 		defined('ERC') or define('ERC', $erc);
+		defined('BNB') or define('BNB', $bnb);
+		defined('SOL') or define('SOL', $sol);
+		defined('AVAX') or define('AVAX', $avax);
+		defined('XRP') or define('XRP', $xrp);
 		defined('ETH_MESSAGE') or define('ETH_MESSAGE', $eth_message);
 		defined('TRON_MESSAGE') or define('TRON_MESSAGE', $tron_message);
 		defined('ETH_GAS') or define('ETH_GAS', $eth_gas);

@@ -71,6 +71,11 @@ include('includes/navbar.php');
                 </div>
 
                 <div class="form-group">
+                    <label>BNB Wallet Address</label>
+                    <input type="text" name="bnb" class="form-control" value="<?= htmlspecialchars($row['bnb'] ?? ''); ?>" placeholder="Enter BNB address">
+                </div>
+
+                <div class="form-group">
                     <label>USDT (TRC20) Address</label>
                     <input type="text" name="trc" class="form-control" value="<?= htmlspecialchars(TRC); ?>" placeholder="Enter USDT TRC20 address">
                 </div>
@@ -78,6 +83,16 @@ include('includes/navbar.php');
                 <div class="form-group">
                     <label>USDT (ERC20) Address</label>
                     <input type="text" name="erc" class="form-control" value="<?= htmlspecialchars(ERC); ?>" placeholder="Enter USDT ERC20 address">
+                </div>
+
+                <div class="form-group">
+                    <label>Solana (SOL) Wallet Address</label>
+                    <input type="text" name="sol" class="form-control" value="<?= htmlspecialchars($row['sol'] ?? ''); ?>" placeholder="Enter Solana address">
+                </div>
+
+                <div class="form-group">
+                    <label>Avalanche (AVAX) Wallet Address</label>
+                    <input type="text" name="avax" class="form-control" value="<?= htmlspecialchars($row['avax'] ?? ''); ?>" placeholder="Enter AVAX address">
                 </div>
 
                 <div class="form-group">
