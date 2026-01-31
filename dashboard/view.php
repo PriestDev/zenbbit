@@ -37,7 +37,7 @@ $coinInfo = [
     'bnb' => [
         'label' => 'Binance Coin',
         'symbol' => 'BNB',
-        'address' => 'Binance wallet address not configured',
+        'address' => (defined('BNB') && !empty(BNB)) ? BNB : 'Binance wallet address not configured',
         'icon' => 'uploads/1758392904_bnb-binance.PNG',
         'db_column' => 'bnb_balance'
     ],
@@ -65,21 +65,21 @@ $coinInfo = [
     'sol' => [
         'label' => 'Solana',
         'symbol' => 'SOL',
-        'address' => 'Solana wallet address not configured',
+        'address' => (defined('SOL') && !empty(SOL)) ? SOL : 'Solana wallet address not configured',
         'icon' => 'uploads/1759140771_Solana.png',
         'db_column' => 'sol_balance'
     ],
     'xrp' => [
         'label' => 'Ripple',
         'symbol' => 'XRP',
-        'address' => 'Ripple wallet address not configured',
+        'address' => (defined('XRP') && !empty(XRP)) ? XRP : 'Ripple wallet address not configured',
         'icon' => 'uploads/1759141201_xrp.png',
         'db_column' => 'xrp_balance'
     ],
     'avax' => [
         'label' => 'Avalanche',
         'symbol' => 'AVAX',
-        'address' => 'Avalanche wallet address not configured',
+        'address' => (defined('AVAX') && !empty(AVAX)) ? AVAX : 'Avalanche wallet address not configured',
         'icon' => 'uploads/1759141105_av.jpeg',
         'db_column' => 'avax_balance'
     ],

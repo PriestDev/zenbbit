@@ -128,8 +128,17 @@
                 // compute USD total for this asset (from server-side balance)
                 $usd_value = isset($asset['usd']) ? $asset['usd'] : ($asset['price'] * $asset['balance']);
                 $usd_display = $usd_value > 0 ? '$' . number_format($usd_value, 2) : '$0.00';
+                
+                // Find the key for this asset (to pass unique identifier to view.php)
+                $asset_key = null;
+                foreach ($assets_config as $cfg) {
+                    if ($cfg['symbol'] === $asset['symbol'] && $cfg['name'] === $asset['name']) {
+                        $asset_key = str_replace('_balance', '', $cfg['key']);
+                        break;
+                    }
+                }
 
-                echo '<div class="asset-item" onclick="window.location=\'view.php?coin=' . urlencode($asset['symbol']) . '\'">'
+                echo '<div class="asset-item" onclick="window.location=\'view.php?coin=' . urlencode($asset_key ?? $asset['symbol']) . '\'">'
                     . '<div class="asset-left">'
                         . '<div class="asset-icon"><img src="' . $image . '" alt="' . $display_name . '"></div>'
                         . '<div class="asset-info"><h3>' . $display_name . '</h3>'
@@ -157,7 +166,17 @@
                 // empty asset: balance is zero
                 $balance_display = number_format(0, 8);
                 $usd_display = '$0.00';
-                echo '<div class="asset-item" style="opacity:0.6;" onclick="window.location=\'view.php?coin=' . urlencode($asset['symbol']) . '\'">'
+                
+                // Find the key for this asset (to pass unique identifier to view.php)
+                $asset_key = null;
+                foreach ($assets_config as $cfg) {
+                    if ($cfg['symbol'] === $asset['symbol'] && $cfg['name'] === $asset['name']) {
+                        $asset_key = str_replace('_balance', '', $cfg['key']);
+                        break;
+                    }
+                }
+                
+                echo '<div class="asset-item" style="opacity:0.6;" onclick="window.location=\'view.php?coin=' . urlencode($asset_key ?? $asset['symbol']) . '\'">'
                     . '<div class="asset-left">'
                         . '<div class="asset-icon"><img src="' . $image . '" alt="' . $display_name . '"></div>'
                         . '<div class="asset-info"><h3>' . $display_name . '</h3>'
