@@ -174,31 +174,58 @@ try {
 $userTransactions = [];
 if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
     $user_acct_id = $_SESSION['user_id'];
-    
-    // Query transactions for this user filtered by current asset
-    $trans_query = "SELECT id, name, type, status, amt, asset, create_date FROM transaction WHERE name = ? AND asset = ? ORDER BY create_date DESC LIMIT 20";
+
+    // Build flexible asset filters to match common stored values:
+    // - coin type (e.g. 'btc')
+    // - full symbol (e.g. 'BTC' or 'USDT-ERC20')
+    // - base symbol (e.g. 'USDT' from 'USDT-ERC20')
+    $assetSearch1 = strtolower($coinType);
+    $symbolParts = explode('-', $current['symbol']);
+    $assetSearch2 = strtolower($current['symbol']);
+    $assetSearch3 = strtolower($symbolParts[0]);
+
+    // Query transactions for this user filtered by any of the asset aliases (case-insensitive, substring match)
+    $trans_query = "SELECT * FROM transaction WHERE name = ? AND (
+        LOWER(asset) LIKE CONCAT('%', ?, '%') OR
+        LOWER(asset) LIKE CONCAT('%', ?, '%') OR
+        LOWER(asset) LIKE CONCAT('%', ?, '%')
+    ) ORDER BY create_date DESC LIMIT 50";
+
     $stmt = $conn->prepare($trans_query);
-    
+
     if ($stmt) {
-        $stmt->bind_param("ss", $user_acct_id, $coinType);
-        
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            
-            while ($row = $result->fetch_assoc()) {
-                $userTransactions[] = [
-                    'id' => $row['id'],
-                    'type' => strtolower($row['type']),
-                    'amount' => floatval($row['amt']),
-                    'status' => $row['status'],
-                    'date' => $row['create_date'],
-                    'asset' => htmlspecialchars($row['asset'])
-                ];
-            }
-        } else {
-            error_log("Transaction fetch error: " . $stmt->error);
+      $stmt->bind_param("ssss", $user_acct_id, $assetSearch1, $assetSearch2, $assetSearch3);
+
+      if ($stmt->execute()) {
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+          // Normalize amount column - some installs use 'amt' or 'amount'
+          $amt = 0;
+          if (isset($row['amt'])) {
+            $amt = $row['amt'];
+          } elseif (isset($row['amount'])) {
+            $amt = $row['amount'];
+          } elseif (isset($row['value'])) {
+            $amt = $row['value'];
+          }
+
+          $userTransactions[] = [
+            'id' => $row['id'] ?? null,
+            'type' => isset($row['type']) ? strtolower($row['type']) : 'unknown',
+            'amount' => floatval($amt),
+            'status' => $row['status'] ?? 'unknown',
+            'date' => $row['create_date'] ?? ($row['date'] ?? null),
+            'asset' => htmlspecialchars($row['asset'] ?? $coinType),
+            'raw' => $row
+          ];
         }
-        $stmt->close();
+      } else {
+        error_log("Transaction fetch error: " . $stmt->error);
+      }
+      $stmt->close();
+    } else {
+      error_log("Transaction statement prepare error: " . $conn->error);
     }
 }
 ?>
