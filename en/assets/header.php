@@ -18,6 +18,9 @@
     <!-- ios apple-touch-icon -->
     <link rel="apple-touch-icon" sizes="48x48" href="../uploads/<?= FAV ?>"/>
 
+    <!--Jivo chat widget-->
+    <script src="//code.jivosite.com/widget/BKb39olIBZ" async></script>
+
     <!-- Google Fonts -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet"> -->
 

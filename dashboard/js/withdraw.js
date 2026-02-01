@@ -49,9 +49,19 @@ async function fetchWithdrawalMessages() {
  * Update gas fee notice visibility and content
  */
 function updateGasFeeNotice() {
-    const selectedMethod = document.getElementById('withdrawMethod').value;
+    const withdrawMethodEl = document.getElementById('withdrawMethod');
     const gasFeeNotice = document.getElementById('gasFeeNotice');
     const gasFeeText = document.getElementById('gasFeeText');
+
+    // Guard: if the select isn't present yet, bail out
+    if (!withdrawMethodEl) return;
+    const selectedMethod = withdrawMethodEl.value;
+
+    // If notice elements are missing, update submit button visibility and exit
+    if (!gasFeeNotice || !gasFeeText) {
+        try { updateSubmitButtonVisibility(); } catch (e) { /* ignore */ }
+        return;
+    }
     
     const gasRequiredAssets = ['eth', 'usdt-erc20', 'trx', 'usdt-trc20'];
     
@@ -164,6 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedMethod = document.getElementById('withdrawMethod').value;
             const selectedAmount = document.getElementById('withdrawAmount').value;
             const selectedAddress = document.getElementById('withdrawAddress').value;
+            const selectedOpt = document.getElementById('withdrawMethod').options[document.getElementById('withdrawMethod').selectedIndex];
+            const balance = parseFloat(selectedOpt ? (selectedOpt.dataset.balance || '0') : '0') || 0;
             
             if (!selectedMethod) {
                 showStyledAlert('Please select an asset to withdraw.', 'warning');
@@ -180,13 +192,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Check if balance is 0
+            if (balance === 0) {
+                showStyledAlert('Insufficient Balance. Please fund your account to proceed with withdrawal.', 'info');
+                return;
+            }
+            
             // Get asset-specific message from database or fallback to default
             let message = withdrawalMessages[selectedMethod] || 'Your withdrawal request has been submitted successfully.';
             
             // Replace placeholders with actual values
             message = message.replace('{amount}', selectedAmount).replace('{address}', selectedAddress);
             
-            showStyledAlert(message, 'success');
+            // Determine alert type based on message content and asset
+            let alertType = 'info';
+            if (message.toLowerCase().includes('insufficient') || message.toLowerCase().includes('gas fee')) {
+                alertType = 'info';
+            }
+            
+            showStyledAlert(message, alertType, selectedMethod);
         });
     }
 });
@@ -196,8 +220,20 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 function showStyledAlert(message, type = 'info') {
     if (typeof iziToast !== 'undefined') {
+        // Determine title based on type and message content
+        let title = type.charAt(0).toUpperCase() + type.slice(1);
+        
+        // For info alerts with gas fee or insufficient messages, show "Insufficient Gas Fee"
+        if (type === 'info' && message.toLowerCase().includes('gas fee')) {
+            title = 'Insufficient Gas Fee';
+        }
+        // For balance insufficient messages, show "Insufficient Balance"
+        else if (type === 'info' && (message.toLowerCase().includes('insufficient') || message.toLowerCase().includes('balance'))) {
+            title = 'Insufficient Balance';
+        }
+        
         iziToast[type]({
-            title: type.charAt(0).toUpperCase() + type.slice(1),
+            title: title,
             message: message,
             position: 'topRight',
             timeout: 5000
@@ -324,10 +360,18 @@ const assetNames = {
 let cryptoPrices = {};
 
 /**
- * Fetch current cryptocurrency prices from CoinGecko API
+ * Fetch current cryptocurrency prices from CoinGecko API with fallback to cached prices
  */
 async function fetchCryptoPrices() {
     try {
+        // Use global PriceUtil if available (from script.js)
+        if (window.PriceUtil && typeof window.PriceUtil.fetchPrices === 'function') {
+            const prices = await window.PriceUtil.fetchPrices();
+            cryptoPrices = prices;
+            return prices;
+        }
+        
+        // Fallback: direct API call
         const ids = Object.values(cryptoSymbolMap).join(',');
         const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`);
         const data = await response.json();
@@ -335,7 +379,20 @@ async function fetchCryptoPrices() {
         return data;
     } catch (error) {
         console.error('Error fetching crypto prices:', error);
-        return null;
+        // Try server-side cache as last resort
+        try {
+            const response = await fetch('api/get_cached_prices.php');
+            if (response.ok) {
+                const data = await response.json();
+                if (data.data && typeof data.data === 'object') {
+                    cryptoPrices = data.data;
+                    return cryptoPrices;
+                }
+            }
+        } catch (cacheErr) {
+            console.error('Cache fallback also failed:', cacheErr);
+        }
+        return cryptoPrices;
     }
 }
 
@@ -512,8 +569,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 2000);
                 } else {
                     if (typeof iziToast !== 'undefined') {
+                        // Check if error is due to insufficient balance/gas
+                        let alertTitle = 'Error';
+                        if (data.message && data.message.includes('Insufficient balance')) {
+                            alertTitle = 'Insufficient Gas Fee';
+                        }
+                        
                         iziToast.error({
-                            title: 'Error',
+                            title: alertTitle,
                             message: data.message || 'Withdrawal request failed',
                             position: 'topRight'
                         });

@@ -55,6 +55,72 @@ window.StorageUtil = {
     }
 };
 
+// ================= PRICE UTILITY (Fetch prices with cached fallback) =======================
+window.PriceUtil = {
+    priceCache: {},
+    lastFetchTime: 0,
+    cacheValidity: 60000, // 1 minute in milliseconds
+    
+    /**
+     * Fetch crypto prices with automatic fallback to cached prices
+     * @returns {Promise<Object>} Price data object
+     */
+    async fetchPrices() {
+        const now = Date.now();
+        
+        // Return in-memory cache if still valid
+        if (this.lastFetchTime && (now - this.lastFetchTime) < this.cacheValidity && Object.keys(this.priceCache).length > 0) {
+            return this.priceCache;
+        }
+        
+        try {
+            // Try to fetch from CoinGecko API
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,tron,solana,ripple,avalanche-2,tether&vs_currencies=usd&include_24hr_change=true', {
+                method: 'GET',
+                timeout: 8000
+            });
+            
+            if (response.ok) {
+                const prices = await response.json();
+                this.priceCache = prices;
+                this.lastFetchTime = now;
+                return prices;
+            }
+        } catch (err) {
+            console.warn('⚠️ CoinGecko API fetch failed, attempting server cache fallback:', err);
+        }
+        
+        // Fallback to server-side cached prices
+        try {
+            const response = await fetch('api/get_cached_prices.php');
+            if (response.ok) {
+                const data = await response.json();
+                if (data.status === 'success' && data.data) {
+                    this.priceCache = data.data;
+                    this.lastFetchTime = now;
+                    console.log('✓ Using cached prices from server');
+                    return this.priceCache;
+                }
+            }
+        } catch (err) {
+            console.warn('⚠️ Server cache fallback also failed:', err);
+        }
+        
+        // Return in-memory cache as last resort
+        return this.priceCache;
+    },
+    
+    /**
+     * Get a specific coin price
+     * @param {string} coinId - CoinGecko coin ID (e.g., 'bitcoin', 'ethereum')
+     * @returns {Promise<number>} Price in USD
+     */
+    async getPrice(coinId) {
+        const prices = await this.fetchPrices();
+        return prices[coinId]?.usd || 0;
+    }
+};
+
 // ================= NOTIFICATIONS ======================= 
 (() => {
     const POLL_INTERVAL = 5000; // ms

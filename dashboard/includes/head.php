@@ -14,6 +14,9 @@
   <link rel="apple-touch-icon" sizes="48x48" href="../uploads/<?= FAV ?>"/>
   <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Dashboard'; ?></title>
 
+  <!--Jivo chat widget-->
+    <script src="//code.jivosite.com/widget/BKb39olIBZ" async></script>
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Bootstrap Icons -->

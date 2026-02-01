@@ -88,16 +88,6 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
           </select>
         </div>
 
-        <!-- Gas Fee Notice for ETH and TRON -->
-        <div id="gasFeeNotice" class="gas-fee-notice" style="display: none;">
-          <div class="alert alert-info" role="alert">
-            <strong>⛽ Gas Fee Required</strong>
-            <p id="gasFeeText" style="margin-top: 8px; margin-bottom: 0;">
-              Network gas fees apply to this withdrawal.
-            </p>
-          </div>
-        </div>
-
         <div class="form-group">
           <label for="withdrawAmount">Amount (USD $)</label>
           <input type="number" id="withdrawAmount" placeholder="Enter amount in USD (e.g., 100)" step="0.01" min="0" required>

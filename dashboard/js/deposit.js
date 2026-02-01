@@ -64,7 +64,7 @@
 
     // ================= PRICE FETCHING AND CONVERSION ======================
     /**
-     * Fetch current prices for crypto assets
+     * Fetch current prices for crypto assets with fallback to cached prices
      */
     async function fetchAssetPrices() {
         const now = Date.now();
@@ -80,8 +80,19 @@
             lastPriceFetchTime = now;
             return prices;
         } catch (err) {
-            console.error('Failed to fetch prices:', err);
-            return priceCache; // Return cached if available
+            console.error('Failed to fetch prices from API:', err);
+            // Try to use cached prices from server-side cache (data attribute)
+            const cachedPrices = document.currentScript?.dataset?.cachedPrices;
+            if (cachedPrices) {
+                try {
+                    const serverCache = JSON.parse(cachedPrices);
+                    priceCache = serverCache;
+                    return serverCache;
+                } catch (parseErr) {
+                    console.error('Failed to parse cached prices:', parseErr);
+                }
+            }
+            return priceCache; // Return in-memory cache as last resort
         }
     }
 

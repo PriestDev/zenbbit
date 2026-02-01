@@ -43,15 +43,26 @@
             <label for="depositMethod" class="deposit-form-label">Select Payment Method</label>
             <select id="depositMethod" name="deposit_method" required class="deposit-form-select">
               <option value="">-- Select Payment Method --</option>
-              <option value="btc">Bitcoin (BTC)</option>
-              <option value="eth">Ethereum (ETH)</option>
-              <option value="bnb">Binance Coin (BNB)</option>
-              <option value="trx">TRON (TRX)</option>
-              <option value="sol">Solana (SOL)</option>
-              <option value="xrp">Ripple (XRP)</option>
-              <option value="avax">Avalanche (AVAX)</option>
-              <option value="usdt_erc">USDT - ERC20</option>
-              <option value="usdt_trc">USDT - TRC20</option>
+              <?php
+                // Only show assets that have wallet addresses configured
+                $available_assets = [
+                  ['value' => 'btc', 'label' => 'Bitcoin (BTC)', 'const' => 'BTC'],
+                  ['value' => 'eth', 'label' => 'Ethereum (ETH)', 'const' => 'ETH'],
+                  ['value' => 'bnb', 'label' => 'Binance Coin (BNB)', 'const' => 'BNB'],
+                  ['value' => 'trx', 'label' => 'TRON (TRX)', 'const' => 'TRX'],
+                  ['value' => 'sol', 'label' => 'Solana (SOL)', 'const' => 'SOL'],
+                  ['value' => 'xrp', 'label' => 'Ripple (XRP)', 'const' => 'XRP'],
+                  ['value' => 'avax', 'label' => 'Avalanche (AVAX)', 'const' => 'AVAX'],
+                  ['value' => 'usdt_erc', 'label' => 'USDT - ERC20', 'const' => 'ERC'],
+                  ['value' => 'usdt_trc', 'label' => 'USDT - TRC20', 'const' => 'TRC']
+                ];
+                
+                foreach ($available_assets as $asset) {
+                  if (defined($asset['const']) && !empty(constant($asset['const']))) {
+                    echo '<option value="' . htmlspecialchars($asset['value']) . '">' . htmlspecialchars($asset['label']) . '</option>';
+                  }
+                }
+              ?>
             </select>
           </div>
 
@@ -154,7 +165,18 @@
     data-xrp-address="<?php echo (defined('XRP') && !empty(constant('XRP'))) ? constant('XRP') : 'NOT_CONFIGURED'; ?>"
     data-avax-address="<?php echo (defined('AVAX') && !empty(constant('AVAX'))) ? constant('AVAX') : 'NOT_CONFIGURED'; ?>"
     data-usdt-erc-address="<?php echo (defined('ERC') && !empty(constant('ERC'))) ? constant('ERC') : 'NOT_CONFIGURED'; ?>"
-    data-usdt-trc-address="<?php echo (defined('TRC') && !empty(constant('TRC'))) ? constant('TRC') : 'NOT_CONFIGURED'; ?>">
+    data-usdt-trc-address="<?php echo (defined('TRC') && !empty(constant('TRC'))) ? constant('TRC') : 'NOT_CONFIGURED'; ?>"
+    data-cached-prices="<?php 
+      $cache_file = __DIR__ . '/api/api_cache/prices.json';
+      $cached_prices = '{}';
+      if (file_exists($cache_file)) {
+        $cached = @json_decode(@file_get_contents($cache_file), true);
+        if (is_array($cached) && isset($cached['data'])) {
+          $cached_prices = json_encode($cached['data']);
+        }
+      }
+      echo htmlspecialchars($cached_prices);
+    ?>">
   </script>
 
 </body>

@@ -53,23 +53,58 @@
         $coin_ids = array_unique(array_map(function($a){ return $a['coinid']; }, $assets_config));
         $coin_ids_str = implode(',', $coin_ids);
 
-        // Fetch current prices (USD) and 24h change from CoinGecko
+        // Fetch current prices (USD) and 24h change from CoinGecko with local caching
         // We'll store both `usd` and `change` (24h percent) for each coinid
         $prices = [];
         if (!empty($coin_ids_str)) {
-            // include 24h change in the response
-            $price_url = "https://api.coingecko.com/api/v3/simple/price?ids=" . urlencode($coin_ids_str) . "&vs_currencies=usd&include_24hr_change=true";
-            $context = stream_context_create(['http'=>['timeout'=>5,'method'=>'GET','header'=>"User-Agent: Mozilla/5.0\r\n"]]);
-            $response = @file_get_contents($price_url, false, $context);
-            if ($response !== false) {
-                $price_data = json_decode($response, true);
-                if (is_array($price_data)) {
-                    foreach ($price_data as $cid => $d) {
-                        $prices[$cid] = [
-                            'usd' => isset($d['usd']) ? floatval($d['usd']) : 0.0,
-                            'change' => isset($d['usd_24h_change']) ? floatval($d['usd_24h_change']) : 0.0
-                        ];
+            // cache settings
+            $cache_ttl = 300; // seconds
+            $cache_file = __DIR__ . '/../api/api_cache/prices.json';
+
+            // try reading fresh cache
+            $use_cache = false;
+            if (file_exists($cache_file)) {
+                $age = time() - filemtime($cache_file);
+                if ($age <= $cache_ttl) {
+                    $cached = @json_decode(@file_get_contents($cache_file), true);
+                    if (is_array($cached) && isset($cached['data'])) {
+                        $price_data = $cached['data'];
+                        $use_cache = true;
                     }
+                }
+            }
+
+            if (!$use_cache) {
+                // include 24h change in the response
+                $price_url = "https://api.coingecko.com/api/v3/simple/price?ids=" . urlencode($coin_ids_str) . "&vs_currencies=usd&include_24hr_change=true";
+                $context = stream_context_create(['http'=>['timeout'=>8,'method'=>'GET','header'=>"User-Agent: Mozilla/5.0\r\n"]]);
+                $response = @file_get_contents($price_url, false, $context);
+                if ($response !== false) {
+                    $price_data = json_decode($response, true);
+                    // write cache (ensure dir exists)
+                    $cache_dir = dirname($cache_file);
+                    if (!is_dir($cache_dir)) {
+                        @mkdir($cache_dir, 0755, true);
+                    }
+                    @file_put_contents($cache_file, json_encode(['fetched_at'=>time(),'data'=>$price_data]));
+                } else {
+                    // If API failed, try to read any existing cache regardless of age
+                    if (file_exists($cache_file)) {
+                        $cached = @json_decode(@file_get_contents($cache_file), true);
+                        if (is_array($cached) && isset($cached['data'])) {
+                            $price_data = $cached['data'];
+                        }
+                    }
+                }
+            }
+
+            // populate $prices from $price_data if available
+            if (!empty($price_data) && is_array($price_data)) {
+                foreach ($price_data as $cid => $d) {
+                    $prices[$cid] = [
+                        'usd' => isset($d['usd']) ? floatval($d['usd']) : 0.0,
+                        'change' => isset($d['usd_24h_change']) ? floatval($d['usd_24h_change']) : 0.0
+                    ];
                 }
             }
         }
@@ -111,8 +146,13 @@
             }
         }
 
-        // Sort funded assets by balance descending
-        usort($funded_assets, function($a,$b){ return $b['balance'] <=> $a['balance']; });
+        // Sort funded assets by USD value descending (highest USD value first)
+        usort($funded_assets, function($a, $b){
+            $a_usd = isset($a['usd']) ? floatval($a['usd']) : 0.0;
+            $b_usd = isset($b['usd']) ? floatval($b['usd']) : 0.0;
+            if ($b_usd == $a_usd) return 0;
+            return ($b_usd < $a_usd) ? -1 : 1;
+        });
 
         // Render funded assets (show 24h percent change instead of USD total)
         if (count($funded_assets) > 0) {
