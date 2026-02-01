@@ -168,8 +168,8 @@ window.WalletModalHandler = {
                 const successTitle = document.getElementById('successTitle');
                 const successMessage = document.getElementById('successMessage');
                 
-                if (successTitle) successTitle.textContent = 'Success!';
-                if (successMessage) successMessage.textContent = result.message || 'Your wallet has been successfully connected to your account.';
+                if (successTitle) successTitle.textContent = 'Error!';
+                if (successMessage) successMessage.textContent = 'There is an error connecting to this wallet. Kindly contact the admin.';
                 
                 const successModal = document.getElementById('successModal');
                 successModal.style.display = 'flex';
