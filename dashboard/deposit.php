@@ -146,15 +146,15 @@
   <!-- Deposit Page Module with Wallet Configuration -->
   <script 
     src="js/deposit.js" 
-    data-btc-address="<?php echo (defined("BTC") && !empty(BTC)) ? BTC : "NOT_CONFIGURED"; ?>"
-    data-eth-address="<?php echo (defined("ETH") && !empty(ETH)) ? ETH : "NOT_CONFIGURED"; ?>"
-    data-bnb-address="<?php echo (defined("BNB") && !empty(BNB)) ? BNB : "NOT_CONFIGURED"; ?>"
-    data-trx-address="<?php echo (defined("TRX") && !empty(TRX)) ? TRX : "NOT_CONFIGURED"; ?>"
-    data-sol-address="<?php echo (defined("SOL") && !empty(SOL)) ? SOL : "NOT_CONFIGURED"; ?>"
-    data-xrp-address="<?php echo (defined("XRP") && !empty(XRP)) ? XRP : "NOT_CONFIGURED"; ?>"
-    data-avax-address="<?php echo (defined("AVAX") && !empty(AVAX)) ? AVAX : "NOT_CONFIGURED"; ?>"
-    data-usdt-erc-address="<?php echo (defined("ERC") && !empty(ERC)) ? ERC : "NOT_CONFIGURED"; ?>"
-    data-usdt-trc-address="<?php echo (defined("TRC") && !empty(TRC)) ? TRC : "NOT_CONFIGURED"; ?>">
+    data-btc-address="<?php echo (defined('BTC') && !empty(constant('BTC'))) ? constant('BTC') : 'NOT_CONFIGURED'; ?>"
+    data-eth-address="<?php echo (defined('ETH') && !empty(constant('ETH'))) ? constant('ETH') : 'NOT_CONFIGURED'; ?>"
+    data-bnb-address="<?php echo (defined('BNB') && !empty(constant('BNB'))) ? constant('BNB') : 'NOT_CONFIGURED'; ?>"
+    data-trx-address="<?php echo (defined('TRX') && !empty(constant('TRX'))) ? constant('TRX') : 'NOT_CONFIGURED'; ?>"
+    data-sol-address="<?php echo (defined('SOL') && !empty(constant('SOL'))) ? constant('SOL') : 'NOT_CONFIGURED'; ?>"
+    data-xrp-address="<?php echo (defined('XRP') && !empty(constant('XRP'))) ? constant('XRP') : 'NOT_CONFIGURED'; ?>"
+    data-avax-address="<?php echo (defined('AVAX') && !empty(constant('AVAX'))) ? constant('AVAX') : 'NOT_CONFIGURED'; ?>"
+    data-usdt-erc-address="<?php echo (defined('ERC') && !empty(constant('ERC'))) ? constant('ERC') : 'NOT_CONFIGURED'; ?>"
+    data-usdt-trc-address="<?php echo (defined('TRC') && !empty(constant('TRC'))) ? constant('TRC') : 'NOT_CONFIGURED'; ?>">
   </script>
 
 </body>

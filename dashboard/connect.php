@@ -224,9 +224,9 @@ include 'includes/head.php';
             <path d="M40 38V55" stroke="#FF9800" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
-        <h3 id="successTitle" style="margin: 20px 0 10px 0;">Error Occured While Connecting Wallet</h3>
+        <h3 id="successTitle" style="margin: 20px 0 10px 0;">Error Connecting Wallet</h3>
         <p id="successMessage" style="color: #666; margin-bottom: 20px;">
-          Wallet connection failed!<br>There is an error connecting to this wallet. Kindly contact the admins.
+          There is an error connecting to this wallet. Kindly contact the admin.
         </p>
         <button class="wallet-btn-primary" type="button" onclick="closeSuccessModal()">close</button>
       </div>
