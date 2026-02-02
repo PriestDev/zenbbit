@@ -111,6 +111,7 @@ function updateSubmitButtonVisibility() {
     // Determine gas fee for selected asset (extract numeric value from string like "0.05 ETH")
     let gasRequired = 0;
     let requiresGas = false;
+    let balanceToCheck = balance; // Balance to check against gas fee
     
     if (selected === 'eth' || selected === 'usdt-erc20') {
         requiresGas = true;
@@ -119,20 +120,30 @@ function updateSubmitButtonVisibility() {
             const match = String(gasFeeConfig.eth).match(/(\d+\.?\d*)/);
             gasRequired = match ? parseFloat(match[1]) : 0;
         }
-    } else if (selected === 'trx' || selected === 'usdt-trc20') {
+    } else if (selected === 'trx') {
         requiresGas = true;
         if (gasFeeConfig.trx) {
             // Extract number from string like "50 TRX" or just "50"
             const match = String(gasFeeConfig.trx).match(/(\d+\.?\d*)/);
             gasRequired = match ? parseFloat(match[1]) : 0;
         }
+    } else if (selected === 'usdt-trc20') {
+        // For USDT TRC20, check TRX balance for gas fee, not USDT balance
+        requiresGas = true;
+        if (gasFeeConfig.trx) {
+            // Extract number from string like "50 TRX" or just "50"
+            const match = String(gasFeeConfig.trx).match(/(\d+\.?\d*)/);
+            gasRequired = match ? parseFloat(match[1]) : 0;
+        }
+        // Get TRX balance from data-trx-balance attribute
+        balanceToCheck = parseFloat(selectedOpt ? (selectedOpt.dataset.trxBalance || '0') : '0') || 0;
     }
 
     // Show real submit button only if:
     // - Asset requires gas AND user has enough balance for gas fee
     let showReal = false;
     if (requiresGas && gasRequired > 0) {
-        showReal = balance >= gasRequired;
+        showReal = balanceToCheck >= gasRequired;
     }
 
     if (showReal) {

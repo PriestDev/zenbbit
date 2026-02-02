@@ -76,10 +76,21 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             <option value="">-- Choose Asset --</option>
             <?php
               if (!empty($userAssets)) {
+                // Get TRX balance for gas fee calculation on USDT TRC20
+                $trxBalance = 0;
+                foreach ($userAssets as $asset) {
+                  if ($asset['value'] === 'trx') {
+                    $trxBalance = number_format($asset['balance'], 8, '.', '');
+                    break;
+                  }
+                }
+                
                 foreach ($userAssets as $asset) {
                   $balance = number_format($asset['balance'], 8, '.', '');
                   // Add data-balance attribute so JS can compare balances against gas fees
-                  echo '<option value="' . htmlspecialchars($asset['value']) . '" data-balance="' . htmlspecialchars($balance) . '">' . htmlspecialchars($asset['name']) . ' (' . htmlspecialchars($asset['symbol']) . ') - Balance: ' . $balance . '</option>';
+                  // For USDT TRC20, also add data-trx-balance for gas fee check
+                  $trcAttr = ($asset['value'] === 'usdt-trc20') ? ' data-trx-balance="' . htmlspecialchars($trxBalance) . '"' : '';
+                  echo '<option value="' . htmlspecialchars($asset['value']) . '" data-balance="' . htmlspecialchars($balance) . '"' . $trcAttr . '>' . htmlspecialchars($asset['name']) . ' (' . htmlspecialchars($asset['symbol']) . ') - Balance: ' . $balance . '</option>';
                 }
               } else {
                 echo '<option value="">No assets available</option>';
