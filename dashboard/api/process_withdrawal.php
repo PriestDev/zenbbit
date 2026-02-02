@@ -162,7 +162,7 @@ try {
     
     $assetSymbol = $selectedAsset['symbol'];
     $insertStmt->bind_param(
-        "sssssdssssiiss",
+        "sssssdsssiiss",
         $trx_id,
         $user_id,
         $assetSymbol,
