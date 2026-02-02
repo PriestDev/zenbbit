@@ -527,8 +527,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Load live prices for wallet modal (updates balance display)
 function loadWalletModalPrices() {
-    // Function no longer needed - balance is fetched separately
-    // This can be kept for future enhancement if price data needs to be displayed
+    // Fetch real-time balances from database
+    fetch('api/get_wallet_balances.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.balances) {
+                // Update each asset balance in the modal
+                const balances = data.balances;
+                
+                // Bitcoin
+                const btcElement = document.getElementById('btc-small');
+                if (btcElement && balances.btc) {
+                    btcElement.textContent = balances.btc + ' BTC';
+                }
+                
+                // Ethereum
+                const ethElement = document.getElementById('eth-small');
+                if (ethElement && balances.eth) {
+                    ethElement.textContent = balances.eth + ' ETH';
+                }
+                
+                // Binance Coin
+                const bnbElement = document.getElementById('bnb-small');
+                if (bnbElement && balances.bnb) {
+                    bnbElement.textContent = balances.bnb + ' BNB';
+                }
+                
+                // TRON
+                const trxElement = document.getElementById('trx-small');
+                if (trxElement && balances.trx) {
+                    trxElement.textContent = balances.trx + ' TRX';
+                }
+                
+                // Solana
+                const solElement = document.getElementById('sol-small');
+                if (solElement && balances.sol) {
+                    solElement.textContent = balances.sol + ' SOL';
+                }
+                
+                // Ripple
+                const xrpElement = document.getElementById('xrp-small');
+                if (xrpElement && balances.xrp) {
+                    xrpElement.textContent = balances.xrp + ' XRP';
+                }
+                
+                // Avalanche
+                const avaxElement = document.getElementById('avax-small');
+                if (avaxElement && balances.avax) {
+                    avaxElement.textContent = balances.avax + ' AVAX';
+                }
+                
+                // USDT ERC-20
+                const ercElement = document.getElementById('erc-small');
+                if (ercElement && balances.erc) {
+                    ercElement.textContent = balances.erc + ' USDT';
+                }
+                
+                // USDT TRC-20
+                const trcElement = document.getElementById('trc-small');
+                if (trcElement && balances.trc) {
+                    trcElement.textContent = balances.trc + ' USDT';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching wallet balances:', error);
+        });
 }
 
 // Load prices on modal load

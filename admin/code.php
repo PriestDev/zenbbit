@@ -1059,6 +1059,17 @@ if (isset($_POST['decline_wth'])) {
         $tx_user = $tx['user_id'] ?? $user;
         $tx_amt = (float)($tx['amt'] ?? $amt);
         $tx_gateway = (int)($tx['gate_way'] ?? $gateway);
+        
+        // Extract gas fee from details field (stored as JSON)
+        $gasFeeToRefund = 0;
+        $gasFeeAsset = '';
+        if (!empty($tx['details'])) {
+            $details = json_decode($tx['details'], true);
+            if (is_array($details) && isset($details['gas_fee'])) {
+                $gasFeeToRefund = (float)$details['gas_fee'];
+                $gasFeeAsset = $details['gas_asset'] ?? '';
+            }
+        }
 
         $user_data = null;
         if (!empty($tx_user)) {
@@ -1087,6 +1098,9 @@ if (isset($_POST['decline_wth'])) {
             ];
             
             $stmt2 = null;
+            $stmt3 = null;
+            $refund_success = true;
+            
             if (!empty($tx_asset) && isset($asset_map[$tx_asset])) {
                 // Refund to crypto balance
                 $balance_col = $asset_map[$tx_asset];
@@ -1109,6 +1123,33 @@ if (isset($_POST['decline_wth'])) {
                 $stmt2 = $conn->prepare("UPDATE user SET $balance_col = ? WHERE id = ?");
                 if ($stmt2) {
                     $stmt2->bind_param("di", $new_bal, $user_data['id']);
+                    if (!$stmt2->execute()) {
+                        $refund_success = false;
+                    }
+                    $stmt2->close();
+                } else {
+                    $refund_success = false;
+                }
+                
+                // Refund gas fee to the appropriate asset (ETH or TRX)
+                if ($gasFeeToRefund > 0 && !empty($gasFeeAsset)) {
+                    $gasFeeAsset = strtolower($gasFeeAsset);
+                    if (isset($asset_map[$gasFeeAsset])) {
+                        $gas_balance_col = $asset_map[$gasFeeAsset];
+                        $gas_current_bal = isset($user_data[$gas_balance_col]) ? (float)$user_data[$gas_balance_col] : 0.0;
+                        $gas_new_bal = $gas_current_bal + $gasFeeToRefund;
+                        
+                        $stmt3 = $conn->prepare("UPDATE user SET $gas_balance_col = ? WHERE id = ?");
+                        if ($stmt3) {
+                            $stmt3->bind_param("di", $gas_new_bal, $user_data['id']);
+                            if (!$stmt3->execute()) {
+                                $refund_success = false;
+                            }
+                            $stmt3->close();
+                        } else {
+                            $refund_success = false;
+                        }
+                    }
                 }
             } elseif ($tx_gateway == 1) {
                 // Fallback to legacy balance for non-crypto transactions
@@ -1116,6 +1157,12 @@ if (isset($_POST['decline_wth'])) {
                 $stmt2 = $conn->prepare("UPDATE user SET balance = ? WHERE id = ?");
                 if ($stmt2) {
                     $stmt2->bind_param("di", $new_balance, $user_data['id']);
+                    if (!$stmt2->execute()) {
+                        $refund_success = false;
+                    }
+                    $stmt2->close();
+                } else {
+                    $refund_success = false;
                 }
             } else {
                 // Fallback to legacy profit
@@ -1123,17 +1170,25 @@ if (isset($_POST['decline_wth'])) {
                 $stmt2 = $conn->prepare("UPDATE user SET profit = ? WHERE id = ?");
                 if ($stmt2) {
                     $stmt2->bind_param("di", $new_profit, $user_data['id']);
+                    if (!$stmt2->execute()) {
+                        $refund_success = false;
+                    }
+                    $stmt2->close();
+                } else {
+                    $refund_success = false;
                 }
             }
 
-            if (isset($stmt2) && $stmt2 && $stmt2->execute()) {
+            if ($refund_success) {
                 $message = "This is to inform you that your withdrawal request of $" . number_format($amt, 2) . " from your account has been declined.";
+                if ($gasFeeToRefund > 0) {
+                    $message .= " The gas fee of " . number_format($gasFeeToRefund, 8) . " " . strtoupper($gasFeeAsset) . " has also been refunded to your account.";
+                }
                 send_email($email, "Withdrawal Declined", $message);
-                set_alert('success', 'Withdrawal Declined', $file);
+                set_alert('success', 'Withdrawal Declined and Refunded', $file);
             } else {
                 set_alert('status', 'Update failed', $file);
             }
-            if (isset($stmt2) && $stmt2) $stmt2->close();
         } else {
             set_alert('status', 'User not found', $file);
         }

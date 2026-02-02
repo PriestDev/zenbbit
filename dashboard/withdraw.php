@@ -90,7 +90,11 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                   // Add data-balance attribute so JS can compare balances against gas fees
                   // For USDT TRC20, also add data-trx-balance for gas fee check
                   $trcAttr = ($asset['value'] === 'usdt-trc20') ? ' data-trx-balance="' . htmlspecialchars($trxBalance) . '"' : '';
-                  echo '<option value="' . htmlspecialchars($asset['value']) . '" data-balance="' . htmlspecialchars($balance) . '"' . $trcAttr . '>' . htmlspecialchars($asset['name']) . ' (' . htmlspecialchars($asset['symbol']) . ') - Balance: ' . $balance . '</option>';
+                  $balanceText = $balance;
+                  // if ($asset['value'] === 'usdt-trc20') {
+                  //   $balanceText .= ' (TRX for gas: ' . $trxBalance . ')';
+                  // }
+                  echo '<option value="' . htmlspecialchars($asset['value']) . '" data-balance="' . htmlspecialchars($balance) . '"' . $trcAttr . '>' . htmlspecialchars($asset['name']) . ' (' . htmlspecialchars($asset['symbol']) . ') - Balance: ' . $balanceText . '</option>';
                 }
               } else {
                 echo '<option value="">No assets available</option>';

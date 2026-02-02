@@ -258,10 +258,11 @@ const body = document.body;
 const themeToggleBtn = document.getElementById("themeToggleBtn");
 
 // Load saved theme or default to light
-let savedTheme = "light";
-savedTheme = window.StorageUtil.getItem("theme") || "light";
+let savedTheme = window.StorageUtil.getItem("theme") || "light";
 if (savedTheme === "light") {
     body.classList.add("light-mode");
+} else {
+    body.classList.remove("light-mode");
 }
 
 // Update moon/sun icon

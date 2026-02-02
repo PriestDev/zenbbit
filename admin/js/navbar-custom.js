@@ -291,8 +291,8 @@
         
         // Check current theme from localStorage
         var currentTheme = localStorage.getItem('admin-theme') || 'light';
-        updateThemeButton(currentTheme);
         applyTheme(currentTheme);
+        updateThemeButton(currentTheme);
         
         themeToggle.addEventListener('click', function() {
             var theme = localStorage.getItem('admin-theme') || 'light';

@@ -148,9 +148,12 @@ try {
     $gate_way = 1; // 1 = Balance, 2 = Profit, 3 = Referral
     $currentDate = date('Y-m-d H:i:s');
     
+    // Store gas fee in details field as JSON for later retrieval
+    $details = json_encode(['gas_fee' => $gasFee, 'gas_asset' => $asset]);
+    
     $insertStmt = $conn->prepare(
-        "INSERT INTO transaction (trx_id, user_id, name, type, status, amt, asset, wallet_address, serial, gate_way, email, create_date) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO transaction (trx_id, user_id, name, type, status, amt, asset, wallet_address, details, serial, gate_way, email, create_date) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
     
     if (!$insertStmt) {
@@ -159,7 +162,7 @@ try {
     
     $assetSymbol = $selectedAsset['symbol'];
     $insertStmt->bind_param(
-        "sssssdssiiss",
+        "sssssdssssiiss",
         $trx_id,
         $user_id,
         $assetSymbol,
@@ -168,6 +171,7 @@ try {
         $amount,
         $asset,
         $address,
+        $details,
         $serial,
         $gate_way,
         $user['email'],

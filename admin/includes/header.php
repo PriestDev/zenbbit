@@ -36,6 +36,8 @@
             document.documentElement.setAttribute('data-theme', savedTheme);
             if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark-mode');
+            } else {
+                document.documentElement.classList.remove('dark-mode');
             }
             
             // Create and inject CSS for immediate application

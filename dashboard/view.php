@@ -185,7 +185,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
     $assetSearch3 = strtolower($symbolParts[0]);
 
     // Query transactions for this user filtered by any of the asset aliases (case-insensitive, substring match)
-    $trans_query = "SELECT * FROM transaction WHERE name = ? AND (
+    $trans_query = "SELECT * FROM transaction WHERE user_id = ? AND (
         LOWER(asset) LIKE CONCAT('%', ?, '%') OR
         LOWER(asset) LIKE CONCAT('%', ?, '%') OR
         LOWER(asset) LIKE CONCAT('%', ?, '%')
@@ -210,11 +210,22 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             $amt = $row['value'];
           }
 
+          // Determine actual status based on serial field
+          // serial: 0 = pending, 1 = approved, 2 = declined
+          $actualStatus = 'pending';
+          if (isset($row['serial'])) {
+            if ($row['serial'] == 1) {
+              $actualStatus = 'approved';
+            } elseif ($row['serial'] == 2) {
+              $actualStatus = 'declined';
+            }
+          }
+
           $userTransactions[] = [
             'id' => $row['id'] ?? null,
             'type' => isset($row['type']) ? strtolower($row['type']) : 'unknown',
             'amount' => floatval($amt),
-            'status' => $row['status'] ?? 'unknown',
+            'status' => $actualStatus,
             'date' => $row['create_date'] ?? ($row['date'] ?? null),
             'asset' => htmlspecialchars($row['asset'] ?? $coinType),
             'raw' => $row
@@ -408,11 +419,20 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                         $status = htmlspecialchars($transaction['status']);
                         $date = date('M d, Y H:i', strtotime($transaction['date']));
                         
+                        // Determine badge color based on status
+                        if ($status === 'approved') {
+                            $badgeStyle = 'background: #e8f5e9; color: #2e7d32;';
+                        } elseif ($status === 'declined') {
+                            $badgeStyle = 'background: #ffebee; color: #c62828;';
+                        } else {
+                            $badgeStyle = 'background: #fff3cd; color: #856404;';
+                        }
+                        
                         echo '
                         <tr>
                             <td><i class="fas '.$typeIcon.'"></i> '.$typeLabel.'</td>
                             <td><strong>'.$amount.' '.$txn_asset.'</strong></td>
-                            <td><span class="transaction-status-badge" style="padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600; '.($isDeposit ? 'background: #e8f5e9; color: #2e7d32;' : 'background: #ffebee; color: #c62828;').'">'.ucfirst($status).'</span></td>
+                            <td><span class="transaction-status-badge" style="padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600; '.$badgeStyle.'">'.ucfirst($status).'</span></td>
                             <td><small>'.$date.'</small></td>
                         </tr>';
                     }
@@ -443,6 +463,18 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                     $status = htmlspecialchars($transaction['status']);
                     $date = date('M d, Y H:i', strtotime($transaction['date']));
                     
+                    // Determine badge color based on status
+                    if ($status === 'approved') {
+                        $badgeBg = '#e8f5e9';
+                        $badgeColor = '#2e7d32';
+                    } elseif ($status === 'declined') {
+                        $badgeBg = '#ffebee';
+                        $badgeColor = '#c62828';
+                    } else {
+                        $badgeBg = '#fff3cd';
+                        $badgeColor = '#856404';
+                    }
+                    
                     echo '
                     <div class="transaction-card-mobile">
                         <div class="transaction-card-header">
@@ -456,7 +488,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
                             </div>
                         </div>
                         <div class="transaction-card-footer">
-                            <span class="transaction-status-badge-mobile" style="background: '.($isDeposit ? '#e8f5e9' : '#ffebee').'; color: '.($isDeposit ? '#2e7d32' : '#c62828').';">'.ucfirst($status).'</span>
+                            <span class="transaction-status-badge-mobile" style="background: '.$badgeBg.'; color: '.$badgeColor.';">'.ucfirst($status).'</span>
                             <small style="color: #999;">'.$date.'</small>
                         </div>
                     </div>';

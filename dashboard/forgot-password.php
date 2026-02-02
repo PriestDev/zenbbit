@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p style='color: #888; font-size: 12px; margin-top: 25px;'>This link will expire in 1 hour.</p>
                     <p style='color: #888; font-size: 12px; margin-top: 10px;'>If you didn't request this, you can safely ignore this email.</p>
                     <hr style='border: none; border-top: 1px solid #ddd; margin: 30px 0;'>
-                    <p style='color: #888; font-size: 10px;'>&copy; SafeWallet, " . date('Y') . "</p>
+                    <p style='color: #888; font-size: 10px;'>&copy; ".NAME.", " . date('Y') . "</p>
                 </div>
             </div>
         ";
