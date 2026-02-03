@@ -40,7 +40,7 @@
         $assets_config = [
             ['symbol'=>'BTC','name'=>'Bitcoin','key'=>'btc_balance','coinid'=>'bitcoin','image'=>'uploads/1758392283_Bitcoin.png'],
             ['symbol'=>'ETH','name'=>'Ethereum','key'=>'eth_balance','coinid'=>'ethereum','image'=>'uploads/1758393392_eth.png'],
-            ['symbol'=>'BNB','name'=>'Binance Coin','key'=>'bnb_balance','coinid'=>'binancecoin','image'=>'uploads/1758392904_bnb-binance.PNG'],
+            ['symbol'=>'BNB','name'=>'Binance Coin','key'=>'bnb_balance','coinid'=>'binancecoin','image'=>'https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png'],
             ['symbol'=>'TRX','name'=>'TRON','key'=>'trx_balance','coinid'=>'tron','image'=>'uploads/1758393351_trx2.png'],
             ['symbol'=>'SOL','name'=>'Solana','key'=>'sol_balance','coinid'=>'solana','image'=>'uploads/1759140771_Solana.png'],
             ['symbol'=>'XRP','name'=>'Ripple','key'=>'xrp_balance','coinid'=>'ripple','image'=>'uploads/1759141201_xrp.png'],

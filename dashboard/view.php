@@ -38,7 +38,7 @@ $coinInfo = [
         'label' => 'Binance Coin',
         'symbol' => 'BNB',
         'address' => (defined('BNB') && !empty(BNB)) ? BNB : 'Binance wallet address not configured',
-        'icon' => 'uploads/1758392904_bnb-binance.PNG',
+        'icon' => 'https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png',
         'db_column' => 'bnb_balance'
     ],
     'eth' => [
@@ -282,10 +282,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             Balance: <strong><?php echo number_format($userBalance, 8); ?> <?php echo substr($current['symbol'], 0, 3); ?></strong>
           </p>
 
-          <!-- Portfolio Value in USD -->
-          <p class="view-coin-usd-value" style="margin-top: 10px; color: #622faa; font-size: 18px; font-weight: 700;">
-            Wallet Value: <strong>$<?php echo number_format(($userBalance * $currentPrice), 2); ?></strong>
-          </p>
+          
 
           <!-- Live Price Display (Blended) -->
           <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);">

@@ -40,7 +40,7 @@
                 <div class="wallet-asset-row" onclick="navigateToCoin('bnb', 6)" role="listitem" tabindex="0">
                     <div class="wallet-asset-icon-wrapper">
                         <div class="wallet-asset-icon-bg bnb-gradient">
-                            <img class="crypto-icon" src="uploads/1758392904_bnb-binance.PNG" alt="BNB">
+                            <img class="crypto-icon" src="https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png" alt="BNB">
                         </div>
                     </div>
                     <div class="wallet-asset-balance" id="bnb-small">0.00000 BNB</div>

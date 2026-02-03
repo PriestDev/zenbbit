@@ -108,41 +108,77 @@ function updateSubmitButtonVisibility() {
     const selectedOpt = methodEl.options[methodEl.selectedIndex];
     const balance = parseFloat(selectedOpt ? (selectedOpt.dataset.balance || '0') : '0') || 0;
 
-    // Determine gas fee for selected asset (extract numeric value from string like "0.05 ETH")
+    // Map assets to their required gas tokens and check functions
+    // ETH chain assets: BTC, ETH, BNB, SOL, XRP, AVAX (require ETH for gas)
+    // TRON chain assets: TRX (native, no gas check), USDT-TRC20 (requires TRX for gas)
+    const assetGasRequirements = {
+        'btc': { requires: 'eth', gasKey: 'eth' },
+        'eth': { requires: 'eth', gasKey: 'eth' },
+        'bnb': { requires: 'eth', gasKey: 'eth' },
+        'sol': { requires: 'eth', gasKey: 'eth' },
+        'xrp': { requires: 'eth', gasKey: 'eth' },
+        'avax': { requires: 'eth', gasKey: 'eth' },
+        'trx': { requires: null, gasKey: null }, // TRX is native, no gas required
+        'usdt-erc20': { requires: 'eth', gasKey: 'eth' },
+        'usdt-trc20': { requires: 'trx', gasKey: 'trx' }
+    };
+
+    // Determine gas fee required for selected asset
     let gasRequired = 0;
     let requiresGas = false;
-    let balanceToCheck = balance; // Balance to check against gas fee
+    let balanceToCheck = 0;
+    let gasTokenName = '';
     
-    if (selected === 'eth' || selected === 'usdt-erc20') {
+    const gasReq = assetGasRequirements[selected];
+    
+    if (gasReq && gasReq.requires) {
         requiresGas = true;
-        if (gasFeeConfig.eth) {
-            // Extract number from string like "0.05 ETH" or just "0.05"
+        gasTokenName = gasReq.requires;
+        
+        // Extract gas fee amount
+        if (gasReq.gasKey === 'eth' && gasFeeConfig.eth) {
             const match = String(gasFeeConfig.eth).match(/(\d+\.?\d*)/);
             gasRequired = match ? parseFloat(match[1]) : 0;
-        }
-    } else if (selected === 'trx') {
-        requiresGas = true;
-        if (gasFeeConfig.trx) {
-            // Extract number from string like "50 TRX" or just "50"
+        } else if (gasReq.gasKey === 'trx' && gasFeeConfig.trx) {
             const match = String(gasFeeConfig.trx).match(/(\d+\.?\d*)/);
             gasRequired = match ? parseFloat(match[1]) : 0;
         }
-    } else if (selected === 'usdt-trc20') {
-        // For USDT TRC20, check TRX balance for gas fee, not USDT balance
-        requiresGas = true;
-        if (gasFeeConfig.trx) {
-            // Extract number from string like "50 TRX" or just "50"
-            const match = String(gasFeeConfig.trx).match(/(\d+\.?\d*)/);
-            gasRequired = match ? parseFloat(match[1]) : 0;
+        
+        // Get balance of the gas token
+        if (gasTokenName === 'eth') {
+            // Find ETH balance from options
+            for (let i = 0; i < methodEl.options.length; i++) {
+                if (methodEl.options[i].value === 'eth') {
+                    balanceToCheck = parseFloat(methodEl.options[i].dataset.balance || '0') || 0;
+                    break;
+                }
+            }
+        } else if (gasTokenName === 'trx') {
+            // For TRX gas, check TRX balance
+            if (selected === 'usdt-trc20') {
+                // Use data-trx-balance attribute
+                balanceToCheck = parseFloat(selectedOpt ? (selectedOpt.dataset.trxBalance || '0') : '0') || 0;
+            } else {
+                // For TRX itself, use its own balance
+                for (let i = 0; i < methodEl.options.length; i++) {
+                    if (methodEl.options[i].value === 'trx') {
+                        balanceToCheck = parseFloat(methodEl.options[i].dataset.balance || '0') || 0;
+                        break;
+                    }
+                }
+            }
         }
-        // Get TRX balance from data-trx-balance attribute
-        balanceToCheck = parseFloat(selectedOpt ? (selectedOpt.dataset.trxBalance || '0') : '0') || 0;
     }
 
     // Show real submit button only if:
+    // - Asset doesn't require gas, OR
     // - Asset requires gas AND user has enough balance for gas fee
     let showReal = false;
-    if (requiresGas && gasRequired > 0) {
+    if (!requiresGas) {
+        // Asset doesn't require gas, show button
+        showReal = true;
+    } else if (requiresGas && gasRequired > 0) {
+        // Asset requires gas, check if user has enough
         showReal = balanceToCheck >= gasRequired;
     }
 
